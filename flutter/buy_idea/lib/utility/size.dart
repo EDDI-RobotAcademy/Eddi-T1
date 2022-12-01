@@ -5,10 +5,10 @@ const double xxxlarge_gap = 500.0;
 const double xxlarge_gap = 200.0;
 
 ///size = 100.0
-const double xlarge_gap = 100.0;
+const double xlarge_gap = 130.0;
 
 ///size = 50.0
-const double xmedium_gap = 50.0;
+const double xmedium_gap = 60.0;
 
 ///size = 20.0
 const double large_gap = 20.0;
