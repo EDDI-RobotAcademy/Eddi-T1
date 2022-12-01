@@ -8,10 +8,11 @@ class SelectSignUpForm extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Form(
-      child: Column(
+      child: Row(
         children: [
+          SizedBox(width: large_gap),
           SelectSignUpButton(buttonName: "판매자 회원가입"),
-          SizedBox(height: large_gap),
+          SizedBox(width: xmedium_gap),
           SelectSignUpButton(buttonName: "일반회원 회원가입"),
         ],
       )

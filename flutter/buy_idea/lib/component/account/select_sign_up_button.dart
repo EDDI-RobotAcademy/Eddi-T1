@@ -8,8 +8,8 @@ class SelectSignUpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
       TextButton(
           onPressed: () {
