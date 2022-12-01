@@ -1,15 +1,17 @@
 <template>
-  <hello-world />
+  <v-container>
+    <sign-up-choice-view/>
+  </v-container>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+import SignUpChoiceView from "@/views/account/SignUpChoiceView";
 
-  export default {
-    name: 'HomeView',
+export default {
+  name: 'HomeView',
 
-    components: {
-      HelloWorld,
-    },
-  }
+  components: {
+    SignUpChoiceView,
+  },
+}
 </script>
