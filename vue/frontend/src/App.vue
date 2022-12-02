@@ -1,12 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar elevation="0" height="100" color="white" app>
-      <v-app-bar-title>
-        <div style="margin-left: 100px">
-          <v-img class="none_drag" :src="require('@/assets/buydia_logo.png')" width="200" @click="moveToHome"/>
+    <v-container>
+      <v-app-bar elevation="0" height="100" color="white" width="1500px" style="margin: 0 auto" app>
+        <div>
+          <v-img class="mr-9" :src="require('@/assets/buydia_logo.png')" width="200px" contain style="cursor: pointer" @click="moveToHome"/>
         </div>
-      </v-app-bar-title>
-      <v-row style="margin-left: 50px" align="center">
         <router-link class="service" style="text-decoration: none; color: #2F4F4F;" :to="{ name : 'CommonPageHeader'}">핸드메이드</router-link>
         <router-link class="service" style="text-decoration: none; color: #2F4F4F;" :to="{ name : 'CommonPageHeader'}">노하우</router-link>
         <router-link class="service" style="text-decoration: none; color: #2F4F4F;" :to="{ name : 'CommonPageHeader'}">취미/특기</router-link>
@@ -22,11 +20,11 @@
               style="margin-top: 30px;
               border: #2F4F4F"></v-text-field>
         </v-col>
-        <router-link style="text-decoration: none; color: #2F4F4F; margin-left: 80px; margin-right: 40px" :to="{ name : 'CommonPageHeader'}">로그인</router-link>
-        <router-link style="text-decoration: none; color: #2F4F4F; margin-right: 40px" :to="{ name : 'CommonPageHeader'}">회원가입</router-link>
+        <router-link style="text-decoration: none; color: #2F4F4F; margin-left: 80px; margin-right: 40px; white-space:nowrap;" :to="{ name : 'SignInView'}">로그인</router-link>
+        <router-link style="text-decoration: none; color: #2F4F4F; margin-right: 40px; white-space:nowrap;" :to="{ name : 'CommonPageHeader'}">회원가입</router-link>
         <v-icon @click="show" size="30" color="#2F4F4F">mdi-cart-variant</v-icon>
-      </v-row>
-    </v-app-bar>
+      </v-app-bar>
+    </v-container>
     <v-main>
       <router-view/>
     </v-main>
@@ -34,7 +32,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   data () {
@@ -51,16 +48,14 @@ export default {
 </script>
 
 <style>
-.none_drag {
-  cursor: pointer;
+.service {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-}
-
-.service {
+  white-space:nowrap;
+  display: inline-block;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
