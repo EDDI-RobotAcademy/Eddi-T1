@@ -1,14 +1,22 @@
 <template>
   <v-container>
-    <seller-sign-up-form/>
+    <CommonSignUpForm v-bind:sign-up-type-title="signUpTypeTitle"
+                      v-bind:sign-up-type-btn="signUpTypeBtn"/>
   </v-container>
 </template>
 
 <script>
-import SellerSignUpForm from "@/components/account/SellerSignUpForm";
+import CommonSignUpForm from "@/components/account/CommonSignUpForm";
+
 export default {
   name: "SellerSignUpView",
-  components: {SellerSignUpForm}
+  components: {CommonSignUpForm},
+  data() {
+    return {
+      signUpTypeTitle: "판매자 회원가입",
+      signUpTypeBtn: "상호명",
+    }
+  }
 }
 </script>
 
