@@ -43,13 +43,13 @@
             </div>
 
             <div class="d-flex">
-              <v-text-field v-model="businessName" label="상호명*" @change="businessNameValidation"
-                            :rules="businessName_rule" :disabled="false" required/>
+              <v-text-field v-model="nickname" :label="signUpTypeBtn +'*'"  @change="nicknameValidation"
+                            :rules="nickname_rule" :disabled="false" required/>
               <v-btn text large outlined style id="textFieldType"
                      class="mt-3 ml-5" color="#2F4F4F"
                      @click="null"
-                     :disabled="!businessNamePass">
-                {{ signUpTypeBtn }} <br/>중복 확인
+                     :disabled="!nicknamePass">
+                {{signUpTypeBtn}} <br/>중복 확인
               </v-btn>
             </div>
 
@@ -57,7 +57,7 @@
 
             <div style="margin-bottom: 30px">
               <v-btn type="submit" block x-large rounded
-                      color="#2F4F4F" :disabled="(idPass & businessNamePass) == false">
+                      color="#2F4F4F" :disabled="(idPass & nicknamePass) == false">
                 가입하기
               </v-btn>
             </div>
@@ -91,11 +91,11 @@ export default {
       id: "",
       password: "",
       password_confirm: "",
-      businessName: "",
-
+      nickname: "",
+      signUpType: this.signUpTypeBtn,
       idPass: false,
       passwordPass: false,
-      businessNamePass: false,
+      nicknamePass: false,
       show1: false,
       show2: false,
       /**
@@ -125,15 +125,15 @@ export default {
         v => v === this.password || '패스워드가 일치하지 않습니다.'
       ],
       /**
-       * 상호명 공백/특수문자/길이 검사
+       * 상호명&닉네임 공백/특수문자/길이 검사
        */
-      businessName_rule: [
-        v => !!v || '상호명를 입력해주세요.',
+      nickname_rule: [
+        v => !!v || this.signUpTypeBtn+'을(를) 입력해주세요.',
         v => {
           const pattern = /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
           return pattern.test(v) || '특수문자는 입력할 수 없습니다.'
         },
-        v => !(v && v.length >= 20) || '상호명은 30자 이상 입력할 수 없습니다.',
+        v => !(v && v.length >= 20) || this.signUpTypeBtn+'은(는) 30자 이상 입력할 수 없습니다.',
       ],
     }
   },
@@ -150,12 +150,12 @@ export default {
       }
     },
 
-    businessNameValidation() {
-      const businessNameValid = this.businessName.match(
+    nicknameValidation() {
+      const nicknameValid = this.nickname.match(
           /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
       );
-      if (businessNameValid) {
-        this.businessNamePass = true
+      if (nicknameValid) {
+        this.nicknamePass = true
       }
     },
 
