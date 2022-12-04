@@ -21,6 +21,7 @@
             </router-link>
           </div>
           <div>
+            <router-link :to="{name: 'BuyerSignUpView'}" style="text-decoration: none">
             <v-btn width="200" height="150" text large outlined style
                    class="mx-auto" id="signUpButton" color="#2F4F4F" @click="null">
               <h5 style="font-weight: normal">
@@ -28,6 +29,7 @@
                 <br/> 일반회원 회원가입
               </h5>
             </v-btn>
+            </router-link>
           </div>
         </v-row>
         <div id="signUpButton" class="text-md-center">
