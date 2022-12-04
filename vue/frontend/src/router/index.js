@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import SignUpChoiceView from "@/views/account/SignUpChoiceView";
 import SellerSignUpView from "@/views/account/SellerSignUpView";
 import SignInView from "@/views/account/SignInView";
+import BuyerSignUpView from "@/views/account/BuyerSignUpView";
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/seller-sign-up',
     name: 'SellerSignUpView',
     component: SellerSignUpView
+  },
+  {
+    path: '/buyer-sign-up',
+    name: 'BuyerSignUpView',
+    component: BuyerSignUpView
   },
   {
     path: '/sign-in',

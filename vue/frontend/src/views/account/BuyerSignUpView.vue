@@ -9,12 +9,12 @@
 import CommonSignUpForm from "@/components/account/CommonSignUpForm";
 
 export default {
-  name: "SellerSignUpView",
+  name: "BuyerSignUpView",
   components: {CommonSignUpForm},
   data() {
     return {
-      signUpTypeTitle: "판매자 회원가입",
-      signUpTypeBtn: "상호명",
+      signUpTypeTitle: "일반회원 회원가입",
+      signUpTypeBtn: "닉네임",
     }
   }
 }
