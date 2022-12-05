@@ -1,7 +1,7 @@
 import 'package:buy_idea/component/account/login_form.dart';
+import 'package:buy_idea/component/common/logo.dart';
 import 'package:flutter/material.dart';
 
-import '../../component/logo.dart';
 import '../../utility/size.dart';
 
 class LoginPage extends StatelessWidget {

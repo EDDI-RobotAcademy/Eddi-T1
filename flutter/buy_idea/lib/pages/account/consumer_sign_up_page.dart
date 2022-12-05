@@ -15,6 +15,7 @@ class _ConsumerSignUpPageState extends State<ConsumerSignUpPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.fromLTRB(30, 70, 30, 0),
