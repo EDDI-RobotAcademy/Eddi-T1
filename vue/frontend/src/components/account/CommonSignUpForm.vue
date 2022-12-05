@@ -47,7 +47,7 @@
                             :rules="nickname_rule" :disabled="false" required/>
               <v-btn text large outlined style id="textFieldType"
                      class="mt-3 ml-5" color="#2F4F4F"
-                     @click="null"
+                     @click="checkDuplicateNickname"
                      :disabled="!nicknamePass">
                 {{ signUpTypeBtn }} <br/>중복 확인
               </v-btn>
@@ -141,6 +141,7 @@ export default {
 
   methods: {
     ...mapActions(['requestCheckDuplicateIdToSpring']),
+    ...mapActions(['requestCheckDuplicateNicknameToSpring']),
 
     idValidation() {
       const memberIdValid = this.memberId.match(
@@ -170,6 +171,10 @@ export default {
       this.$emit("submit", {memberId, password, businessName})
     },
 
+    /**
+     * 회원 ID 중복 검사 요청
+     * @returns {Promise<void>}
+     */
     async checkDuplicateId() {
       const memberIdValid = this.memberId.match(
           /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
@@ -178,6 +183,21 @@ export default {
       if (memberIdValid) {
         const {memberId} = this
         await this.requestCheckDuplicateIdToSpring({memberId})
+      }
+    },
+
+    /**
+     * 닉네임 중복 검사 요청
+     * @returns {Promise<void>}
+     */
+    async checkDuplicateNickname() {
+      const nicknameValid = this.nickname.match(
+          /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
+      );
+
+      if (nicknameValid) {
+        const {nickname} = this
+        await this.requestCheckDuplicateNicknameToSpring({nickname})
       }
     },
   },
