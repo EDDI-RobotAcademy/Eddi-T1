@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class SignUpFormField extends StatefulWidget {
-  SignUpFormField({Key? key}) : super(key: key);
+  SignUpFormField({Key? key, required this.textFieldName}) : super(key: key);
+
+  final String textFieldName;
 
   @override
   State<SignUpFormField> createState() => _SignUpFormFieldState();
@@ -45,7 +47,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                   confirmController: confirmPasswordController),
               SizedBox(height: 20),
               SignUpNicknameTextForm(
-                  controller: nicknameController, textFieldName: "닉네임"),
+                  controller: nicknameController, textFieldName: widget.textFieldName),
               SizedBox(height: 5),
               Container(
                 child: Row(
