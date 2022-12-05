@@ -57,7 +57,7 @@
 
             <div style="margin-bottom: 30px">
               <v-btn type="submit" block x-large rounded
-                     color="#2F4F4F" :disabled="(idPass & nicknamePass) == false">
+                     color="#2F4F4F" :disabled="(idPass & nicknamePass) === false">
                 가입하기
               </v-btn>
             </div>
@@ -140,8 +140,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['requestCheckDuplicateIdToSpring']),
-    ...mapActions(['requestCheckDuplicateNicknameToSpring']),
+    ...mapActions(['requestCheckDuplicateIdToSpring', 'requestCheckDuplicateNicknameToSpring']),
 
     idValidation() {
       const memberIdValid = this.memberId.match(
@@ -162,7 +161,7 @@ export default {
     },
 
     passwordValidation() {
-      if ((this.password == this.password_confirm) && (this.password.length != 0)) {
+      if ((this.password === this.password_confirm) && (this.password.length !== 0)) {
         this.passwordPass = true
       }
     },

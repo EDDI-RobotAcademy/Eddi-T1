@@ -7,6 +7,7 @@
 
 <script>
 import CommonSignUpForm from "@/components/account/CommonSignUpForm";
+import {mapActions} from "vuex";
 
 export default {
   name: "BuyerSignUpView",
@@ -15,6 +16,14 @@ export default {
     return {
       signUpTypeTitle: "일반회원 회원가입",
       signUpTypeBtn: "닉네임",
+      memberType: "일반회원",
+    }
+  },
+  methods: {
+    ...mapActions(['requestBuyerRegisterToSpring']),
+    async onSubmit(payload) {
+      const { memberId, password, nickname, memberType } = payload
+      await this.requestBuyerRegisterToSpring({ memberId, password, nickname, memberType } )
     }
   }
 }
