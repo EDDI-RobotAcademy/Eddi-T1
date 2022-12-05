@@ -21,7 +21,7 @@
               border: #2F4F4F"></v-text-field>
         </v-col>
         <router-link style="text-decoration: none; color: #2F4F4F; margin-left: 80px; margin-right: 40px; white-space:nowrap;" :to="{ name : 'SignInView'}">로그인</router-link>
-        <router-link style="text-decoration: none; color: #2F4F4F; margin-right: 40px; white-space:nowrap;" :to="{ name : 'CommonPageHeader'}">회원가입</router-link>
+        <router-link style="text-decoration: none; color: #2F4F4F; margin-right: 40px; white-space:nowrap;" :to="{ name : 'SignUpChoiceView'}">회원가입</router-link>
         <v-icon @click="show" size="30" color="#2F4F4F">mdi-cart-variant</v-icon>
       </v-app-bar>
     </v-container>
