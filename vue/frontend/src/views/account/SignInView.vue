@@ -8,7 +8,9 @@
 import SignInForm from "@/components/account/SignInForm";
 export default {
   name: "SignInView",
-  components: {SignInForm}
+  components: {SignInForm},
+  methods: {
+  }
 }
 </script>
 
