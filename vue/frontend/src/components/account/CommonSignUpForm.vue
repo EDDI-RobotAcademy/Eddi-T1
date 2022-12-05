@@ -2,19 +2,19 @@
   <div class="white" style="font-family: Arial">
     <v-row justify="center">
       <v-col cols="auto" style="padding-bottom: 90px">
-        <h2 style="margin-block: 50px" class="text-md-center">{{signUpTypeTitle}}</h2>
+        <h2 style="margin-block: 50px" class="text-md-center">{{ signUpTypeTitle }}</h2>
         <v-img
             :src="require('@/assets/sign_up_choice_num2.png')" width="150" class="mx-auto mb-6"/>
         <h5 class="text-md-center" style="font-weight: normal; margin-top: 50px">
           가입 정보를 입력해주세요.</h5>
-        <v-card width="480" height="660" style="padding-inline: 40px; margin-top: 30px; margin-bottom: 30px" >
+        <v-card width="480" height="660" style="padding-inline: 40px; margin-top: 30px; margin-bottom: 30px">
           <v-form @submit.prevent="onSubmit" ref="form">
             <div class="d-flex">
-              <v-text-field v-model="id" label="아이디*" @change="idValidation"
+              <v-text-field v-model="memberId" label="아이디*" @change="idValidation"
                             :rules="id_rule" :disabled="false" required/>
               <v-btn text large outlined style id="textFieldType"
                      class="mt-3 ml-5" color="#2F4F4F"
-                     @click="null"
+                     @click="checkDuplicateId"
                      :disabled="!idPass">
                 아이디 <br/>중복 확인
               </v-btn>
@@ -43,13 +43,13 @@
             </div>
 
             <div class="d-flex">
-              <v-text-field v-model="nickname" :label="signUpTypeBtn +'*'"  @change="nicknameValidation"
+              <v-text-field v-model="nickname" :label="signUpTypeBtn +'*'" @change="nicknameValidation"
                             :rules="nickname_rule" :disabled="false" required/>
               <v-btn text large outlined style id="textFieldType"
                      class="mt-3 ml-5" color="#2F4F4F"
                      @click="null"
                      :disabled="!nicknamePass">
-                {{signUpTypeBtn}} <br/>중복 확인
+                {{ signUpTypeBtn }} <br/>중복 확인
               </v-btn>
             </div>
 
@@ -57,7 +57,7 @@
 
             <div style="margin-bottom: 30px">
               <v-btn type="submit" block x-large rounded
-                      color="#2F4F4F" :disabled="(idPass & nicknamePass) == false">
+                     color="#2F4F4F" :disabled="(idPass & nicknamePass) == false">
                 가입하기
               </v-btn>
             </div>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
 import AcceptCard from "@/components/account/AcceptCard";
 
 export default {
@@ -79,16 +80,16 @@ export default {
   props: {
     signUpTypeTitle: {
       type: String,
-      default : "",
+      default: "",
     },
     signUpTypeBtn: {
       type: String,
-      default : "",
+      default: "",
     }
   },
   data() {
     return {
-      id: "",
+      memberId: "",
       password: "",
       password_confirm: "",
       nickname: "",
@@ -128,24 +129,24 @@ export default {
        * 상호명&닉네임 공백/특수문자/길이 검사
        */
       nickname_rule: [
-        v => !!v || this.signUpTypeBtn+'을(를) 입력해주세요.',
+        v => !!v || this.signUpTypeBtn + '을(를) 입력해주세요.',
         v => {
           const pattern = /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
           return pattern.test(v) || '특수문자는 입력할 수 없습니다.'
         },
-        v => !(v && v.length >= 20) || this.signUpTypeBtn+'은(는) 30자 이상 입력할 수 없습니다.',
+        v => !(v && v.length >= 20) || this.signUpTypeBtn + '은(는) 30자 이상 입력할 수 없습니다.',
       ],
     }
   },
 
   methods: {
-    // 아이디 중복 검사 mapActions 추가 예정
+    ...mapActions(['requestCheckDuplicateIdToSpring']),
 
     idValidation() {
-      const idValid = this.id.match(
+      const memberIdValid = this.memberId.match(
           /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
       );
-      if (idValid) {
+      if (memberIdValid) {
         this.idPass = true
       }
     },
@@ -164,12 +165,23 @@ export default {
         this.passwordPass = true
       }
     },
-
     onSubmit() {
-      const {id, password, businessName} = this
-      this.$emit("submit", {id, password, businessName})
-    }
-  }
+      const {memberId, password, businessName} = this
+      this.$emit("submit", {memberId, password, businessName})
+    },
+
+    async checkDuplicateId() {
+      const memberIdValid = this.memberId.match(
+          /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
+      );
+
+      if (memberIdValid) {
+        const {memberId} = this
+        await this.requestCheckDuplicateIdToSpring({memberId})
+      }
+    },
+  },
+
 
 }
 </script>
