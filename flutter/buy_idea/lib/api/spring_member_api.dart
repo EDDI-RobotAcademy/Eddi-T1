@@ -8,6 +8,7 @@ class SpringMemberApi {
   static var signInResponse;
 
   signInApi(MemberSignInRequest request) async {
+    debugPrint("signApi");
     var body = json.encode(request);
 
     try {
@@ -25,9 +26,10 @@ class SpringMemberApi {
 class MemberSignInRequest {
   String memberId;
   String password;
+  String memberType;
 
-  MemberSignInRequest(this.memberId, this.password);
+  MemberSignInRequest(this.memberId, this.password, this.memberType);
 
-  Map<String, dynamic> toJson() => {'memberId': memberId, 'password': password};
+  Map<String, dynamic> toJson() => {'memberId': memberId, 'password': password, 'memberType': memberType};
 }
 
