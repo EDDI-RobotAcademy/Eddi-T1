@@ -47,5 +47,16 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
         return true;
     }
 
+    @Override
+    public Boolean memberNicknameValidation(String nickName) {
+        Optional<BuyDiaMember> maybeMemberNickname = buyDiaMemberRepository.findBuyDiaMemberByNickName(nickName);
+
+        if (maybeMemberNickname.isPresent()) {
+            return false;
+        }
+
+        return true;
+    }
+
 
 }

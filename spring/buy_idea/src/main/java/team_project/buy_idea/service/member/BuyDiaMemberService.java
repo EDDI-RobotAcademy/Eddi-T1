@@ -6,4 +6,5 @@ public interface BuyDiaMemberService {
     Boolean signUp(BuyDiaMemberRegisterRequest request);
 
     Boolean memberIdValidation(String memberId);
+    Boolean memberNicknameValidation(String nickName);
 }
