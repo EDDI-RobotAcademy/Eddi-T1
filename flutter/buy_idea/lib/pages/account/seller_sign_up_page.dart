@@ -15,15 +15,22 @@ class _SellerSignUpPage extends State<SellerSignUpPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+            color: Color(0xff2F4F4F)
+        ),
+        elevation: 0.0,
+      ),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(30, 70, 30, 0),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("판매자 회원가입", style: TextStyle(fontSize: 40)),
+                Text("판매자 회원가입", style: TextStyle(fontSize: 30)),
                 SizedBox(height: 80),
                 SignUpFormField(textFieldName: "업체명")
               ],

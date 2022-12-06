@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import '../../pages/account/select_sign_up_page.dart';
 
 class CommonAppBar extends StatelessWidget with PreferredSizeWidget {
-  const CommonAppBar({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const CommonAppBar({Key? key}) : super(key: key);
+
 
 
 
@@ -13,7 +13,10 @@ class CommonAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
 
     return AppBar(
-      backgroundColor: Colors.lightGreen,
+      iconTheme: IconThemeData(
+        color: Colors.black
+      ),
+      backgroundColor: Colors.white,
       elevation:0.0,
       title:GestureDetector(
           child: Image.asset("assets/buydia_logo.png", width:100, height:50),

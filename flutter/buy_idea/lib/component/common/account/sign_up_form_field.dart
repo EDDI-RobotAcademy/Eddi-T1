@@ -62,14 +62,14 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               Expanded(
                   flex: 3,
                   child: SingleChildScrollView(
                       child: Column(
                     children: [
                       Container(
-                        height: 70,
+                        height: 60,
                         width: 500,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -96,80 +96,81 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                 )
                               ],
                             )),
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "위 내용에 동의합니다.",
+                              style:
+                              TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                            Checkbox(
+                                value: checkedValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    checkedValue = value!;
+                                  });
+                                })
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          minimumSize: Size(250, 50),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          backgroundColor: Color(0xff2F4F4F),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            if (SignUpIdTextForm.buttonStateValue == true &&
+                                SignUpNicknameTextForm.buttonStateValue == true) {
+                              var validation = null;
+                              // MemberSpringApi().singUp(UserSingUpRequest(
+                              //     idController.text,
+                              //     confirmPasswordController.text,
+                              //     nicknameController.text));
+                              validation.then((value) {
+                                if (value.success == true) {
+                                  //추후 페이지 연결
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectSignInPage()));
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20)),
+                                          content: Text(
+                                            "오류",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "확인",
+                                                  style: TextStyle(
+                                                      color: Color(0xFF2F4F4F)),
+                                                ))
+                                          ],
+                                        );
+                                      });
+                                }
+                              });
+                            }
+                          }
+                        },
+                        child: Text("가입하기", style: TextStyle(color: Colors.white)),
                       )
                     ],
                   ))),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "위 내용에 동의합니다.",
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                    ),
-                    Checkbox(
-                        value: checkedValue,
-                        onChanged: (value) {
-                          setState(() {
-                            checkedValue = value!;
-                          });
-                        })
-                  ],
-                ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  minimumSize: Size(250, 50),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  backgroundColor: Color(0xff2F4F4F),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    if (SignUpIdTextForm.buttonStateValue == true &&
-                        SignUpNicknameTextForm.buttonStateValue == true) {
-                      var validation = null;
-                      // MemberSpringApi().singUp(UserSingUpRequest(
-                      //     idController.text,
-                      //     confirmPasswordController.text,
-                      //     nicknameController.text));
-                      validation.then((value) {
-                        if (value.success == true) {
-                          //추후 페이지 연결
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectSignInPage()));
-                        } else {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  content: Text(
-                                    "오류",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "확인",
-                                          style: TextStyle(
-                                              color: Color(0xFF2F4F4F)),
-                                        ))
-                                  ],
-                                );
-                              });
-                        }
-                      });
-                    }
-                  }
-                },
-                child: Text("가입하기", style: TextStyle(color: Colors.white)),
-              )
+
             ],
           ),
         ));
