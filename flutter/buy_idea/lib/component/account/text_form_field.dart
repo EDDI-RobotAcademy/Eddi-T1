@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utility/size.dart';
+import '../../utility/validation.dart';
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({Key? key, required this.text, required this.controller}) : super(key: key);
@@ -24,9 +25,21 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         const SizedBox(height: small_gap,),
         TextFormField(
           controller: widget.controller,
-          validator: (value) => value!.isEmpty ? "필수항목입니다" : null,
+
+          validator: (value) {
+            if (widget.text == "아이디") {
+              return Validation().validateId(value!);
+            } else if (widget.text == "비밀번호") {
+              return Validation().validatePassword(value!);
+            }
+            },
+
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+
           obscureText: widget.text == "Password" ? true : false,
 
+
+            //validation 아이디
           decoration: InputDecoration(
             hintText: "${widget.text}", //.하고 할땐 {} 감싸줘야함!!! $는 하나만 인식함
             enabledBorder:
