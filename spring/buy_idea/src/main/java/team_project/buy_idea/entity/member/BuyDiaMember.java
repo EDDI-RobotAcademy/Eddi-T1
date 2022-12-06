@@ -35,6 +35,11 @@ public class BuyDiaMember {
     private String memberType;
 
 
+    public BuyDiaMember(String memberId, String nickName, String password, String memberType) {
 
-
+        this.memberId = memberId;
+        this.nickName = nickName;
+        this.password = password;
+        this.memberType = memberType;
+    }
 }

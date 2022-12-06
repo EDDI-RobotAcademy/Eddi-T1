@@ -18,7 +18,7 @@ public class BuyDiaMemberRegisterRequest {
 
     public BuyDiaMember toMember () {
         return new BuyDiaMember(
-            memberId,
+         memberId, nickName, password, memberType
         );
     }
 }

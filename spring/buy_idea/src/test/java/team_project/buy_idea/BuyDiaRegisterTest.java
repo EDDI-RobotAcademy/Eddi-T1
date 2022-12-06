@@ -13,12 +13,11 @@ public class BuyDiaRegisterTest {
     @Autowired
     private BuyDiaMemberService service;
 
-    @Autowired
-    private BuyDiaMemberRepository repository;
-
     @Test
     void memberSignUpTest() {
         BuyDiaMemberRegisterRequest registerRequest = new BuyDiaMemberRegisterRequest("ljb8194", "JBTV", "123456", "일반회원");
+
+
         service.signUp(registerRequest);
     }
 }

@@ -8,6 +8,5 @@ import java.util.Optional;
 
 
 public interface BuyDiaMemberRepository extends JpaRepository<BuyDiaMember, Long> {
-    @Query("select m from BuyDiaMember m join fetch m. where m.athentication = :memberId")
-    Optional<BuyDiaMember> findByMemberId(String memberId);
+
 }

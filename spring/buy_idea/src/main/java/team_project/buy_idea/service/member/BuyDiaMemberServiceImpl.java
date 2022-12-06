@@ -23,9 +23,6 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
         buyDiaMemberRepository.save(member);
 
 
-
-
-
         return true;
     }
 }
