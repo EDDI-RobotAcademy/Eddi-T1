@@ -15,7 +15,7 @@ public class BuyDiaRegisterTest {
 
     @Test
     void memberSignUpTest() {
-        BuyDiaMemberRegisterRequest registerRequest = new BuyDiaMemberRegisterRequest("ljb8194", "JBTV", "123456", "일반회원");
+        BuyDiaMemberRegisterRequest registerRequest = new BuyDiaMemberRegisterRequest("Eunsol8194", "ESTV3", "147147", "일반회원");
 
 
         service.signUp(registerRequest);
