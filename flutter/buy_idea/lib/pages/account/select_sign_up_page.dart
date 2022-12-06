@@ -11,11 +11,18 @@ class SelectSignUpPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+            color: Color(0xff2F4F4F)
+        ),
+        elevation: 0.0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            SizedBox(height: 220),
+            SizedBox(height: 200),
             Logo(),
             SizedBox(width: large_gap, height: 90.0),
             SelectSignUpForm(),
