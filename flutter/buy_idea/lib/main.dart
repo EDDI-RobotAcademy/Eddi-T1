@@ -13,23 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-    textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-        backgroundColor: Color(0xFF2F4F4F),
-    primary: Colors.white,
-    shape:
-    RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-    minimumSize: Size(140, 130)
-    )
-    ),
-    ),
-    title: 'signUp',
-    initialRoute: "/login",
-    routes: {
-    "/login": (context) => LoginPage(), //
-    },
+      debugShowCheckedModeBanner: false,
+      title: 'signUp',
+      initialRoute: "/login",
+      routes: {
+        "/login": (context) => LoginPage(), //
+      },
     );
   }
 }
