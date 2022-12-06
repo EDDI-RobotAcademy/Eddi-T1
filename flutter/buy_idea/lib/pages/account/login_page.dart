@@ -1,7 +1,8 @@
 import 'package:buy_idea/component/account/login_form.dart';
+import 'package:buy_idea/pages/account/select_sign_up_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../component/logo.dart';
+import '../../component/common/logo.dart';
 import '../../utility/size.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,7 +25,7 @@ class LoginPage extends StatelessWidget {
             Center(
               child: InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, "/SelectSignUp");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectSignUpPage()));
                 },
                 child: const Text(
                   "Create account",
