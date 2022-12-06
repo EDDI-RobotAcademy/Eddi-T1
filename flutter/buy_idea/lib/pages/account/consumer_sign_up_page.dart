@@ -22,7 +22,6 @@ class _ConsumerSignUpPageState extends State<ConsumerSignUpPage>{
         ),
         elevation: 0.0,
       ),
-      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
