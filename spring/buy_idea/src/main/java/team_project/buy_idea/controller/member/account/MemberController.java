@@ -20,4 +20,11 @@ public class MemberController {
 
         return memberService.memberIdValidation(memberId);
     }
+
+    @PostMapping("/check-nickname/{nickname}")
+    public Boolean memberNicknameDuplicateCheck(@PathVariable("nickname") String nickName) {
+        log.info("memberNicknameDuplicateCheck" + nickName);
+
+        return memberService.memberNicknameValidation(nickName);
+    }
 }
