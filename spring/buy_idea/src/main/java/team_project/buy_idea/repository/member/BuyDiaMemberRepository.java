@@ -13,4 +13,6 @@ public interface BuyDiaMemberRepository extends JpaRepository<BuyDiaMember, Long
     @Query("select m from BuyDiaMember m where m.memberId = :memberId")
     Optional<BuyDiaMember> findByMemberId(@Param("memberId") String memberId);
 
+    Optional<BuyDiaMember> findBuyDiaMemberByNickName(String nickName);
+
 }

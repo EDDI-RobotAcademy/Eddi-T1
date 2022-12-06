@@ -28,4 +28,12 @@ public class BuyDiaRegisterTest {
         boolean validationValue = service.memberIdValidation(memberId);
         System.out.println(validationValue);
     }
+
+    @Test
+    void memberNicknameValidationTest(){
+        String nickName = "Geon";
+
+        boolean validationValue = service.memberNicknameValidation(nickName);
+        System.out.println(validationValue);
+    }
 }
