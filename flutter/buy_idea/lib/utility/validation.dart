@@ -20,4 +20,11 @@ class Validation {
     }
     return "영문, 숫자, 특수문자를 포함한 8~16자를 입력해주세요.";
   }
+
+  String? validateNickname(String text) {
+    if(text.isEmpty) {
+      return "닉네임을 입력해주세요";
+    }
+    return null;
+  }
 }
