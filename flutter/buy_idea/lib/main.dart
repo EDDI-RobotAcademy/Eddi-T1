@@ -1,3 +1,4 @@
+import 'package:buy_idea/pages/account/login_page.dart';
 import 'package:buy_idea/pages/account/select_sign_up_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
     ),
     ),
     title: 'signUp',
-    initialRoute: "/selectSignUp",
+    initialRoute: "/login",
     routes: {
-    "/selectSignUp": (context) => SelectSignUpPage()
+    "/login": (context) => LoginPage(), //
     },
     );
   }
