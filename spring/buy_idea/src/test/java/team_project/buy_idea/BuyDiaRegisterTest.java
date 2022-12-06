@@ -20,4 +20,12 @@ public class BuyDiaRegisterTest {
 
         service.signUp(registerRequest);
     }
+
+    @Test
+    void memberIdValidationTest(){
+        String memberId = "ljb8194";
+
+        boolean validationValue = service.memberIdValidation(memberId);
+        System.out.println(validationValue);
+    }
 }
