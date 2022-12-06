@@ -1,5 +1,5 @@
 import 'package:buy_idea/component/account/select_sign_up_form.dart';
-import 'package:buy_idea/component/logo.dart';
+import 'package:buy_idea/component/common/logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
