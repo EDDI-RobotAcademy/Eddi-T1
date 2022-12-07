@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team_project.buy_idea.entity.member.Authentication;
 import team_project.buy_idea.entity.member.BasicAuthentication;
-import team_project.buy_idea.entity.member.BuyDiaMember;
+import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.repository.member.AuthenticationRepository;
-import team_project.buy_idea.repository.member.BuyDiaMemberRepository;
-import team_project.buy_idea.service.member.request.BuyDiaMemberRegisterRequest;
+import team_project.buy_idea.repository.member.MemberRepository;
+import team_project.buy_idea.service.member.request.MemberRegisterRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.security.RedisService;
 
@@ -17,10 +17,10 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
-    private BuyDiaMemberRepository buyDiaMemberRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
     private AuthenticationRepository authenticationRepository;
@@ -30,9 +30,9 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
 
 
     @Override
-    public Boolean signUp(BuyDiaMemberRegisterRequest request) {
-        final BuyDiaMember member = request.toMember();
-        buyDiaMemberRepository.save(member);
+    public Boolean signUp(MemberRegisterRequest request) {
+        final Member member = request.toMember();
+        memberRepository.save(member);
 
         final BasicAuthentication auth = new BasicAuthentication(member,
                 Authentication.BASIC_AUTH, request.getPassword());
@@ -44,7 +44,7 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
 
     @Override
     public Boolean memberIdValidation(String memberId) {
-        Optional<BuyDiaMember> maybeMemberId = buyDiaMemberRepository.findByMemberId(memberId);
+        Optional<Member> maybeMemberId = memberRepository.findByMemberId(memberId);
 
         if (maybeMemberId.isPresent()){
             return false;
@@ -55,7 +55,7 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
 
     @Override
     public Boolean memberNicknameValidation(String nickName) {
-        Optional<BuyDiaMember> maybeMemberNickname = buyDiaMemberRepository.findBuyDiaMemberByNickName(nickName);
+        Optional<Member> maybeMemberNickname = memberRepository.findBuyDiaMemberByNickName(nickName);
 
         if (maybeMemberNickname.isPresent()) {
             return false;
@@ -67,10 +67,11 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
     @Override
     public String signIn(MemberSignInRequest request) {
         String memberId = request.getMemberId();
-        Optional<BuyDiaMember> maybeMember = buyDiaMemberRepository.findByMemberId(memberId);
+        String memberType = request.getMemberType();
+        Optional<Member> maybeMember = memberRepository.findByMemberIdAndMemberType(memberId, memberType);
 
         if (maybeMember.isPresent()) {
-            BuyDiaMember member = maybeMember.get();
+            Member member = maybeMember.get();
 
             log.info("멤버: " + maybeMember.get());
 

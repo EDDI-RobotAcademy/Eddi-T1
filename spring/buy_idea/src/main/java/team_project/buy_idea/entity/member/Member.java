@@ -2,7 +2,6 @@ package team_project.buy_idea.entity.member;
 
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,36 +12,30 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-public class BuyDiaMember {
+public class Member {
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
+
     @Column(nullable = false)
     private String memberId;
 
-    @Getter
+
     @Column(nullable = false)
     private String nickName;
 
-
-
-    @OneToMany(mappedBy = "buy_dia_member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private Set<Authentication> authentications = new HashSet<>();
 
-    @Getter
     @Column(nullable = false)
     private String memberType;
 
 
-    public BuyDiaMember(String memberId, String nickName, String password, String memberType) {
-
+    public Member(String memberId, String nickName, String memberType) {
         this.memberId = memberId;
         this.nickName = nickName;
-
         this.memberType = memberType;
     }
 
