@@ -8,7 +8,7 @@
               fixed-tabs
               background-color="white"
               v-model="tabs" >
-            <v-tab v-for="type in loginType" :key="type">
+            <v-tab v-for="type in memberType" :key="type">
               {{ type }}
             </v-tab>
           </v-tabs>
@@ -95,17 +95,17 @@ export default {
       show1: false,
       show2: false,
       tabs: null,
-      loginType: ["일반회원", "판매자"]
+      memberType: ["일반회원", "판매자"]
     }
   },
   methods: {
     onSubmitBuyerSignInForm () {
-      const { buyerId, buyerPassword } = this
-      this.$emit("submit", { buyerId, buyerPassword })
+      const { memberId, password, memberType } = { 'memberId' : this.buyerId, 'password' : this.buyerPassword, 'memberType' : this.memberType[0] }
+      this.$emit("submit", { memberId, password, memberType })
     },
-    onSubmitSellerSignInForm () {
-      const { sellerId, sellerPassword } = this
-      this.$emit("submit", { sellerId, sellerPassword })
+    onSubmitSellerSignInForm() {
+      const { memberId, password, memberType } = { 'memberId' : this.sellerId, 'password' : this.sellerPassword, 'memberType' : this.memberType[1] }
+      this.$emit("submit", { memberId, password, memberType })
     }
   }
 }
