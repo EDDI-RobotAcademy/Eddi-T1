@@ -1,21 +1,22 @@
-package team_project.buy_idea;
+package team_project.buy_idea.member;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import team_project.buy_idea.service.member.BuyDiaMemberService;
-import team_project.buy_idea.service.member.request.BuyDiaMemberRegisterRequest;
+import org.springframework.transaction.annotation.Transactional;
+import team_project.buy_idea.service.member.MemberService;
+import team_project.buy_idea.service.member.request.MemberRegisterRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 
 @SpringBootTest
-public class BuyDiaMemberTest {
+public class MemberTest {
 
     @Autowired
-    private BuyDiaMemberService service;
+    private MemberService service;
 
     @Test
     void memberSignUpTest() {
-        BuyDiaMemberRegisterRequest registerRequest = new BuyDiaMemberRegisterRequest("qkrtjsgh", "호호", "q123123!", "일반회원");
+        MemberRegisterRequest registerRequest = new MemberRegisterRequest("qkrtjsgh", "호호", "q123123!", "일반회원");
 
 
         service.signUp(registerRequest);
@@ -38,8 +39,9 @@ public class BuyDiaMemberTest {
     }
 
     @Test
+    @Transactional
     void memberSignInTest() {
-        MemberSignInRequest request = new MemberSignInRequest("qkrtjsgh","q123123!");
+        MemberSignInRequest request = new MemberSignInRequest("qkrtjsgh","q123123!", "일반회원");
 
         String token = service.signIn(request);
         System.out.println(token);
