@@ -1,5 +1,5 @@
 import {
-    REQUEST_ID_PASS_CHECK,
+    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
 
 } from './mutation-types'
 
@@ -93,4 +93,21 @@ export default {
                 alert(error)
             })
     },
+
+    requestBuyerSignInToSpring( { commit }, payload) {
+        console.log('requestBuyerSignInToSpring')
+
+        const { memberId, password } = payload
+
+        return axios.post('http://localhost:8888/member/sign-in', { memberId, password })
+            .then((res) => {
+                if(res.data) {
+                    commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
+                    router.push({ name: 'HomeView' });
+                }
+            })
+            .catch((error) => {
+                alert(error)
+            })
+    }
 }

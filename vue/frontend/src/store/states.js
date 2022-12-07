@@ -1,3 +1,4 @@
 export default {
-    unDuplicateIdPass: false
+    unDuplicateIdPass: false,
+    userToken: {}
 }
