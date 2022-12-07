@@ -3,19 +3,19 @@ package team_project.buy_idea;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import team_project.buy_idea.repository.member.BuyDiaMemberRepository;
 import team_project.buy_idea.service.member.BuyDiaMemberService;
 import team_project.buy_idea.service.member.request.BuyDiaMemberRegisterRequest;
+import team_project.buy_idea.service.member.request.MemberSignInRequest;
 
 @SpringBootTest
-public class BuyDiaRegisterTest {
+public class BuyDiaMemberTest {
 
     @Autowired
     private BuyDiaMemberService service;
 
     @Test
     void memberSignUpTest() {
-        BuyDiaMemberRegisterRequest registerRequest = new BuyDiaMemberRegisterRequest("Eunsol8194", "ESTV3", "147147", "일반회원");
+        BuyDiaMemberRegisterRequest registerRequest = new BuyDiaMemberRegisterRequest("qkrtjsgh", "호호", "q123123!", "일반회원");
 
 
         service.signUp(registerRequest);
@@ -35,5 +35,13 @@ public class BuyDiaRegisterTest {
 
         boolean validationValue = service.memberNicknameValidation(nickName);
         System.out.println(validationValue);
+    }
+
+    @Test
+    void memberSignInTest() {
+        MemberSignInRequest request = new MemberSignInRequest("qkrtjsgh","q123123!");
+
+        String token = service.signIn(request);
+        System.out.println(token);
     }
 }

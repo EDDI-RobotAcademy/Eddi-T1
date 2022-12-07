@@ -1,6 +1,7 @@
 package team_project.buy_idea.entity.member;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Entity
+@Data
 @NoArgsConstructor
 public class BuyDiaMember {
 
@@ -28,7 +30,7 @@ public class BuyDiaMember {
 
 
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "buy_dia_member", fetch = FetchType.LAZY)
     private Set<Authentication> authentications = new HashSet<>();
 
     @Getter
@@ -42,5 +44,23 @@ public class BuyDiaMember {
         this.nickName = nickName;
 
         this.memberType = memberType;
+    }
+
+    private Optional<Authentication> findBasicAuthentication() {
+        return authentications
+                .stream()
+                .filter(auth -> auth instanceof BasicAuthentication)
+                .findFirst();
+    }
+
+    public boolean isRightPassword(String plainToCheck) {
+        final Optional<Authentication> maybeBasicAuth = findBasicAuthentication();
+
+        if (maybeBasicAuth.isPresent()) {
+            final BasicAuthentication auth = (BasicAuthentication) maybeBasicAuth.get();
+            return auth.isRightPassword(plainToCheck);
+        }
+
+        return false;
     }
 }
