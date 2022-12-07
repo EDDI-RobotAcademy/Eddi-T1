@@ -10,6 +10,8 @@ import team_project.buy_idea.repository.member.AuthenticationRepository;
 import team_project.buy_idea.repository.member.BuyDiaMemberRepository;
 import team_project.buy_idea.service.member.request.BuyDiaMemberRegisterRequest;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
@@ -33,4 +35,28 @@ public class BuyDiaMemberServiceImpl implements BuyDiaMemberService {
 
         return true;
     }
+
+    @Override
+    public Boolean memberIdValidation(String memberId) {
+        Optional<BuyDiaMember> maybeMemberId = buyDiaMemberRepository.findByMemberId(memberId);
+
+        if (maybeMemberId.isPresent()){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean memberNicknameValidation(String nickName) {
+        Optional<BuyDiaMember> maybeMemberNickname = buyDiaMemberRepository.findBuyDiaMemberByNickName(nickName);
+
+        if (maybeMemberNickname.isPresent()) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
