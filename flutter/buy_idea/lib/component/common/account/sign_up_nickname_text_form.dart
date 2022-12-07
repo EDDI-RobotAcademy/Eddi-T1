@@ -1,3 +1,4 @@
+import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/utility/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class SignUpNicknameTextForm extends StatefulWidget{
 }
 
 class _SignUpNicknameTextFormState extends State<SignUpNicknameTextForm> {
-  String? nickname;
+  String? nickName;
   bool buttonEnable = false;
 
   @override
@@ -25,7 +26,7 @@ class _SignUpNicknameTextFormState extends State<SignUpNicknameTextForm> {
       validator: (text) => Validation().validateNickname(text!),
       onChanged: (text){
         setState(() {
-          nickname = text;
+          nickName = text;
           if (Validation().validateNickname(text) == null){
             buttonEnable = true;
             SignUpNicknameTextForm.buttonStateValue = false;
@@ -51,12 +52,13 @@ class _SignUpNicknameTextFormState extends State<SignUpNicknameTextForm> {
             ),
             onPressed: buttonEnable
                 ? () {
-              var validation = null;
-              // MemberSpringApi().duplicateNicknameValidation(
-              //     CheckDuplicateNicknameRequest(nickname!));
+              var validation = SpringMemberApi().nickNameDuplicateCheck(
+                DuplicateNicknameRequest(nickName!)
+              );
+
 
               validation.then((value){
-                if(value.seccess == true){
+                if(value.success == true){
                   showDialog(
                       context: context,
                       barrierDismissible: false,

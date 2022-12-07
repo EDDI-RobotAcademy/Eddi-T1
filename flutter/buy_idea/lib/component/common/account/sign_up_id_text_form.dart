@@ -1,3 +1,4 @@
+import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/utility/validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,24 +14,24 @@ class SignUpIdTextForm extends StatefulWidget {
 }
 
 class _SignUpIdTextFormState extends State<SignUpIdTextForm> {
-  String? id;
+  String? memberId;
   bool buttonEnable = false;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: TextInputType.text,
       validator: (text) => Validation().validateId(text!),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (text) {
         setState(() {
-          id = text;
-          if (Validation().validateId(id!) == null) {
+          memberId = text;
+          if (Validation().validateId(memberId!) == null) {
             buttonEnable = true;
             SignUpIdTextForm.buttonStateValue = false;
           }
-          if (Validation().validateId(id!) != null) {
+          if (Validation().validateId(memberId!) != null) {
             buttonEnable = false;
           }
         });
@@ -58,10 +59,8 @@ class _SignUpIdTextFormState extends State<SignUpIdTextForm> {
               ),
               onPressed: buttonEnable
                   ? () {
-                      var validation = null;
-
-                      // MemberSpringApi().duplicateEmailValidation(
-                      // CheckDuplicateEmailRequest(id!));
+                      var validation = SpringMemberApi().memberIdDuplicateCheck(
+                          DuplicateMemberIdRequest(memberId!));
 
                       validation.then((value) {
                         if (value.success == true) {
@@ -102,7 +101,7 @@ class _SignUpIdTextFormState extends State<SignUpIdTextForm> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                   content: Text(
-                                    "중복된 이메일 입니다.",
+                                    "중복된 아이디 입니다.",
                                     textAlign: TextAlign.center,
                                   ),
                                   actions: [
