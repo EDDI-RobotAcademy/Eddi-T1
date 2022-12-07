@@ -35,5 +35,6 @@ public class RedisServiceImpl implements RedisService {
 
     public boolean isRefreshTokenExists(String token) {
         return getValueByKey(token) != null;
+
     }
 }
