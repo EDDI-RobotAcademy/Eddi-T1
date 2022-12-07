@@ -195,8 +195,8 @@ export default {
       );
 
       if (nicknameValid) {
-        const {nickname} = this
-        await this.requestCheckDuplicateNicknameToSpring({nickname})
+        const {nickname, signUpType} = this
+        await this.requestCheckDuplicateNicknameToSpring({nickname, signUpType})
       }
     },
   },

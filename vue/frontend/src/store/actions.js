@@ -37,15 +37,15 @@ export default {
     requestCheckDuplicateNicknameToSpring({commit}, payload) {
         console.log('requestCheckDuplicateNicknameToSpring()')
 
-        const {nickname} = payload
+        const {nickname, signUpType} = payload
 
         return axios.post(`http://localhost:8888/member/check-nickname/${nickname}`)
             .then((res) => {
                 if (res.data) {
-                    alert("사용 가능한 닉네임입니다.")
+                    alert(`사용 가능한 ${signUpType}입니다.`)
                     commit(REQUEST_ID_PASS_CHECK, res.data)
                 } else {
-                    alert("이미 등록되어 있는 닉네임입니다.")
+                    alert(`이미 등록되어 있는 ${signUpType}입니다.`)
                 }
             })
     },
