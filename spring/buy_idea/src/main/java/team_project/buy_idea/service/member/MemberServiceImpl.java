@@ -54,8 +54,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean memberNicknameValidation(String nickName) {
-        Optional<Member> maybeMemberNickname = memberRepository.findBuyDiaMemberByNickName(nickName);
+    public Boolean memberNicknameValidation(String nickname) {
+        Optional<Member> maybeMemberNickname = memberRepository.findBuyDiaMemberByNickname(nickname);
 
         if (maybeMemberNickname.isPresent()) {
             return false;

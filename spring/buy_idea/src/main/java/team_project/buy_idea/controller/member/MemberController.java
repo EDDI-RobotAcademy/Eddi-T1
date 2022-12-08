@@ -24,10 +24,10 @@ public class MemberController {
     }
 
     @PostMapping("/check-nickname/{nickname}")
-    public Boolean memberNicknameDuplicateCheck(@PathVariable("nickname") String nickName) {
-        log.info("memberNicknameDuplicateCheck()" + nickName);
+    public Boolean memberNicknameDuplicateCheck(@PathVariable("nickname") String nickname) {
+        log.info("memberNicknameDuplicateCheck()" + nickname);
 
-        return memberService.memberNicknameValidation(nickName);
+        return memberService.memberNicknameValidation(nickname);
     }
 
     @PostMapping("/sign-in")

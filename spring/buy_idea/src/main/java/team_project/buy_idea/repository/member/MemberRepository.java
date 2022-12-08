@@ -13,7 +13,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m where m.memberId = :memberId")
     Optional<Member> findByMemberId(@Param("memberId") String memberId);
 
-    Optional<Member> findBuyDiaMemberByNickName(String nickName);
+    Optional<Member> findBuyDiaMemberByNickname(String nickname);
 
     @Query("select m from Member m where m.memberId = :memberId and m.memberType = :memberType")
     Optional<Member> findByMemberIdAndMemberType(@Param("memberId") String memberId,
