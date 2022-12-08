@@ -1,13 +1,14 @@
 import 'package:buy_idea/api/spring_member_api.dart';
-import 'package:buy_idea/component/common/account/sign_up_id_text_form.dart';
-import 'package:buy_idea/component/common/account/sign_up_nickname_text_form.dart';
-import 'package:buy_idea/component/common/account/sign_up_password_text_form.dart';
+import 'package:buy_idea/component/account/sign_up/sign_up_id_text_form.dart';
+import 'package:buy_idea/component/account/sign_up/sign_up_nickname_text_form.dart';
+import 'package:buy_idea/component/account/sign_up/sign_up_password_text_form.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../pages/account/sign_in_page.dart';
 
-class SignUpFormField extends StatefulWidget {
-  SignUpFormField(
+class SignUpForm extends StatefulWidget {
+  SignUpForm(
       {Key? key, required this.textFieldName, required this.memberType})
       : super(key: key);
 
@@ -15,10 +16,10 @@ class SignUpFormField extends StatefulWidget {
   final String memberType;
 
   @override
-  State<SignUpFormField> createState() => _SignUpFormFieldState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignUpFormFieldState extends State<SignUpFormField> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   final idController = TextEditingController();
   final passwordController = TextEditingController();
@@ -45,7 +46,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
           child: Column(
             children: [
               SignUpIdTextForm(controller: idController),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SignUpPasswordTextForm(
                   controller: passwordController,
                   confirmController: confirmPasswordController),
@@ -57,7 +58,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "약관동의",
                       textAlign: TextAlign.left,
@@ -87,7 +88,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                             scrollDirection: Axis.vertical,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Text(
                                   "약관동의 테스트 1\n"
                                   "약관동의 테스트 2\n"
@@ -102,24 +103,22 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                               ],
                             )),
                       ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              "위 내용에 동의합니다.",
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                            ),
-                            Checkbox(
-                                value: checkedValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    checkedValue = value!;
-                                  });
-                                })
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Text(
+                            "위 내용에 동의합니다.",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                          Checkbox(
+                              value: checkedValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  checkedValue = value!;
+                                });
+                              })
+                        ],
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -135,22 +134,23 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                     true &&
                                 checkedValue == true) {
                               if (widget.memberType == "일반") {
-                                SpringMemberApi().signUp(
-                                    MemberSignUpRequest(
-                                        idController.text,
-                                        confirmPasswordController.text,
-                                        nicknameController.text,
-                                        "일반회원"));
+                                SpringMemberApi().signUp(MemberSignUpRequest(
+                                    idController.text,
+                                    confirmPasswordController.text,
+                                    nicknameController.text,
+                                    "일반회원"));
                               } else {
-                                SpringMemberApi().signUp(
-                                    MemberSignUpRequest(
-                                        idController.text,
-                                        confirmPasswordController.text,
-                                        nicknameController.text,
-                                        "판매자"));
+                                SpringMemberApi().signUp(MemberSignUpRequest(
+                                    idController.text,
+                                    confirmPasswordController.text,
+                                    nicknameController.text,
+                                    "판매자"));
                               }
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
-
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignInPage()));
                             } else {
                               if (SignUpIdTextForm.buttonStateValue != true) {
                                 showDialog(
@@ -161,7 +161,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20)),
-                                        content: Text(
+                                        content: const Text(
                                           "아이디 중복체크를 확인해주세요.",
                                           textAlign: TextAlign.center,
                                         ),
@@ -170,7 +170,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text("확인",
+                                            child: const Text("확인",
                                                 style: TextStyle(
                                                     color: Colors.black)),
                                           ),
@@ -198,7 +198,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text("확인",
+                                            child: const Text("확인",
                                                 style: TextStyle(
                                                     color: Colors.black)),
                                           ),
@@ -214,7 +214,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20)),
-                                        content: Text(
+                                        content: const Text(
                                           "약관 동의에 체크해주세요.",
                                           textAlign: TextAlign.center,
                                         ),
@@ -223,7 +223,7 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text("확인",
+                                            child: const Text("확인",
                                                 style: TextStyle(
                                                     color: Colors.black)),
                                           ),
