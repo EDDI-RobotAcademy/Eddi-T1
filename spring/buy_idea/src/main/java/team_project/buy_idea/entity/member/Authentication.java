@@ -22,12 +22,12 @@ public abstract class Authentication {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private BuyDiaMember member;
+    private Member member;
 
     @Column(name = "authentication_type", nullable = false, insertable = false, updatable = false)
     private String authenticationType;
 
-    public Authentication(BuyDiaMember member, String authenticationType) {
+    public Authentication(Member member, String authenticationType) {
         this.member = member;
         this.authenticationType = authenticationType;
     }

@@ -1,4 +1,4 @@
-package team_project.buy_idea.controller.member.request;
+package team_project.buy_idea.controller.member.form;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class BuyDiaMemberRegisterForm {
+public class MemberRegisterForm {
 
     private String memberId;
     private String nickName;
