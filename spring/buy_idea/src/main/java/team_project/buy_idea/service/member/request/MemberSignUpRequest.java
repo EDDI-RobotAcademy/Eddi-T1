@@ -8,17 +8,16 @@ import team_project.buy_idea.entity.member.Member;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class MemberRegisterRequest {
+public class MemberSignUpRequest {
 
     private final String memberId;
     private final String nickName;
     private final String password;
     private final String memberType;
 
-
-    public Member toMember () {
+    public Member toMember() {
         return new Member(
-         memberId, nickName, memberType
+                memberId, nickName, memberType
         );
     }
 }
