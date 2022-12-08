@@ -31,7 +31,7 @@ class _SellerSignUpPage extends State<SellerSignUpPage>{
               children: [
                 Text("판매자 회원가입", style: TextStyle(fontSize: 30)),
                 SizedBox(height: 80),
-                SignUpFormField(textFieldName: "업체명")
+                SignUpFormField(textFieldName: "상호명", memberType: "판매자")
               ],
             ),
           ),
