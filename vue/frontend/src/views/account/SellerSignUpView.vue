@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <CommonSignUpForm v-bind:sign-up-type-title="signUpTypeTitle"
+    <CommonSignUpForm @submit="onSubmit" v-bind:sign-up-type-title="signUpTypeTitle"
                       v-bind:sign-up-type-btn="signUpTypeBtn"/>
   </v-container>
 </template>
@@ -16,14 +16,13 @@ export default {
     return {
       signUpTypeTitle: "판매자 회원가입",
       signUpTypeBtn: "상호명",
-      memberType: "판매자",
     }
   },
   methods: {
-    ...mapActions(['requestSellerRegisterToSpring']),
+    ...mapActions(['requestSellerSignUpToSpring']),
     async onSubmit(payload) {
-      const { memberId, password, nickname, memberType } = payload
-      await this.requestSellerRegisterToSpring({ memberId, password, nickname, memberType } )
+      const {memberId, nickname, password, memberType} = payload
+      await this.requestSellerSignUpToSpring({memberId, nickname, password, memberType})
     }
   }
 }
