@@ -1,7 +1,8 @@
 import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/utility/validation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../common/common_alert_dialog.dart';
 
 class SignUpIdTextForm extends StatefulWidget {
   SignUpIdTextForm({Key? key, this.controller}) : super(key: key);
@@ -52,11 +53,10 @@ class _SignUpIdTextFormState extends State<SignUpIdTextForm> {
             margin: EdgeInsets.only(right: 10),
             child: TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Color(0XFF2F4F4F),
-                primary: Colors.white,
-                shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))
-              ),
+                  backgroundColor: Color(0XFF2F4F4F),
+                  primary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30))),
               onPressed: buttonEnable
                   ? () {
                       var validation = SpringMemberApi().memberIdDuplicateCheck(
@@ -67,25 +67,13 @@ class _SignUpIdTextFormState extends State<SignUpIdTextForm> {
                           showDialog(
                               context: context,
                               barrierDismissible: false,
-                              builder: (context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  content: Text(
-                                    "사용 가능한 아이디입니다.",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("확인",
-                                          style:
-                                              TextStyle(color: Colors.black)),
-                                    ),
-                                  ],
-                                );
+                              builder: (BuildContext context) {
+                                return CommonAlertDialog(
+                                    title: "✅",
+                                    content: "사용 가능한 아이디입니다.",
+                                    onCustomButtonPressed: () {
+                                      Navigator.pop(context);
+                                    });
                               });
                           setState(() {
                             buttonEnable = false;
@@ -96,32 +84,19 @@ class _SignUpIdTextFormState extends State<SignUpIdTextForm> {
                           showDialog(
                               context: context,
                               barrierDismissible: false,
-                              builder: (context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  content: Text(
-                                    "중복된 아이디 입니다.",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("확인",
-                                          style:
-                                              TextStyle(color: Colors.black)),
-                                    ),
-                                  ],
-                                );
+                              builder: (BuildContext context) {
+                                return CommonAlertDialog(
+                                    title: "⚠️",
+                                    content: "중복된 아이디 입니다.",
+                                    onCustomButtonPressed: () {
+                                      Navigator.pop(context);
+                                    });
                               });
                         }
                       });
                     }
                   : null,
-              child: Text("중복 확인",
-                style: TextStyle(color: Color(0xffFAEBD7))),
+              child: Text("중복 확인", style: TextStyle(color: Color(0xffFAEBD7))),
             ),
           ),
           border:

@@ -6,10 +6,10 @@ import 'package:buy_idea/component/account/sign_up/sign_up_password_text_form.da
 import 'package:flutter/material.dart';
 
 import '../../../pages/account/sign_in_page.dart';
+import '../../common/common_alert_dialog.dart';
 
 class SignUpForm extends StatefulWidget {
-  SignUpForm(
-      {Key? key, required this.textFieldName, required this.memberType})
+  SignUpForm({Key? key, required this.textFieldName, required this.memberType})
       : super(key: key);
 
   final String textFieldName;
@@ -146,36 +146,33 @@ class _SignUpFormState extends State<SignUpForm> {
                                     nicknameController.text,
                                     "판매자"));
                               }
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignInPage()));
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return CommonAlertDialog(
+                                        title: "🎉️",
+                                        content: '환영합니다🥰 \n 로그인 페이지로 이동합니다.',
+                                        onCustomButtonPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SignInPage()));
+                                        });
+                                  });
                             } else {
                               if (SignUpIdTextForm.buttonStateValue != true) {
                                 showDialog(
                                     context: context,
                                     barrierDismissible: false,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        content: const Text(
-                                          "아이디 중복체크를 확인해주세요.",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("확인",
-                                                style: TextStyle(
-                                                    color: Colors.black)),
-                                          ),
-                                        ],
-                                      );
+                                    builder: (BuildContext context) {
+                                      return CommonAlertDialog(
+                                          title: "⚠️",
+                                          content: "아이디 중복체크를 확인해주세요.",
+                                          onCustomButtonPressed: () {
+                                            Navigator.pop(context);
+                                          });
                                     });
                               } else if (SignUpNicknameTextForm
                                       .buttonStateValue !=
@@ -183,52 +180,26 @@ class _SignUpFormState extends State<SignUpForm> {
                                 showDialog(
                                     context: context,
                                     barrierDismissible: false,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        content: Text(
-                                          widget.textFieldName +
+                                    builder: (BuildContext context) {
+                                      return CommonAlertDialog(
+                                          title: "⚠️",
+                                          content: widget.textFieldName +
                                               " 중복체크를 확인해주세요.",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("확인",
-                                                style: TextStyle(
-                                                    color: Colors.black)),
-                                          ),
-                                        ],
-                                      );
+                                          onCustomButtonPressed: () {
+                                            Navigator.pop(context);
+                                          });
                                     });
                               } else if (checkedValue != true) {
                                 showDialog(
                                     context: context,
                                     barrierDismissible: false,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        content: const Text(
-                                          "약관 동의에 체크해주세요.",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("확인",
-                                                style: TextStyle(
-                                                    color: Colors.black)),
-                                          ),
-                                        ],
-                                      );
+                                    builder: (BuildContext context) {
+                                      return CommonAlertDialog(
+                                          title: "⚠️",
+                                          content: '약관 동의에 체크해주세요.',
+                                          onCustomButtonPressed: () {
+                                            Navigator.pop(context);
+                                          });
                                     });
                               }
                             }
