@@ -8,7 +8,7 @@ public interface MemberService {
 
     Boolean memberIdValidation(String memberId);
 
-    Boolean memberNicknameValidation(String nickName);
+    Boolean memberNicknameValidation(String nickname);
 
     String signIn(MemberSignInRequest request);
 }
