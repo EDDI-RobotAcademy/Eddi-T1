@@ -1,6 +1,5 @@
 import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/utility/validation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignUpNicknameTextForm extends StatefulWidget{

@@ -7,6 +7,8 @@ import team_project.buy_idea.controller.member.form.MemberSignInForm;
 import team_project.buy_idea.controller.member.form.MemberSignUpForm;
 import team_project.buy_idea.service.member.MemberService;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/member")
@@ -31,7 +33,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public String signIn(@RequestBody MemberSignInForm form) {
+    public Map<String, String> signIn(@RequestBody MemberSignInForm form) {
         log.info("signIn : " + form);
 
         return memberService.signIn(form.toSignInRequest());

@@ -12,6 +12,8 @@ import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.security.RedisService;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -65,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String signIn(MemberSignInRequest request) {
+    public Map<String, String> signIn(MemberSignInRequest request) {
         String memberId = request.getMemberId();
         String memberType = request.getMemberType();
         Optional<Member> maybeMember = memberRepository.findByMemberIdAndMemberType(memberId, memberType);
@@ -75,8 +77,9 @@ public class MemberServiceImpl implements MemberService {
 
             log.info("멤버: " + maybeMember.get());
 
-            log.info("member email: " + member.getMemberId());
-            log.info("request email: " + request.getMemberId());
+            log.info("member Id: " + member.getMemberId());
+            log.info("request Id: " + request.getMemberId());
+            log.info("request memberType: " + request.getMemberType());
             log.info("request password: " + request.getPassword());
 
             if (!member.isRightPassword(request.getPassword())) {
@@ -88,9 +91,14 @@ public class MemberServiceImpl implements MemberService {
             redisService.deleteByKey(userToken.toString());
             redisService.setKeyAndValue(userToken.toString(), member.getId());
 
-            return userToken.toString();
-        }
+            Map<String, String> memberInfoMap = new HashMap<>();
+            memberInfoMap.put("userToken", userToken.toString());
+            memberInfoMap.put("memberId", member.getMemberId());
+            memberInfoMap.put("nickname", member.getNickname());
+            memberInfoMap.put("memberType", member.getMemberType());
 
+            return memberInfoMap;
+        }
         throw new RuntimeException("가입된 사용자가 아닙니다.");
     }
 }

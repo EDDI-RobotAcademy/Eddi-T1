@@ -1,7 +1,8 @@
-import 'package:buy_idea/pages/account/consumer_sign_up_page.dart';
 import 'package:buy_idea/pages/account/seller_sign_up_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../pages/account/buyer_sign_up_page.dart';
 
 class SelectSignUpButton extends StatelessWidget {
   SelectSignUpButton({Key? key, required this.buttonName}) : super(key: key);
@@ -24,7 +25,7 @@ class SelectSignUpButton extends StatelessWidget {
             if (buttonName == "판매자 회원가입") {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const SellerSignUpPage()));
             } else {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ConsumerSignUpPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const BuyerSignUpPage()));
             }
           },
           child: Text(buttonName,
