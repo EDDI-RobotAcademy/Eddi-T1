@@ -37,34 +37,34 @@ export default {
     requestCheckDuplicateNicknameToSpring({commit}, payload) {
         console.log('requestCheckDuplicateNicknameToSpring()')
 
-        const {nickname} = payload
+        const {nickname, memberType} = payload
 
         return axios.post(`http://localhost:8888/member/check-nickname/${nickname}`)
             .then((res) => {
                 if (res.data) {
-                    alert("사용 가능한 닉네임입니다.")
+                    alert(`사용 가능한 ${memberType}입니다.`)
                     commit(REQUEST_ID_PASS_CHECK, res.data)
                 } else {
-                    alert("이미 등록되어 있는 닉네임입니다.")
+                    alert(`이미 등록되어 있는 ${memberType}입니다.`)
                 }
             })
     },
     /**
      * 판매자 회원가입 요청 axios
-     * @param payload
+     * @param payload memberId, nickname, password, memberType
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestSellerRegisterToSpring( { }, payload) {
-        console.log('requestSellerRegisterToSpring')
+    requestSellerSignUpToSpring({ }, payload) {
+        console.log('requestSellerSignUpToSpring')
 
-        const { memberId, password, nickName,  memberType} = payload
+        const {memberId, nickname, password, memberType} = payload
 
-        return axios.post('http://localhost:8888/member/register', { memberId, password, nickName, memberType })
+        return axios.post('http://localhost:8888/member/sign-up', {memberId, nickname, password, memberType})
             .then((res) => {
-                if(res.data) {
+                if (res.data) {
                     alert("회원 가입이 완료되었습니다! 로그인 페이지로 이동합니다.")
-                    router.push({ name: 'SignInView' });
+                    router.push({name: 'SignInView'});
                 }
             })
             .catch((error) => {
@@ -73,42 +73,46 @@ export default {
     },
     /**
      * 일반회원 가입 요청 axios
-     * @param payload
+     * @param payload memberId, nickname, password, memberType
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestBuyerRegisterToSpring( { }, payload) {
-        console.log('requestBuyerRegisterToSpring')
+    requestBuyerSignUpToSpring({ }, payload) {
+        console.log('requestBuyerSignUpToSpring')
 
-        const { memberId, password, nickname,  memberType} = payload
+        const {memberId, nickname, password, memberType} = payload
 
-        return axios.post('http://localhost:8888/member/register', { memberId, password, nickname, memberType })
+        return axios.post('http://localhost:8888/member/sign-up', {memberId, nickname, password, memberType})
             .then((res) => {
-                if(res.data) {
+                if (res.data) {
                     alert("회원 가입이 완료되었습니다! 로그인 페이지로 이동합니다.")
-                    router.push({ name: 'SignInView' });
+                    router.push({name: 'SignInView'});
                 }
             })
             .catch((error) => {
                 alert(error)
             })
     },
-
-    requestBuyerSignInToSpring( { commit }, payload) {
+    /**
+     * 로그인 요청 axios
+     * @param commit Token
+     * @param payload memberId, password
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    requestBuyerSignInToSpring({commit}, payload) {
         console.log('requestBuyerSignInToSpring')
 
-        const { memberId, password, memberType } = payload
-        console.log(payload)
+        const {memberId, password} = payload
 
-        return axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType })
+        return axios.post('http://localhost:8888/member/sign-in', {memberId, password})
             .then((res) => {
-                if(res.data) {
+                if (res.data) {
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
-                    router.push({ name: 'HomeView' });
+                    router.push({name: 'HomeView'});
                 }
             })
             .catch((error) => {
                 alert(error)
             })
-    },
+    }
 }

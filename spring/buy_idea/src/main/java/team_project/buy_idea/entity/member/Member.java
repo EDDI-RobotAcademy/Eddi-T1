@@ -1,6 +1,5 @@
 package team_project.buy_idea.entity.member;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

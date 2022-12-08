@@ -93,7 +93,7 @@ export default {
       password: "",
       password_confirm: "",
       nickname: "",
-      signUpType: this.signUpTypeBtn,
+      memberType: this.signUpTypeBtn,
       idPass: false,
       passwordPass: false,
       nicknamePass: false,
@@ -166,8 +166,15 @@ export default {
       }
     },
     onSubmit() {
-      const {memberId, password, businessName} = this
-      this.$emit("submit", {memberId, password, businessName})
+      if(this.signUpTypeBtn === "상호명"){
+        this.memberType = "판매자"
+        const {memberId, nickname, password, memberType} = this
+        this.$emit("submit", {memberId, nickname, password, memberType})
+      }else if(this.signUpTypeBtn === "닉네임"){
+        this.memberType = "일반회원"
+        const {memberId, nickname, password, memberType} = this
+        this.$emit("submit", {memberId, nickname, password, memberType})
+      }
     },
 
     /**
@@ -195,8 +202,8 @@ export default {
       );
 
       if (nicknameValid) {
-        const {nickname} = this
-        await this.requestCheckDuplicateNicknameToSpring({nickname})
+        const {nickname, memberType} = this
+        await this.requestCheckDuplicateNicknameToSpring({nickname, memberType})
       }
     },
   },

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import team_project.buy_idea.service.member.MemberService;
-import team_project.buy_idea.service.member.request.MemberRegisterRequest;
+import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 
 @SpringBootTest
@@ -16,7 +16,7 @@ public class MemberTest {
 
     @Test
     void memberSignUpTest() {
-        MemberRegisterRequest registerRequest = new MemberRegisterRequest("qkrtjsgh", "호호", "q123123!", "일반회원");
+        MemberSignUpRequest registerRequest = new MemberSignUpRequest("qkrtjsgh", "호호", "q123123!", "일반회원");
 
 
         service.signUp(registerRequest);
