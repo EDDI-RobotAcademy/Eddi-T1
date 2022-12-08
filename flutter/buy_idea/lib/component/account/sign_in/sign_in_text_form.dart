@@ -1,21 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../utility/size.dart';
-import '../../utility/validation.dart';
+import '../../../utility/size.dart';
+import '../../../utility/validation.dart';
 
-class CustomTextFormField extends StatefulWidget {
-  const CustomTextFormField({Key? key, required this.text, required this.controller}) : super(key: key);
+
+class SignInTextForm extends StatefulWidget {
+  const SignInTextForm({Key? key, required this.text, required this.controller}) : super(key: key);
 
   final String text;
   final controller;
 
   @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+  State<SignInTextForm> createState() => _SignInTextFormState();
 }
 
 
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
+class _SignInTextFormState extends State<SignInTextForm> {
   @override
   Widget build(BuildContext context) {
     return Column(
