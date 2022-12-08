@@ -4,12 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.member.form.MemberSignInForm;
+import team_project.buy_idea.controller.member.form.MemberSignUpForm;
 import team_project.buy_idea.service.member.MemberService;
 
 @Slf4j
 @RestController
 @RequestMapping("/member")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MemberController {
 
     @Autowired
@@ -17,14 +18,14 @@ public class MemberController {
 
     @PostMapping("/check-id/{memberId}")
     public Boolean memberIdDuplicateCheck(@PathVariable("memberId") String memberId) {
-        log.info("memberIdDuplicateCheck" + memberId);
+        log.info("memberIdDuplicateCheck()" + memberId);
 
         return memberService.memberIdValidation(memberId);
     }
 
     @PostMapping("/check-nickname/{nickname}")
     public Boolean memberNicknameDuplicateCheck(@PathVariable("nickname") String nickName) {
-        log.info("memberNicknameDuplicateCheck" + nickName);
+        log.info("memberNicknameDuplicateCheck()" + nickName);
 
         return memberService.memberNicknameValidation(nickName);
     }
@@ -34,5 +35,12 @@ public class MemberController {
         log.info("signIn : " + form);
 
         return memberService.signIn(form.toSignInRequest());
+    }
+
+    @PostMapping("/sign-up")
+    public Boolean signUp(@RequestBody MemberSignUpForm form) {
+        log.info("signUp: " + form);
+
+        return memberService.signUp(form.toMemberSignUpRequest());
     }
 }

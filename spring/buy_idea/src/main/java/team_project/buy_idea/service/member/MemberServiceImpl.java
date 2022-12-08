@@ -8,7 +8,7 @@ import team_project.buy_idea.entity.member.BasicAuthentication;
 import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.repository.member.AuthenticationRepository;
 import team_project.buy_idea.repository.member.MemberRepository;
-import team_project.buy_idea.service.member.request.MemberRegisterRequest;
+import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.security.RedisService;
 
@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public Boolean signUp(MemberRegisterRequest request) {
+    public Boolean signUp(MemberSignUpRequest request) {
         final Member member = request.toMember();
         memberRepository.save(member);
 
@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
     public Boolean memberIdValidation(String memberId) {
         Optional<Member> maybeMemberId = memberRepository.findByMemberId(memberId);
 
-        if (maybeMemberId.isPresent()){
+        if (maybeMemberId.isPresent()) {
             return false;
         }
 
