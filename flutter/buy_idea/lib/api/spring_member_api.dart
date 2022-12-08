@@ -22,12 +22,27 @@ class SpringMemberApi {
     }
   }
 
+  signUp(MemberSignUpRequest request) async{
+    var body = json.encode(request);
+
+    var response = await http.post(
+      Uri.http(httpUri, '/member/sign-up'),
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("통신 성공");
+
+    }else{
+      debugPrint("통신 실패");
+    }
+  }
+
   Future<DuplicateMemberIdResponse> memberIdDuplicateCheck(DuplicateMemberIdRequest request)
   async{
     var data = {"memberId": request.memberId};
     var body = json.encode(data);
-    debugPrint("확인");
-    debugPrint(request.memberId);
 
     var response = await http.post(
         Uri.http(httpUri, '/member/check-id/${request.memberId}'),
@@ -52,13 +67,13 @@ class SpringMemberApi {
 
   Future<DuplicateNicknameResponse> nickNameDuplicateCheck (DuplicateNicknameRequest request)
   async {
-    var data = {"nickName": request.nickName
+    var data = {"nickName": request.nickname
     };
     var body = json.encode(data);
 
 
     var response = await http.post(
-      Uri.http(httpUri, '/member/check-nickname/${request.nickName}'),
+      Uri.http(httpUri, '/member/check-nickname/${request.nickname}'),
       headers: {"Content-Type": "application/json"},
       body: body,
     );
@@ -87,6 +102,16 @@ class MemberSignInRequest {
   Map<String, dynamic> toJson() => {'memberId': memberId, 'password': password, 'memberType': memberType};
 }
 
+class MemberSignUpRequest {
+  String memberId;
+  String password;
+  String nickname;
+  String memberType;
+
+  MemberSignUpRequest(this.memberId, this.password, this.nickname, this.memberType);
+  Map<String, dynamic> toJson() => {'memberId': memberId, 'password': password, 'nickName': nickname, "memberType": memberType};
+}
+
 class DuplicateMemberIdResponse{
   bool? success;
 
@@ -106,7 +131,7 @@ class DuplicateNicknameResponse{
 }
 
 class DuplicateNicknameRequest{
-  String nickName;
+  String nickname;
 
-  DuplicateNicknameRequest(this.nickName);
+  DuplicateNicknameRequest(this.nickname);
 }
