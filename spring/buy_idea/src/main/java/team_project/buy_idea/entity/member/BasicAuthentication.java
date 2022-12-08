@@ -20,7 +20,7 @@ public class BasicAuthentication extends Authentication {
     @Convert(converter = PasswordHashConverter.class)
     private String password;
 
-    public BasicAuthentication(BuyDiaMember member, String authenticationType, String password) {
+    public BasicAuthentication(Member member, String authenticationType, String password) {
         super(member, authenticationType);
         this.password = password;
     }

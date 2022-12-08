@@ -13,8 +13,12 @@ export default {
   methods: {
     ...mapActions(['requestBuyerSignInToSpring']),
     async onSubmit(payload) {
-      const { memberId, password } = payload
-      await this.requestBuyerSignInToSpring({ memberId, password })
+      const { memberId, password, memberType } = payload
+      console.log(payload)
+      console.log(memberId)
+      console.log(password)
+      console.log(memberType)
+      await this.requestBuyerSignInToSpring({ memberId, password, memberType })
     }
   }
 }
