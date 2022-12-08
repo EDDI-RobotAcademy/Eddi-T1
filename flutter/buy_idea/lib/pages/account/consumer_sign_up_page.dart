@@ -31,7 +31,7 @@ class _ConsumerSignUpPageState extends State<ConsumerSignUpPage>{
               children: [
                 Text("일반 회원가입", style: TextStyle(fontSize: 30)),
                 SizedBox(height: 80),
-                SignUpFormField(textFieldName: "닉네임"),
+                SignUpFormField(textFieldName: "닉네임", memberType: "일반"),
               ],
             ),
           ),
