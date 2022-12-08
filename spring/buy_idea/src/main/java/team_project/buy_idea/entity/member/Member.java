@@ -23,7 +23,7 @@ public class Member {
 
 
     @Column(nullable = false)
-    private String nickName;
+    private String nickname;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private Set<Authentication> authentications = new HashSet<>();
@@ -32,9 +32,9 @@ public class Member {
     private String memberType;
 
 
-    public Member(String memberId, String nickName, String memberType) {
+    public Member(String memberId, String nickname, String memberType) {
         this.memberId = memberId;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.memberType = memberType;
     }
 
