@@ -1,4 +1,4 @@
-import 'package:buy_idea/component/account/sign_in_form.dart';
+import 'package:buy_idea/component/account/sign_in/sign_in_form.dart';
 import 'package:buy_idea/pages/account/select_sign_up_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +25,9 @@ class SignInPage extends StatelessWidget {
             const SizedBox(height: large_gap,),
             const Logo(),
             const SizedBox(height: large_gap,),
-            SignInForm(),
-            Divider(height: 40, thickness: 1),
+            const SignInForm(),
+            const Divider(height: 40, thickness: 1),
+            const SizedBox(height: large_gap),
             Center(
               child: InkWell(
                 onTap: () {
