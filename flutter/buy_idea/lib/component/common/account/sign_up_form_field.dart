@@ -2,10 +2,9 @@ import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/component/common/account/sign_up_id_text_form.dart';
 import 'package:buy_idea/component/common/account/sign_up_nickname_text_form.dart';
 import 'package:buy_idea/component/common/account/sign_up_password_text_form.dart';
-import 'package:buy_idea/pages/account/login_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+
+import '../../../pages/account/sign_in_page.dart';
 
 class SignUpFormField extends StatefulWidget {
   SignUpFormField(
@@ -150,40 +149,8 @@ class _SignUpFormFieldState extends State<SignUpFormField> {
                                         nicknameController.text,
                                         "판매자"));
                               }
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
-                              // validation.then((value) {
-                              //   if (value.success == true) {
-                              //     //추후 페이지 연결
-                              //     // Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectSignInPage()));
-                              //   } else {
-                              //     showDialog(
-                              //         context: context,
-                              //         barrierDismissible: false,
-                              //         builder: (context) {
-                              //           return AlertDialog(
-                              //             shape: RoundedRectangleBorder(
-                              //                 borderRadius:
-                              //                     BorderRadius.circular(20)),
-                              //             content: Text(
-                              //               "오류",
-                              //               textAlign: TextAlign.center,
-                              //             ),
-                              //             actions: [
-                              //               TextButton(
-                              //                   onPressed: () {
-                              //                     Navigator.pop(context);
-                              //                   },
-                              //                   child: Text(
-                              //                     "확인",
-                              //                     style: TextStyle(
-                              //                         color: Color(0xFF2F4F4F)),
-                              //                   ))
-                              //             ],
-                              //           );
-                              //         });
-                              //   }
-                              // });
                             } else {
                               if (SignUpIdTextForm.buttonStateValue != true) {
                                 showDialog(

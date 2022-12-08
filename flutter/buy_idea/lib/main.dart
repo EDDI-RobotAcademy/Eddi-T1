@@ -1,5 +1,4 @@
-import 'package:buy_idea/pages/account/login_page.dart';
-import 'package:buy_idea/pages/account/select_sign_up_page.dart';
+import 'package:buy_idea/pages/account/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'signUp',
-      initialRoute: "/login",
+      initialRoute: "/sign-in",
       routes: {
-        "/login": (context) => LoginPage(), //
+        "/sign-in": (context) => const SignInPage(), //
       },
     );
   }
