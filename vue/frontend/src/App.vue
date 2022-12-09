@@ -34,18 +34,18 @@
               border: #2F4F4F"></v-text-field>
         </v-col>
         <template v-if="this.signInStatus != null">
-          <v-btn
-              plain
-              @click="signOut"
-          >
-            <h4>로그아웃</h4>
-          </v-btn>
-          //마이페이지 설계 후 페이지 연결 필요!
+          <!--마이페이지 설계 후 페이지 연결 필요!-->
           <v-btn
               plain
               to=""
           >
             <h4>마이페이지</h4>
+          </v-btn>
+          <v-btn
+              plain
+              @click="signOut"
+          >
+            <h4>로그아웃</h4>
           </v-btn>
         </template>
 
