@@ -102,12 +102,13 @@ export default {
     requestBuyerSignInToSpring({commit}, payload) {
         console.log('requestBuyerSignInToSpring')
 
-        const {memberId, password} = payload
+        const {memberId, password, memberType} = payload
 
-        return axios.post('http://localhost:8888/member/sign-in', {memberId, password})
+        return axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
             .then((res) => {
                 if (res.data) {
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
+                    console.log(res.data)
                     router.push({name: 'HomeView'});
                 }
             })
