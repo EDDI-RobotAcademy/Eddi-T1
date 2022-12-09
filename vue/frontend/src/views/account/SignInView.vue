@@ -23,7 +23,7 @@ export default {
 
       if(localStorage.getItem('userToken') == null){
         localStorage.setItem("userToken", JSON.stringify(this.$store.state.memberInfoAfterSignIn.userToken))
-
+        history.go(0)
         alert("로그인 성공")
      }else{
         alert("이미 로그인 되어있습니다.")
