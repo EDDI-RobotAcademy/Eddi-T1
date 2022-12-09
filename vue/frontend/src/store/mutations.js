@@ -8,6 +8,6 @@ export default {
         state.unDuplicateIdPass = passingData
     },
     [REQUEST_SIGN_IN_TOKEN_FROM_SPRING] (state, passingData) {
-        state.userToken = passingData
+        state.memberInfoAfterSignIn = passingData
     }
 }

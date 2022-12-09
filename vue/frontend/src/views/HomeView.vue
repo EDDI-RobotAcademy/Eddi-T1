@@ -1,17 +1,17 @@
 <template>
-  <v-container>
-    <sign-up-choice-view/>
-  </v-container>
+  <div>
+    <main-page-view/>
+  </div>
 </template>
 
 <script>
-import SignUpChoiceView from "@/views/account/SignUpChoiceView";
+import MainPageView from "@/views/MainPageView";
 
 export default {
   name: 'HomeView',
 
   components: {
-    SignUpChoiceView,
+    MainPageView,
   },
 }
 </script>
