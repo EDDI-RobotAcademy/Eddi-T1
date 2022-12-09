@@ -1,4 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:buy_idea/component/common/app_bar/bottom_bar.dart';
+import 'package:flutter/material.dart';
+
+import '../component/common/app_bar/top_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -10,9 +13,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // 임시 페이지
-      child: Text("Main Page")
+    return Scaffold(
+      appBar: TopBar(),
+      body: Center(
+        child: BottomBar(),),
+
     );
   }
 }
