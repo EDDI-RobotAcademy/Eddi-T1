@@ -1,5 +1,4 @@
 import 'package:buy_idea/utility/validation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPasswordTextForm extends StatefulWidget{

@@ -26,9 +26,9 @@ class CommonAlertDialog extends StatelessWidget {
         ),
       ],
       elevation: 20,
-      titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
-      contentTextStyle: const TextStyle(color: Colors.white, fontSize: 15),
-      backgroundColor: Colors.black54,
+      titleTextStyle: const TextStyle(color: Colors.black, fontSize: 20),
+      contentTextStyle: const TextStyle(color: Colors.black, fontSize: 15),
+      backgroundColor: Colors.white.withOpacity(0.7)
     );
   }
 }
