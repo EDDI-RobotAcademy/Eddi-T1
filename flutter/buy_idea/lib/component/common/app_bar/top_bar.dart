@@ -21,22 +21,22 @@ class TopBar extends StatelessWidget with PreferredSizeWidget {
       actions: <Widget>[
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
-            child: TextButton.icon(
-                icon: const Text("검색어를 입력하세요.",
-                    style: TextStyle(color: Colors.grey)),
-                label: Icon(Icons.search, color: Colors.black),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchPage()));
-                },
-                style: ElevatedButton.styleFrom(
+          child: TextButton.icon(
+              icon: const Text("검색어를 입력하세요.",
+                  style: TextStyle(color: Colors.grey)),
+              label: Padding(
+                padding: const EdgeInsets.only(left: 80.0),
+                child: Icon(Icons.search, color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => SearchPage()));
+              },
+              style: ElevatedButton.styleFrom(
                   elevation: 0,
                   side: BorderSide(color: Colors.grey, width: 1.0),
                   primary: Colors.white,
-                  minimumSize: Size(260, 10)
-                )),
+                  minimumSize: Size(260, 10))),
         ),
         SizedBox(width: 5.0),
         IconButton(
