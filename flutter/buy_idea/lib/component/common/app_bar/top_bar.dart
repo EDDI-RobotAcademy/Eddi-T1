@@ -1,6 +1,6 @@
+import 'package:buy_idea/component/common/app_bar/bottom_bar.dart';
+import 'package:buy_idea/pages/buyer/main_menu/search_page.dart';
 import 'package:flutter/material.dart';
-
-import '../../../pages/account/select_sign_up_page.dart';
 
 class TopBar extends StatelessWidget with PreferredSizeWidget {
   const TopBar({Key? key}) : super(key: key);
@@ -12,30 +12,36 @@ class TopBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0.0,
       title: GestureDetector(
-          child: Image.asset("assets/buydia_logo.png", width: 100, height: 50),
+          child: Image.asset("assets/buydia_logo.png", width: 80, height: 50),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const SelectSignUpPage(); //최초페이지로 연결(나중엔 메인으로 가는 버튼으로 변경)
+              return const BottomBar();
             }));
           }),
-      actions: [
-        SizedBox(
-          child: TextField(),
-          width: 150,
-          height: 50,
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+            child: TextButton.icon(
+                icon: const Text("검색어를 입력하세요.",
+                    style: TextStyle(color: Colors.grey)),
+                label: Icon(Icons.search, color: Colors.black),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SearchPage()));
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  side: BorderSide(color: Colors.grey, width: 1.0),
+                  primary: Colors.white,
+                  minimumSize: Size(260, 10)
+                )),
         ),
-        GestureDetector(onTap: () {}, child: const Icon(Icons.search)),
+        SizedBox(width: 5.0),
         IconButton(
             onPressed: () {},
             icon: const Icon(Icons.add_shopping_cart_outlined)),
-        IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              //설정 페이지 연결
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SelectSignUpPage();
-              }));
-            })
       ],
     );
   }
