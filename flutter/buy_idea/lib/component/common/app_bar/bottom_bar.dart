@@ -1,9 +1,9 @@
+import 'package:buy_idea/pages/buyer/main_menu/category_page.dart';
+import 'package:buy_idea/pages/buyer/main_menu/search_page.dart';
 import 'package:flutter/material.dart';
-import '../../../pages/main_menu/handmade_page.dart';
-import '../../../pages/main_menu/hobby_page.dart';
-import '../../../pages/main_menu/home_page.dart';
-import '../../../pages/main_menu/knowhow_page.dart';
-import '../../../pages/my_info/my_info_page.dart';
+
+import '../../../pages/buyer/main_menu/home_page.dart';
+import '../../../pages/buyer/my_info/my_info_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -19,9 +19,8 @@ class _BottomBarState extends State<BottomBar> {
   ///이동할 페이지 List
   static const List _pages = [
     HomePage(),
-    HandmadePage(),
-    KnowhowPage(),
-    HobbyPage(),
+    CategoryPage(),
+    SearchPage(),
     MyInfoPage(),
   ];
 
@@ -40,20 +39,16 @@ class _BottomBarState extends State<BottomBar> {
         currentIndex: _selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+            icon: Icon(Icons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.volunteer_activism_rounded),
-            label: "핸드메이드",
+            icon: Icon(Icons.storage),
+            label: "카테고리",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.work_outline_rounded),
-            label: "직업 노하우",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: "취미/특기",
+            icon: Icon(Icons.search),
+            label: "검색",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
