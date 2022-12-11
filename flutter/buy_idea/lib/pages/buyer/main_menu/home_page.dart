@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../component/buyer/app_bar/top_bar.dart';
 import '../../../component/buyer/home/home_form.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +15,7 @@ class _MainPageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: TopBar(),
       body: SingleChildScrollView(
           child: Column(
         children: [
