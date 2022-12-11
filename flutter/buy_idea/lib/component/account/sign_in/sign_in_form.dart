@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/component/account/sign_in/sign_in_text_form.dart';
+import 'package:buy_idea/pages/seller/seller_main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -19,9 +20,9 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   late List<bool> isSelected;
-  late String memberType;
   static const storage = FlutterSecureStorage();
   dynamic memberInfo = '';
+  dynamic memberType = '';
 
   final _formKey = GlobalKey<FormState>();
   final memberIdController = TextEditingController();
@@ -39,10 +40,16 @@ class _SignInFormState extends State<SignInForm> {
 
   _asyncMethod() async {
     memberInfo = await storage.read(key: 'userToken');
+    memberType = await storage.read(key: 'memberType');
 
     if (memberInfo != null) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MainPage()));
+      debugPrint(memberInfo);
+      debugPrint(memberType);
+      if (memberType == '일반회원') {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage()));
+      } else if (memberType == '판매자') {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const SellerMainPage()));
+      }
     } else {
       debugPrint('로그인이 필요합니다');
     }
@@ -59,13 +66,13 @@ class _SignInFormState extends State<SignInForm> {
 
     if (SpringMemberApi.signInResponse.statusCode == 200) {
       debugPrint('통신 성공!');
-      var val = SpringMemberApi.signInResponse.body;
-      var account = Member.fromJson(jsonDecode(val));
+      var val = jsonDecode(utf8.decode(SpringMemberApi.signInResponse.bodyBytes));
+      var account = Member.fromJson(val);
 
       await storage.write(key: 'userToken', value: account.userToken);
-      storage.write(key: 'memberId', value: account.memberId);
-      storage.write(key: 'nickname', value: account.nickname);
-      storage.write(key: 'memberType', value: account.memberType.toString());
+      await storage.write(key: 'memberId', value: account.memberId);
+      await storage.write(key: 'nickname', value: account.nickname);
+      await storage.write(key: 'memberType', value: account.memberType);
 
       _signInSuccessShowDialog();
       debugPrint('접속 성공!');
@@ -151,8 +158,14 @@ class _SignInFormState extends State<SignInForm> {
               title: "🎉️",
               content: '환영합니다🥰 \n 홈으로 이동합니다.',
               onCustomButtonPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MainPage()));
+                if (isSelected[0] == true) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const MainPage()));
+                } else if (isSelected[0] == false) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const SellerMainPage()));
+                }
+
               });
         });
   }
