@@ -6,7 +6,7 @@ import 'package:buy_idea/pages/seller/seller_main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../pages/main_page.dart';
+import '../../../pages/buyer/main_page.dart';
 import '../../../utility/size.dart';
 import '../../common/common_alert_dialog.dart';
 import '../Member.dart';
