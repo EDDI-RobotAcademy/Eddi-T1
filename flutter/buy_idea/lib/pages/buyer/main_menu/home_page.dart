@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../component/home/home_form.dart';
+import '../../../component/buyer/home/home_form.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,8 +12,16 @@ class HomePage extends StatefulWidget {
 class _MainPageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Home 임시 페이지", style: TextStyle(fontSize: 20),),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+          child: Column(
+        children: [
+          Center(
+            child: HomeForm(),
+          ),
+        ],
+      )),
     );
   }
 }
