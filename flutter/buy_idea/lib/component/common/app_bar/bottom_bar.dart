@@ -3,7 +3,7 @@ import 'package:buy_idea/pages/buyer/main_menu/search_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../pages/buyer/main_menu/home_page.dart';
-import '../../../pages/my_info/my_info_page.dart';
+import '../../../pages/buyer/my_info/my_info_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
