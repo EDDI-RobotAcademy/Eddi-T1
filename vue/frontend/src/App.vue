@@ -33,11 +33,11 @@
               style="margin-top: 30px;
               border: #2F4F4F"></v-text-field>
         </v-col>
-        <template v-if="this.signInStatus != null">
+        <template v-if="this.$store.state.signInCheckValue">
           <!--마이페이지 설계 후 페이지 연결 필요!-->
           <v-btn
               plain
-              to=""
+              to="/my-page"
           >
             <h4>마이페이지</h4>
           </v-btn>
@@ -73,12 +73,13 @@
 </template>
 
 <script>
+
+
 export default {
   name: 'App',
   data() {
     return {
       show: false,
-      signInStatus: localStorage.getItem("userToken")
     }
   },
   methods: {
@@ -88,6 +89,7 @@ export default {
     signOut() {
       localStorage.removeItem("userToken")
       alert("로그아웃 되었습니다.")
+      this.$router.push({name: "HomeView"})
       history.go(0)
     },
   },
