@@ -75,7 +75,7 @@
 <script>
 export default {
   name: 'App',
-  data() {
+  data () {
     return {
       show: false,
       signInStatus: localStorage.getItem("userToken")
@@ -101,7 +101,7 @@ export default {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  white-space: nowrap;
+  white-space:nowrap;
   display: inline-block;
   text-decoration: none;
   font-size: 18px;
