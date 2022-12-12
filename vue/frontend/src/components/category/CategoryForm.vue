@@ -70,6 +70,17 @@
         </v-row>
       </v-layout>
     </v-container>
+    <div align="center" style="margin-top: 10px">
+      <v-btn
+          rounded
+          elevation="1"
+          color="#2F4F4F"
+          large
+          :to=categoryPage
+      >
+        <span style="font-size: 16px; color: white" >{{categoryName}} 더보기</span>
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -82,6 +93,9 @@ export default {
     },
     categoryItems:{
       type: Array
+    },
+    categoryPage:{
+      type:String
     }
   },
   data(){
