@@ -99,21 +99,23 @@ export default {
      * @param payload memberId, password
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestBuyerSignInToSpring({commit}, payload) {
+    async requestBuyerSignInToSpring({commit}, payload) {
         console.log('requestBuyerSignInToSpring')
 
         const {memberId, password, memberType} = payload
 
-        return axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
+        await axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
             .then((res) => {
-                if (res.data) {
+                if (localStorage.getItem("userToken") == null){
+                    alert("로그인 되었습니다.")
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
-                    console.log(res.data)
-                    router.push({name: 'HomeView'});
+                    localStorage.setItem("userToken", JSON.stringify(res.data.userToken))
+                } else {
+                    alert("이미 로그인 되어있습니다.")
                 }
             })
-            .catch((error) => {
-                alert(error)
+            .catch(() => {
+                alert("아이디 혹은 비밀번호가 존재하지 않거나 틀렸습니다.")
             })
     }
 }
