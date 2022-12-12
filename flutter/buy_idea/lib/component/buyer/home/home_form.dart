@@ -9,7 +9,6 @@ import '../../../pages/buyer/category/knowhow_page.dart';
 import 'home_banner.dart';
 import 'home_handmade.dart';
 
-
 class HomeForm extends StatefulWidget {
   const HomeForm({Key? key}) : super(key: key);
 
@@ -19,7 +18,6 @@ class HomeForm extends StatefulWidget {
 
 class _HomeFormState extends State<HomeForm> {
   static const _storage = FlutterSecureStorage();
-  dynamic userInfo = '';
   dynamic nickname = '';
 
   @override
@@ -35,8 +33,10 @@ class _HomeFormState extends State<HomeForm> {
   Future<void> _memberInfoRead() async {
     try {
       nickname = await _storage.read(key: 'nickname');
-      if (userInfo == null) {
-        nickname = "방문객";
+      if (nickname == null) {
+        setState(() {
+          nickname = "방문객";
+        });
       } else {
         setState(() {
           nickname = nickname;
@@ -48,7 +48,6 @@ class _HomeFormState extends State<HomeForm> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,19 +56,19 @@ class _HomeFormState extends State<HomeForm> {
         HomeBanner(),
         SizedBox(height: 30),
         HomeCategoryProduct(nicknameInfo: nickname, category: '핸드메이드'),
-        ViewMoreButton(onCustomButtonPressed: (){
+        ViewMoreButton(onCustomButtonPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HandmadePage()));
         }),
         SizedBox(height: 30),
         HomeCategoryProduct(nicknameInfo: nickname, category: '직업 노하우'),
-        ViewMoreButton(onCustomButtonPressed: (){
+        ViewMoreButton(onCustomButtonPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const KnowhowPage()));
         }),
         SizedBox(height: 30),
         HomeCategoryProduct(nicknameInfo: nickname, category: '취미/특기'),
-        ViewMoreButton(onCustomButtonPressed: (){
+        ViewMoreButton(onCustomButtonPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HobbyPage()));
         }),
