@@ -33,7 +33,7 @@
               style="margin-top: 30px;
               border: #2F4F4F"></v-text-field>
         </v-col>
-        <template v-if="this.$store.state.signInCheckValue">
+        <template v-if="this.signInValue">
           <!--마이페이지 설계 후 페이지 연결 필요!-->
           <v-btn
               plain
@@ -80,6 +80,7 @@ export default {
   data () {
     return {
       show: false,
+      signInValue: false
     }
   },
   methods: {
@@ -93,6 +94,11 @@ export default {
       history.go(0)
     },
   },
+  async mounted() {
+    if (localStorage.getItem('userToken') != null) {
+      this.signInValue = true
+    }
+  }
 };
 </script>
 
