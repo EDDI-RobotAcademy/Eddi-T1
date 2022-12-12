@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../component/buyer/app_bar/top_bar.dart';
-import '../../../component/buyer/category/handmade_form.dart';
 
 class HandmadePage extends StatefulWidget {
   const HandmadePage({Key? key}) : super(key: key);
@@ -17,7 +16,6 @@ class _HandmadePageState extends State<HandmadePage> {
         appBar: TopBar(),
         body: Column(
           children: [
-            HandmadeForm(),
             Text("핸드메이드 임시 페이지", style: TextStyle(fontSize: 20)),
           ],
         ));
