@@ -1,7 +1,11 @@
+import 'package:buy_idea/pages/buyer/category/handmade_page.dart';
+import 'package:buy_idea/pages/buyer/category/hobby_page.dart';
+import 'package:buy_idea/pages/buyer/category/knowhow_page.dart';
+import 'package:buy_idea/utility/size.dart';
 import 'package:flutter/material.dart';
 
 import '../../../component/buyer/app_bar/top_bar.dart';
-
+import '../../../component/buyer/category/category_card.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -11,76 +15,47 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
+     {
 
-  @override
-  void initState() {
-    _tabController = TabController(length: 3, vsync: this);
-    //vsync에 this형태로 전달해야 애니메이션이 정상 처리됨
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
         appBar: TopBar(),
-        body: Column(
-          children: [
-            Container(
-              height: size.height * 0.07,
-              decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(width: 1, color: Colors.grey))),
-              child: TabBar(
-                controller: _tabController,
-                unselectedLabelColor: Colors.black,
-                labelColor: Colors.black,
-                indicatorColor: Colors.teal,
-                tabs: [
-                  Tab(text: '핸드메이드'),
-                  Tab(text: '직업 노하우'),
-                  Tab(text: '취미 & 특기'),
-                ],
+        body: Center(
+          child: Column(
+            children: [
+                CategoryCard(
+                  title: '핸드메이드',
+                  subTitle: '빛나는 아이디어로 만들어낸\n다양한 핸드메이드 작품',
+                    cardImage: AssetImage("assets/category/handmade_icon.png"),
+                  onCustomButtonPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const HandmadePage()));
+                  },
               ),
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  Container(
-                      color: Colors.yellow[200],
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Tab1 View',
-                        style: TextStyle(
-                          fontSize: 30,
-                        ),
-                      )),
-                  Container(
-                      color: Colors.green[200],
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Tab2 View',
-                        style: TextStyle(
-                          fontSize: 30,
-                        ),
-                      )),
-                  Container(
-                      color: Colors.blue[200],
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Tab3 View',
-                        style: TextStyle(
-                          fontSize: 30,
-                        ),
-                      )),
-                ],
+              SizedBox(height: large_gap),
+              CategoryCard(
+                  title: '직업 노하우',
+                  subTitle: '전문가가 필요한 순간!\n서점엔 없는 내 직업의 노하우',
+                  cardImage: AssetImage("assets/category/knowhow_icon.png"),
+                onCustomButtonPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const KnowhowPage()));
+                },
               ),
-            ),
-          ],
+              const SizedBox(height: large_gap),
+              CategoryCard(
+                  title: '취미/특기',
+                  subTitle: '직접 체험하고 경험하는\nDIY·공방·Class',
+                  cardImage: AssetImage("assets/category/hobby_icon.png"),
+                onCustomButtonPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const HobbyPage()));
+                },
+              ),
+            ],
+          ),
         ));
   }
 }
