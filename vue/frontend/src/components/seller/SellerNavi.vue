@@ -1,26 +1,35 @@
 <template>
   <div>
+
+    <!--Seller Navigation Drawer-->
+
     <v-navigation-drawer
       permanent
       height="100%"
-      width="350px"
+      width="260px"
       app
-      color="#FAEBD7"
+      color="#2F4F4F"
       >
       <v-list-item style="height: 25%">
         <v-list-item-content>
           <v-list-item-title class="mb-5 ml-3">
-            <router-link to="/">
-              <span class="logo" style="color: #2F4F4F">buy</span>
-              <span class="logo" style="color: #2F4F4F">idea</span>
+            <router-link to="/order-manage">
+              <v-avatar
+                  :tile="tile"
+                  :size="120"
+                  color="grey lighten-4"
+              >
+                <img src="@/assets/default_profile_image.png" alt="avatar">
+              </v-avatar>
             </router-link>
           </v-list-item-title>
 
+
           <v-list-item-subtitle
-              class="black--text ml-5"
-              style="font-size: 20px"
+              class="white--text ml-5"
+              style="font-size: 18px"
           >
-            판매자님 환영합니다!
+            {{ this.$store.state.memberInfoAfterSignIn.memberId }}님 환영합니다!
           </v-list-item-subtitle>
 
         </v-list-item-content>
@@ -28,8 +37,11 @@
 
       <v-divider></v-divider>
 
+      <!-- 관리항목 -->
+
       <v-list dense nav>
         <v-list-item
+            clas="tile"
             v-for="item in items"
             :key="item.title"
             :to="item.route"
@@ -37,11 +49,11 @@
             class="mt-5 mb-5 ml-5"
         >
           <v-list-item-icon>
-            <v-icon color="#2F4F4F">{{ item.icon }}</v-icon>
+            <v-icon color="white">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content style="height: 100%">
-            <v-list-item-title class="#2F4F4F--text">{{
+            <v-list-item-title class="white--text">{{
                 item.title
               }}</v-list-item-title>
           </v-list-item-content>
@@ -58,29 +70,28 @@ export default {
   data() {
     return {
       items: [
-        {title: "정보 수정", icon: "mdi-account", route: "/"},
+        {title: "내 정보", icon: "mdi-account", route: "/seller-info"},
         {
           title: "상품 관리",
-          icon: "mdi-play-box-outline",
-          route: "/",
+          icon: "mdi-lightbulb-on-outline",
+          route: "/product-manage",
         },
-        {title: "주문 관리", icon: "mdi-town-hall", route: "/"},
+        {title: "주문 관리", icon: "mdi-credit-card-settings-outline", route: "/order-manage"},
         {
           title: "후기 관리",
           icon: "mdi-pencil-box-outline",
-          route: "/",
+          route: "/review-manage",
         },
         {
           title: "문의 관리",
           icon: "mdi-comment-question",
-          route: "/",
+          route: "/inquiry-manage",
         },
         {
           title: "배송 관리",
           icon: "mdi-truck-delivery-outline",
-          route: "/",
+          route: "/delivery-manage",
         },
-        {title: "환불 관리", icon: "mdi-cash-refund", route: "/"},
       ],
     };
   }
