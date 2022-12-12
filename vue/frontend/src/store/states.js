@@ -1,4 +1,5 @@
 export default {
     unDuplicateIdPass: false,
-    memberInfoAfterSignIn: {}
+    memberInfoAfterSignIn: {},
+    signInCheckValue: false
 }
