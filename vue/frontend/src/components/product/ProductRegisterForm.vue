@@ -1,9 +1,12 @@
 <template>
   <div id='content'>
-    <v-form enctype="multipart/form-data" @submit.prevent="onSubmit">
+    <v-form @submit.prevent="onSubmit">
+
       <div id="title">
         <div>
           <v-layout>
+
+            <!--뒤로가기-->
               <v-dialog persisten max-width="400">
                 <template v-slot:activator="{ on }">
                   <v-icon v-on="on" large color="black">mdi-chevron-left</v-icon>
@@ -18,7 +21,7 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn text color="red" @click="goBack()">
+                      <v-btn text color="#DAA520" @click="goBack()">
                         등록 취소
                       </v-btn>
                       <v-btn text @click="dialog.value=false">
@@ -28,10 +31,17 @@
                   </v-card>
                 </template>
               </v-dialog>
-            </v-layout>
-          </div>
-          <div><h2 style="margin-top: 6px; margin-left: 250px;" >상품 등록하기</h2></div>
+
+            <v-col>
+              <div>
+                <h2>상품 등록하기</h2>
+              </div>
+            </v-col>
+          </v-layout>
         </div>
+      </div>
+
+     <br/>
 
 
       <table>
@@ -43,6 +53,7 @@
                         v-model="title">
           </v-text-field>
         </v-row>
+
 
         <!-- 카테고리 -->
         <v-row>
@@ -59,27 +70,50 @@
               color="grey darken-1">
           </v-combobox>
 
+
           <!-- 상품재고 -->
           <v-col cols="2" class="label" align="center"><h4>상품재고</h4></v-col>
-          <v-text-field outlined color="grey darken-1" dense placeholder="상품재고를 입력해주세요." v-model="stock">
+          <v-text-field
+              class="puple-input"
+              type="number"
+              outlined color="grey darken-1"
+              dense
+              placeholder="상품재고를 입력해주세요."
+              v-model="stock">
           </v-text-field>
         </v-row>
+
 
         <!-- 가격 -->
         <v-row>
           <v-col cols="2" class="label" ><h4>가격</h4></v-col>
-          <v-text-field outlined color="grey darken-1" dense placeholder="가격를 입력해주세요(원)." v-model="price">
+          <v-text-field
+              class="puple-input"
+              type="number"
+              outlined color="grey darken-1"
+              dense
+              placeholder="가격를 입력해주세요(원)."
+              v-model="price">
           </v-text-field>
+
 
           <!-- 배송비 -->
           <v-col cols="2" class="label" align="center"><h4>배송비</h4></v-col>
 
-          <v-text-field outlined color="grey darken-1" dense placeholder="배송비를 입력해주세요(원)." v-model="deliveryFee">
+          <v-text-field
+              class="puple-input"
+              type="number"
+              outlined color="grey darken-1"
+              dense
+              placeholder="배송비를 입력해주세요(원)."
+              v-model="deliveryFee">
           </v-text-field>
         </v-row>
 
+
+
         <!-- 상세설명 -->
-        <v-col cols="3" class="label2" style="font-weight:bold" >상품 상세 설명</v-col>
+        <v-col cols="3" class="label2" ><h3>상품 상세 설명</h3></v-col>
         <v-row>
           <v-textarea style="white-space:pre-line" cols="75" rows="15"
                       outlined color="grey darken-1" placeholder="상품 상세 정보를 입력해주세요."
@@ -88,32 +122,55 @@
         </v-row>
 
 
-        <!-- 상품사진 -->
-        <v-row>
-          <v-col><h3>상품 사진 ({{files.length}}/10) </h3></v-col>
-          <v-col id="image" cols="12">
-              <label for="files"><v-icon large>mdi-camera</v-icon></label>
-              <input
-                  type="file"
-                  id="files"
-                  ref="files"
-                  dense
-                  style="width: 0px"
-                  multiple
-                  v-on:change="handleFileUpload()"
-              />
+        <!-- 사진 -->
+        <p class="productImg"></p>
+        <p class="productImgLabel"></p>
 
-              <v-carousel hide-delimiters height="auto">
-                <v-carousel-item
-                    v-for="(file, index) in files" :key="index" style="text-align:center">
-                  <img :src=file.preview class="preview"/>
-                </v-carousel-item>
-              </v-carousel>
-          </v-col>
+        <h3>상품 사진 ({{files.length}}/10) </h3>
+        <span>* 최대 10장까지 등록 가능합니다.</span>
+
+        <v-row id="image">
+          <div v-if="this.files.length < 10">
+            <input type="file" id="files" ref="files"
+                   multiple v-on:change="handleFilesUpload()" hidden />
+            <v-btn @click="chooseFile"  class="vbtn" color="#DAA520" style="color: white">
+              이미지 업로드
+            </v-btn>
+
+          </div>
+
+          <div v-else class="cancelFile">
+            <v-btn @click="cancelFile" color="#DAA520" style="color: white">
+              전체 취소
+            </v-btn>
+          </div>
+
+          <div>
+            <table>
+              <tr>
+                <td v-for="(none, index) in notImage" :key="index" >
+                  <div v-if="files[index] == null">
+                    <v-icon>
+                      mdi-image
+                    </v-icon>
+                  </div>
+                  <div v-else>
+                    <img :src="files[index].preview" class="preview" width="100px" height="100px"/>
+                    <v-icon @click="imgCancel(index)">
+                      mdi-close
+                    </v-icon>
+                  </div>
+                </td>
+              </tr>
+
+            </table>
+          </div>
+
+
         </v-row>
 
 
-
+        <!-- 상품 정보 제공 고시 -->
         <v-row justify>
           <v-col cols="12" class="label" >상품 정보 제공 고시</v-col>
 
@@ -122,6 +179,8 @@
           </v-text-field>
         </v-row>
 
+
+        <!-- 등록하기 -->
         <v-row justify>
           <v-btn type="submit" block x-large color="#2F4F4F" style="color: white">
             등록하기
@@ -139,82 +198,52 @@ export default {
   name: "ProductRegisterForm",
   data() {
     return {
-      files: [],
-      filesPreview:[],
       title:'',
+      category: [],
+      items: [
+        '핸드메이드',
+        '노하우',
+        '취미/특기'
+      ],
       stock:'',
       price:'',
       deliveryFee:'',
       content:'',
       information:'',
-      image:'',
-      category: [],
-      items: [
-          '핸드메이드',
-          '노하우',
-          '취미/특기'
-      ]
+
+      files: [],
+      notImage: ['','','','','','','','','',''],
+      fileNum: 0,
+
+      /*filesPreview:[],*/
+      /*image:'',*/
+
+      writer: this.$store.state.memberInfoAfterSignIn.nickname,
     }
   },
   methods: {
-    onBoardSubmit() {
-      const {title, content, writer, stock, price, deliveryFee, image, category, information} = this
-
-      let formData = new FormData();
-
-      for (let idx = 0; idx < this.$refs.files.files.length; idx++) {
-        formData.append('file', this.$refs.files.files[idx])
-      }
-
-      formData.append('title', title)
-      formData.append('content', content)
-      formData.append('writer', writer)
-      formData.append('stock', stock)
-      formData.append('price', price)
-      formData.append('deliveryFee', deliveryFee)
-      formData.append('image', image)
-      formData.append('category', category)
-      formData.append('information', information)
-      this.$emit('submit', {formData})
-      console.log(formData)
-    },
-
     goBack() {
       this.$router.go(-1);
     },
 
-    handleFileUpload() {
-      console.log(this.$refs.files.files)
-      if (this.$refs.files.files.length > 10) {
-        alert("선택할 수 있는 이미지 개수를 초과하였습니다.")
-        document.getElementById("files").value = "";
-        return
+    onSubmit () {
+      if(this.files.length < 3) {
+        alert('사진은 3장 이상 첨부해주세요')
       } else {
-        for (let i = 0; i < this.$refs.files.files.length; i++) {
-          this.files = [
-            ...this.files,
-            {
-              file: this.$refs.files.files[i],
-              preview: URL.createObjectURL(this.$refs.files.files[i])
-            }
-          ]
-        }
-        console.log(this.files)
+        const { title, category, stock, price, deliveryFee, content, files, information, writer } = this
+        this.$emit('submit', {  title, category, stock, price, deliveryFee, content, files, information, writer  })
       }
     },
-  }
 
-
-
-    /*handleFilesUpload () {
-      if(this.$refs.files.files.length > 9){
-        alert("최대 9장 까지 가능 합니다")
+    handleFilesUpload () {
+      if(this.$refs.files.files.length > 10){
+        alert("최대 10장까지 가능합니다!")
         this.$refs.files.value = ''
         return
       }
       this.fileNum += this.$refs.files.files.length
       console.log(this.fileNum)
-      if(this.fileNum < 10){
+      if(this.fileNum < 11){
         for (let i = 0; i < this.$refs.files.files.length; i++) {
           this.files = [
             ...this.files,
@@ -226,16 +255,18 @@ export default {
         }
 
       }else{
-        alert("최대 9장 까지 가능 합니다")
+        alert("최대 10장까지 가능합니다!")
         console.log(this.fileNum)
         this.fileNum -= this.$refs.files.files.length
         this.$refs.files.value = ''
       }
 
     },
+
     chooseFile() {
       document.getElementById("files").click()
     },
+
     cancelFile() {
       this.files = ''
       this.fileNum = 0
@@ -247,14 +278,13 @@ export default {
       console.log(this.files)
     }
   }
-*/
-
 }
+
 </script>
 
 <style scoped>
 table {
-  margin-top: 50px;
+  margin-top: 10px;
   width: 100%;
 }
 .label2{
@@ -279,15 +309,49 @@ table {
   border: 2px solid #eaebee;
   box-sizing: border-box;
   border-radius: 6px;
-  width: 100%;
+  width: 104%;
   padding: 16px;
   resize: none;
 }
 .preview {
-  position: relative;
+  position: sticky;
   margin-left: auto;
   margin-right:auto;
-  max-width:700px;
-  height:350px;
+  max-width:60px;
+  height:60px;
+}
+.productImg {
+  margin: 20px 50px 10px 50px;
+}
+.productImgLabel  {
+  font-size: 14px;
+  position: relative;
+  left: 50px;
+  top: 30px;
+}
+#files {
+  margin: 30px;
+}
+.vbtn {
+  position: relative;
+  left: 440%;
+  bottom: 5px;
+}
+.cancelFile {
+  position: relative;
+  left: 85%;
+  bottom: 5px;
+}
+td {
+  border: 1px solid lightgray;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+span {
+  position: relative;
+  left: 22%;
+  bottom: 22px;
+  font-size: 12px;
 }
 </style>

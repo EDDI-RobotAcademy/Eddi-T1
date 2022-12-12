@@ -1,7 +1,6 @@
 <template>
   <div>
     <product-register-form @submit="onSubmit"/>
-    <test-me/>
   </div>
 </template>
 
