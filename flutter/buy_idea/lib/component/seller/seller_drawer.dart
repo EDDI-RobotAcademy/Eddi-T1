@@ -1,3 +1,4 @@
+import 'package:buy_idea/pages/seller/product_registration_status/product_registration_status_page.dart';
 import 'package:flutter/material.dart';
 
 class SellerDrawer extends StatefulWidget {
@@ -41,9 +42,11 @@ class _SellerDrawerState extends State<SellerDrawer> {
           SizedBox(height: 30),
           // Divider(),
           ListTile(
-            onTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ProductRegistrationStatusPage(nickname: widget.nickname,)));
+            },
             leading: Icon(Icons.local_mall_outlined, color: Colors.black),
-            title: Text('상품 관리'),
+            title: Text('상품 등록 현황'),
             trailing: Icon(Icons.navigate_next, color: Colors.black),
           ),
           Divider(),
