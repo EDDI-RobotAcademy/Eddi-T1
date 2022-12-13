@@ -110,6 +110,7 @@ export default {
                     alert("로그인 되었습니다.")
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
                     localStorage.setItem("userToken", JSON.stringify(res.data.userToken))
+                    router.push({name: "HomeView"})
                 } else {
                     alert("이미 로그인 되어있습니다.")
                 }

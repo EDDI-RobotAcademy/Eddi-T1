@@ -34,7 +34,6 @@
               border: #2F4F4F"></v-text-field>
         </v-col>
         <template v-if="this.$store.state.signInCheckValue">
-          <!--마이페이지 설계 후 페이지 연결 필요!-->
           <v-btn
               plain
               to="/my-page"
@@ -75,8 +74,15 @@
 <script>
 
 
+import {mapState} from "vuex";
+
 export default {
   name: 'App',
+  computed:{
+    ...mapState([
+        'signInCheckValue'
+    ])
+  },
   data () {
     return {
       show: false,
