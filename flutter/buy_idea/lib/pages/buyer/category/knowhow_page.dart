@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../../component/buyer/app_bar/top_bar.dart';
 
 class KnowhowPage extends StatefulWidget {
   const KnowhowPage({Key? key}) : super(key: key);
@@ -10,8 +12,10 @@ class KnowhowPage extends StatefulWidget {
 class _KnowhowPageState extends State<KnowhowPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("직업 노하우 임시 페이지", style: TextStyle(fontSize: 20),),
+    return Scaffold(
+      appBar: TopBar(),
+      body:
+      Text("직업 노하우 임시 페이지", style: TextStyle(fontSize: 20),),
     );
   }
 }
