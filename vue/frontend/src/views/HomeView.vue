@@ -13,7 +13,7 @@ export default {
     MainPageView,
   },
   async mounted(){
-    if (localStorage.getItem('userToken') != null) {
+    if (localStorage.getItem('loginValue') != null) {
       this.$store.state.signInCheckValue = true
     }
   }

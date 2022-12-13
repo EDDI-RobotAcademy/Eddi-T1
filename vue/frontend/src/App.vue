@@ -78,27 +78,31 @@ import {mapState} from "vuex";
 
 export default {
   name: 'App',
-  computed:{
-    ...mapState([
-        'signInCheckValue'
-    ])
-  },
   data () {
     return {
       show: false,
     }
   },
   methods: {
+    ...mapState([
+      'signInCheckValue'
+    ]),
     moveToHome() {
       this.$router.push('/');
     },
     signOut() {
       localStorage.removeItem("userToken")
+      localStorage.removeItem("loginValue")
       alert("로그아웃 되었습니다.")
       this.$router.push({name: "HomeView"})
       history.go(0)
     },
   },
+  async mounted() {
+    if (localStorage.getItem("loginValue") == "true") {
+      this.$store.state.signInCheckValue = true
+    }
+  }
 };
 </script>
 
