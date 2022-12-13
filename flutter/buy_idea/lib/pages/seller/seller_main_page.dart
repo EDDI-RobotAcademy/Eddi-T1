@@ -1,5 +1,6 @@
 import 'package:buy_idea/component/seller/seller_common_app_bar.dart';
 import 'package:buy_idea/component/seller/seller_drawer.dart';
+import 'package:buy_idea/pages/seller/my_info/seller_my_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -18,7 +19,7 @@ class _SellerMainPageState extends State<SellerMainPage> {
 
   List _pages = [
     Center(child: Text('주문 관리 페이지')),
-    Center(child: Text('내 정보 페이지')),
+    SellerMyInfoPage()
   ];
 
   @override
@@ -31,6 +32,9 @@ class _SellerMainPageState extends State<SellerMainPage> {
 
   _asyncMethod() async {
     memberNickname = await storage.read(key: 'nickname');
+    setState(() {
+      memberNickname = memberNickname;
+    });
     debugPrint(memberNickname);
   }
 
