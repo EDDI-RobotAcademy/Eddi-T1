@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SellerCommonAppBar extends StatelessWidget with PreferredSizeWidget {
-  const SellerCommonAppBar({Key? key, required this.appBar, this.title, this.leading, this.actions}) : super(key: key);
+  const SellerCommonAppBar({Key? key, this.title, this.leading, this.actions}) : super(key: key);
 
-  final AppBar appBar;
   final Widget? title;
   final Widget? leading;
   final List<Widget>? actions;
@@ -26,5 +25,5 @@ class SellerCommonAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(appBar.preferredSize.height);
+  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);
 }

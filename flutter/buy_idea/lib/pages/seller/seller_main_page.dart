@@ -39,7 +39,6 @@ class _SellerMainPageState extends State<SellerMainPage> {
     return Scaffold(
       drawer: SellerDrawer(nickname: memberNickname),
       appBar: SellerCommonAppBar(
-        appBar: AppBar(),
         title: GestureDetector(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const SellerMainPage()));
