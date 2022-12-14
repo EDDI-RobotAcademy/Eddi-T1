@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class SpringMemberApi {
-  static const String httpUri = '172.30.1.67:8888';
+  static const String httpUri = '192.168.0.8:8888';
   static var signInResponse;
 
   signInApi(MemberSignInRequest request) async {
-    debugPrint("signApi");
+    debugPrint("signApi()");
     var body = json.encode(request);
 
     try {
@@ -67,7 +67,7 @@ class SpringMemberApi {
 
   Future<DuplicateNicknameResponse> nickNameDuplicateCheck (DuplicateNicknameRequest request)
   async {
-    var data = {"nickName": request.nickname
+    var data = {"nickname": request.nickname
     };
     var body = json.encode(data);
 
@@ -109,7 +109,7 @@ class MemberSignUpRequest {
   String memberType;
 
   MemberSignUpRequest(this.memberId, this.password, this.nickname, this.memberType);
-  Map<String, dynamic> toJson() => {'memberId': memberId, 'password': password, 'nickName': nickname, "memberType": memberType};
+  Map<String, dynamic> toJson() => {'memberId': memberId, 'password': password, 'nickname': nickname, "memberType": memberType};
 }
 
 class DuplicateMemberIdResponse{

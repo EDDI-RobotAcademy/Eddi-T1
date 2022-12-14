@@ -1,16 +1,15 @@
 import 'package:buy_idea/component/common/account/sign_up_form_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-class ConsumerSignUpPage extends StatefulWidget{
-  const ConsumerSignUpPage({Key? key}) : super(key: key);
+class BuyerSignUpPage extends StatefulWidget{
+  const BuyerSignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<ConsumerSignUpPage> createState() => _ConsumerSignUpPageState();
+  State<BuyerSignUpPage> createState() => _BuyerSignUpPageState();
 }
 
-class _ConsumerSignUpPageState extends State<ConsumerSignUpPage>{
+class _BuyerSignUpPageState extends State<BuyerSignUpPage>{
 
   @override
   Widget build(BuildContext context) {

@@ -1,18 +1,17 @@
 import 'package:buy_idea/api/spring_member_api.dart';
 import 'package:buy_idea/component/account/text_form_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utility/size.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+class SignInForm extends StatefulWidget {
+  const SignInForm({Key? key}) : super(key: key);
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<SignInForm> createState() => _SignInFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignInFormState extends State<SignInForm> {
   late List<bool> isSelected;
   late String memberType;
 
@@ -47,14 +46,14 @@ class _LoginFormState extends State<LoginForm> {
                   Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Text(
-                      '일반회원로그인',
+                      '일반회원 로그인',
                       style: TextStyle(fontSize: 13),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Text(
-                      ' 판매자로그인 ',
+                      ' 판매자 로그인 ',
                       style: TextStyle(fontSize: 13),
                     ),
                   ),
@@ -86,9 +85,7 @@ class _LoginFormState extends State<LoginForm> {
                     } else if (isSelected[0] == false) {
                       SpringMemberApi().signInApi(MemberSignInRequest(memberIdController.text, passwordController.text, "판매자"));
                     }
-                    /*Navigator.push(context, MaterialPageRoute(builder: (context) => home()));*/
                   }
-                  // SpringMemberApi().signInApi(UserLoginRequest(memberIdController.text, passwordController.text, "회원타입"));
                 },
                 child: const Text("LOGIN"),
                 style: ElevatedButton.styleFrom(
