@@ -1,4 +1,5 @@
 import 'package:buy_idea/component/account/login_form.dart';
+import 'package:buy_idea/component/appBar/common_app_bar.dart';
 import 'package:buy_idea/pages/account/select_sign_up_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+            color: Color(0xff2F4F4F)
+        ),
+        elevation: 0.0,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
