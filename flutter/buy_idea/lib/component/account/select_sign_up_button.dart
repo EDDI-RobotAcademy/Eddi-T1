@@ -1,3 +1,4 @@
+import 'package:buy_idea/pages/account/consumer_sign_up_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +13,21 @@ class SelectSignUpButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
       TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: Color(0XFF2F4F4F),
+          shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          minimumSize: Size(140, 130)
+        ),
           onPressed: () {
             if (buttonName == "판매자 회원가입") {
-              Navigator.pushNamed(context, "/sellerSingUp");
+              Navigator.pushNamed(context, "/sellerSignUpPage");
             } else {
-              Navigator.pushNamed(context, "/consumerSingUp");
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const ConsumerSignUpPage()));
             }
           },
-          child: Text(buttonName))
+          child: Text(buttonName,
+            style: TextStyle(color: Color(0xFFFAEBD7)),))
     ]);
   }
 }
