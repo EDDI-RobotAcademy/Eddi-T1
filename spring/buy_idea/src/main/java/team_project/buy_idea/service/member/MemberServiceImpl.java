@@ -8,6 +8,7 @@ import team_project.buy_idea.entity.member.BasicAuthentication;
 import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.repository.member.AuthenticationRepository;
 import team_project.buy_idea.repository.member.MemberRepository;
+import team_project.buy_idea.service.member.request.MemberNicknameModifyRequest;
 import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.security.RedisService;
@@ -101,4 +102,33 @@ public class MemberServiceImpl implements MemberService {
         }
         throw new RuntimeException("가입된 사용자가 아닙니다.");
     }
+
+    @Override
+    public Map<String, String> nicknameModify(MemberNicknameModifyRequest request) {
+        Optional<Member> maybeNickname = memberRepository.findBuyDiaMemberByNickname(request.getCurrentNickname());
+
+        if (maybeNickname.isPresent()) {
+            Member member = maybeNickname.get();
+
+            maybeNickname.ifPresent(modifyMember ->{
+                modifyMember.setMemberId(member.getMemberId());
+                modifyMember.setNickname(request.getNickname());
+                modifyMember.setMemberType(member.getMemberType());
+
+                memberRepository.save(modifyMember);
+            });
+
+            Map<String, String> nicknameChanged = new HashMap<>();
+
+            nicknameChanged.put("memberId", member.getMemberId());
+            nicknameChanged.put("nickname", member.getNickname());
+            nicknameChanged.put("memberType", member.getMemberType());
+
+            return nicknameChanged;
+        }
+
+        throw new RuntimeException("닉네임 변경 실패");
+    }
+
+
 }

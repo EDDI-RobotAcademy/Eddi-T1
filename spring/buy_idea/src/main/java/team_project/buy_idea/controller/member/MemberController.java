@@ -3,6 +3,7 @@ package team_project.buy_idea.controller.member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import team_project.buy_idea.controller.member.form.MemberNicknameModifyForm;
 import team_project.buy_idea.controller.member.form.MemberSignInForm;
 import team_project.buy_idea.controller.member.form.MemberSignUpForm;
 import team_project.buy_idea.service.member.MemberService;
@@ -45,4 +46,13 @@ public class MemberController {
 
         return memberService.signUp(form.toMemberSignUpRequest());
     }
+
+    @PostMapping("/nickname-modify")
+    public Map<String, String> nicknameModify(@RequestBody MemberNicknameModifyForm modifyForm) {
+        log.info("nicknameModify");
+
+        return memberService.nicknameModify(modifyForm.toNicknameModifyRequest());
+    }
+
+
 }
