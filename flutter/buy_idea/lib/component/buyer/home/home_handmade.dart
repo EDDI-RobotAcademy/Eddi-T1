@@ -1,7 +1,7 @@
 import 'package:buy_idea/component/buyer/home/product_card.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'handmade_product.dart';
+import 'home_product_list.dart';
 
 class HomeCategoryProduct extends StatefulWidget {
   HomeCategoryProduct({Key? key, required this.nicknameInfo, required this.category}) : super(key: key);
@@ -51,7 +51,7 @@ class _HomeHandmadeState extends State<HomeCategoryProduct> {
             category_list.length,
             (index) => Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: ProductCard(
+              child: HomeProductCard(
                 title: category_list[index].title,
                 image: category_list[index].image,
                 bgColor: category_list[index].bgColor,
