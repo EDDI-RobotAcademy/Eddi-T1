@@ -54,5 +54,10 @@ public class MemberController {
         return memberService.nicknameModify(modifyForm.toNicknameModifyRequest());
     }
 
+    @PostMapping("/memberDrop/{currentUserToken}")
+    public void memberAccountDrop(@PathVariable("currentUserToken") String currentUserToken) {
+        log.info("memberAccountDrop" + currentUserToken);
 
+        memberService.deleteMember(currentUserToken);
+    }
 }

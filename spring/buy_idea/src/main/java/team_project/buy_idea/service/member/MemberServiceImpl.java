@@ -130,5 +130,17 @@ public class MemberServiceImpl implements MemberService {
         throw new RuntimeException("닉네임 변경 실패");
     }
 
+    @Override
+    public void deleteMember(String currentUserToken) {
+        Long memberId = redisService.getValueByKey(currentUserToken);
+        log.info(String.valueOf(memberId));
 
+        Optional<Member> maybeMemberInfo = memberRepository.findById(memberId);
+
+        if (maybeMemberInfo.isPresent()) {
+            Member memberInfo = maybeMemberInfo.get();
+
+            memberRepository.delete(memberInfo);
+        }
+    }
 }

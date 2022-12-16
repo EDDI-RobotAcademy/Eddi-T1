@@ -17,4 +17,5 @@ public interface MemberService {
 
     Map<String, String> nicknameModify(MemberNicknameModifyRequest request);
 
+    void deleteMember(String currentUserToken);
 }

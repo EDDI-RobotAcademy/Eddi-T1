@@ -25,7 +25,7 @@ public class Member {
     @Column(nullable = false)
     private String nickname;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER ,cascade = CascadeType.REMOVE)
     private Set<Authentication> authentications = new HashSet<>();
 
     @Column(nullable = false)

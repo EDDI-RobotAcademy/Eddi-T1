@@ -65,5 +65,9 @@ public class MemberTest {
         System.out.println(modifyNickname.get("nickname"));
     }
 
-
+    @Test
+    void deleteMember(){
+        String token = "217c6dee-3835-462a-b2ac-ad941375f790";
+        service.deleteMember(token);
+    }
 }
