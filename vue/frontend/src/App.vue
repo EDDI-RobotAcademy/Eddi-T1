@@ -94,17 +94,11 @@ export default {
       this.$store.commit("SIGN_IN_CHECK_VALUE",false)
       localStorage.removeItem("vuex")
       localStorage.removeItem("userToken")
-      localStorage.removeItem("loginValue")
       alert("로그아웃 되었습니다.")
       this.$router.push({name: "HomeView"})
       history.go(0)
     },
   },
-  async mounted() {
-    if (localStorage.getItem("loginValue") == "true") {
-      this.$store.state.signInCheckValue = true
-    }
-  }
 };
 </script>
 

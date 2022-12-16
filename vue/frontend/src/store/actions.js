@@ -1,6 +1,5 @@
 import {
-    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
-
+    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -126,5 +125,24 @@ export default {
             .catch(() => {
                 alert("아이디 혹은 비밀번호가 존재하지 않거나 틀렸습니다.")
             })
-    }
+    },
+    /**
+     * 닉네임 수정 axios
+     * @param commit
+     * @param payload nickname
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestNicknameModifyFromSpring({ },payload){
+        console.log("requestNicknameModifyFromSpring")
+        console.log(payload)
+        const {nickname, currentNickname} = payload
+
+        await axios.post('http://localhost:8888/member/nickname-modify', {nickname, currentNickname})
+            .then((res) => {
+                store.commit("REQUEST_NICKNAME_MODIFY_FROM_SPRING", res.data)
+                alert("수정 되었습니다.")
+            });
+    },
+
 }
