@@ -72,7 +72,12 @@
             </v-card>
           </v-tab-item>
 
-
+          <v-tab style="margin-bottom: 30px; font-weight: bold">
+            회원 탈퇴
+          </v-tab>
+          <v-tab-item>
+            <buyer-account-drop-form/>
+          </v-tab-item>
         </v-tabs>
       </div>
     </v-container>
@@ -82,12 +87,14 @@
 <script>
 
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
+import BuyerAccountDropForm from "@/components/buyerMyPage/BuyerAccountDropForm";
 import {mapActions} from "vuex";
 
 export default {
   name: "BuyerInfoForm",
   components: {
     BuyerNav,
+    BuyerAccountDropForm
   },
   data() {
     return {

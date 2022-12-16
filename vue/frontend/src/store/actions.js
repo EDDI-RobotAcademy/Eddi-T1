@@ -144,5 +144,21 @@ export default {
                 alert("수정 되었습니다.")
             });
     },
+    /**
+     * 회원탈퇴 axios
+     * @param commit
+     * @param payload nickname
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestCurrentUserAccountDropToSpring({ }, payload) {
+        console.log("requestCurrentUserAccountDropToSpring")
+        const  {currentUserToken} = payload
 
+        await axios.post(`http://localhost:8888/member/memberDrop/${currentUserToken}`)
+            .then(() => {
+                localStorage.removeItem("vuex")
+                store.commit("SING_IN_CHECK_VALUE", false)
+            });
+    },
 }
