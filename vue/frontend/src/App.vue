@@ -91,6 +91,8 @@ export default {
       this.$router.push('/');
     },
     signOut() {
+      this.$store.commit("SIGN_IN_CHECK_VALUE",false)
+      localStorage.removeItem("vuex")
       localStorage.removeItem("userToken")
       localStorage.removeItem("loginValue")
       alert("로그아웃 되었습니다.")

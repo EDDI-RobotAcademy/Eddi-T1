@@ -6,6 +6,7 @@ import {
 import axios from 'axios'
 import router from "@/router";
 import states from "@/store/states";
+import store from "@/store/index";
 
 export default {
     /**
@@ -56,7 +57,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestSellerSignUpToSpring({}, payload) {
+    requestSellerSignUpToSpring({ }, payload) {
         console.log('requestSellerSignUpToSpring')
 
         const {memberId, nickname, password, memberType} = payload
@@ -78,7 +79,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestBuyerSignUpToSpring({}, payload) {
+    requestBuyerSignUpToSpring({ }, payload) {
         console.log('requestBuyerSignUpToSpring')
 
         const {memberId, nickname, password, memberType} = payload
@@ -100,20 +101,23 @@ export default {
      * @param payload memberId, password
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestBuyerSignInToSpring({commit}, payload) {
+    async requestBuyerSignInToSpring({commit}, payload) {
         console.log('requestBuyerSignInToSpring')
 
         const {memberId, password, memberType} = payload
 
-        axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
+        await axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
             .then((res) => {
-                if (localStorage.getItem("userToken") == null) {
+                if (localStorage.getItem("userToken") == null){
                     alert("로그인 되었습니다.")
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
-                    states.signInCheckValue = true
-                    localStorage.setItem("nickname", JSON.stringify(res.data.nickname))
-                    localStorage.setItem("memberType", JSON.stringify(res.data.memberType))
-                    localStorage.setItem("loginValue", JSON.stringify(states.signInCheckValue))
+                    states.userToken = res.data.userToken
+
+                    if (localStorage.getItem("userToken") != states.userToken){
+                        store.commit("USER_TOKEN", res.data.userToken)
+                    }
+
+                    store.commit('SING_IN_CHECK_VALUE', true)
                     router.push({name: "HomeView"})
                 } else {
                     alert("이미 로그인 되어있습니다.")

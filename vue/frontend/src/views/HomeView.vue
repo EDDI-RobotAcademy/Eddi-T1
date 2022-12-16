@@ -12,10 +12,5 @@ export default {
   components: {
     MainPageView,
   },
-  async mounted(){
-    if (localStorage.getItem('loginValue') != null) {
-      this.$store.state.signInCheckValue = true
-    }
-  }
 }
 </script>
