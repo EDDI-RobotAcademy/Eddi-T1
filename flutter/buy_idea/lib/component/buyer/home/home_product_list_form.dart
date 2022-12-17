@@ -20,13 +20,13 @@ class _HomeHandmadeState extends State<HomeCategoryProduct> {
     var category_list;
     switch(widget.category){
       case "핸드메이드" :
-        category_list = handmade_list;
+        category_list = home_handmade_list;
         break;
       case "직업 노하우" :
-        category_list = knowhow_list;
+        category_list = home_knowhow_list;
         break;
       case "취미/특기" :
-        category_list = hobby_list;
+        category_list = home_hobby_list;
         break;
     }
 

@@ -11,7 +11,7 @@ class HomeProduct {
   });
 }
 
-List<HomeProduct> handmade_list = [
+List<HomeProduct> home_handmade_list = [
   HomeProduct(
     image: "assets/product/handmade1.jpg",
     title: "선물추천♡볼통통한 토끼 볼토 키링",
@@ -34,7 +34,7 @@ List<HomeProduct> handmade_list = [
   ),
 ];
 
-List<HomeProduct> knowhow_list = [
+List<HomeProduct> home_knowhow_list = [
   HomeProduct(
     image: "assets/product/knowhow1.jpg",
     title: "계좌공개 실전매매 스켈핑 방법!",
@@ -57,7 +57,7 @@ List<HomeProduct> knowhow_list = [
   ),
 ];
 
-List<HomeProduct> hobby_list = [
+List<HomeProduct> home_hobby_list = [
   HomeProduct(
     image: "assets/product/hobby1.jpg",
     title: "재봉틀 수업",
