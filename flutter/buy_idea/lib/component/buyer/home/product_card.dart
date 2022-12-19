@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProductCard extends StatelessWidget {
-  const ProductCard({
+class HomeProductCard extends StatelessWidget {
+  const HomeProductCard({
     Key? key,
     required this.image,
     required this.title,
