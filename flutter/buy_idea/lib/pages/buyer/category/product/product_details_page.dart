@@ -30,6 +30,67 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
   final int productPrice = 28600;
   final int shippingCost = 2500;
   final int freeShippingCost = 50000;
+  final String productContent =
+  '''
+  귀엽고 앙증맞은
+볼 통통한 토끼 "볼토"를 소개합니다.
+
+
+
+오동통한 볼을 콱!!
+깨물어 주고 싶은 "볼토" (볼 통통한 토끼)
+조그마한 아이라 가방에도 쏘옥~ 들어간답니다.
+애착인형으로~ 반려인형으로~
+
+
+
+볼토에 키 링을 달아 언제나 함께 할 수도 있어요.
+아이들 가방에도
+잊어버리기 쉬운 열쇠고리에도
+자동차 키에도
+귀여운 볼토 함께해요.
+선물용으로도 좋아요~ ^^
+
+
+
+
+헤라 코튼 실로 뜬 보들보들한 쪼꼬미 인형이에요.
+
+헤라 코튼(제일모직)
+cotton 55%
+A/A 45%
+Wool 5%
+made in Korea
+
+
+
+
+
+
+추가 상품
+1. D 모양 키 링
+2. D 모양 키 링 + 아크릴 장식(꽃, 나무)
+
+
+
+
+볼토 주재료 : 코튼사, 방울 솜, 인형 눈, 자수실
+볼토 부재료 : D 모양 키 링, 아크릴 장식
+
+
+주문 후 제작되는 상품으로 3~5일 정도 소요될 수 있습니다.
+세탁은 중성세제를 이용해 손세탁 후 자연건조해 주세요.
+(세탁 후 볼 터치가 지워지면 블러셔로 톡톡해주셔도 좋습니다. ^^)
+
+
+
+
+손안에 폭~ 들어오는 사이즈
+
+(볼토 사이즈)
+가로 8cm * 세로 10cm
+핸드메이드 특성상 사이즈 오차가 있을 수 있습니다. (±0.5cm)
+  ''';
 
   @override
   void initState() {
@@ -109,7 +170,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
           child: TabBarView(
               controller: tabController,
               children: [
-                Text('상품 정보'),
+                ProductInfoForm(content: productContent),
                 Text('구매 후기'),
                 Text('문의'),
               ]
