@@ -177,6 +177,47 @@ made in Korea
           ),
         ),
       ),
+      bottomSheet: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.black12))
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)
+                      )
+                  ),
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ProductBuyAndShoppingCartSelectModalSheet(
+                      seller: seller,
+                      productTitle: productTitle,
+                      productPrice: productPrice,
+                      shippingCost: shippingCost,
+                      freeShippingCost: freeShippingCost,
+                    );
+                  }
+                );
+              },
+              child: Text('구매하기'),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                fixedSize: Size(300, 45),
+                primary: Color(0xff2F4F4F)
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
