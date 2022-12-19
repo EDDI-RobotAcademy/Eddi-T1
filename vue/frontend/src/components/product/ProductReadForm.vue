@@ -161,7 +161,62 @@
 
       </div>
 
+        <!--상품 관련 TAP-->
+        <!--상품 상세설명 / 정보 제공 / 구매후기 / 문의-->
+        <div class="detail">
+          <v-tabs
+              v-model="tab"
+              color="#2F4F4F"
+              grow>
 
+            <v-tab v-for="item in items" :key="item.tab">
+              {{ item.tab }}
+            </v-tab>
+          </v-tabs>
+
+          <v-tabs-items v-model="tab">
+
+            <v-tab-item>
+              <v-card flat height="800px">
+                <v-card-title>상품 상세 설명</v-card-title>
+                <v-card-text>상품 상세 설명</v-card-text>
+                <v-textarea height="800px" cols="75"
+                            readonly
+                            :value="content">
+                </v-textarea>
+              </v-card>
+            </v-tab-item>
+
+
+            <v-tab-item>
+
+              <v-card flat height="800px">
+                <v-card-title>상품 정보 제공 고시</v-card-title>
+                <v-card-text>상품 정보 제공 고시</v-card-text>
+                <v-textarea height="800px" cols="75"
+                            readonly
+                            :value="information">
+                </v-textarea>
+              </v-card>
+
+            </v-tab-item>
+
+            <v-tab-item>
+              <v-card flat height="800px">
+                <v-card-title>상품 후기</v-card-title>
+                <v-card-text>상품 구매 후기</v-card-text>
+              </v-card>
+            </v-tab-item>
+
+            <v-tab-item>
+              <v-card flat height="800px">
+                <v-card-title>상품 문의</v-card-title>
+                <v-card-text>상품 문의</v-card-text>
+              </v-card>
+            </v-tab-item>
+
+          </v-tabs-items>
+        </div>
 
       </table>
       </div>
@@ -177,6 +232,13 @@ export default {
     return {
       imgIdx: 0,
       tab2 : null,
+      tab : null,
+      items: [
+        {tab: '상품 상세 설명', content: ''},
+        {tab: '상품 정보 제공 고시', content: ''},
+        {tab: '구매 후기', content: ''},
+        {tab: '상품 문의', content: ''},
+      ],
 
       writer:'[성분맛집]천연화장품_드레싱테이블',
       title:'라벤더 진정밤 멀티밤 3.5g☞ 트러블에 정말 좋아요~',
