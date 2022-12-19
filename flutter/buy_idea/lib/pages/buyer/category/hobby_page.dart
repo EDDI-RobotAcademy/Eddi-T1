@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../component/buyer/app_bar/top_bar.dart';
+import '../../../component/buyer/category/category_product.dart';
+import '../../../component/buyer/category/category_product_list_from.dart';
 
 class HobbyPage extends StatefulWidget {
   const HobbyPage({Key? key}) : super(key: key);
@@ -14,8 +16,11 @@ class _HobbyPageState extends State<HobbyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBar(),
-      body:
-      Text("취미/특기 임시 페이지", style: TextStyle(fontSize: 20),),
+      body: Column(
+        children: [
+          CategoryProductListForm(category_list: category_hobby_list)
+        ],
+      ),
     );
   }
 }
