@@ -12,6 +12,9 @@ import SellerInfoView from "@/views/seller/SellerInfoView";
 import ReviewManageView from "@/views/seller/ReviewManageView";
 import InquiryManageView from "@/views/seller/InquiryManageView";
 import DeliveryManageView from "@/views/seller/DeliveryManageView";
+import BuyerMyPageView from "@/views/buyerMyPage/BuyerMyPageView";
+import BuyerInfoView from "@/views/buyerMyPage/BuyerInfoView";
+import ProductReadView from "@/views/product/ProductReadView";
 
 Vue.use(VueRouter)
 
@@ -77,6 +80,23 @@ const routes = [
     name: 'ProductRegisterView',
     component: ProductRegisterView
   },
+  {
+    path: '/product-read',
+    name: 'ProductReadView',
+    component: ProductReadView
+  },
+  {
+    path: '/my-page',
+    name: 'BuyerMyPageView',
+    component: BuyerMyPageView
+  },
+  {
+    path: '/buyer-info',
+    name: 'BuyerInfoView',
+    component: BuyerInfoView
+  }
+
+
 ]
 
 const router = new VueRouter({

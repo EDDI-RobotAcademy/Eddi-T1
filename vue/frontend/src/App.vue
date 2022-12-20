@@ -78,17 +78,15 @@ import {mapState} from "vuex";
 
 export default {
   name: 'App',
-  computed:{
-    ...mapState([
-        'signInCheckValue'
-    ])
-  },
   data () {
     return {
       show: false,
     }
   },
   methods: {
+    ...mapState([
+      'signInCheckValue'
+    ]),
     moveToHome() {
       this.$router.push('/');
     },

@@ -1,6 +1,5 @@
 import {
-    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
-
+    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -57,7 +56,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestSellerSignUpToSpring({}, payload) {
+    requestSellerSignUpToSpring({ }, payload) {
         console.log('requestSellerSignUpToSpring')
 
         const {memberId, nickname, password, memberType} = payload
@@ -79,7 +78,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestBuyerSignUpToSpring({}, payload) {
+    requestBuyerSignUpToSpring({ }, payload) {
         console.log('requestBuyerSignUpToSpring')
 
         const {memberId, nickname, password, memberType} = payload
@@ -101,14 +100,14 @@ export default {
      * @param payload memberId, password
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestBuyerSignInToSpring({commit}, payload) {
+    async requestBuyerSignInToSpring({commit}, payload) {
         console.log('requestBuyerSignInToSpring')
 
         const {memberId, password, memberType} = payload
 
-        axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
+        await axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
             .then((res) => {
-                if (localStorage.getItem("userToken") == null) {
+                if (localStorage.getItem("userToken") == null){
                     alert("로그인 되었습니다.")
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
                     states.userToken = res.data.userToken
@@ -127,5 +126,39 @@ export default {
                 alert("아이디 혹은 비밀번호가 존재하지 않거나 틀렸습니다.")
             })
     },
+    /**
+     * 닉네임 수정 axios
+     * @param commit
+     * @param payload nickname
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestNicknameModifyFromSpring({ },payload){
+        console.log("requestNicknameModifyFromSpring")
+        console.log(payload)
+        const {nickname, currentNickname} = payload
 
+        await axios.post('http://localhost:8888/member/nickname-modify', {nickname, currentNickname})
+            .then((res) => {
+                store.commit("REQUEST_NICKNAME_MODIFY_FROM_SPRING", res.data)
+                alert("수정 되었습니다.")
+            });
+    },
+    /**
+     * 회원탈퇴 axios
+     * @param commit
+     * @param payload nickname
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestCurrentUserAccountDropToSpring({ }, payload) {
+        console.log("requestCurrentUserAccountDropToSpring")
+        const  {currentUserToken} = payload
+
+        await axios.post(`http://localhost:8888/member/memberDrop/${currentUserToken}`)
+            .then(() => {
+                localStorage.removeItem("vuex")
+                store.commit("SING_IN_CHECK_VALUE", false)
+            });
+    },
 }
