@@ -10,6 +10,7 @@
         <v-tabs vertical>
           <v-tab style="margin-bottom: 30px; font-weight: bold">
             회원 정보 관리
+
           </v-tab>
 
           <v-tab-item>
