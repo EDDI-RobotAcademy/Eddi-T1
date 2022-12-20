@@ -161,4 +161,40 @@ export default {
                 store.commit("SING_IN_CHECK_VALUE", false)
             });
     },
+
+    /**
+     *  상품 등록 axios
+     *  @param commit
+     *  @param payload title, category, stock, price, deliveryFee, content, files, information, writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestRegisterProductToSpring({ }, payload) {
+        console.log('requestRegisterProductToSpring()')
+
+        const { title, category, stock, price, deliveryFee, content, files, infoNotice, nickname} = payload
+
+        let formData = new FormData()
+        let product = {
+            title, category, stock, price, deliveryFee, content, infoNotice, nickname
+        }
+        formData.append('product', new Blob([JSON.stringify(product)], {type: "application/json"}))
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i].file)
+        }
+
+        axios.post('http://localhost:8888/product/register', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(() => {
+                alert('상품이 등록되었습니다')
+                router.push({name: 'MainPageView'})
+            })
+            .catch(() => {
+                alert('오류가 발생하였습니다.')
+            })
+    }
 }
