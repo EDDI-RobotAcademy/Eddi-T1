@@ -235,7 +235,126 @@
         </v-container>
       </v-container>
 
+      <v-container style="width: 1200px; margin-top: 80px">
+        <v-layout>
+          <h3>최근 본 상품</h3>
+          <v-spacer></v-spacer>
+          <router-link to="null" style="text-decoration: none; color: black">
+            <h4 style="font-size: 13px">더보기></h4>
+          </router-link>
+        </v-layout>
+      </v-container>
 
+      <v-container style="width: 1000px; margin-top: 80px">
+        <v-layout>
+          <v-row class="justify-start">
+            <v-card
+                    class="ma-4"
+                    max-width="210"
+                    style="margin-right: 20px"
+            >
+              <v-img
+                  class="white--text align-end"
+                  height="200px"
+                  src="@/assets/productImg/상품이미지1.jpg"
+              >
+              </v-img>
+              <v-card-subtitle class="pb-0">
+<!--                {{ item.sellerNickname }}-->
+                핸드메이드 판매자
+              </v-card-subtitle>
+              <v-card-title>
+<!--                <h4>{{ item.commodityTitle }}</h4>-->
+                <h4>핸드메이드 상품</h4>
+              </v-card-title>
+              <v-divider></v-divider>
+
+              <v-card-text class="text--primary">
+<!--                {{ item.contents }}-->
+                핸드메이드 상품 설명
+              </v-card-text>
+
+            </v-card>
+            <v-card
+                class="ma-4"
+                max-width="210"
+            >
+              <v-img
+                  class="white--text align-end"
+                  height="200px"
+                  src="@/assets/productImg/상품이미지1.jpg"
+              >
+              </v-img>
+              <v-card-subtitle class="pb-0">
+                <!--                {{ item.sellerNickname }}-->
+                핸드메이드 판매자
+              </v-card-subtitle>
+              <v-card-title>
+                <!--                <h4>{{ item.commodityTitle }}</h4>-->
+                <h4>핸드메이드 상품</h4>
+              </v-card-title>
+              <v-divider></v-divider>
+
+              <v-card-text class="text--primary">
+                <!--                {{ item.contents }}-->
+                핸드메이드 상품 설명
+              </v-card-text>
+
+            </v-card><v-card
+              class="ma-4"
+              max-width="210"
+          >
+            <v-img
+                class="white--text align-end"
+                height="200px"
+                src="@/assets/productImg/상품이미지1.jpg"
+            >
+            </v-img>
+            <v-card-subtitle class="pb-0">
+              <!--                {{ item.sellerNickname }}-->
+              핸드메이드 판매자
+            </v-card-subtitle>
+            <v-card-title>
+              <!--                <h4>{{ item.commodityTitle }}</h4>-->
+              <h4>핸드메이드 상품</h4>
+            </v-card-title>
+            <v-divider></v-divider>
+
+            <v-card-text class="text--primary">
+              <!--                {{ item.contents }}-->
+              핸드메이드 상품 설명
+            </v-card-text>
+
+          </v-card>
+            <v-card
+                class="ma-4"
+                max-width="210"
+            >
+              <v-img
+                  class="white--text align-end"
+                  height="200px"
+                  src="@/assets/productImg/상품이미지1.jpg"
+              >
+              </v-img>
+              <v-card-subtitle class="pb-0">
+                <!--                {{ item.sellerNickname }}-->
+                핸드메이드 판매자
+              </v-card-subtitle>
+              <v-card-title>
+                <!--                <h4>{{ item.commodityTitle }}</h4>-->
+                <h4>핸드메이드 상품</h4>
+              </v-card-title>
+              <v-divider></v-divider>
+
+              <v-card-text class="text--primary">
+                <!--                {{ item.contents }}-->
+                핸드메이드 상품 설명
+              </v-card-text>
+
+            </v-card>
+          </v-row>
+        </v-layout>
+      </v-container>
     </v-container>
   </div>
 </template>
