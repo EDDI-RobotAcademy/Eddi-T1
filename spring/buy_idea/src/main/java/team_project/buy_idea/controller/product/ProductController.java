@@ -21,10 +21,10 @@ public class ProductController {
 
     @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public void productRegister(
-            @RequestPart(value = "file") List<MultipartFile> fileList,
-            @RequestPart(value = "request") ProductRequest productRequest) {
-        log.info("productRegister file :  " + fileList);
-        log.info("productRegister request :  " + productRequest);
+            @RequestPart(value = "files") List<MultipartFile> fileList,
+            @RequestPart(value = "product") ProductRequest productRequest) {
+        log.info("productRegister files :  " + fileList);
+        log.info("productRegister product :  " + productRequest);
 
         productService.register(productRequest, fileList);
 
