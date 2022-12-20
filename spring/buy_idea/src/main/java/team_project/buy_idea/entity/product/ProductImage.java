@@ -29,7 +29,4 @@ public class ProductImage {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }

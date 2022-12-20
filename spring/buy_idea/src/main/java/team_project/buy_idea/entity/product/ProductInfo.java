@@ -1,5 +1,6 @@
 package team_project.buy_idea.entity.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,8 +41,9 @@ public class ProductInfo {
     @UpdateTimestamp
     private Date updDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_no")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
     private Product product;
 
 }

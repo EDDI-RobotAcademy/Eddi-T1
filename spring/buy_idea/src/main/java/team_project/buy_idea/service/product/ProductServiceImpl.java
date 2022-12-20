@@ -48,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
         productInfo.setInfoNotice(productRequest.getInfoNotice());
         productInfo.setStock(productRequest.getStock());
         productInfo.setDeliveryFee(productRequest.getDeliveryFee());
+        productInfo.setProduct(product);
         product.setProductInfo(productInfo);
 
 
