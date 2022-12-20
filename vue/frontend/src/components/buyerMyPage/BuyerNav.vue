@@ -75,30 +75,6 @@ export default {
           title: "내 정보",
           icon: "mdi-account",
           route: "/buyer-info"},
-        {
-          title: "상품 관리",
-          icon: "mdi-lightbulb-on-outline",
-          route: "/product-manage",
-        },
-        {
-          title: "주문 관리",
-          icon: "mdi-credit-card-settings-outline",
-          route: "/order-manage"},
-        {
-          title: "후기 관리",
-          icon: "mdi-pencil-box-outline",
-          route: "/review-manage",
-        },
-        {
-          title: "문의 관리",
-          icon: "mdi-comment-question",
-          route: "/inquiry-manage",
-        },
-        {
-          title: "배송 관리",
-          icon: "mdi-truck-delivery-outline",
-          route: "/delivery-manage",
-        },
       ],
     }
   },
