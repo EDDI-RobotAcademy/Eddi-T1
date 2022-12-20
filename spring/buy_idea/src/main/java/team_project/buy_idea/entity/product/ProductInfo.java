@@ -23,7 +23,7 @@ public class ProductInfo {
     @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content;
 
     @Column(nullable = false)
