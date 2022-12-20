@@ -36,6 +36,7 @@
         </v-card>
       </v-container>
 
+      <!--최근 주문내역-->
       <v-container style="width: 1200px; margin-top: 80px">
         <v-layout>
           <h3>최근 주문내역</h3>
@@ -144,6 +145,97 @@
           </v-tabs>
         </v-container>
       </v-container>
+
+      <!--취소 및 반품 내역-->
+      <v-container style="width: 1200px; margin-top: 80px">
+        <v-layout>
+          <h3>취소/반품 내역</h3>
+          <v-spacer></v-spacer>
+          <router-link to="null" style="text-decoration: none; color: black">
+            <h4 style="font-size: 13px">더보기></h4>
+          </router-link>
+        </v-layout>
+
+        <v-container style="width: 800px; margin-top: 30px">
+          <div>
+            <v-card style="border: 1px solid black; margin-top: 10px;">
+              <v-card-subtitle style="border-bottom: 1px solid black">
+                <v-layout>
+                    취소 접수일: <h4>2022-12-20</h4> &nbsp;| 주문일: <h4>2022-12-20</h4> &nbsp;| 주문번호: <h4>202212200000001</h4>
+                  <v-spacer></v-spacer>
+
+                  <router-link to="null" style="text-decoration: none; color: black">
+                    <!--                  <h5>{{ itemList.price }} ></h5>-->
+                    <h5>35,000원</h5>
+                  </router-link>
+                </v-layout>
+              </v-card-subtitle>
+
+              <v-layout>
+                <v-card max-width="100"
+                        style="padding: 15px 15px 15px 15px"
+                        flat
+                >
+                  <v-img
+                      height="75px"
+                      src="@/assets/productImg/상품이미지1.jpg"
+                  >
+                  </v-img>
+                </v-card>
+
+                <v-card width="400px"
+                        flat
+                        style="border-right: 1px solid black"
+                        tile
+                >
+                  <v-card-title style="font-weight: bold; font-size: 15px">
+                    <router-link to="null" style="text-decoration: none; color: black">
+                      <!--                    {{ itemList.productTitle }}-->
+                      핸드메이드 상품
+                    </router-link>
+                  </v-card-title>
+
+                  <v-card-subtitle style="font-size: 12px">
+                    <!--                  {{ itemList.optionsList }} : {{ itemList.quantity }}개-->
+                    수제 케익 : 1개
+                  </v-card-subtitle>
+                </v-card>
+
+                <v-card flat
+                        style="border-right: 1px solid black"
+                        tile
+                        width="200px"
+                >
+                  <v-layout justify-center style="padding: 1px">
+                    <v-card-title style="font-size: 15px">
+                      <!--                    <h5>{{ itemList.seller }}</h5>-->
+                      <h5> 핸드메이드 판매자 </h5>
+                    </v-card-title>
+                  </v-layout>
+
+                  <v-card-subtitle align="center">
+                    <v-btn
+                        small
+                        elevation="0"
+                        style="background-color: #2F4F4F; color: white; margin-top: -35px;"
+                    >
+                      문의하기
+                    </v-btn>
+                  </v-card-subtitle>
+                </v-card>
+
+                <v-card flat align="center">
+                  <div style="margin: 50px 0px 0px 5px">
+                    <h4>취소완료</h4>
+                  </div>
+                </v-card>
+              </v-layout>
+            </v-card>
+          </div>
+        </v-container>
+      </v-container>
+
+
     </v-container>
   </div>
 </template>
