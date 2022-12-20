@@ -43,7 +43,7 @@ public class MemberTest {
     void memberSignInTest() {
         MemberSignInRequest request = new MemberSignInRequest("qkrtjsgh","q123123!", "일반회원");
 
-        String token = service.signIn(request);
+        String token = String.valueOf(service.signIn(request));
         System.out.println(token);
     }
 }
