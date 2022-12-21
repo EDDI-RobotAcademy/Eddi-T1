@@ -197,7 +197,7 @@ export default {
         })
             .then(() => {
                 alert('상품이 등록되었습니다')
-                router.push({name: 'MainPageView'})
+                router.push({name: 'ProductManageView'})
             })
             .catch(() => {
                 alert('오류가 발생하였습니다.')

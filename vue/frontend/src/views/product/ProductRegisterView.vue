@@ -16,9 +16,6 @@ export default {
     ]),
     async onSubmit (payload) {
       await this.requestRegisterProductToSpring(payload)
-      await this.$router.push({
-        name: 'MainPageView'
-      })
     }
   }
 }
