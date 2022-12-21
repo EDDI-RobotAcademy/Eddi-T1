@@ -22,7 +22,10 @@ public class ProductImage {
     private String editedName;
 
     @Column(nullable = false)
-    private String imagePath;
+    private String imagePathVue;
+
+    @Column(nullable = false)
+    private String imagePathFlutter;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)

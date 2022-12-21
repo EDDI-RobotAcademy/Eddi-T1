@@ -56,24 +56,31 @@ public class ProductServiceImpl implements ProductService {
             UUID uuid = UUID.randomUUID();
             String originalFileName = multipartFile.getOriginalFilename();
             String EditedName = uuid + originalFileName;
-            String filePath = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
+            String filePathVue = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
+            String filePathFlutter = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\product\\";
 
             // Product Image Entity value add
             ProductImage productImage = new ProductImage();
             productImage.setOriginalName(originalFileName);
             productImage.setProduct(product);
             productImage.setEditedName(EditedName);
-            productImage.setImagePath(filePath);
+            productImage.setImagePathVue(filePathVue);
+            productImage.setImagePathFlutter(filePathFlutter);
             productImageList.add(productImage);
             log.info(multipartFile.getOriginalFilename());
 
             try {
-                FileOutputStream writer = new FileOutputStream(
-                        filePath + EditedName
+                FileOutputStream writerVue = new FileOutputStream(
+                        filePathVue + EditedName
                 );
-                log.info("file upload success!");
-                writer.write(multipartFile.getBytes());
-                writer.close();
+                FileOutputStream writerFlutter = new FileOutputStream(
+                        filePathFlutter + EditedName
+                );
+                writerVue.write(multipartFile.getBytes());
+                writerFlutter.write(multipartFile.getBytes());
+                writerVue.close();
+                writerFlutter.close();
+                log.info("file upload success");
 
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
