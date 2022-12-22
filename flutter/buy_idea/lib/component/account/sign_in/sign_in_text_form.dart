@@ -36,7 +36,7 @@ class _SignInTextFormState extends State<SignInTextForm> {
 
           autovalidateMode: AutovalidateMode.onUserInteraction,
 
-          obscureText: widget.text == "Password" ? true : false,
+          obscureText: widget.text == "비밀번호" ? true : false,
 
 
             //validation 아이디
