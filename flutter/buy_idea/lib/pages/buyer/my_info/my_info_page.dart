@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../component/buyer/app_bar/top_bar.dart';
-import '../../../component/buyer/my_info/buyer_info_list_tile_widget.dart';
+import '../../../component/buyer/my_info/buyer_info_list_tile_form.dart';
 import '../../../component/buyer/my_info/buyer_information.dart';
-import '../../../utility/size.dart';
 
 class MyInfoPage extends StatefulWidget {
   const MyInfoPage({Key? key}) : super(key: key);
@@ -66,8 +65,8 @@ class _MyInfoPageState extends State<MyInfoPage> {
                   color: Colors.white,
                   padding: EdgeInsets.all(10),
                   child: BuyerInformation(memberNickname: memberNickname)),
-              const SizedBox(height: large_gap),
-              BuyerInfoListTileWidget(memberNickname: memberNickname),
+              const SizedBox(height: 1.0),
+              BuyerInfoListTileForm(memberNickname: memberNickname),
             ],
           ),
         ),
