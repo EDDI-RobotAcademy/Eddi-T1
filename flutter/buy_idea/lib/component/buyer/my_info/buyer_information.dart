@@ -1,56 +1,61 @@
-import 'package:buy_idea/pages/account/sign_in_page.dart';
+import 'package:buy_idea/utility/size.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class BuyerInformation extends StatefulWidget {
-  const BuyerInformation({Key? key}) : super(key: key);
+  const BuyerInformation({Key? key, required this.memberNickname})
+      : super(key: key);
 
   @override
   State<BuyerInformation> createState() => _BuyerInformationState();
+  final String memberNickname;
 }
 
 class _BuyerInformationState extends State<BuyerInformation> {
-  static const storage = FlutterSecureStorage();
-  dynamic memberNickname = '';
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _asyncMethod();
-    });
-  }
-
-  _asyncMethod() async {
-    memberNickname = await storage.read(key: 'nickname');
-    if (memberNickname == null) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const SignInPage()));
-    } else {
-      setState(() {
-        memberNickname = memberNickname;
-      });
-      debugPrint('닉네임 : $memberNickname');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundImage: AssetImage('assets/default_profile_image.png'),
-          backgroundColor: Colors.white,
-        ),
-        SizedBox(width: 10),
-        Column(
-          children: [
-            Text(memberNickname,
-                style: TextStyle(fontSize: 15, color: Colors.black))
-          ],
-        ),
-      ],
-    );
+    if (widget.memberNickname == '') {
+      return Column(
+        children: [
+          Row(
+            children: [
+              const CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage('assets/default_profile_image.png'),
+                backgroundColor: Colors.white,
+              ),
+              const SizedBox(width: medium_gap),
+              Column(
+                children: const [
+                  Text("로그인 정보가 없습니다.",
+                      style: TextStyle(fontSize: 15, color: Colors.black)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: large_gap),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage('assets/default_profile_image.png'),
+                backgroundColor: Colors.white,
+              ),
+              SizedBox(width: medium_gap),
+              Column(
+                children: [
+                  Text(widget.memberNickname,
+                      style: TextStyle(fontSize: 15, color: Colors.black)),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
+    }
   }
 }

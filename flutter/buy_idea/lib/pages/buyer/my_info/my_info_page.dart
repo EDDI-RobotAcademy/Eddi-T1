@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../component/buyer/app_bar/top_bar.dart';
+import '../../../component/buyer/my_info/buyer_info_list_tile_widget.dart';
 import '../../../component/buyer/my_info/buyer_information.dart';
-import '../../../component/common/common_alert_dialog.dart';
-import '../../account/sign_in_page.dart';
+import '../../../utility/size.dart';
 
 class MyInfoPage extends StatefulWidget {
   const MyInfoPage({Key? key}) : super(key: key);
@@ -14,62 +14,57 @@ class MyInfoPage extends StatefulWidget {
 }
 
 class _MyInfoPageState extends State<MyInfoPage> {
-
   static const storage = FlutterSecureStorage();
+  dynamic memberNickname = '';
+  var statusCheck = false;
 
-  _logout() async {
-    await storage.delete(key: 'userToken');
-    await storage.delete(key: 'memberId');
-    await storage.delete(key: 'nickname');
-    await storage.delete(key: 'memberType');
-    _signOutSuccessShowDialog();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
   }
 
+  _asyncMethod() async {
+    memberNickname = await storage.read(key: 'nickname');
+    setState(() {
+      memberNickname = memberNickname;
+      statusCheck = true;
+    });
+    debugPrint('닉네임 : $memberNickname');
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TopBar(),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Colors.grey,
-        child: Column(
-          children: [
-            Container(
-                color: Colors.white,
-                padding: EdgeInsets.all(10),
-                child: BuyerInformation()
-            ),
-            SizedBox(height: 20),
-            Container(
-              color: Colors.white,
-              child: ListTile(
-                onTap: _logout,
-                title: Text('로그아웃', style: TextStyle(color: Color(0xffDAA520), fontWeight: FontWeight.bold)),
-              ),
-            )
-          ],
+    if (statusCheck == false) {
+      return const Padding(
+        padding: EdgeInsets.all(100),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Colors.grey,
+          ),
         ),
-      ),
-    );
-  }
-
-  /// 로그아웃 성공 alertDialog
-  void _signOutSuccessShowDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return CommonAlertDialog(
-              title: '👋️',
-              content: '안전하게 로그아웃 되었습니다.',
-              onCustomButtonPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignInPage()));
-              });
-        });
+      );
+    } else {
+      return Scaffold(
+        appBar: const TopBar(),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.grey,
+          child: Column(
+            children: [
+              Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(10),
+                  child: BuyerInformation(memberNickname: memberNickname)),
+              const SizedBox(height: large_gap),
+              BuyerInfoListTileWidget(memberNickname: memberNickname),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
