@@ -15,6 +15,7 @@ import DeliveryManageView from "@/views/seller/DeliveryManageView";
 import BuyerMyPageView from "@/views/buyerMyPage/BuyerMyPageView";
 import BuyerInfoView from "@/views/buyerMyPage/BuyerInfoView";
 import ProductReadView from "@/views/product/ProductReadView";
+import OrderForm from "@/components/order/OrderForm";
 
 Vue.use(VueRouter)
 
@@ -94,8 +95,12 @@ const routes = [
     path: '/buyer-info',
     name: 'BuyerInfoView',
     component: BuyerInfoView
+  },
+  {
+    path: '/order-form',
+    name: 'OrderForm',
+    component: OrderForm
   }
-
 
 ]
 
