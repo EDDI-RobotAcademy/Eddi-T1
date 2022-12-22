@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 class SpringMemberApi {
   static const String httpUri = '192.168.0.8:8888';
   static var signInResponse;
+  static var memberDeleteResponse;
 
   signInApi(MemberSignInRequest request) async {
     debugPrint("signApi()");
@@ -35,6 +36,20 @@ class SpringMemberApi {
       debugPrint("통신 성공");
     } else {
       debugPrint("통신 실패");
+    }
+  }
+
+  memberDelete(String userToken) async {
+    var body = json.encode(userToken);
+
+    try {
+      memberDeleteResponse = await http.post(
+        Uri.http(httpUri, '/member/memberDrop/$userToken'),
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
