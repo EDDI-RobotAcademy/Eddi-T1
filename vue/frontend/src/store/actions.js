@@ -117,7 +117,13 @@ export default {
                     }
 
                     store.commit('SING_IN_CHECK_VALUE', true)
-                    router.push({name: "HomeView"})
+
+                    if (res.data.memberType == "일반회원"){
+                        router.push({name: "HomeView"})
+                    } else if (res.data.memberType == "판매자") {
+                        router.push({name: "OrderManageView"})
+                    }
+
                 } else {
                     alert("이미 로그인 되어있습니다.")
                 }
@@ -191,7 +197,7 @@ export default {
         })
             .then(() => {
                 alert('상품이 등록되었습니다')
-                router.push({name: 'MainPageView'})
+                router.push({name: 'ProductManageView'})
             })
             .catch(() => {
                 alert('오류가 발생하였습니다.')
