@@ -5,6 +5,7 @@ import 'package:buy_idea/component/account/sign_in/sign_in_text_form.dart';
 import 'package:buy_idea/pages/seller/seller_main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 
 import '../../../pages/buyer/main_page.dart';
 import '../../../utility/size.dart';
@@ -46,9 +47,9 @@ class _SignInFormState extends State<SignInForm> {
       debugPrint(memberInfo);
       debugPrint(memberType);
       if (memberType == '일반회원') {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage()));
+        Get.offAll(const MainPage());
       } else if (memberType == '판매자') {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const SellerMainPage()));
+        Get.offAll(const SellerMainPage());
       }
     } else {
       debugPrint('로그인이 필요합니다');
@@ -66,7 +67,8 @@ class _SignInFormState extends State<SignInForm> {
 
     if (SpringMemberApi.signInResponse.statusCode == 200) {
       debugPrint('통신 성공!');
-      var val = jsonDecode(utf8.decode(SpringMemberApi.signInResponse.bodyBytes));
+      var val =
+          jsonDecode(utf8.decode(SpringMemberApi.signInResponse.bodyBytes));
       var account = Member.fromJson(val);
 
       await storage.write(key: 'userToken', value: account.userToken);
@@ -92,7 +94,7 @@ class _SignInFormState extends State<SignInForm> {
             Center(
               child: ToggleButtons(
                 borderColor: Colors.blueGrey,
-                fillColor: Color(0xFF2F4F4F),
+                fillColor: const Color(0xFF2F4F4F),
                 borderWidth: 1,
                 selectedBorderColor: Colors.black,
                 selectedColor: Colors.white,
@@ -140,10 +142,10 @@ class _SignInFormState extends State<SignInForm> {
                 },
                 child: const Text("LOGIN"),
                 style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF2F4F4F),
-                    minimumSize: Size(400, 50),
-                    padding: EdgeInsets.all(10.0),
-                    textStyle: TextStyle(color: Colors.white)))
+                    primary: const Color(0xFF2F4F4F),
+                    minimumSize: const Size(400, 50),
+                    padding: const EdgeInsets.all(10.0),
+                    textStyle: const TextStyle(color: Colors.white)))
           ],
         ));
   }
@@ -159,13 +161,10 @@ class _SignInFormState extends State<SignInForm> {
               content: '환영합니다🥰 \n 홈으로 이동합니다.',
               onCustomButtonPressed: () {
                 if (isSelected[0] == true) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const MainPage()));
+                  Get.offAll(const MainPage());
                 } else if (isSelected[0] == false) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SellerMainPage()));
+                  Get.offAll(const SellerMainPage());
                 }
-
               });
         });
   }
