@@ -1,3 +1,4 @@
+import 'package:buy_idea/pages/buyer/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class _BuyerInfoListTileWidgetState extends State<BuyerInfoListTileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.memberNickname == '') {
+    if (widget.memberNickname == '비회원') {
       return Container(
         color: Colors.white,
         child: ListTile(
@@ -63,7 +64,7 @@ class _BuyerInfoListTileWidgetState extends State<BuyerInfoListTileWidget> {
               title: '👋️',
               content: '안전하게 로그아웃 되었습니다.',
               onCustomButtonPressed: () {
-                Get.offAll(const SignInPage());
+                Get.offAll(const MainPage());
               });
         });
   }

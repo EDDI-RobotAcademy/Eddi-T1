@@ -13,7 +13,7 @@ class BuyerInformation extends StatefulWidget {
 class _BuyerInformationState extends State<BuyerInformation> {
   @override
   Widget build(BuildContext context) {
-    if (widget.memberNickname == '') {
+    if (widget.memberNickname == '비회원') {
       return Column(
         children: [
           Row(

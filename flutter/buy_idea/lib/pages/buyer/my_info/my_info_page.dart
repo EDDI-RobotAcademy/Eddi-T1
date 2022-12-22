@@ -28,11 +28,18 @@ class _MyInfoPageState extends State<MyInfoPage> {
 
   _asyncMethod() async {
     memberNickname = await storage.read(key: 'nickname');
-    setState(() {
-      memberNickname = memberNickname;
-      statusCheck = true;
-    });
-    debugPrint('닉네임 : $memberNickname');
+    if (memberNickname == null) {
+      setState(() {
+        memberNickname = '비회원';
+        statusCheck = true;
+      });
+    } else {
+      setState(() {
+        memberNickname = memberNickname;
+        statusCheck = true;
+      });
+      debugPrint('닉네임 : $memberNickname');
+    }
   }
 
   @override
