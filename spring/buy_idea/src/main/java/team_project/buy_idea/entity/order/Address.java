@@ -1,15 +1,14 @@
 package team_project.buy_idea.entity.order;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Setter
-@Getter
-@Embeddable
+@Data
+@Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
@@ -22,7 +21,7 @@ public class Address {
     private String orderNo;
 
     @Column(nullable = false)
-    private String buyer;
+    private String recipient;
 
     @Column(nullable = false)
     private String phone;
@@ -39,11 +38,8 @@ public class Address {
     @Column(nullable = false)
     private String addressDetail;
 
-    /*
-    public static Address of(String city, String street, String addressDetail, String zipcode) {
-        return new Address(city, street, addressDetail, zipcode);
-    }
-    */
 
+    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderInfo> orderInfos = new ArrayList<>();
 
 }
