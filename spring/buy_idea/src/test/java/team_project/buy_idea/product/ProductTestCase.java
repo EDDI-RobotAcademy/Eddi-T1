@@ -74,4 +74,23 @@ public class ProductTestCase {
         System.out.println("productThumbnailImage : " + productImage1.getImageId() + ", " + productImage2.getImageId() + ", " + productImage3.getImageId());
     }
 
+
+    @Test
+    void productImageList() {
+        List<ProductImageMapping> productImages = productService.imageList(1L);
+
+        System.out.println("productImageList : " + productImages.size());
+
+        for (ProductImageMapping image : productImages) {
+            System.out.println("image id : " + image.getImageId());
+            System.out.println("image name : " + image.getEditedName());
+        }
+    }
+
+    @Test
+    void productRead() {
+        Product product = productService.read(3L);
+
+        System.out.println("product : " + product);
+    }
 }

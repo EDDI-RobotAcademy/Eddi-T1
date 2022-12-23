@@ -14,5 +14,6 @@ public interface ProductService {
     public List<ProductMapping> list(String category, int productSize);
     public List<ProductMapping> nextList(Long lastProductNo, String category, int productSize);
     public ProductImageMapping thumbnailImage(Long productNo);
-
+    public Product read(Long productNo);
+    public List<ProductImageMapping> imageList(Long productNo);
 }
