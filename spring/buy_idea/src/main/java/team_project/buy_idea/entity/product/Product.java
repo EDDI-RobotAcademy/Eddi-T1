@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 @Entity
-@ToString(exclude = "productImage")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {

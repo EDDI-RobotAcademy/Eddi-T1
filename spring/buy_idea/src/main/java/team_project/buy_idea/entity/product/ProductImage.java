@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
+@ToString(exclude = "product")
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
