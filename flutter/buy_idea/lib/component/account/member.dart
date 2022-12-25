@@ -13,9 +13,22 @@ class Member {
         memberType = json['memberType'];
 
   Map<String, dynamic> toJson() => {
-    'password': userToken,
-    'memberId': memberId,
-    'nickname': nickname,
-    'memberType': memberType
-  };
+        'userToken': userToken,
+        'memberId': memberId,
+        'nickname': nickname,
+        'memberType': memberType
+      };
+}
+
+class MemberNickname {
+  String memberId;
+  String nickname;
+  String memberType;
+
+  MemberNickname(this.memberId, this.nickname, this.memberType);
+
+  MemberNickname.fromJson(Map<String, dynamic> json)
+      : memberId = json['memberId'],
+        nickname = json['nickname'],
+        memberType = json['memberType'];
 }

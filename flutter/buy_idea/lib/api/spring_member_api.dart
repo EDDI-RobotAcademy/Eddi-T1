@@ -7,6 +7,7 @@ class SpringMemberApi {
   static const String httpUri = '192.168.0.8:8888';
   static var signInResponse;
   static var memberDeleteResponse;
+  static var memberNicknameModifyResponse;
 
   signInApi(MemberSignInRequest request) async {
     debugPrint("signApi()");
@@ -45,6 +46,20 @@ class SpringMemberApi {
     try {
       memberDeleteResponse = await http.post(
         Uri.http(httpUri, '/member/memberDrop/$userToken'),
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  memberNicknameModify(MemberNicknameModifyRequest request) async {
+    var body = json.encode(request);
+
+    try {
+      memberNicknameModifyResponse = await http.post(
+        Uri.http(httpUri, '/member/nickname-modify'),
         headers: {"Content-Type": "application/json"},
         body: body,
       );
@@ -126,8 +141,18 @@ class MemberSignUpRequest {
         'memberId': memberId,
         'password': password,
         'nickname': nickname,
-        "memberType": memberType
+        'memberType': memberType
       };
+}
+
+class MemberNicknameModifyRequest {
+  String nickname;
+  String currentNickname;
+
+  MemberNicknameModifyRequest(this.nickname, this.currentNickname);
+
+  Map<String, dynamic> toJson() =>
+      {'nickname': nickname, 'currentNickname': currentNickname};
 }
 
 class DuplicateMemberIdResponse {
