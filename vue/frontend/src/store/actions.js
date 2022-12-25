@@ -117,7 +117,13 @@ export default {
                     }
 
                     store.commit('SING_IN_CHECK_VALUE', true)
-                    router.push({name: "HomeView"})
+
+                    if (res.data.memberType == "일반회원"){
+                        router.push({name: "HomeView"})
+                    } else if (res.data.memberType == "판매자") {
+                        router.push({name: "OrderManageView"})
+                    }
+
                 } else {
                     alert("이미 로그인 되어있습니다.")
                 }
@@ -161,4 +167,40 @@ export default {
                 store.commit("SING_IN_CHECK_VALUE", false)
             });
     },
+
+    /**
+     *  상품 등록 axios
+     *  @param commit
+     *  @param payload title, category, stock, price, deliveryFee, content, files, information, writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestRegisterProductToSpring({ }, payload) {
+        console.log('requestRegisterProductToSpring()')
+
+        const { title, category, stock, price, deliveryFee, content, files, infoNotice, nickname} = payload
+
+        let formData = new FormData()
+        let product = {
+            title, category, stock, price, deliveryFee, content, infoNotice, nickname
+        }
+        formData.append('product', new Blob([JSON.stringify(product)], {type: "application/json"}))
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i].file)
+        }
+
+        axios.post('http://localhost:8888/product/register', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(() => {
+                alert('상품이 등록되었습니다')
+                router.push({name: 'ProductManageView'})
+            })
+            .catch(() => {
+                alert('오류가 발생하였습니다.')
+            })
+    }
 }

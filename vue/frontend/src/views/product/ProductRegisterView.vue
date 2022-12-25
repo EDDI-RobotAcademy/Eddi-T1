@@ -6,12 +6,16 @@
 
 <script>
 import ProductRegisterForm from "@/components/product/ProductRegisterForm";
+import {mapActions} from "vuex";
 export default {
   name: "ProductRegisterView",
-  components: {ProductRegisterForm },
+  components: { ProductRegisterForm },
   methods: {
-    onSubmit() {
-      //등록
+    ...mapActions([
+        'requestRegisterProductToSpring'
+    ]),
+    async onSubmit (payload) {
+      await this.requestRegisterProductToSpring(payload)
     }
   }
 }

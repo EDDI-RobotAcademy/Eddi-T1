@@ -175,7 +175,7 @@
           <v-col cols="12" class="label" >상품 정보 제공 고시</v-col>
 
           <v-text-field outlined color="grey darken-1" placeholder="상품명/ 제조자, 제조국 / 상품 관련 문의"
-                        v-model="information">
+                        v-model="infoNotice">
           </v-text-field>
         </v-row>
 
@@ -209,17 +209,17 @@ export default {
       price:'',
       deliveryFee:'',
       content:'',
-      information:'',
+      infoNotice:'',
 
       files: [],
       notImage: ['','','','','','','','','',''],
       fileNum: 0,
 
-      /*filesPreview:[],*/
-      /*image:'',*/
-
-      writer: this.$store.state.memberInfoAfterSignIn.nickname,
+      nickname: '',
     }
+  },
+  mounted() {
+    this.nickname = this.$store.state.memberInfoAfterSignIn.nickname
   },
   methods: {
     goBack() {
@@ -230,13 +230,13 @@ export default {
       if(this.files.length < 3) {
         alert('사진은 3장 이상 첨부해주세요')
       } else {
-        const { title, category, stock, price, deliveryFee, content, files, information, writer } = this
-        this.$emit('submit', {  title, category, stock, price, deliveryFee, content, files, information, writer  })
+        const { title, category, stock, price, deliveryFee, content, files, infoNotice, nickname } = this
+        this.$emit('submit', {  title, category, stock, price, deliveryFee, content, files, infoNotice, nickname  })
       }
     },
 
     handleFilesUpload () {
-      if(this.$refs.files.files.length > 10){
+      if(this.$refs.files.files.length > 10) {
         alert("최대 10장까지 가능합니다!")
         this.$refs.files.value = ''
         return
@@ -254,7 +254,7 @@ export default {
           ]
         }
 
-      }else{
+      }else {
         alert("최대 10장까지 가능합니다!")
         console.log(this.fileNum)
         this.fileNum -= this.$refs.files.files.length
