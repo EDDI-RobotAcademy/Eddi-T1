@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../pages/account/sign_in_page.dart';
 import '../../../pages/buyer/my_info/my_info_modify_page.dart';
+import '../../../pages/buyer/my_info/service_center_page.dart';
 import '../../common/common_alert_dialog.dart';
 import '../../common/yes_or_no_alert_dialog.dart';
 
@@ -88,7 +89,9 @@ class _BuyerInfoListTileFormState extends State<BuyerInfoListTileForm> {
           Container(
             color: Colors.white,
             child: ListTile(
-              onTap: () {},
+              onTap: () {
+                Get.to(const ServiceCenterPage());
+              },
               title: const Text('고객 센터',
                   style: TextStyle(
                       color: Color(0xffDAA520), fontWeight: FontWeight.bold)),
