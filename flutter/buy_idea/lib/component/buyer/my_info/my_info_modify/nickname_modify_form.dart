@@ -82,7 +82,7 @@ class _NicknameModifyFormState extends State<NicknameModifyForm> {
             const Padding(
               padding: EdgeInsets.only(right: 280.0, top: 10.0, bottom: 10.0),
               child: Text(
-                '닉네임 수정',
+                '닉네임 변경',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
