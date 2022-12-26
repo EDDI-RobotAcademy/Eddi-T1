@@ -1,7 +1,8 @@
+import 'package:buy_idea/api/spring_product_api.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsPageImageView extends StatefulWidget {
-  final List<String> imageList;
+  final List<RequestProductImage> imageList;
 
   const ProductDetailsPageImageView({
     Key? key,
@@ -38,7 +39,7 @@ class _ProductDetailsPageImageViewState extends State<ProductDetailsPageImageVie
                 return SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.width,
-                  child: Image.asset(widget.imageList[index], fit: BoxFit.cover)
+                  child: Image.asset('assets/product/${widget.imageList[index].editedName}', fit: BoxFit.cover)
                 );
               }
           ),
@@ -69,7 +70,7 @@ class _ProductDetailsPageImageViewState extends State<ProductDetailsPageImageVie
                           border: _currentPageIndex == index ? Border.all(color: Color(0xffDAA520), width: 2) : null,
                           borderRadius: BorderRadius.circular(5),
                           image: DecorationImage(
-                            image: AssetImage(widget.imageList[index]),
+                            image: AssetImage('assets/product/${widget.imageList[index].editedName}'),
                             fit: BoxFit.cover
                           )
                         ),

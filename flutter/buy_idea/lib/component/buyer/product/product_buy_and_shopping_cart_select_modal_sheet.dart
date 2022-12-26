@@ -6,16 +6,18 @@ class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
   final String seller;
   final String productTitle;
   final int productPrice;
-  final int shippingCost;
-  final int freeShippingCost;
+  final int deliveryFee;
+  final int freeDeliveryFee;
+  final int stock;
 
   const ProductBuyAndShoppingCartSelectModalSheet({
     Key? key,
     required this.seller,
     required this.productTitle,
     required this.productPrice,
-    required this.shippingCost,
-    required this.freeShippingCost
+    required this.deliveryFee,
+    required this.freeDeliveryFee,
+    required this.stock
   }) : super(key: key);
 
   @override
@@ -76,9 +78,31 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
             Expanded(child: Text('$purchaseQuantity', textAlign: TextAlign.center,)),
             InkWell(
               onTap: () {
-                setState(() {
-                  purchaseQuantity++;
-                });
+                if (purchaseQuantity < widget.stock) {
+                  setState(() {
+                    purchaseQuantity++;
+                  });
+                } else {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          elevation: 20,
+                          backgroundColor: Colors.white.withOpacity(0.8),
+                          content: Text('남은 수량을 초과할 수 없습니다!', textAlign: TextAlign.center,),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text('확인', style: TextStyle(color: Color(0xff2F4F4F)))
+                            )
+                          ],
+                        );
+                      }
+                  );
+                }
               },
               child: Icon(Icons.add),
             ),
@@ -93,9 +117,9 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('배송비 ${f.format(widget.shippingCost)}원', style: TextStyle(fontSize: 12)),
+        Text('배송비 ${f.format(widget.deliveryFee)}원', style: TextStyle(fontSize: 12)),
         SizedBox(height: 5),
-        Text('(${f.format(widget.freeShippingCost)}원 이상 구매 시 무료배송)', style: TextStyle(fontSize: 12, color: Colors.grey),)
+        Text('(${f.format(widget.freeDeliveryFee)}원 이상 구매 시 무료배송)', style: TextStyle(fontSize: 12, color: Colors.grey),)
       ],
     );
   }
@@ -121,43 +145,45 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
             ),
           ),
           Center(
-            child: Text('상품 결제', style: TextStyle(fontSize: 14)),
+            child: Text('상품 구매 방식 선택', style: TextStyle(fontSize: 14)),
           ),
           Divider(thickness: 0.8, height: 15),
-          Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage('assets/default_profile_image.png'),
-                    ),
-                    SizedBox(width: 10),
-                    Text(widget.seller)
-                  ],
-                ),
-                SizedBox(height: 10),
-                Text(widget.productTitle, style: TextStyle(fontSize: 18), textAlign: TextAlign.start,)
-              ],
-            )
-          ),
           Expanded(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    CountButton(150, 40),
-                    SizedBox(width: 10)
-                  ],
-                ),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.white,
+                        backgroundImage: AssetImage('assets/default_profile_image.png'),
+                      ),
+                      SizedBox(width: 10),
+                      Text(widget.seller)
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Text(widget.productTitle, style: TextStyle(fontSize: 18), textAlign: TextAlign.start,)
+                ],
               )
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(width: 10),
+                Expanded(child: Text('남은 수량 ${f.format(widget.stock)}개', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold))),
+                CountButton(150, 40),
+                SizedBox(width: 10)
+              ],
+            ),
           ),
           SizedBox(height: 10),
           Container(
@@ -176,7 +202,7 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      widget.freeShippingCost > widget.productPrice * purchaseQuantity ?
+                      widget.freeDeliveryFee > widget.productPrice * purchaseQuantity ?
                       NotFreeShippingCost() : FreeShippingCost(),
                       Expanded(child: SizedBox()),
                       Text('총 상품금액', style: TextStyle(fontSize: 12)),

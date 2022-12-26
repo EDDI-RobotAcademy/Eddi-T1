@@ -6,16 +6,18 @@ class ProductDetailsPageHeader extends StatefulWidget {
   final String seller;
   final String productTitle;
   final int productPrice;
-  final int shippingCost;
-  final int freeShippingCost;
+  final int deliveryFee;
+  final int freeDeliveryFee;
+  final int stock;
 
   const ProductDetailsPageHeader({
     Key? key,
     required this.seller,
     required this.productTitle,
     required this.productPrice,
-    required this.shippingCost,
-    required this.freeShippingCost
+    required this.deliveryFee,
+    required this.freeDeliveryFee,
+    required this.stock
   }) : super(key: key);
 
   @override
@@ -57,9 +59,9 @@ class _ProductDetailsPageHeaderState extends State<ProductDetailsPageHeader> {
           children: [
             Text('배송비', style: TextStyle(fontSize: 15, color: Colors.grey[600])),
             SizedBox(width: 10),
-            Text('${f.format(widget.shippingCost)} 원', style: TextStyle(fontSize: 15, color: Colors.black)),
+            Text('${f.format(widget.deliveryFee)} 원', style: TextStyle(fontSize: 15, color: Colors.black)),
             SizedBox(width: 5),
-            Text('(${f.format(widget.freeShippingCost)}원 이상 구매 시 무료배송)', style: TextStyle(fontSize: 12, color: Colors.grey))
+            Text('(${f.format(widget.freeDeliveryFee)}원 이상 구매 시 무료배송)', style: TextStyle(fontSize: 12, color: Colors.grey))
           ],
         ),
         SizedBox(height: 10),
@@ -68,7 +70,7 @@ class _ProductDetailsPageHeaderState extends State<ProductDetailsPageHeader> {
           children: [
             Text('수량', style: TextStyle(fontSize: 15, color: Colors.grey[600])),
             SizedBox(width: 10),
-            Text('주문 시 제작', style: TextStyle(fontSize: 15, color: Colors.black))
+            Text('${f.format(widget.stock)}', style: TextStyle(fontSize: 15, color: Colors.black))
           ],
         )
       ],
