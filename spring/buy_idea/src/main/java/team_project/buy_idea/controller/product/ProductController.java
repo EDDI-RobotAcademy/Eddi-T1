@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team_project.buy_idea.controller.product.request.ProductRequest;
+import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.repository.product.mapping.ProductImageMapping;
 import team_project.buy_idea.repository.product.mapping.ProductMapping;
 import team_project.buy_idea.service.product.ProductService;
@@ -66,4 +67,22 @@ public class ProductController {
 
         return productService.thumbnailImage(productNo);
     }
+
+    @GetMapping("/read/{productNo}")
+    public Product productRead(@PathVariable("productNo") Long productNo) {
+        log.info("productRead()");
+        log.info("productNo : " + productNo);
+
+        return productService.read(productNo);
+    }
+
+    @GetMapping("/images/{productNo}")
+    public List<ProductImageMapping> productImageList(@PathVariable("productNo") Long productNo) {
+
+        log.info("productImageList()");
+        log.info("productNo : " + productNo);
+
+        return productService.imageList(productNo);
+    }
+
 }

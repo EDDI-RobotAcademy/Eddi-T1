@@ -126,4 +126,20 @@ public class ProductServiceImpl implements ProductService {
         return productImage;
     }
 
+    // 넘겨받은 productNo와 일치하는 상품의 정보들을 반환
+    @Override
+    public Product read(Long productNo) {
+        Optional<Product> maybeProduct = productRepository.findById(productNo);
+
+        if (maybeProduct.equals(Optional.empty())) {
+            return null;
+        }
+
+        return maybeProduct.get();
+    }
+
+    // 넘겨받은 productNo와 일치하는 상품의 등록된 이미지 리스트 전부 반환 (상세 페이지)
+    public List<ProductImageMapping> imageList(Long productNo) {
+        return productImageRepository.findProductImagesOnSpecificProduct(productNo);
+    }
 }
