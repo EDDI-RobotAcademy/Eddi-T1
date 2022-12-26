@@ -25,4 +25,11 @@ public class ShoppingBucketController {
 
         bucketService.addProductToShoppingBucket(bucketRequest.toShoppingBucketRequest());
     }
+
+    @PostMapping("/shopping-bucket-list/{memberToken}")
+    public List<ShoppingBucketItem> shoppingBucketItemList(@PathVariable("memberToken") String memberToken) {
+        log.info("shoppingBucketItemList " + memberToken);
+
+        return bucketService.shoppingBucketItemList(memberToken);
+    }
 }

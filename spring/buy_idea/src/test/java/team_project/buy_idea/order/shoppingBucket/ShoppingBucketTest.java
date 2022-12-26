@@ -61,4 +61,17 @@ public class ShoppingBucketTest {
 
         shoppingBucketService.addProductToShoppingBucket(shoppingBucketRequest);
     }
+
+    @Test
+    void getShoppingBucketItemList() {
+        String token = SignIn();
+        System.out.println(token);
+        Long memberId = redisService.getValueByKey(token);
+        System.out.println(memberId);
+
+        List<ShoppingBucketItem> shoppingBucketItems = shoppingBucketProductRepository.findShoppingBucketItemListByMemberId(memberId);
+
+        ShoppingBucketItem shoppingBucketItem = shoppingBucketItems.get(0);
+        System.out.println("정보들 : " + shoppingBucketItem.getProduct().getProductImages().get(0).getEditedName());
+    }
 }

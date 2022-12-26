@@ -74,5 +74,10 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
         bucketProductRepository.save(shoppingBucketItem);
     }
 
+    @Override
+    public List<ShoppingBucketItem> shoppingBucketItemList(String memberToken) {
+        Long memberId = redisService.getValueByKey(memberToken);
 
+        return bucketProductRepository.findShoppingBucketItemListByMemberId(memberId);
+    }
 }
