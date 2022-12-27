@@ -3,5 +3,5 @@ export default {
     memberInfoAfterSignIn: {},
     signInCheckValue: false,
     userToken: "",
-    shoppingBucketProductItemList: {}
+    shoppingBucketProductItemList: [],
 }

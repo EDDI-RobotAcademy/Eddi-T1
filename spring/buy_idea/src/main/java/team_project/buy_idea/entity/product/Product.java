@@ -26,7 +26,6 @@ public class Product {
     @Column(nullable = false)
     private int price;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER,  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
