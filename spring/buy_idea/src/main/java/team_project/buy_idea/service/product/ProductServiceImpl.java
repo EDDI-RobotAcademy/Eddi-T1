@@ -11,10 +11,12 @@ import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.entity.product.ProductImage;
 import team_project.buy_idea.entity.product.ProductInfo;
 import team_project.buy_idea.repository.product.ProductImageRepository;
+import team_project.buy_idea.repository.product.ProductInfoRepository;
 import team_project.buy_idea.repository.product.ProductRepository;
 import team_project.buy_idea.repository.product.mapping.ProductImageMapping;
 import team_project.buy_idea.repository.product.mapping.ProductMapping;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,6 +34,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductImageRepository productImageRepository;
+
+    @Autowired
+    ProductInfoRepository productInfoRepository;
 
     /**
      * 상품 등록 ServiceImpl
@@ -142,4 +147,146 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductImageMapping> imageList(Long productNo) {
         return productImageRepository.findProductImagesOnSpecificProduct(productNo);
     }
+
+    // 상품 수정 ServiceImpl
+    // 넘겨받은 productNo의 상품 수정
+    @Override
+    public void modify(ProductRequest productRequest, List<MultipartFile> files, Long productNo) {
+
+        Optional<Product> maybeProduct = productRepository.findById(productNo);
+        Optional<ProductInfo> maybeProductInfo = productInfoRepository.findById(productNo);
+
+        if (maybeProduct.equals(Optional.empty())) {
+            log.info("Can't modify product");
+        }
+
+        Product product = maybeProduct.get();
+
+        ProductInfo productInfo = maybeProductInfo.get();
+
+
+        List<ProductImageMapping> removeImage = productImageRepository.findProductImagesOnSpecificProduct(productNo);
+
+        String vuePath = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
+        String flutterPath = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\product\\";
+
+        for (int i = 0; i < removeImage.size(); i++) {
+
+            String fileName = removeImage.get(i).getEditedName();
+            System.out.println(fileName);
+
+            File vueFile = new File(vuePath + fileName);
+            File flutterFile = new File(flutterPath + fileName);
+
+
+            if(vueFile.exists()){
+                vueFile.delete();
+            }else{
+                System.out.println("파일삭제실패!");
+            }
+            if(flutterFile.exists()){
+                flutterFile.delete();
+            }else{
+                System.out.println("파일삭제실패!");
+            }
+        }
+
+        //product 저장
+        product.setTitle(productRequest.getTitle());
+        product.setNickname(productRequest.getNickname());
+        product.setPrice(productRequest.getPrice());
+
+        productRepository.save(product);
+
+        productInfo.setCategory(productRequest.getCategory());
+        productInfo.setContent(productRequest.getContent());
+        productInfo.setInfoNotice(productRequest.getInfoNotice());
+        productInfo.setStock(productRequest.getStock());
+        productInfo.setDeliveryFee(productRequest.getDeliveryFee());
+        productInfo.setRegDate(productInfo.getRegDate());
+        productInfo.setProduct(product);
+
+        productInfoRepository.save(productInfo);
+
+
+        productImageRepository.deleteProductImagesByProductId(productNo);
+
+        List<ProductImage> productImageList = new ArrayList<>();
+        for (MultipartFile multipartFile : files) {
+            UUID uuid = UUID.randomUUID();
+            String originalFileName = multipartFile.getOriginalFilename();
+            String EditedName = uuid + originalFileName;
+            String filePathVue = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
+            String filePathFlutter = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\product\\";
+
+            // Product Image Entity value add
+            ProductImage productImage = new ProductImage();
+            productImage.setOriginalName(originalFileName);
+            productImage.setProduct(product);
+            productImage.setEditedName(EditedName);
+            productImage.setImagePathVue(filePathVue);
+            productImage.setImagePathFlutter(filePathFlutter);
+            productImageList.add(productImage);
+            log.info(multipartFile.getOriginalFilename());
+
+            try {
+                FileOutputStream writerVue = new FileOutputStream(
+                        filePathVue + EditedName
+                );
+                FileOutputStream writerFlutter = new FileOutputStream(
+                        filePathFlutter + EditedName
+                );
+                writerVue.write(multipartFile.getBytes());
+                writerFlutter.write(multipartFile.getBytes());
+                writerVue.close();
+                writerFlutter.close();
+                log.info("file upload success");
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+       productImageRepository.saveAll(productImageList);
+
+    }
+
+    //상품 삭제 ServiceImpl 넘겨받은 productNo의 상품 삭제
+    @Override
+    public void remove(Long productNo) {
+
+        List<ProductImageMapping> removeImage = productImageRepository.findProductImagesOnSpecificProduct(productNo);
+
+        String vuePath = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
+        String flutterPath = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\product\\";
+
+        for (int i = 0; i < removeImage.size(); i++) {
+
+            String fileName = removeImage.get(i).getEditedName();
+            System.out.println(fileName);
+
+            File vueFile = new File(vuePath + fileName);
+            File flutterFile = new File(flutterPath + fileName);
+
+
+            if(vueFile.exists()){
+                vueFile.delete();
+            }else{
+                System.out.println("파일삭제실패!");
+            }
+            if(flutterFile.exists()){
+                flutterFile.delete();
+            }else{
+                System.out.println("파일삭제실패!");
+            }
+        }
+
+        productImageRepository.deleteProductImagesByProductId(productNo);
+        productInfoRepository.deleteProductInfoByProductId(productNo);
+        productRepository.deleteById(Long.valueOf(productNo));
+    }
+
 }

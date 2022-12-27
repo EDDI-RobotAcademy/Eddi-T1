@@ -85,4 +85,23 @@ public class ProductController {
         return productService.imageList(productNo);
     }
 
+    @PutMapping("/modify/{productNo}")
+    public String productModify(
+            @PathVariable("productNo") Long productNo,
+            @RequestPart(value = "files", required = false) List<MultipartFile> fileList,
+            @RequestPart(value = "product") ProductRequest productRequest) {
+        log.info("productModify files :  " + fileList);
+        log.info("productModify product :  " + productRequest);
+
+        productService.modify(productRequest, fileList, productNo);
+
+        return "상품이 수정되었습니다.";
+    }
+
+    @DeleteMapping("/remove/{productNo}")
+    public void productRemove (@PathVariable("productNo") Long productNo) {
+        log.info("productRemove()");
+
+        productService.remove(productNo);
+    }
 }

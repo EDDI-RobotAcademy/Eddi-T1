@@ -93,4 +93,36 @@ public class ProductTestCase {
 
         System.out.println("product : " + product);
     }
+
+
+    @Test
+    public void productModify() throws Exception {
+        List<MultipartFile> fileList = new ArrayList<>() {};
+        MockMultipartFile file1 = new MockMultipartFile(
+                "image1", "cookie3.jpg", "image/jpg", new FileInputStream("C:/Users/SAMSUNG/Desktop/사진/cookie3.jpg")
+        );
+        MockMultipartFile file2 = new MockMultipartFile(
+                "image2", "cookie4.jpg", "image/jpg", new FileInputStream("C:/Users/SAMSUNG/Desktop/사진/cookie4.jpg")
+        );
+        fileList.add(file1);
+        fileList.add(file2);
+
+
+        ProductRequest productRequest = new ProductRequest(
+                "제발돼라222", "rara", "노하우", "제발제발제발22222" +
+                "행운의 포춘쿠키 선물set입니다",
+                "으ㅇ아아ㅏㅇ222222", 40000, 1500, 12);
+
+
+        System.out.println("productRegister file :  " + fileList);
+        System.out.println("productRegister request :  " + productRequest);
+
+        productService.modify(productRequest, fileList, 1L);
+
+    }
+
+    @Test
+    public void productRemove() {
+        productService.remove(1L);
+    }
 }
