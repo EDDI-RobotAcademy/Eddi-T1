@@ -1,4 +1,6 @@
+import 'package:buy_idea/pages/account/sign_in_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -27,6 +29,9 @@ class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
 class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAndShoppingCartSelectModalSheet> {
 
   int purchaseQuantity = 1;
+
+  static const storage = FlutterSecureStorage();
+  dynamic memberInfo = '';
 
   // 상품 금액이 숫자 세자리 넘어갈 때마다 콤마를 넣기 위한 intl 라이브러리를 통한 포맷 변수 초기화
   var f = NumberFormat('###,###,###,###');
@@ -129,6 +134,29 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
     return Text('무료배송', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
+  bool checkSignIn() {
+    if (memberInfo != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  }
+
+  _asyncMethod() async {
+    memberInfo = await storage.read(key: 'userToken');
+    setState(() {
+      memberInfo = memberInfo;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -224,7 +252,35 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
                         fixedSize: Size(190, 30)
                       ),
                       onPressed: () {
-
+                        if(checkSignIn()) {
+                          // TODO: 장바구니에 상품을 담고 장바구니 페이지로 이동할지 말지 선택하는 다이얼로그 띄우는 로직
+                        } else {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  elevation: 20,
+                                  backgroundColor: Colors.white.withOpacity(0.8),
+                                  content: Text('장바구니를 이용하기 위해서 로그인이 필요합니다!', textAlign: TextAlign.center,),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.off(SignInPage());
+                                        },
+                                        child: Text('로그인', style: TextStyle(color: Color(0xff2F4F4F)))
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: Text('취소', style: TextStyle(color: Color(0xff2F4F4F)))
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+                        }
                       },
                       child: Text(
                         '장바구니',
@@ -239,7 +295,35 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
                         fixedSize: Size(190, 30)
                       ),
                       onPressed: () {
-
+                        if (checkSignIn()) {
+                          // TODO: 배송지 입력 페이지로 이동
+                        } else {
+                          showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  elevation: 20,
+                                  backgroundColor: Colors.white.withOpacity(0.8),
+                                  content: Text('구매하기 위해서 로그인이 필요합니다!', textAlign: TextAlign.center,),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.off(SignInPage());
+                                        },
+                                        child: Text('로그인', style: TextStyle(color: Color(0xff2F4F4F)))
+                                    ),
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: Text('취소', style: TextStyle(color: Color(0xff2F4F4F)))
+                                    )
+                                  ],
+                                );
+                              }
+                          );
+                        }
                       },
                       child: Text(
                         '구매하기',
