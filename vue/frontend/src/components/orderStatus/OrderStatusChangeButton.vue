@@ -33,7 +33,7 @@ export default {
   data (){
     return{
       orderStatusList: [
-        { title: '입금 전'},
+
         { title: '입금 완료'},
         { title: '배송 중'},
         { title: '배송 완료'},
