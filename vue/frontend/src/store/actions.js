@@ -221,15 +221,4 @@ export default {
                 commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
             });
     },
-
-    // eslint-disable-next-line no-empty-pattern
-    async requestShoppingBucketItemImgToSpring({ }, payload) {
-        console.log('requestShoppingBucketItemImgToSpring')
-        const productNo = payload;
-
-        await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
-            .then((res) => {
-                localStorage.setItem('ImgEditedName', res.data.editedName);
-            });
-    },
 }
