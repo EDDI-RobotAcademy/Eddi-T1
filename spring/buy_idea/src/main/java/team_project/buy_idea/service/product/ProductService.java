@@ -16,6 +16,7 @@ public interface ProductService {
     public ProductImageMapping thumbnailImage(Long productNo);
     public Product read(Long productNo);
     public List<ProductImageMapping> imageList(Long productNo);
-
     public void modify(ProductRequest productRequest, List<MultipartFile> files, Long productNo);
+    public void remove(Long productNo);
+
 }

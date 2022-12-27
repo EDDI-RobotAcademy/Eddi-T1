@@ -191,7 +191,6 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-
         //product 저장
         product.setTitle(productRequest.getTitle());
         product.setNickname(productRequest.getNickname());
@@ -253,8 +252,41 @@ public class ProductServiceImpl implements ProductService {
 
        productImageRepository.saveAll(productImageList);
 
-
     }
 
+    //상품 삭제 ServiceImpl 넘겨받은 productNo의 상품 삭제
+    @Override
+    public void remove(Long productNo) {
+
+        List<ProductImageMapping> removeImage = productImageRepository.findProductImagesOnSpecificProduct(productNo);
+
+        String vuePath = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
+        String flutterPath = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\product\\";
+
+        for (int i = 0; i < removeImage.size(); i++) {
+
+            String fileName = removeImage.get(i).getEditedName();
+            System.out.println(fileName);
+
+            File vueFile = new File(vuePath + fileName);
+            File flutterFile = new File(flutterPath + fileName);
+
+
+            if(vueFile.exists()){
+                vueFile.delete();
+            }else{
+                System.out.println("파일삭제실패!");
+            }
+            if(flutterFile.exists()){
+                flutterFile.delete();
+            }else{
+                System.out.println("파일삭제실패!");
+            }
+        }
+
+        productImageRepository.deleteProductImagesByProductId(productNo);
+        productInfoRepository.deleteProductInfoByProductId(productNo);
+        productRepository.deleteById(Long.valueOf(productNo));
+    }
 
 }

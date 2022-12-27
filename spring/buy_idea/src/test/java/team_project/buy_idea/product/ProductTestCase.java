@@ -95,7 +95,6 @@ public class ProductTestCase {
     }
 
 
-
     @Test
     public void productModify() throws Exception {
         List<MultipartFile> fileList = new ArrayList<>() {};
@@ -120,5 +119,10 @@ public class ProductTestCase {
 
         productService.modify(productRequest, fileList, 1L);
 
+    }
+
+    @Test
+    public void productRemove() {
+        productService.remove(1L);
     }
 }
