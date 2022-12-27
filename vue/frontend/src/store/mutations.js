@@ -3,7 +3,8 @@ import {
     REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
     REQUEST_NICKNAME_MODIFY_FROM_SPRING,
     SING_IN_CHECK_VALUE,
-    USER_TOKEN
+    USER_TOKEN,
+    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING
 
 } from './mutation-types'
 
@@ -22,6 +23,9 @@ export default {
     },
     [USER_TOKEN](state, passingData) {
         state.userToken = passingData
+    },
+    [REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING](state, passingData) {
+        state.shoppingBucketProductItemList = passingData
     },
 
 }

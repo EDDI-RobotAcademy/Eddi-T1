@@ -1,5 +1,6 @@
 import {
-    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING
+    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
+    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -202,5 +203,33 @@ export default {
             .catch(() => {
                 alert('오류가 발생하였습니다.')
             })
-    }
+    },
+
+    /**
+     *  일반회원 사용자 장바구니 상품 리스트 요청 axios
+     *  @param commit
+     *  @param payload memberToken
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestShoppingBucketItemListToSpring({commit}, payload) {
+        console.log('requestShoppingBucketItemListToSpring')
+
+        const memberToken = payload
+
+        await axios.post(`http://localhost:8888/order/shopping-bucket-list/${memberToken}`)
+            .then((res) => {
+                commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
+            });
+    },
+
+    // eslint-disable-next-line no-empty-pattern
+    async requestShoppingBucketItemImgToSpring({ }, payload) {
+        console.log('requestShoppingBucketItemImgToSpring')
+        const productNo = payload;
+
+        await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
+            .then((res) => {
+                localStorage.setItem('ImgEditedName', res.data.editedName);
+            });
+    },
 }
