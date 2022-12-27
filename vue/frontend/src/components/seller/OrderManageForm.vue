@@ -27,9 +27,7 @@
       <template v-slot:default>
         <thead>
         <tr>
-          <th class="text-center">
-            입금 전
-          </th>
+
           <th class="text-center">
             입금완료
           </th>
@@ -52,9 +50,7 @@
         </thead>
         <tbody>
         <tr>
-          <th class="text-center">
-            {{beforeDepositAmount}}
-          </th>
+
           <th class="text-center">
             {{afterDepositAmount}}
           </th>
@@ -81,8 +77,8 @@
 
     <v-expansion-panels focusable>
 
-      <!--입금 전-->
-      <OrderStatusForm :status="beforeDeposit" :product-lists="beforeDepositList"></OrderStatusForm>
+
+
 
       <!--입금 완료-->
       <OrderStatusForm :status="afterDeposit" :product-lists="afterDepositList"></OrderStatusForm>
