@@ -62,7 +62,7 @@
             <h4>회원가입</h4>
           </v-btn>
         </template>
-        <v-icon @click="show" size="30" color="#2F4F4F">mdi-cart-variant</v-icon>
+        <v-icon @click="moveShoppingCardPage" size="30" color="#2F4F4F">mdi-cart-variant</v-icon>
       </v-app-bar>
     </v-container>
     <v-main>
@@ -98,6 +98,9 @@ export default {
       this.$router.push({name: "HomeView"})
       history.go(0)
     },
+    moveShoppingCardPage(){
+      this.$router.push({name: 'ShoppingCartView'})
+    }
   },
 };
 </script>
