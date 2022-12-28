@@ -169,6 +169,11 @@
           </v-container>
         </v-card>
         <!--구매하기 버튼-->
+        <v-container style="width: 800px">
+          <v-btn width="100%" height="40px" elevation="0" style="background-color: #2F4F4F; color: white">
+            <h4>구매하기</h4>
+          </v-btn>
+        </v-container>
       </v-container>
     </v-container>
   </div>
@@ -254,7 +259,7 @@ export default {
       this.totalProductPrice += this.selectList[i].product.price * this.selectList[i].itemCount
 
       if (this.selectList[i].product.price * this.selectList[i].itemCount >= 50000) {
-        this.totalDeliveryFee = 0
+        this.totalDeliveryFee += 0
 
       } else {
         this.totalDeliveryFee += this.selectList[i].product.productInfo.deliveryFee
