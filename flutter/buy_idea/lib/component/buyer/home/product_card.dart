@@ -6,11 +6,9 @@ class HomeProductCard extends StatelessWidget {
     required this.image,
     required this.title,
     required this.press,
-    required this.bgColor,
   }) : super(key: key);
   final String image, title;
   final VoidCallback press;
-  final Color bgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +26,22 @@ class HomeProductCard extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(12.0)),
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
               ),
               child: Image.asset(
-                image,
+                'assets/product/$image',
                 height: 132,
               ),
             ),
             const SizedBox(height: 16.0 / 2),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
-            )
+            SizedBox(
+              height: 60.0,
+              child: Text(
+                title,
+                style: const TextStyle(color: Colors.black),
+              ),
+            ),
           ],
         ),
       ),
