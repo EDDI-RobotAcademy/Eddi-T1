@@ -20,6 +20,7 @@ class CategoryProductListForm extends StatefulWidget {
 
 class _CategoryProductListFormState extends State<CategoryProductListForm> {
   late ScrollController _scrollController;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -78,6 +79,11 @@ class _CategoryProductListFormState extends State<CategoryProductListForm> {
         ));
         debugPrint(widget.category_list.toString());
       }
+
+      setState(() {
+        print("comes to bottom $isLoading");
+        isLoading = true;
+      });
     }
   }
 
