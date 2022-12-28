@@ -39,15 +39,18 @@ class _CategoryProductCardState extends State<CategoryProductCard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(6.0),
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image:
-                                AssetImage('assets/product/${widget.image}')),
-                        borderRadius: BorderRadius.circular(10)),
+                  child: GestureDetector(
+                    onTap: widget.press,
+                    child: Container(
+                      width: 180,
+                      height: 180,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  AssetImage('assets/product/${widget.image}')),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
                   ),
                 ),
                 VerticalDivider(),
