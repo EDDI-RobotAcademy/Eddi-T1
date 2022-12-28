@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CategoryProductCard extends StatefulWidget {
   const CategoryProductCard(
       {Key? key,
+      required this.productNo,
       required this.image,
       required this.title,
       required this.nickname,
       required this.price,
-      required this.starRate,
-      required this.reviewCount,
+      // required this.starRate,
+      // required this.reviewCount,
       required this.press})
       : super(key: key);
 
   @override
   State<CategoryProductCard> createState() => _CategoryProductCardState();
-  final String image, title, nickname, price, starRate, reviewCount;
+  final int productNo, price;
+  final String image, title, nickname;
+
+  // final int starRate, reviewCount;
   final VoidCallback press;
 }
 
 class _CategoryProductCardState extends State<CategoryProductCard> {
+  var f = NumberFormat('###,###,###,###');
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -30,13 +37,18 @@ class _CategoryProductCardState extends State<CategoryProductCard> {
             padding: const EdgeInsets.all(2.0),
             child: Column(
               children: [
-                Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover, image: AssetImage(widget.image)),
-                      borderRadius: BorderRadius.circular(10)),
+                Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Container(
+                    width: 180,
+                    height: 180,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image:
+                                AssetImage('assets/product/${widget.image}')),
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
                 ),
                 VerticalDivider(),
                 SizedBox(height: 5),
@@ -47,17 +59,18 @@ class _CategoryProductCardState extends State<CategoryProductCard> {
                     Text(widget.nickname,
                         style: TextStyle(fontSize: 10, color: Colors.grey)),
                     SizedBox(
-                      height: 40,
-                        child: Text(widget.title, style: TextStyle(fontSize: 13))),
+                        height: 40,
+                        child:
+                            Text(widget.title, style: TextStyle(fontSize: 13))),
                     Divider(
                       thickness: 1,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Text(
-                        widget.price + "원",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        f.format(widget.price) + "원",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -73,13 +86,15 @@ class _CategoryProductCardState extends State<CategoryProductCard> {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                widget.starRate,
+                                '',
+                                // widget.starRate,
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
                               ),
                               Expanded(
                                   child: Text(
-                                "(" + widget.reviewCount + ")",
+                                '',
+                                // "(" + widget.reviewCount + ")",
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey),
                               )),
