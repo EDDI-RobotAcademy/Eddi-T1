@@ -48,6 +48,8 @@ class _HomeFormState extends State<HomeForm> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,7 +63,7 @@ class _HomeFormState extends State<HomeForm> {
               MaterialPageRoute(builder: (context) => const HandmadePage()));
         }),
         SizedBox(height: 30),
-        HomeCategoryProduct(nicknameInfo: nickname, category: '직업 노하우'),
+        HomeCategoryProduct(nicknameInfo: nickname, category: '노하우'),
         ViewMoreButton(onCustomButtonPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const KnowhowPage()));
