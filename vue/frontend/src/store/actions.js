@@ -1,6 +1,12 @@
 import {
     REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
-    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING
+    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING,
+    REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
+    REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
+    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY
 } from './mutation-types'
 
 import axios from 'axios'
@@ -219,6 +225,56 @@ export default {
         await axios.post(`http://localhost:8888/order/shopping-bucket-list/${memberToken}`)
             .then((res) => {
                 commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
+                console.log(res.data)
+            });
+    },
+
+    /**
+     *  메인페이지 카테고리별 상품 요청 axios
+     *  @param commit
+     *  @param payload category, productSize
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductListByCategoryToSpring({ commit }, payload) {
+        console.log("requestProductListByCategoryToSpring")
+
+
+        await axios.get('http://localhost:8888/product/list', {
+            params: {
+                category: payload.category,
+                productSize: payload.productSize
+            }})
+            .then((res) => {
+                if (payload.category == "핸드메이드"){
+                    commit(REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING, res.data)
+                } else if (payload.category == "노하우") {
+                    commit(REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING, res.data)
+                } else {
+                    commit(REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING, res.data)
+                }
+            });
+    },
+
+    /**
+     *  메인페이지 카테고리별 상품 이미지 요청 axios
+     *  @param commit
+     *  @param payload productNo, category
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductImgListToSpring({ commit }, payload) {
+        console.log("requestProductImgListToSpring")
+        const {productNo, category} = payload
+
+        await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
+            .then((res) => {
+
+                if (category == '핸드메이드'){
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE, res.data.editedName)
+                } else if (category == '노하우') {
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW, res.data.editedName)
+                } else {
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HOBBY, res.data.editedName)
+                }
             });
     },
 }
