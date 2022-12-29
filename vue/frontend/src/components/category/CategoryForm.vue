@@ -2,76 +2,75 @@
   <v-container style="width: 1400px">
     <v-row style="margin-top: 30px">
       <v-layout>
-        <div style="margin-top: 30px; margin-bottom: 30px"
-
-        >
+        <div style="margin-top: 30px; margin-bottom: 30px; margin-left: 110px">
           <h2 style="font-weight: bold">핸드메이드</h2>
         </div>
+        <v-spacer></v-spacer>
+        <div style="margin-top: 40px; margin-right: 110px;">
+          <v-btn
+              elevation="0"
+              small
+              style="background-color: #FAEBD7"
+          >
+            <span style="font-size: 12px; font-weight: bold">핸드메이드 더보기</span>
+          </v-btn>
+        </div>
       </v-layout>
-      <v-spacer></v-spacer>
-
     </v-row>
 
     <v-container>
       <v-layout>
         <v-row class="justify-center">
-          <a href="/product-read" v-for="(item, index) in mainPageProductListByHandmade" :key="index"
-             style="text-decoration: none; color: black"
-          >
-            <v-card
-                class="ma-4"
-                max-width="210"
+          <div v-for="(item, index) in mainPageProductListByHandmade" :key="index">
+            <a href="/product-read"
+               style="text-decoration: none; color: black"
             >
-              <v-img
-                  class="white--text align-end"
-                  height="200px"
-                  :src="require('@/assets/productImg/' + mainPageProductImgListByHandmade[index])"
+              <v-card
+                  class="ma-4"
+                  max-width="210"
+                  flat
               >
-              </v-img>
-              <div>
-                <v-card-subtitle>
-                  <h4>{{ item.nickname }}</h4>
-                </v-card-subtitle>
-              </div>
+                <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    :src="require('@/assets/productImg/' + mainPageProductImgListByHandmade[index])"
+                >
+                </v-img>
 
-              <v-divider></v-divider>
+                <div style="padding: 5px 10px 10px 5px; height: 60px;">
+                  <h5>{{ item.title }}</h5>
+                </div>
 
-              <div style="padding: 5px 10px 10px 5px; height: 60px;">
-                <h5>{{ item.title }}</h5>
-              </div>
+<!--                <v-card-text class="text&#45;&#45;primary" align="end" style="padding: 3px 3px 3px 3px;">-->
+<!--                  {{ item.price | comma }}원-->
+<!--                </v-card-text>-->
 
-              <v-divider></v-divider>
-              <v-card-text class="text--primary" align="end" style="padding: 3px 3px 3px 3px;">
-                {{ item.price | comma }}원
-              </v-card-text>
+              </v-card>
+            </a>
+          </div>
 
-            </v-card>
-          </a>
         </v-row>
       </v-layout>
     </v-container>
-    <div align="center" style="margin-top: 10px">
-      <v-btn
-          rounded
-          elevation="1"
-          color="#2F4F4F"
-          large
-      >
-        <span style="font-size: 16px; color: white">핸드메이드 더보기</span>
-      </v-btn>
-    </div>
+
 
     <!-- 노하우 -->
-
     <v-row style="margin-top: 30px">
       <v-layout>
-        <div style="margin-top: 30px; margin-bottom: 30px"
-
-        >
+        <div style="margin-top: 30px; margin-bottom: 30px; margin-left: 110px">
           <h2 style="font-weight: bold">노하우</h2>
         </div>
       </v-layout>
       <v-spacer></v-spacer>
+      <div style="margin-top: 40px; margin-right: 110px;">
+        <v-btn
+            elevation="0"
+            small
+            style="background-color: #FAEBD7"
+        >
+          <span style="font-size: 12px; font-weight: bold">노하우 더보기</span>
+        </v-btn>
+      </div>
 
     </v-row>
 
@@ -114,27 +113,24 @@
         </v-row>
       </v-layout>
     </v-container>
-    <div align="center" style="margin-top: 10px">
-      <v-btn
-          rounded
-          elevation="1"
-          color="#2F4F4F"
-          large
-      >
-        <span style="font-size: 16px; color: white">노하우 더보기</span>
-      </v-btn>
-    </div>
 
     <!-- 취미/특기 -->
     <v-row style="margin-top: 30px">
       <v-layout>
-        <div style="margin-top: 30px; margin-bottom: 30px"
-
-        >
+        <div style="margin-top: 30px; margin-bottom: 30px; margin-left: 110px">
           <h2 style="font-weight: bold">취미/특기</h2>
         </div>
       </v-layout>
       <v-spacer></v-spacer>
+      <div style="margin-top: 40px; margin-right: 110px;">
+        <v-btn
+            elevation="0"
+            small
+            style="background-color: #FAEBD7"
+        >
+          <span style="font-size: 12px; font-weight: bold">취미/특기 더보기</span>
+        </v-btn>
+      </div>
 
     </v-row>
 
@@ -175,16 +171,6 @@
         </v-row>
       </v-layout>
     </v-container>
-    <div align="center" style="margin-top: 10px">
-      <v-btn
-          rounded
-          elevation="1"
-          color="#2F4F4F"
-          large
-      >
-        <span style="font-size: 16px; color: white">취미/특기 더보기</span>
-      </v-btn>
-    </div>
   </v-container>
 </template>
 
