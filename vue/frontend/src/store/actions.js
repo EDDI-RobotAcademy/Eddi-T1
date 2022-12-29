@@ -221,4 +221,25 @@ export default {
                 commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
             });
     },
+
+    /**
+     * 사업자정보 입력후 사업자등록 요청 axios.
+     * @param payload
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestRegisterSellerInfoToSpring ({ }, payload) {
+        console.log('requestRegisterSellerInfoToSpring()')
+
+        const { seller,  city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber } = payload
+        return axios.post('http://localhost:8888/seller-info/register',
+            { seller,  city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber })
+            .then(() => {
+                alert('사업자 등록 성공')
+                router.push({name: 'ProductManageView'})
+            })
+            .catch(() => {
+                alert('오류가 발생하였습니다.')
+            })
+    },
 }
