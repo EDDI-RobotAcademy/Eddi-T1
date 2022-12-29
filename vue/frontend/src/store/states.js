@@ -4,4 +4,10 @@ export default {
     signInCheckValue: false,
     userToken: "",
     shoppingBucketProductItemList: [],
+    mainPageProductListByHandmade: [],
+    mainPageProductListByKnowHow: [],
+    mainPageProductListByHobby: [],
+    mainPageProductImgListByHandmade: [],
+    mainPageProductImgListByKnowHOw: [],
+    mainPageProductImgListByHobby: [],
 }

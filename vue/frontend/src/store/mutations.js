@@ -4,7 +4,13 @@ import {
     REQUEST_NICKNAME_MODIFY_FROM_SPRING,
     SING_IN_CHECK_VALUE,
     USER_TOKEN,
-    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING
+    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING,
+    REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
+    REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
+    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY
 
 } from './mutation-types'
 
@@ -26,6 +32,24 @@ export default {
     },
     [REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING](state, passingData) {
         state.shoppingBucketProductItemList = passingData
+    },
+    [REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING](state, passingData){
+        state.mainPageProductListByHandmade = passingData
+    },
+    [REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING](state, passingData) {
+        state.mainPageProductListByKnowHow = passingData
+    },
+    [REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING](state, passingData) {
+        state.mainPageProductListByHobby = passingData
+    },
+    [REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE](state, passingData) {
+        state.mainPageProductImgListByHandmade.push(passingData)
+    },
+    [REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW](state, passingData) {
+        state.mainPageProductImgListByKnowHOw.push(passingData)
+    },
+    [REQUEST_PRODUCT_IMG_LIST_BY_HOBBY](state, passingData) {
+        state.mainPageProductImgListByHobby.push(passingData)
     },
 
 }
