@@ -16,7 +16,7 @@
         <thead>
         <tr>
           <th class="text-center">
-            <h2>판매자 {{ Seller }} 님의 주문처리 현황</h2>
+            <h2>판매자 {{ nickname }} 님의 주문처리 현황</h2>
           </th>
         </tr>
         </thead>
@@ -121,6 +121,7 @@ export default {
   },
   data () {
     return {
+      nickname:  this.$store.state.memberInfoAfterSignIn.nickname,
 
       beforeDeposit: "입금 전",
       afterDeposit: "입금 완료",

@@ -26,10 +26,10 @@ public class ShoppingBucketController {
         bucketService.addProductToShoppingBucket(bucketRequest.toShoppingBucketRequest());
     }
 
-    @PostMapping("/shopping-bucket-list/{memberToken}")
-    public List<ShoppingBucketItem> shoppingBucketItemList(@PathVariable("memberToken") String memberToken) {
-        log.info("shoppingBucketItemList " + memberToken);
+    @PostMapping("/shopping-bucket-list/{nickname}")
+    public List<ShoppingBucketItem> shoppingBucketItemList(@PathVariable("nickname") String nickname) {
+        log.info("shoppingBucketItemList " + nickname);
 
-        return bucketService.shoppingBucketItemList(memberToken);
+        return bucketService.shoppingBucketItemList(nickname);
     }
 }

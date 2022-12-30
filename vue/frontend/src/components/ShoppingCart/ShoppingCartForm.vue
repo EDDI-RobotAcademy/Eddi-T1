@@ -7,51 +7,65 @@
       <v-divider style="margin-top: 30px; margin-bottom: 30px;"></v-divider>
 
       <!-- 장바구니 상품 표시 카드 -->
-      <v-container style="width: 900px" >
+      <v-container style="width: 900px" v-if="!shoppingBucketProductItemList || (Array.isArray(shoppingBucketProductItemList) && shoppingBucketProductItemList.length === 0)">
+        <div align="center">
+          <h2>장바구니에 상품이 없습니다.</h2>
+        </div>
+      </v-container>
+
+      <v-container style="width: 900px" v-else>
         <v-card style="border: 1px solid black; margin-top: 10px;"
-                v-for="(item,index) in product" :key="index">
+                v-for="(item, index) in shoppingBucketProductItemList" :key="index">
           <v-layout style="background-color: #2F4F4F">
-            <v-checkbox style="margin-left: 30px;" color="#FAEBD7" dark v-model="productCheckValue"
-                        @change="setTotalPrice"/>
-            <!--<h4>{{item.sellerName}}</h4>-->
-            <h4 style="margin-top: 20px; color: white">{{ item.sellerName }}</h4>
+            <v-checkbox style="margin-left: 30px;" color="#FAEBD7" dark v-model="selectList"
+                        @click="selectProduct(item.product.price, item.itemCount)"
+                        :value="item"
+                        type="checkbox"
+            />
+
+            <h4 style="margin-top: 20px; color: white">{{ item.product.nickname }}</h4>
+
           </v-layout>
 
           <v-layout>
             <v-card max-width="100"
                     style="padding: 15px 15px 15px 15px"
                     flat>
-<!--              <v-img-->
-<!--                  height="75px"-->
-<!--                  :src="require('@/assets/productImg/'+item.thumbnailImage)"-->
-<!--              >-->
-<!--              </v-img>-->
+                            <v-img
+                                height="75px"
+                                :src="require('@/assets/productImg/'+ item.product.productImages[0].editedName)"
+                            >
+                            </v-img>
             </v-card>
 
             <v-card style="width: 100%;" flat>
               <v-layout style="margin-bottom: 30px;">
-                <h4 style="margin-top: 40px; padding: 0px 0px 0px 20px">{{ item.productTitle }}</h4>
-                <!--<h4>{{item.title}}</h4>-->
+                <h4 style="margin-top: 40px; padding: 0px 0px 0px 20px">{{ item.product.title }}</h4>
 
                 <v-spacer></v-spacer>
                 <v-layout style="margin-top: 40px" justify-end>
 
                   <div>
-                    <v-btn small plain elevation="0" @click="minusProductAmount">
+                    <v-btn small plain elevation="0" @click="minusProductAmount(index)"
+                           :disabled="showMinusButtonValue"
+
+                    >
                       <h1>-</h1>
                     </v-btn>
                   </div>
                   <div>
-                    <h3>{{ item.productAmount }}</h3>
+                    <h3>{{ item.itemCount }}</h3>
                   </div>
                   <div>
-                    <v-btn small plain elevation="0" @click="plusProductAmount">
+                    <v-btn small plain elevation="0" @click="plusProductAmount(index)"
+                           :disabled="showPlusButtonValue"
+                    >
                       <h1>+</h1>
                     </v-btn>
                   </div>
 
                   <div style="margin-top: 5px; margin-left: 30px;">
-                    <h5>{{ item.productPrice | comma }}원</h5>
+                    <h5>{{ item.product.price | comma }}원</h5>
                   </div>
 
                   <div style=" padding: 0px 10px 0px 30px">
@@ -78,7 +92,7 @@
               </div>
               <v-spacer></v-spacer>
               <div style="padding: 13px 20px 10px 0px">
-                {{ item.totalProductPriceByAmount | comma }}원
+                {{ item.product.price * item.itemCount | comma }}원
               </div>
             </v-layout>
           </v-card>
@@ -91,11 +105,17 @@
                 <h4>배송비</h4>
               </div>
               <v-spacer></v-spacer>
-              <div align="end" style="padding: 20px 20px 0px 0px">
-                <h4>{{ item.deliveryFee | comma }}원</h4>
+              <div align="end" style="padding: 20px 20px 0px 0px"
+                   v-if="item.product.price * item.itemCount < 50000"
+              >
+                <h4>{{ item.product.productInfo.deliveryFee | comma }}원</h4>
                 <div>
                   <h5 style="font-weight: normal">50,000이상 무료배송</h5>
                 </div>
+              </div>
+
+              <div align="end" style="padding: 33px 20px 0px 0px" v-else>
+                <h5>무료배송</h5>
               </div>
             </v-layout>
           </v-card>
@@ -104,6 +124,13 @@
 
       <!-- 장바구니 상품 총 가격 표시 바 -->
       <v-container style="width: 900px">
+        <v-checkbox
+            type="checkbox"
+            v-model="allSelected"
+            label="전체선택"
+        >
+
+        </v-checkbox>
         <v-card style="height: 100px; border: 3px solid black" flat>
           <v-container style="width: 600px">
             <v-layout style="height: 100%; width: 100%; margin-top: 8px" justify-center>
@@ -142,141 +169,113 @@
           </v-container>
         </v-card>
         <!--구매하기 버튼-->
-
+        <v-container style="width: 800px">
+          <v-btn width="100%" height="40px" elevation="0" style="background-color: #2F4F4F; color: white">
+            <h4>구매하기</h4>
+          </v-btn>
+        </v-container>
       </v-container>
     </v-container>
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+
+import {mapState} from "vuex";
 
 export default {
   name: "ShoppingCartForm",
+  computed: {
+    ...mapState([
+        'shoppingBucketProductItemList',
+    ]),
+    allSelected: {
+      get: function () {
+        return this.shoppingBucketProductItemList.length === this.selectList.length
+      },
+      set: function (e){
+        this.selectList = e ? this.shoppingBucketProductItemList : []
+        for (let i = 0; i < this.selectList.length; i++) {
+          this.totalProductPrice += this.selectList[i].product.price * this.selectList[i].itemCount
+        }
+      }
+    }
+  },
   data() {
     return {
+      showMinusButtonValue: false,
+      showPlusButtonValue: false,
+      checkboxValue: false,
+      selectList: [],
       rules: {
         required: value => !!value || "필수 입력 사항입니다",
         min: v => v > 0 || `상품 구매 최소수량은 1개 입니다.`,
         max: v => v <= this.stock || `상품재고가 ${this.stock}개 남았습니다`
       },
-      productCheckValue: false,
       stock: 10,
-      productPrice1: 0,
-      deliveryFee: 0,
       totalProductPrice: 0,
       totalDeliveryFee: 0,
       totalPaymentAmount: 0,
-      product: [
-        {
-          sellerName: "예시1",
-          productTitle: "예시1",
-          productAmount: 1,
-          productPrice: 50000,
-          deliveryFee: 3000,
-          totalProductPriceByAmount: 0,
-          thumbnailImage: ''
-        },
-        {
-          sellerName: "예시2",
-          productTitle: "예시2",
-          productAmount: 1,
-          productPrice: 30000,
-          deliveryFee: 3000,
-          totalProductPriceByAmount: 0,
-          thumbnailImage: ''
-        }
-      ],
-      testProduct: []
     }
   },
   methods: {
-    ...mapActions([
-      'requestShoppingBucketItemListToSpring',
-      'requestShoppingBucketItemImgToSpring'
-    ]),
-    freeDeliveryFee() {
-      this.product[0].deliveryFee = 0
-      this.totalDeliveryFee = 0
-    },
-    notFreeDeliveryFee() {
-      this.product[0].deliveryFee = 3000
-    },
-    setTotalPrice() {
-      if (this.productCheckValue == true) {
-        this.totalProductPrice += this.product[0].totalProductPriceByAmount
-        this.totalDeliveryFee += this.product[0].deliveryFee
-        this.totalPaymentAmount = this.totalProductPrice + this.totalDeliveryFee
+    selectProduct(price, itemCount){
+      this.totalProductPrice += (price * itemCount)
 
-      } else if (this.productCheckValue == false) {
-        this.totalProductPrice -= this.product[0].totalProductPriceByAmount
-        this.totalDeliveryFee -= this.product[0].deliveryFee
-        this.totalPaymentAmount = this.totalProductPrice + this.totalDeliveryFee
-      }
+      document.querySelectorAll(`v-checkbox`)
+          .forEach(el => el.checked = false);
+
     },
-    async minusProductAmount() {
-      this.product[0].productAmount--
+    async minusProductAmount(i) {
+      this.shoppingBucketProductItemList[i].itemCount--
 
-      this.product[0].totalProductPriceByAmount -= this.product[0].productPrice
-
-      if (this.product[0].productAmount <= 0) {
-        alert("더이상 낮은 수량은 입력할 수 없습니다.")
-        this.product[0].productAmount = 0
-        this.product[0].totalProductPriceByAmount = 0
+      if (this.shoppingBucketProductItemList[i].itemCount <= 1){
+        this.showMinusButtonValue = true
       }
 
-      if (this.product[0].totalProductPriceByAmount < 50000) {
-        await this.notFreeDeliveryFee()
+      if (this.shoppingBucketProductItemList[i].product.productInfo.stock > this.shoppingBucketProductItemList[i].itemCount){
+        this.showPlusButtonValue = false
       }
+
     },
-    async plusProductAmount() {
-      this.product[0].productAmount++
+    async plusProductAmount(i) {
+      this.shoppingBucketProductItemList[i].itemCount++
 
-      if (this.product[0].productAmount > this.stock) {
-        alert("재고보다 더 많은 수량을 입력할 수 없습니다.")
-        this.product[0].productAmount = this.stock
+      if (this.shoppingBucketProductItemList[i].itemCount > 1){
+        this.showMinusButtonValue = false
       }
 
-      this.product[0].totalProductPriceByAmount += this.product[0].productPrice;
+      if (this.shoppingBucketProductItemList[i].product.productInfo.stock <= this.shoppingBucketProductItemList[i].itemCount){
+        this.showPlusButtonValue = true
+      }
     }
   },
+  beforeUpdate() {
+    this.totalProductPrice = 0
+    this.totalDeliveryFee = 0
+    this.totalPaymentAmount = 0
 
+    for (let i = 0; i < this.selectList.length; i++) {
+      this.totalProductPrice += this.selectList[i].product.price * this.selectList[i].itemCount
+
+      if (this.selectList[i].product.price * this.selectList[i].itemCount >= 50000) {
+        this.totalDeliveryFee += 0
+
+      } else {
+        this.totalDeliveryFee += this.selectList[i].product.productInfo.deliveryFee
+      }
+    }
+
+    this.totalPaymentAmount = this.totalDeliveryFee + this.totalProductPrice
+  },
   filters: {
     comma(val) {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
-  async created() {
-    const memberToken = this.$store.state.userToken
-    // this.product[0].totalProductPriceByAmount = this.product[0].productPrice
-
-    await this.requestShoppingBucketItemListToSpring(memberToken)
-    this.testProduct = new Array(this.$store.state.shoppingBucketProductItemList.length)
-
-    console.log(this.testProduct)
-
-    this.testProduct.push(this.$store.state.shoppingBucketProductItemList[0])
-    this.testProduct.push(this.$store.state.shoppingBucketProductItemList[1])
-
-    console.log(this.testProduct[2].product)
-
-  },
-  async mounted() {
-    this.productNo = this.$store.state.shoppingBucketProductItemList[0].product.productNo
-
-    await this.requestShoppingBucketItemImgToSpring(this.productNo)
-
-  },
-  beforeUpdate() {
-    if (this.product[0].totalProductPriceByAmount >= 50000) {
-       this.freeDeliveryFee()
-    }
-  }
 }
 </script>
 
 <style scoped>
-.puple-input >>> .error--text {
-  color: #2F4F4F !important;
-}
+
 </style>

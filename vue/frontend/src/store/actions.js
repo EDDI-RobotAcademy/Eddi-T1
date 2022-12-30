@@ -1,6 +1,12 @@
 import {
     REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
-    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING
+    REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING,
+    REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
+    REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
+    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY
 } from './mutation-types'
 
 import axios from 'axios'
@@ -219,17 +225,77 @@ export default {
         await axios.post(`http://localhost:8888/order/shopping-bucket-list/${memberToken}`)
             .then((res) => {
                 commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
+                console.log(res.data)
             });
     },
 
-    // eslint-disable-next-line no-empty-pattern
-    async requestShoppingBucketItemImgToSpring({ }, payload) {
-        console.log('requestShoppingBucketItemImgToSpring')
-        const productNo = payload;
+    /**
+     *  메인페이지 카테고리별 상품 요청 axios
+     *  @param commit
+     *  @param payload category, productSize
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductListByCategoryToSpring({ commit }, payload) {
+        console.log("requestProductListByCategoryToSpring")
+
+
+        await axios.get('http://localhost:8888/product/list', {
+            params: {
+                category: payload.category,
+                productSize: payload.productSize
+            }})
+            .then((res) => {
+                if (payload.category == "핸드메이드"){
+                    commit(REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING, res.data)
+                } else if (payload.category == "노하우") {
+                    commit(REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING, res.data)
+                } else {
+                    commit(REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING, res.data)
+                }
+            });
+    },
+
+    /**
+     *  메인페이지 카테고리별 상품 이미지 요청 axios
+     *  @param commit
+     *  @param payload productNo, category
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductImgListToSpring({ commit }, payload) {
+        console.log("requestProductImgListToSpring")
+        const {productNo, category} = payload
 
         await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
             .then((res) => {
-                localStorage.setItem('ImgEditedName', res.data.editedName);
+
+                if (category == '핸드메이드'){
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE, res.data.editedName)
+                } else if (category == '노하우') {
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW, res.data.editedName)
+                } else {
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HOBBY, res.data.editedName)
+                }
             });
+    },
+
+    /**
+     * 사업자정보 입력후 사업자등록 요청 axios.
+     * @param payload
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestRegisterSellerInfoToSpring ({ }, payload) {
+        console.log('requestRegisterSellerInfoToSpring()')
+
+        const { seller,  city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber } = payload
+        return axios.post('http://localhost:8888/seller-info/register',
+            { seller,  city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber })
+            .then(() => {
+                alert('사업자 등록 성공')
+                router.push({name: 'ProductManageView'})
+            })
+            .catch(() => {
+                alert('오류가 발생하였습니다.')
+            })
     },
 }

@@ -3,5 +3,11 @@ export default {
     memberInfoAfterSignIn: {},
     signInCheckValue: false,
     userToken: "",
-    shoppingBucketProductItemList: {}
+    shoppingBucketProductItemList: [],
+    mainPageProductListByHandmade: [],
+    mainPageProductListByKnowHow: [],
+    mainPageProductListByHobby: [],
+    mainPageProductImgListByHandmade: [],
+    mainPageProductImgListByKnowHOw: [],
+    mainPageProductImgListByHobby: [],
 }

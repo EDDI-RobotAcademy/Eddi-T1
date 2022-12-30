@@ -37,16 +37,18 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
 
     @Override
     public void addProductToShoppingBucket(ShoppingBucketRequest bucketRequest) {
-        String memberToken = bucketRequest.getMemberToken();
-        Long memberId = redisService.getValueByKey(memberToken);
+//        String memberToken = bucketRequest.getMemberToken();
+//        Long memberId = redisService.getValueByKey(memberToken);
+
+        String nickname = bucketRequest.getNickname();
 
         Long productId = bucketRequest.getProductId();
         int productAmountValue = bucketRequest.getProductAmountValue();
 
-        Optional<ShoppingBucket> maybeNothingShoppingBucket = shoppingBucketRepository.findByMemberId(memberId);
+        Optional<ShoppingBucket> maybeNothingShoppingBucket = shoppingBucketRepository.findByNickname(nickname);
 
         if (maybeNothingShoppingBucket.isEmpty()) {
-            Optional<Member> maybeMember = memberRepository.findById(memberId);
+            Optional<Member> maybeMember = memberRepository.findBuyDiaMemberByNickname(nickname);
             Member member = maybeMember.get();
 
             ShoppingBucket shoppingBucket = ShoppingBucket.builder()
@@ -57,7 +59,7 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
             shoppingBucketRepository.save(shoppingBucket);
         }
 
-        Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByMemberId(memberId);
+        Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(nickname);
         ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
 
         Optional<Product> maybeProduct = productRepository.findById(productId);
@@ -75,9 +77,8 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
     }
 
     @Override
-    public List<ShoppingBucketItem> shoppingBucketItemList(String memberToken) {
-        Long memberId = redisService.getValueByKey(memberToken);
+    public List<ShoppingBucketItem> shoppingBucketItemList(String nickname) {
 
-        return bucketProductRepository.findShoppingBucketItemListByMemberId(memberId);
+        return bucketProductRepository.findShoppingBucketItemListByMemberId(nickname);
     }
 }
