@@ -9,11 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 public class ShoppingBucketRequest {
 
-    private String memberToken;
+    //    private String memberToken;
+    private String nickname;
     private Long productId;
     private int productAmountValue;
 
     public ShoppingBucketRequest toShoppingBucketRequest() {
-        return new ShoppingBucketRequest(memberToken, productId, productAmountValue);
+        return new ShoppingBucketRequest(nickname, productId, productAmountValue);
     }
 }

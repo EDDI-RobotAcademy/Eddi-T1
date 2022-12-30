@@ -10,5 +10,5 @@ public interface ShoppingBucketService {
 
     public void addProductToShoppingBucket(ShoppingBucketRequest bucketRequest);
 
-    public List<ShoppingBucketItem> shoppingBucketItemList(String memberToken);
+    public List<ShoppingBucketItem> shoppingBucketItemList(String nickname);
 }

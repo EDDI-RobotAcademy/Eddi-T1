@@ -46,7 +46,7 @@ public class ShoppingBucketTest {
     @Test
     String SignIn() {
         //2.로그인
-        MemberSignInRequest signInRequest = new MemberSignInRequest("vvvv", "vvvv", "일반회원");
+        MemberSignInRequest signInRequest = new MemberSignInRequest("wwww", "wwww", "일반회원");
 
         Map<String, String> memberInfo = memberService.signIn(signInRequest);
         String token = memberInfo.get("userToken");
@@ -55,23 +55,17 @@ public class ShoppingBucketTest {
 
     @Test
     void registerShoppingBucket() {
-        String token = SignIn();
+        String nickname = "wwww";
 
-        ShoppingBucketRequest shoppingBucketRequest = new ShoppingBucketRequest(token, 2L, 3);
+        ShoppingBucketRequest shoppingBucketRequest = new ShoppingBucketRequest(nickname, 10L, 1);
 
         shoppingBucketService.addProductToShoppingBucket(shoppingBucketRequest);
     }
 
     @Test
     void getShoppingBucketItemList() {
-        String token = SignIn();
-        System.out.println(token);
-        Long memberId = redisService.getValueByKey(token);
-        System.out.println(memberId);
+        String nickname = "wwww";
 
-        List<ShoppingBucketItem> shoppingBucketItems = shoppingBucketProductRepository.findShoppingBucketItemListByMemberId(memberId);
-
-        ShoppingBucketItem shoppingBucketItem = shoppingBucketItems.get(0);
-        System.out.println("정보들 : " + shoppingBucketItem.getProduct().getProductImages().get(0).getEditedName());
+        System.out.println(shoppingBucketService.shoppingBucketItemList(nickname));
     }
 }
