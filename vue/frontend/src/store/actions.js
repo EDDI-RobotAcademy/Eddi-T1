@@ -220,12 +220,11 @@ export default {
     async requestShoppingBucketItemListToSpring({commit}, payload) {
         console.log('requestShoppingBucketItemListToSpring')
 
-        const memberToken = payload
+        const nickname = payload
 
-        await axios.post(`http://localhost:8888/order/shopping-bucket-list/${memberToken}`)
+        await axios.post(`http://localhost:8888/order/shopping-bucket-list/${nickname}`)
             .then((res) => {
                 commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
-                console.log(res.data)
             });
     },
 

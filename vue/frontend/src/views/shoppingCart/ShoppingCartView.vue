@@ -18,9 +18,9 @@ export default {
     ]),
   },
   async mounted() {
-    const memberToken = this.$store.state.userToken
+    const memberId = this.$store.state.memberInfoAfterSignIn.memberId
 
-    await this.requestShoppingBucketItemListToSpring(memberToken)
+    await this.requestShoppingBucketItemListToSpring(memberId)
   }
 }
 </script>
