@@ -44,12 +44,12 @@ class _DeliveryAddressInputFormState extends State<DeliveryAddressInputForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('배송지', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          Divider(height: 20, color: Colors.grey, thickness: 0.2,),
+          Divider(height: 20, color: Colors.grey, thickness: 1,),
           Row(
             children: [
               SizedBox(
-                width: 80,
-                  child: Text('받는분', style: TextStyle(fontSize: 15, color: Colors.grey))
+                width: 70,
+                  child: Text('받는분', style: TextStyle(fontSize: 13, color: Colors.grey))
               ),
               Expanded(
                 child: TextFormField(
@@ -64,12 +64,12 @@ class _DeliveryAddressInputFormState extends State<DeliveryAddressInputForm> {
               )
             ],
           ),
-          Divider(height: 20, color: Colors.grey, thickness: 0.5,),
+          Divider(height: 20, color: Colors.grey, thickness: 1,),
           Row(
             children: [
               SizedBox(
-                width: 80,
-                  child: Text('전화번호', style: TextStyle(fontSize: 15, color: Colors.grey))
+                width: 70,
+                  child: Text('전화번호', style: TextStyle(fontSize: 13, color: Colors.grey))
               ),
               Expanded(
                 child: TextFormField(
@@ -85,13 +85,13 @@ class _DeliveryAddressInputFormState extends State<DeliveryAddressInputForm> {
               )
             ],
           ),
-          Divider(height: 20, color: Colors.grey, thickness: 0.8,),
+          Divider(height: 20, color: Colors.grey, thickness: 1,),
           Row(
             children: [
               SizedBox(
-                  width: 80,
+                  width: 70,
                   height: 130,
-                  child: Text('주소', style: TextStyle(fontSize: 15, color: Colors.grey))
+                  child: Text('주소', style: TextStyle(fontSize: 13, color: Colors.grey))
               ),
               _checkEnterAddress()
                   ? Expanded(
