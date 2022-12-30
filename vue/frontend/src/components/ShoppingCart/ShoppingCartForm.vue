@@ -18,7 +18,7 @@
                 v-for="(item, index) in shoppingBucketProductItemList" :key="index">
           <v-layout style="background-color: #2F4F4F">
             <v-checkbox style="margin-left: 30px;" color="#FAEBD7" dark v-model="selectList"
-                        @click="selectProduct(item.product.price, item.itemCount)"
+                        @click="selectProduct(item.product.price, item.itemCount, this)"
                         :value="item"
                         type="checkbox"
             />
@@ -74,7 +74,8 @@
                         small
                         elevation="0"
                         style="background-color: #2F4F4F;
-                        color: white; margin-left: 10px;">
+                        color: white; margin-left: 10px;"
+                    >
                       삭제
                     </v-btn>
                   </div>
@@ -170,7 +171,9 @@
         </v-card>
         <!--구매하기 버튼-->
         <v-container style="width: 800px">
-          <v-btn width="100%" height="40px" elevation="0" style="background-color: #2F4F4F; color: white">
+          <v-btn width="100%" height="40px" elevation="0" style="background-color: #2F4F4F; color: white"
+                 :to="{name: 'OrderForm', params: {productInfo: this.selectList, productTotalPrice: this.totalProductPrice}}"
+          >
             <h4>구매하기</h4>
           </v-btn>
         </v-container>
@@ -205,14 +208,7 @@ export default {
     return {
       showMinusButtonValue: false,
       showPlusButtonValue: false,
-      checkboxValue: false,
       selectList: [],
-      rules: {
-        required: value => !!value || "필수 입력 사항입니다",
-        min: v => v > 0 || `상품 구매 최소수량은 1개 입니다.`,
-        max: v => v <= this.stock || `상품재고가 ${this.stock}개 남았습니다`
-      },
-      stock: 10,
       totalProductPrice: 0,
       totalDeliveryFee: 0,
       totalPaymentAmount: 0,
@@ -221,10 +217,6 @@ export default {
   methods: {
     selectProduct(price, itemCount){
       this.totalProductPrice += (price * itemCount)
-
-      document.querySelectorAll(`v-checkbox`)
-          .forEach(el => el.checked = false);
-
     },
     async minusProductAmount(i) {
       this.shoppingBucketProductItemList[i].itemCount--
