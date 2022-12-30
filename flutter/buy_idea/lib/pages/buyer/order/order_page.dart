@@ -4,6 +4,7 @@ import 'package:buy_idea/component/buyer/order/delivery_address_input_form.dart'
 import 'package:buy_idea/component/buyer/order/ordering_customer_info_form.dart';
 import 'package:buy_idea/component/buyer/order/ordering_info_form.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OrderPage extends StatefulWidget {
   final List<int> productNoList;
@@ -28,6 +29,8 @@ class _OrderPageState extends State<OrderPage> {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController streetController = TextEditingController();
   final TextEditingController addressDetailController = TextEditingController();
+
+  var f = NumberFormat('###,###,###,###');
 
   var future;
 
@@ -93,9 +96,52 @@ class _OrderPageState extends State<OrderPage> {
                 ),
               ),
             ),
+            bottomSheet: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 80,
+              padding: EdgeInsets.only(left: 10, right: 10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(top: BorderSide(color: Colors.black12))
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+
+                    },
+                    child: Text('${f.format(_getProductTotalPrice() + _getTotalDeliveryFee())}원 결제하기', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        fixedSize: Size(MediaQuery.of(context).size.width - 20, 60),
+                        primary: Color(0xff2F4F4F)
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
       },
     );
+  }
+
+  int _getProductTotalPrice() {
+    int total = 0;
+    for(int i = 0; i < products.length; i++) {
+      total += products[i].price * widget.purchaseQuantityList[i];
+    }
+    return total;
+  }
+
+  _getTotalDeliveryFee() {
+    int total = 0;
+    for (int i = 0; i < products.length; i++) {
+      if (products[i].price * widget.purchaseQuantityList[i] < 50000) {
+        total += products[i].deliveryFee;
+      }
+    }
+    return total;
   }
 }
