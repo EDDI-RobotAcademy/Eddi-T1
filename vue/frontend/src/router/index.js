@@ -19,6 +19,7 @@ import OrderForm from "@/components/order/OrderForm";
 import ShoppingCartView from "@/views/shoppingCart/ShoppingCartView";
 import ProductModifyView from "@/views/product/ProductModifyView";
 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -84,14 +85,24 @@ const routes = [
     component: ProductRegisterView
   },
   {
-    path: '/product-read',
+    path: '/product-read/:productNo',
     name: 'ProductReadView',
-    component: ProductReadView
+    components: {
+      default: ProductReadView
+    },
+    props: {
+      default: true
+    }
   },
   {
-    path: '/product-modify',
+    path: '/product-modify/:productNo',
     name: 'ProductModifyView',
-    component: ProductModifyView
+    components: {
+      default: ProductModifyView
+    },
+    props: {
+      default: true
+    }
   },
   {
     path: '/my-page',
@@ -118,8 +129,6 @@ const routes = [
     name: 'ShoppingCartView',
     component: ShoppingCartView
   },
-
-
 ]
 
 const router = new VueRouter({

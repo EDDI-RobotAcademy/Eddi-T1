@@ -10,7 +10,9 @@ import {
     REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING,
     REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
     REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
-    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY
+    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
+    REQUEST_PRODUCT_FROM_SPRING,
+
 
 } from './mutation-types'
 
@@ -51,5 +53,7 @@ export default {
     [REQUEST_PRODUCT_IMG_LIST_BY_HOBBY](state, passingData) {
         state.mainPageProductImgListByHobby.push(passingData)
     },
-
+    [REQUEST_PRODUCT_FROM_SPRING](state, passingData) {
+        state.product = passingData
+    },
 }

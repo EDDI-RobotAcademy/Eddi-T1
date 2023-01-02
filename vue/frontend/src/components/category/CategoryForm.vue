@@ -22,7 +22,8 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHandmade" :key="index">
-            <router-link :to="{name: 'HomeView'}"
+            <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString() } }"
                style="text-decoration: none; color: black"
             >
               <v-card
@@ -73,7 +74,8 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByKnowHow" :key="index">
-            <router-link :to="{name: 'HomeView'}"
+            <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString() } }"
                style="text-decoration: none; color: black"
             >
               <v-card
@@ -122,7 +124,8 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHobby" :key="index">
-            <router-link :to="{name: 'HomeView'}"
+            <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString() } }"
                style="text-decoration: none; color: black"
             >
               <v-card
