@@ -75,6 +75,7 @@
                         elevation="0"
                         style="background-color: #2F4F4F;
                         color: white; margin-left: 10px;"
+                        @click="deleteSelectProduct(item.itemId)"
                     >
                       삭제
                     </v-btn>
@@ -184,7 +185,7 @@
 
 <script>
 
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "ShoppingCartForm",
@@ -212,9 +213,16 @@ export default {
       totalProductPrice: 0,
       totalDeliveryFee: 0,
       totalPaymentAmount: 0,
+      deleteCheckValue: true
     }
   },
   methods: {
+    ...mapActions([
+       'requestDeleteShoppingBucketItemFromSpring'
+    ]),
+    async deleteSelectProduct(productItemId){
+      await this.requestDeleteShoppingBucketItemFromSpring(productItemId);
+    },
     selectProduct(price, itemCount){
       this.totalProductPrice += (price * itemCount)
     },

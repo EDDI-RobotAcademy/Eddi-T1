@@ -4,15 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
-import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucketItem;
-import team_project.buy_idea.repository.order.shopppingBucket.ShoppingBucketProductRepository;
-import team_project.buy_idea.repository.product.mapping.ProductImageMapping;
 import team_project.buy_idea.service.member.MemberService;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.order.shopppingbucket.ShoppingBucketService;
-import team_project.buy_idea.service.product.ProductService;
-import team_project.buy_idea.service.security.RedisService;
 
 import java.util.List;
 import java.util.Map;
@@ -24,21 +19,12 @@ public class ShoppingBucketTest {
     private ShoppingBucketService shoppingBucketService;
 
     @Autowired
-    private ShoppingBucketProductRepository shoppingBucketProductRepository;
-
-    @Autowired
     private MemberService memberService;
-
-    @Autowired
-    private RedisService redisService;
-
-    @Autowired
-    private ProductService productService;
 
     @Test
     void SignUp() {
 //        1. 회원가입
-        MemberSignUpRequest signUpRequest = new MemberSignUpRequest("vvvv", "vvvv", "vvvv", "일반회원");
+        MemberSignUpRequest signUpRequest = new MemberSignUpRequest("wwww", "wwww", "wwww", "일반회원");
 
         memberService.signUp(signUpRequest);
     }
@@ -57,7 +43,7 @@ public class ShoppingBucketTest {
     void registerShoppingBucket() {
         String nickname = "wwww";
 
-        ShoppingBucketRequest shoppingBucketRequest = new ShoppingBucketRequest(nickname, 10L, 1);
+        ShoppingBucketRequest shoppingBucketRequest = new ShoppingBucketRequest(nickname, 20L, 1);
 
         shoppingBucketService.addProductToShoppingBucket(shoppingBucketRequest);
     }
@@ -67,5 +53,12 @@ public class ShoppingBucketTest {
         String nickname = "wwww";
 
         System.out.println(shoppingBucketService.shoppingBucketItemList(nickname));
+    }
+
+    @Test
+    void deleteShoppingBucketProduct(){
+        Long itemId = 1L;
+
+        shoppingBucketService.deleteShoppingBucketProduct(itemId);
     }
 }
