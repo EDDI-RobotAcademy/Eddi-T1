@@ -32,4 +32,11 @@ public class ShoppingBucketController {
 
         return bucketService.shoppingBucketItemList(nickname);
     }
+
+    @DeleteMapping("/shopping-bucket-list/{itemId}")
+    public void deleteShoppingBucketProduct(@PathVariable("itemId") Long itemId) {
+        log.info("deleteShoppingBucketProduct" + itemId);
+
+        bucketService.deleteShoppingBucketProduct(itemId);
+    }
 }
