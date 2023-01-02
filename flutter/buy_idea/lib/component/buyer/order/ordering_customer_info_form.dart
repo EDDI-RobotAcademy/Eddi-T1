@@ -37,12 +37,12 @@ class _OrderingCustomerInfoFormState extends State<OrderingCustomerInfoForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('주문 고객', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          Divider(height: 20, color: Colors.grey),
+          Divider(height: 20, color: Colors.grey, thickness: 1,),
           Row(
             children: [
-              Text('닉네임', style: TextStyle(fontSize: 15, color: Colors.grey)),
-              SizedBox(width: 20),
-              Text(nickname, style: TextStyle(fontSize: 15)),
+              Text('닉네임', style: TextStyle(fontSize: 13, color: Colors.grey)),
+              SizedBox(width: 35),
+              Text(nickname, style: TextStyle(fontSize: 12)),
             ],
           ),
         ],

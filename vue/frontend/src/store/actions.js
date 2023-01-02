@@ -63,7 +63,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestSellerSignUpToSpring({ }, payload) {
+    requestSellerSignUpToSpring({}, payload) {
         console.log('requestSellerSignUpToSpring')
 
         const {memberId, nickname, password, memberType} = payload
@@ -85,7 +85,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestBuyerSignUpToSpring({ }, payload) {
+    requestBuyerSignUpToSpring({}, payload) {
         console.log('requestBuyerSignUpToSpring')
 
         const {memberId, nickname, password, memberType} = payload
@@ -114,18 +114,18 @@ export default {
 
         await axios.post('http://localhost:8888/member/sign-in', {memberId, password, memberType})
             .then((res) => {
-                if (localStorage.getItem("userToken") == null){
+                if (localStorage.getItem("userToken") == null) {
                     alert("로그인 되었습니다.")
                     commit(REQUEST_SIGN_IN_TOKEN_FROM_SPRING, res.data)
                     states.userToken = res.data.userToken
 
-                    if (localStorage.getItem("userToken") != states.userToken){
+                    if (localStorage.getItem("userToken") != states.userToken) {
                         store.commit("USER_TOKEN", res.data.userToken)
                     }
 
                     store.commit('SING_IN_CHECK_VALUE', true)
 
-                    if (res.data.memberType == "일반회원"){
+                    if (res.data.memberType == "일반회원") {
                         router.push({name: "HomeView"})
                     } else if (res.data.memberType == "판매자") {
                         router.push({name: "OrderManageView"})
@@ -146,7 +146,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestNicknameModifyFromSpring({ },payload){
+    async requestNicknameModifyFromSpring({}, payload) {
         console.log("requestNicknameModifyFromSpring")
         console.log(payload)
         const {nickname, currentNickname} = payload
@@ -164,9 +164,9 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestCurrentUserAccountDropToSpring({ }, payload) {
+    async requestCurrentUserAccountDropToSpring({}, payload) {
         console.log("requestCurrentUserAccountDropToSpring")
-        const  {currentUserToken} = payload
+        const {currentUserToken} = payload
 
         await axios.post(`http://localhost:8888/member/memberDrop/${currentUserToken}`)
             .then(() => {
@@ -182,10 +182,10 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestRegisterProductToSpring({ }, payload) {
+    requestRegisterProductToSpring({}, payload) {
         console.log('requestRegisterProductToSpring()')
 
-        const { title, category, stock, price, deliveryFee, content, files, infoNotice, nickname} = payload
+        const {title, category, stock, price, deliveryFee, content, files, infoNotice, nickname} = payload
 
         let formData = new FormData()
         let product = {
@@ -220,12 +220,11 @@ export default {
     async requestShoppingBucketItemListToSpring({commit}, payload) {
         console.log('requestShoppingBucketItemListToSpring')
 
-        const memberToken = payload
+        const nickname = payload
 
-        await axios.post(`http://localhost:8888/order/shopping-bucket-list/${memberToken}`)
+        await axios.post(`http://localhost:8888/order/shopping-bucket-list/${nickname}`)
             .then((res) => {
-                commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,res.data)
-                console.log(res.data)
+                commit(REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING, res.data)
             });
     },
 
@@ -235,7 +234,7 @@ export default {
      *  @param payload category, productSize
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestProductListByCategoryToSpring({ commit }, payload) {
+    async requestProductListByCategoryToSpring({commit}, payload) {
         console.log("requestProductListByCategoryToSpring")
 
 
@@ -243,9 +242,10 @@ export default {
             params: {
                 category: payload.category,
                 productSize: payload.productSize
-            }})
+            }
+        })
             .then((res) => {
-                if (payload.category == "핸드메이드"){
+                if (payload.category == "핸드메이드") {
                     commit(REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING, res.data)
                 } else if (payload.category == "노하우") {
                     commit(REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING, res.data)
@@ -261,19 +261,18 @@ export default {
      *  @param payload productNo, category
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestProductImgListToSpring({ commit }, payload) {
+    async requestProductImgListToSpring({commit}, payload) {
         console.log("requestProductImgListToSpring")
         const {productNo, category} = payload
 
         await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
             .then((res) => {
-
-                if (category == '핸드메이드'){
-                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE, res.data.editedName)
+                if (category == '핸드메이드') {
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE, res.data.editedName);
                 } else if (category == '노하우') {
-                    commit(REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW, res.data.editedName)
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW, res.data.editedName);
                 } else {
-                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HOBBY, res.data.editedName)
+                    commit(REQUEST_PRODUCT_IMG_LIST_BY_HOBBY, res.data.editedName);
                 }
             });
     },
@@ -284,12 +283,12 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestRegisterSellerInfoToSpring ({ }, payload) {
+    requestRegisterSellerInfoToSpring({ }, payload) {
         console.log('requestRegisterSellerInfoToSpring()')
 
-        const { seller,  city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber } = payload
+        const {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber} = payload
         return axios.post('http://localhost:8888/seller-info/register',
-            { seller,  city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber })
+            {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber})
             .then(() => {
                 alert('사업자 등록 성공')
                 router.push({name: 'ProductManageView'})
@@ -297,5 +296,26 @@ export default {
             .catch(() => {
                 alert('오류가 발생하였습니다.')
             })
+    },
+
+    /**
+     * 장바구니 상품 삭제 axios.
+     * @param productItemId
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteShoppingBucketItemFromSpring({ }, payload) {
+        console.log("requestDeleteShoppingBucketItemFromSpring");
+
+        const itemId = payload;
+
+        await axios.delete(`http://localhost:8888/order/shopping-bucket-list/${itemId}`)
+            .then(() => {
+                alert("상품이 삭제 되었습니다.")
+                history.go(0)
+            })
+            .catch(() => {
+                alert("상품에 삭제되지 않았습니다.")
+            });
     },
 }

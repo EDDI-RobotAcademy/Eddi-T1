@@ -11,4 +11,6 @@ public interface ShoppingBucketService {
     public void addProductToShoppingBucket(ShoppingBucketRequest bucketRequest);
 
     public List<ShoppingBucketItem> shoppingBucketItemList(String nickname);
+
+    public void deleteShoppingBucketProduct(Long itemId);
 }

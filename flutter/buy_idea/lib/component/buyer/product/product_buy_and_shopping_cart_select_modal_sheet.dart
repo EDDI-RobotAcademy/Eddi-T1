@@ -1,4 +1,5 @@
 import 'package:buy_idea/pages/account/sign_in_page.dart';
+import 'package:buy_idea/pages/buyer/order/order_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
   final int deliveryFee;
   final int freeDeliveryFee;
   final int stock;
+  final int productNo;
 
   const ProductBuyAndShoppingCartSelectModalSheet({
     Key? key,
@@ -19,7 +21,8 @@ class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
     required this.productPrice,
     required this.deliveryFee,
     required this.freeDeliveryFee,
-    required this.stock
+    required this.stock,
+    required this.productNo
   }) : super(key: key);
 
   @override
@@ -296,7 +299,9 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
                       ),
                       onPressed: () {
                         if (checkSignIn()) {
-                          // TODO: 배송지 입력 페이지로 이동
+                          List<int> productNoList = [widget.productNo];
+                          List<int> purchaseQuantityList = [purchaseQuantity];
+                          Get.off(OrderPage(productNoList: productNoList, purchaseQuantityList: purchaseQuantityList));
                         } else {
                           showDialog(
                               context: context,

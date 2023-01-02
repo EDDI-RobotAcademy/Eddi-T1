@@ -81,4 +81,9 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
 
         return bucketProductRepository.findShoppingBucketItemListByMemberId(nickname);
     }
+
+    @Override
+    public void deleteShoppingBucketProduct(Long itemId) {
+        bucketProductRepository.deleteById(itemId);
+    }
 }

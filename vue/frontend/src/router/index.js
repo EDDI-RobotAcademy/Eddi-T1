@@ -106,7 +106,12 @@ const routes = [
   {
     path: '/order-form',
     name: 'OrderForm',
-    component: OrderForm
+    components: {
+      default: OrderForm
+    },
+    props:{
+      default: true
+    }
   },
   {
     path: '/shoppingCart',

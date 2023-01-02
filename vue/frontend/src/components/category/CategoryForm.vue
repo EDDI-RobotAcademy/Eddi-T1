@@ -22,7 +22,7 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHandmade" :key="index">
-            <a href="/product-read"
+            <router-link :to="{name: 'HomeView'}"
                style="text-decoration: none; color: black"
             >
               <v-card
@@ -40,13 +40,8 @@
                 <div style="padding: 5px 10px 10px 5px; height: 60px;">
                   <h5>{{ item.title }}</h5>
                 </div>
-
-<!--                <v-card-text class="text&#45;&#45;primary" align="end" style="padding: 3px 3px 3px 3px;">-->
-<!--                  {{ item.price | comma }}원-->
-<!--                </v-card-text>-->
-
               </v-card>
-            </a>
+            </router-link>
           </div>
 
         </v-row>
@@ -77,39 +72,28 @@
     <v-container>
       <v-layout>
         <v-row class="justify-center">
-          <a href="/product-read" v-for="(item, index) in mainPageProductListByKnowHow" :key="index"
-             style="text-decoration: none; color: black"
-          >
-            <v-card
-                class="ma-4"
-                max-width="210"
+          <div v-for="(item, index) in mainPageProductListByKnowHow" :key="index">
+            <router-link :to="{name: 'HomeView'}"
+               style="text-decoration: none; color: black"
             >
-                            <v-img
-                                class="white--text align-end"
-                                height="200px"
-                                :src="require('@/assets/productImg/' + mainPageProductImgListByKnowHOw[index])"
-                            >
-                            </v-img>
-              <div>
-                <v-card-subtitle>
-                  <h4>{{ item.nickname }}</h4>
-                </v-card-subtitle>
-              </div>
+              <v-card
+                  class="ma-4"
+                  max-width="210"
+                  flat
+              >
+                <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    :src="require('@/assets/productImg/' + mainPageProductImgListByKnowHOw[index])"
+                >
+                </v-img>
 
-              <v-divider></v-divider>
-
-              <div style="padding: 5px 10px 10px 5px; height: 60px;">
-                <h5>{{ item.title }}</h5>
-              </div>
-
-              <v-divider></v-divider>
-              <v-card-text class="text--primary" align="end" style="padding: 3px 3px 3px 3px;">
-                {{ item.price | comma }}원
-              </v-card-text>
-
-
-            </v-card>
-          </a>
+                <div style="padding: 5px 10px 10px 5px; height: 60px;">
+                  <h5>{{ item.title }}</h5>
+                </div>
+              </v-card>
+            </router-link>
+          </div>
         </v-row>
       </v-layout>
     </v-container>
@@ -137,37 +121,29 @@
     <v-container>
       <v-layout>
         <v-row class="justify-center">
-          <a href="/product-read" v-for="(item, index) in mainPageProductListByHobby" :key="index"
-             style="text-decoration: none; color: black"
-          >
-            <v-card
-                class="ma-4"
-                max-width="210"
+          <div v-for="(item, index) in mainPageProductListByHobby" :key="index">
+            <router-link :to="{name: 'HomeView'}"
+               style="text-decoration: none; color: black"
             >
-                            <v-img
-                                class="white--text align-end"
-                                height="200px"
-                                :src="require('@/assets/productImg/' + mainPageProductImgListByHobby[index])"
-                            >
-                            </v-img>
-              <div>
-                <v-card-subtitle>
-                  <h4>{{ item.nickname }}</h4>
-                </v-card-subtitle>
-              </div>
+              <v-card
+                  class="ma-4"
+                  max-width="210"
+                  flat
+              >
+                <v-img
+                    class="white--text align-end"
+                    height="200px"
+                    :src="require('@/assets/productImg/' + mainPageProductImgListByHobby[index])"
+                >
+                </v-img>
 
-              <v-divider></v-divider>
+                <div style="padding: 5px 10px 10px 5px; height: 60px;">
+                  <h5>{{ item.title }}</h5>
+                </div>
+              </v-card>
+            </router-link>
+          </div>
 
-              <div style="padding: 5px 10px 10px 5px; height: 60px;">
-                <h5>{{ item.title }}</h5>
-              </div>
-
-              <v-divider></v-divider>
-              <v-card-text class="text--primary" align="end" style="padding: 3px 3px 3px 3px;">
-                {{ item.price | comma }}원
-              </v-card-text>
-            </v-card>
-          </a>
         </v-row>
       </v-layout>
     </v-container>

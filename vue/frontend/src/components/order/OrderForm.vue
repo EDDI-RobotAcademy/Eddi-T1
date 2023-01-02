@@ -14,7 +14,7 @@
                   <v-img :src="require('@/assets/sign_up_choice_num1.png')" width="130"  class="mx-auto mb-6"/>
                   ✔ My Cart
                 </h1>
-                <table class="cart">
+                <table class="cart" v-for="(item, index) in productInfo" :key="index">
                   <v-simple-table class="ui table">
                     <thead class="wrap">
                     <tr>
@@ -28,23 +28,23 @@
                     <tr>
                       <td class="product">
                         <v-row class="mt-5 mb-3">
-                          <img :src="require('@/assets/productImg/상품이미지1.jpg')">
+                          <img :src="require('@/assets/productImg/' + item.product.productImages[0].editedName)">
                           <p class="mt-7 ml-2"></p>
-                          <h4 class="header">{{ title }}
-                            <div class="sub header">{{ nickname }}</div> </h4>
+                          <h4 class="header">{{ item.product.title }}
+                            <div class="sub header">{{ item.product.nickname }}</div> </h4>
                         </v-row>
                       </td>
 
-                      <td class="right aligned">{{ quantity }}</td>
-                      <td class="right aligned">{{ deliveryFee | comma }}원</td>
-                      <td class="right aligned">{{ price | comma }}원</td>
+                      <td class="right aligned">{{ item.itemCount }}</td>
+                      <td class="right aligned">{{ item.product.productInfo.deliveryFee | comma }}원</td>
+                      <td class="right aligned">{{ item.product.price | comma }}원</td>
                     </tr>
                     </tbody>
                     <tfoot class="wrap">
                     <tr>
                       <th colspan="2"></th>
                       <th align="right">TOTAL:</th>
-                      <th align="left"><h3>{{ totalPrice | comma }}원</h3></th>
+                      <th align="left"><h3>{{ item.product.price * item.itemCount + item.product.productInfo.deliveryFee | comma }}원</h3></th>
                     </tr>
                     </tfoot>
                   </v-simple-table>
@@ -92,7 +92,7 @@
               </v-card>
 
 
-            <v-btn @click="PaymentBtn" block x-large class="bt1" color="#2F4F4F" style="color: white" tile >주문하기</v-btn>
+            <v-btn @click="PaymentBtn" block x-large class="bt1" color="#2F4F4F" style="color: white" tile >{{productTotalPrice | comma}}원 결제하기</v-btn>
 
           </div>
         </v-col>
@@ -117,14 +117,6 @@ export default {
   name: "OrderForm",
   data() {
     return{
-      price: 500,
-
-      title: '🍊시원상큼 자두맛 아이스크림🍊',
-      nickname: '카카오 라이언',
-      quantity: '10',
-      deliveryFee: '3000',
-      totalPrice: '8000',
-
       orderNo: '',
       recipient: '',
       phone: '',
@@ -134,8 +126,16 @@ export default {
       zipcode: '',
     }
   },
-  created() {
-
+  props:{
+    productInfo:{
+      type: Array,
+    },
+    productTotalPrice: {
+      type: Number
+    }
+  },
+  async mounted() {
+    console.log(this.productInfo)
   },
   filters: {
     comma(val) {
@@ -175,8 +175,10 @@ export default {
         const response = await Bootpay.requestPayment({
 
           "application_id": "63a16493cf9f6d001ed120aa",
+          // 실제 가격대로 결제하려면 아래와 같은 코드 사용
+          // "price": this.productTotalPrice,
           "price": 100,
-          "order_name": this.title,
+          "order_name": this.productInfo[0].product.title,
           "order_id": "TEST_ORDER_ID",
           "pg": "이니시스",
           "method": "카드",
@@ -251,8 +253,8 @@ export default {
   border: 1px;
 }*/
 .cart {
-  padding: 50px;
-  padding-bottom: 100px;
+  padding: 10px;
+  padding-bottom: 0px;
   width: 100%;
 }
 .shipping {

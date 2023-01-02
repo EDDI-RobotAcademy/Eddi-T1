@@ -255,6 +255,7 @@ made in Korea
                               deliveryFee: product.deliveryFee,
                               freeDeliveryFee: freeDeliveryFee,
                               stock: product.stock,
+                              productNo: product.productNo,
                             );
                           }
                       );
