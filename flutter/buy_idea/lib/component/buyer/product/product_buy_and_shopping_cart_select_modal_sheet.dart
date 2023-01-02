@@ -1,9 +1,13 @@
+import 'package:buy_idea/api/spring_shopping_bucket_api.dart';
 import 'package:buy_idea/pages/account/sign_in_page.dart';
 import 'package:buy_idea/pages/buyer/order/order_page.dart';
+import 'package:buy_idea/pages/buyer/shopping_bucket/shopping_bucket_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../common/yes_or_no_alert_dialog.dart';
 
 class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
   final String seller;
@@ -35,6 +39,7 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
 
   static const storage = FlutterSecureStorage();
   dynamic memberInfo = '';
+  dynamic memberNickname = '';
 
   // 상품 금액이 숫자 세자리 넘어갈 때마다 콤마를 넣기 위한 intl 라이브러리를 통한 포맷 변수 초기화
   var f = NumberFormat('###,###,###,###');
@@ -155,9 +160,23 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
 
   _asyncMethod() async {
     memberInfo = await storage.read(key: 'userToken');
+    memberNickname = await storage.read(key: 'nickname');
     setState(() {
       memberInfo = memberInfo;
+      memberNickname = memberNickname;
     });
+  }
+
+  _addShoppingBucketProducts() async{
+    ShoppingBucketRequest shoppingBucketRequest = ShoppingBucketRequest(widget.productNo, memberNickname, purchaseQuantity);
+    debugPrint('shoppingBucketRequest : ' + shoppingBucketRequest.toString());
+    await SpringShoppingBucketApi().shoppingBucketRegister(shoppingBucketRequest);
+
+    if(SpringShoppingBucketApi.bucketRegisterResponse.statusCode == 200){
+      _accountDeleteShowDialog();
+    }else {
+      throw Exception('productDetailsInfo() 에러 발생');
+    }
   }
 
   @override
@@ -256,6 +275,7 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
                       ),
                       onPressed: () {
                         if(checkSignIn()) {
+                          _addShoppingBucketProducts();
                           // TODO: 장바구니에 상품을 담고 장바구니 페이지로 이동할지 말지 선택하는 다이얼로그 띄우는 로직
                         } else {
                           showDialog(
@@ -343,5 +363,25 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
         ],
       )
     );
+  }
+
+  /// 장바구니 등록 안내 alertDialog
+  void _accountDeleteShowDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return YesOrNoAlertDialog(
+            title: '🎁',
+            content: '장바구니에 상품이 등록되었습니다.\n'
+                '장바구니 페이지로 이동하시겠습니까?',
+            yesButtonPressed: () {
+              Get.to(const ShoppingBucketPage());
+            },
+            noButtonPressed: () {
+              Get.back();
+            },
+          );
+        });
   }
 }

@@ -7,6 +7,7 @@ import '../component/buyer/shopping_bucket/shopping_bucket_product.dart';
 
 class SpringShoppingBucketApi {
   static const String httpUri = '192.168.0.8:8888';
+  static var bucketRegisterResponse;
 
   Future<List<ShoppingBucketProduct>> shoppingBucketList(
       String memberNickname) async {
@@ -31,4 +32,29 @@ class SpringShoppingBucketApi {
       throw Exception('productDetailsInfo() 에러 발생');
     }
   }
+
+   shoppingBucketRegister(ShoppingBucketRequest shoppingBucketRequest) async {
+    var body = json.encode(shoppingBucketRequest);
+
+    bucketRegisterResponse = await http.post(
+      Uri.http(httpUri, '/order/register/shopping-bucket'),
+      headers: {"Content-Type": "application/json"},
+      body : body,
+    );
+  }
+}
+
+class ShoppingBucketRequest {
+  int productId;
+  String nickname;
+  int productAmountValue;
+
+  ShoppingBucketRequest(
+      this.productId, this.nickname, this.productAmountValue);
+
+  Map<String, dynamic> toJson() => {
+    'productId': productId,
+    'nickname': nickname,
+    'productAmountValue': productAmountValue,
+  };
 }
