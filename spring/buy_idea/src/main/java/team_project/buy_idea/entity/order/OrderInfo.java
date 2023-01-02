@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@ToString(exclude = "address")
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderInfo {
