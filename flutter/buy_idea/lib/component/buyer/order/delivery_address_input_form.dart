@@ -53,6 +53,7 @@ class _DeliveryAddressInputFormState extends State<DeliveryAddressInputForm> {
               ),
               Expanded(
                 child: TextFormField(
+                  style: TextStyle(fontSize: 12),
                   controller: widget.recipientController,
                   decoration: InputDecoration(
                       hintText: '이름을 입력하세요.',
@@ -73,6 +74,7 @@ class _DeliveryAddressInputFormState extends State<DeliveryAddressInputForm> {
               ),
               Expanded(
                 child: TextFormField(
+                  style: TextStyle(fontSize: 12),
                   controller: widget.phoneController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
