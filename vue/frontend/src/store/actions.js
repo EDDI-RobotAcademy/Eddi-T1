@@ -7,7 +7,7 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
     REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
-    REQUEST_PRODUCT_FROM_SPRING,
+    REQUEST_PRODUCT_FROM_SPRING, REQUEST_PRODUCT_LIST_FROM_SPRING,
 
 } from './mutation-types'
 
@@ -390,6 +390,17 @@ export default {
             .then(() => {
                 alert('상품이 삭제되었습니다')
                 router.push({name: 'ProductManageView'})
+            })
+    },
+
+    requestProductListFromSpring ({ commit }, payload) {
+        console.log('requestProductListFromSpring()')
+        const nickname = payload;
+
+        return axios.get(`http://localhost:8888/product/allList/${nickname}`)
+            .then((res) => {
+                console.log("action " + res.data[0])
+                commit(REQUEST_PRODUCT_LIST_FROM_SPRING, res.data)
             })
     },
 }

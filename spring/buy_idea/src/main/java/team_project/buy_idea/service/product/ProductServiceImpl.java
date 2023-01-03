@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team_project.buy_idea.controller.product.request.ProductRequest;
@@ -288,5 +289,17 @@ public class ProductServiceImpl implements ProductService {
         productInfoRepository.deleteProductInfoByProductId(productNo);
         productRepository.deleteById(Long.valueOf(productNo));
     }
+
+    @Override
+    public List<Product> allList(String nickname) {
+        log.info(nickname);
+
+        Slice<Product> productsSlice = productRepository.findByNickname(nickname, Pageable.ofSize(12));
+        List<Product> sellerProductList = productsSlice.getContent();
+
+        return sellerProductList;
+    }
+
+
 
 }
