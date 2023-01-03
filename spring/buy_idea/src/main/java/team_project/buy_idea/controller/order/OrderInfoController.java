@@ -3,11 +3,8 @@ package team_project.buy_idea.controller.order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import team_project.buy_idea.controller.order.request.AddressRequest;
-import team_project.buy_idea.controller.order.request.OrderInfoRequest;
+import team_project.buy_idea.controller.order.request.OrderRegisterRequest;
 import team_project.buy_idea.service.order.OrderInfoService;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -19,12 +16,10 @@ public class OrderInfoController {
     private OrderInfoService orderInfoService;
 
     @PostMapping("/register")
-    public void orderRegister (
-            @RequestPart(value = "orderInfo") List<OrderInfoRequest> orderInfoRequestList,
-            @RequestPart(value = "address") AddressRequest addressRequest) {
-        log.info("orderRegister orderInfo : " + orderInfoRequestList);
-        log.info("orderRegister address : " + addressRequest);
+    public void orderRegister (@RequestBody OrderRegisterRequest request) {
+        log.info("orderRegister()");
+        log.info("OrderRegisterRequest request : " + request);
 
-        orderInfoService.register(addressRequest, orderInfoRequestList);
+        orderInfoService.register(request.getAddressRequest(), request.getOrderInfoRequestList());
     }
 }

@@ -41,13 +41,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String currentDate = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now());
         //ex)YYYYMMDD000000001
         OrderInfo maybeOrderInfo = orderInfoRepository.findTopByOrderByIdDesc();
-        String lastOrderNo = maybeOrderInfo.getOrderNo();
-        String lastOrder = lastOrderNo.substring(lastOrderNo.length()-9);
-        String lastDate = lastOrderNo.substring(0,8);
 
         String setOrderNo;
 
         if(maybeOrderInfo != null){
+            String lastOrderNo = maybeOrderInfo.getOrderNo();
+            String lastOrder = lastOrderNo.substring(lastOrderNo.length()-9);
+            String lastDate = lastOrderNo.substring(0,8);
             //비교 세팅
             if ( lastDate.equals(currentDate) ) {
                 int setLastOrder = Integer.parseInt(lastOrder) + 1;
