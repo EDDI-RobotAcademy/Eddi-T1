@@ -72,9 +72,9 @@ class _OrderingInfoFormState extends State<OrderingInfoForm> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       if (widget.products.length < 2)
-                        Expanded(child: Text('${widget.products[0].title}', style: TextStyle(fontSize: 11)))
+                        Expanded(child: Text('${widget.products[0].title}', style: TextStyle(fontSize: 12)))
                       else
-                        Expanded(child: Text('${widget.products[0].title} 외 ${widget.products.length - 1}건', style: TextStyle(fontSize: 11))),
+                        Expanded(child: Text('${widget.products[0].title} 외 ${widget.products.length - 1}건', style: TextStyle(fontSize: 12))),
                       SizedBox(width: 5),
                       seeMore // 더보기 상태가 아니라면 아래쪽 화살표 / 더보기 상태라면 위쪽 화살표
                           ? Icon(Icons.keyboard_arrow_up)
@@ -140,7 +140,7 @@ class _OrderingInfoFormState extends State<OrderingInfoForm> {
                             if (widget.products[index].price * widget.purchaseQuantityList[index] < 50000)
                               Text('${f.format(widget.products[index].deliveryFee)}원', style: TextStyle(fontSize: 12))
                             else
-                              Text('무료배송')
+                              Text('무료배송', style: TextStyle(fontSize: 12))
                           ],
                         )
                       ],
