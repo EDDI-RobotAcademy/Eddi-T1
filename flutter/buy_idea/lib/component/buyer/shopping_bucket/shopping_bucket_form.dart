@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../api/spring_shopping_bucket_api.dart';
 import '../../common/common_alert_dialog.dart';
+import '../../common/yes_or_no_alert_dialog.dart';
 
 class ShoppingBucketForm extends StatefulWidget {
   const ShoppingBucketForm({Key? key}) : super(key: key);
@@ -16,6 +18,18 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
   final shoppingController = Get.put(ShoppingController());
 
   var f = NumberFormat('###,###,###,###');
+
+  Future<bool> _deleteShoppingBucketProducts(int itemId) async {
+    await SpringShoppingBucketApi().shoppingBucketDelete(itemId);
+    debugPrint('itemId : ' + itemId.toString());
+
+    if (SpringShoppingBucketApi.bucketRegisterResponse.statusCode == 200) {
+      debugPrint('장바구니 상품 삭제 완료');
+      return true;
+    } else {
+      throw Exception('productDetailsInfo() 에러 발생');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +59,39 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          child: Icon(Icons.cancel_outlined),
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return YesOrNoAlertDialog(
+                                    title: '🗑️',
+                                    content: '해당 상품을 장바구니에서 삭제하시겠습니까?',
+                                    yesButtonPressed: () {
+                                      Get.back();
+                                      var deleteCheck =
+                                          _deleteShoppingBucketProducts(
+                                              controller.bucketProducts[index]
+                                                  .itemId);
+
+                                      deleteCheck.then((value) {
+                                        if (value) {
+                                          shoppingController.deleteItem(
+                                              controller.bucketProducts[index],
+                                              index);
+                                        }
+                                      });
+                                    },
+                                    noButtonPressed: () {
+                                      Get.back();
+                                    },
+                                  );
+                                });
+                          },
+                          child: Container(
+                            child: Icon(Icons.cancel_outlined),
+                          ),
                         ),
                       ],
                     ),
@@ -131,30 +176,6 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
                                                           index],
                                                       index);
                                             }
-                                            if (shoppingController
-                                                        .bucketProducts[index]
-                                                        .price *
-                                                    shoppingController
-                                                        .bucketProducts[index]
-                                                        .itemCount >=
-                                                50000) {
-                                              shoppingController
-                                                  .deliveryFeeFree(
-                                                      controller.bucketProducts[
-                                                          index],
-                                                      index);
-                                            } else if (shoppingController
-                                                        .bucketProducts[index]
-                                                        .price *
-                                                    shoppingController
-                                                        .bucketProducts[index]
-                                                        .itemCount <
-                                                50000) {
-                                              shoppingController.addDeliveryFee(
-                                                  controller
-                                                      .bucketProducts[index],
-                                                  index);
-                                            }
                                           },
                                           child: Container(
                                             color: Colors.grey[200],
@@ -193,30 +214,6 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
                                                   });
                                             } else {
                                               shoppingController.addToItemPrice(
-                                                  controller
-                                                      .bucketProducts[index],
-                                                  index);
-                                            }
-                                            if (shoppingController
-                                                        .bucketProducts[index]
-                                                        .price *
-                                                    shoppingController
-                                                        .bucketProducts[index]
-                                                        .itemCount >=
-                                                50000) {
-                                              shoppingController
-                                                  .deliveryFeeFree(
-                                                      controller.bucketProducts[
-                                                          index],
-                                                      index);
-                                            } else if (shoppingController
-                                                        .bucketProducts[index]
-                                                        .price *
-                                                    shoppingController
-                                                        .bucketProducts[index]
-                                                        .itemCount <
-                                                50000) {
-                                              shoppingController.addDeliveryFee(
                                                   controller
                                                       .bucketProducts[index],
                                                   index);
@@ -296,23 +293,22 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
                       width: MediaQuery.of(context).size.width,
                       height: 70.0,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        GetX<ShoppingController>(builder: (controller) {
-                          return Text(
-                            '상품 총 금액 : ${f.format(shoppingController.bucketProducts[index].price * shoppingController.bucketProducts[index].itemCount)}원',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          );
-                        }),
-                        GetX<ShoppingController>(builder: (controller) {
-                          return Text(
-                              '배송비 : ${f.format(shoppingController.bucketProducts[index].sumDeliveryFee)}원',
-                              style: TextStyle(
-                                  fontSize: 16));
-                        }),
-                      ]),
+                            GetX<ShoppingController>(builder: (controller) {
+                              return Text(
+                                '상품 총 금액 : ${f.format(shoppingController.bucketProducts[index].price * shoppingController.bucketProducts[index].itemCount)}원',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              );
+                            }),
+                            GetX<ShoppingController>(builder: (controller) {
+                              return Text(
+                                  '배송비 : ${f.format(shoppingController.bucketProducts[index].sumDeliveryFee)}원',
+                                  style: TextStyle(fontSize: 16));
+                            }),
+                          ]),
                     )
                   ],
                 ),

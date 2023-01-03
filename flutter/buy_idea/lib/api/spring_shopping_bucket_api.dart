@@ -42,6 +42,16 @@ class SpringShoppingBucketApi {
       body : body,
     );
   }
+
+  shoppingBucketDelete(int itemId) async {
+    var body = json.encode(itemId);
+
+    bucketRegisterResponse = await http.delete(
+      Uri.http(httpUri, '/order/shopping-bucket-list/$itemId'),
+      headers: {"Content-Type": "application/json"},
+      body : body,
+    );
+  }
 }
 
 class ShoppingBucketRequest {
