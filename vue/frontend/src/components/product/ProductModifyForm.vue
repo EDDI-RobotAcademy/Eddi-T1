@@ -5,7 +5,6 @@
       <div id="title">
         <div>
           <v-layout>
-
             <!--뒤로가기-->
             <v-dialog persisten max-width="400">
               <template v-slot:activator="{ on }">
@@ -111,7 +110,6 @@
         </v-row>
 
 
-
         <!-- 상세설명 -->
         <v-col cols="3" class="label2" ><h3>상품 상세 설명</h3></v-col>
         <v-row>
@@ -171,7 +169,7 @@
 
 
         <!-- 상품 정보 제공 고시 -->
-        <v-row justify>
+        <v-row >
           <v-col cols="12" class="label" >상품 정보 제공 고시</v-col>
 
           <v-text-field outlined color="grey darken-1" placeholder="상품명/ 제조자, 제조국 / 상품 관련 문의"
@@ -180,8 +178,8 @@
         </v-row>
 
 
-        <!-- 등록하기 -->
-        <v-row justify>
+        <!-- 수정하기 -->
+        <v-row >
           <v-btn type="submit" block x-large color="#2F4F4F" style="color: white">
             수정하기
           </v-btn>
@@ -195,12 +193,16 @@
 <script>
 export default {
   name: "ProductModifyForm",
-  /*props: {
+  props: {
+    productNo: {
+      type: String,
+      required: true,
+    },
     product: {
       type: Object,
       required: true
     }
-  },*/
+  },
   data() {
     return {
       title:'',
@@ -231,11 +233,13 @@ export default {
       this.$router.go(-1);
     },
     onSubmit() {
+      console.log("상품 수정")
       if(this.files.length < 3) {
         alert('사진은 3장 이상 첨부해주세요')
       } else {
+        const productNo = this.productNo
         const { title, category, stock, price, deliveryFee, content, files, infoNotice, nickname } = this
-        this.$emit('submit', {  title, category, stock, price, deliveryFee, content, files, infoNotice, nickname  })
+        this.$emit('submit', {  title, category, stock, price, deliveryFee, content, files, infoNotice, nickname, productNo })
       }
     },
 
@@ -280,19 +284,15 @@ export default {
       console.log(this.files)
     }
   },
- /* created () {
+  created () {
     this.title = this.product.title
-    this.category = this.product.category
-    this.items = this.product.items
-    this.stock = this.product.stock
+    this.category = this.product.productInfo.category
+    this.stock = this.product.productInfo.stock
     this.price = this.product.price
-    this.deliveryFee = this.product.deliveryFee
-    this.content = this.product.content
-    this.infoNotice = this.product.infoNotice
-    this.files = this.product.files
-    this.notImage = this.product.notImage
-    this.fileNum = this.product.fileNum
-  }*/
+    this.deliveryFee = this.product.productInfo.deliveryFee
+    this.content = this.product.productInfo.content
+    this.infoNotice = this.product.productInfo.infoNotice
+  }
 }
 </script>
 

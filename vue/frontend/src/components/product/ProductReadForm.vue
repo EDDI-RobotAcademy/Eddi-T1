@@ -5,7 +5,7 @@
       <div id="content">
 
         <!--판매자 수정/삭제 버튼-->
-        <v-row>
+        <v-row v-if="product.nickname == this.$store.state.memberInfoAfterSignIn.nickname">
           <v-menu offset-y bottom>
             <template v-slot:activator="{ attrs, on }">
               <v-btn
@@ -299,6 +299,8 @@
 
 
 
+import {mapActions} from "vuex";
+
 export default {
   name: "ProductReadForm",
   props: {
@@ -343,6 +345,9 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+        'requestDeleteProductToSpring'
+    ]),
     selectedImg(e) {
       this.imgIdx = e
       console.log(this.imgIdx)
@@ -363,7 +368,7 @@ export default {
       console.log(this.product.productNo.toString())
     },
     onDelete () {
-
+      this.requestDeleteProductToSpring(this.productNo)
     },
     onSubmit () {
 

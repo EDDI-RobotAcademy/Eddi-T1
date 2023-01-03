@@ -1,7 +1,6 @@
 <template>
   <div>
-<!--    <product-modify-form v-if="product" :product="product" @submit="onSubmit"/>-->
-    <product-modify-form/>
+    <product-modify-form :productNo="productNo" :product="product" @submit="onSubmit"/>
   </div>
 </template>
 
@@ -11,12 +10,12 @@ import {mapActions, mapState} from "vuex";
 export default {
   name: "ProductModifyView",
   components: {ProductModifyForm},
-/*  props: {
+  props: {
     productNo: {
       type: String,
       required: true
     }
-  },*/
+  },
   computed: {
     ...mapState(['product'])
   },
