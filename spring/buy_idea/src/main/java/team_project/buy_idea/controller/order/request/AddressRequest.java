@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddressRequest {
 
-    private String orderNo;
     private String recipient;
     private String phone;
     private String city;

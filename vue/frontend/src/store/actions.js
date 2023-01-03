@@ -6,7 +6,9 @@ import {
     REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING,
     REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
     REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
-    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY
+    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
+    REQUEST_PRODUCT_FROM_SPRING,
+
 } from './mutation-types'
 
 import axios from 'axios'
@@ -318,4 +320,20 @@ export default {
                 alert("상품에 삭제되지 않았습니다.")
             });
     },
+
+    /**
+     *  상품 읽기 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    requestProductFromSpring ({ commit }, productNo) {
+        console.log('requestProductFromSpring()' + productNo)
+
+        return axios.get(`http://localhost:8888/product/read/${productNo}`)
+            .then((res) => {
+                commit(REQUEST_PRODUCT_FROM_SPRING, res.data)
+            })
+    },
+
 }

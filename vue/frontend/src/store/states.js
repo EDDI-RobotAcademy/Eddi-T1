@@ -10,4 +10,5 @@ export default {
     mainPageProductImgListByHandmade: [],
     mainPageProductImgListByKnowHOw: [],
     mainPageProductImgListByHobby: [],
+    product: {},
 }
