@@ -1,5 +1,8 @@
 import 'package:buy_idea/pages/buyer/main_menu/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../pages/buyer/shopping_bucket/shopping_bucket_page.dart';
 
 class NoLogoTopBar extends StatelessWidget with PreferredSizeWidget {
   const NoLogoTopBar({Key? key}) : super(key: key);
@@ -21,8 +24,7 @@ class NoLogoTopBar extends StatelessWidget with PreferredSizeWidget {
                 child: Icon(Icons.search, color: Colors.black),
               ),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const SearchPage()));
+                Get.to(SearchPage());
               },
               style: ElevatedButton.styleFrom(
                   elevation: 0,
@@ -32,7 +34,9 @@ class NoLogoTopBar extends StatelessWidget with PreferredSizeWidget {
         ),
         const SizedBox(width: 5.0),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(ShoppingBucketPage());
+            },
             icon: const Icon(Icons.add_shopping_cart_outlined)),
       ],
     );

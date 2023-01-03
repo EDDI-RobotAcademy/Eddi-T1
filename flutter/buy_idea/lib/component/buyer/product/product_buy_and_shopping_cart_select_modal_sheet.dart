@@ -376,7 +376,7 @@ class _ProductBuyAndShoppingCartSelectModalSheetState extends State<ProductBuyAn
             content: '장바구니에 상품이 등록되었습니다.\n'
                 '장바구니 페이지로 이동하시겠습니까?',
             yesButtonPressed: () {
-              Get.to(const ShoppingBucketPage());
+              Get.off(const ShoppingBucketPage());
             },
             noButtonPressed: () {
               Get.back();
