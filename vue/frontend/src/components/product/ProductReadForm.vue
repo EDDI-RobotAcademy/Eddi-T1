@@ -2,11 +2,10 @@
   <v-container>
     <form @submit.prevent="onSubmit" >
 
-
       <div id="content">
 
         <!--판매자 수정/삭제 버튼-->
-        <v-row>
+        <v-row v-if="product.nickname == this.$store.state.memberInfoAfterSignIn.nickname">
           <v-menu offset-y bottom>
             <template v-slot:activator="{ attrs, on }">
               <v-btn
@@ -86,7 +85,7 @@
 
             <div>
               <v-img contain width="440px" height="380px"
-                     :src="/*product.*/productImgs[this.imgIdx]"></v-img>
+                     :src="require('@/assets/productImg/' + product.productImages[this.imgIdx].editedName)"></v-img>
             </div>
 
             <template>
@@ -95,13 +94,13 @@
                         v-model="tab2"
                 >
                   <v-tab @click="selectedImg(index)"
-                      v-for="(item, index) in /*product.*/productImgs"
+                      v-for="(item, index) in product.productImages"
                       :key="index"
                   >
 
                     <v-card width="80px" height="80px">
                       <div class="image-box">
-                        <v-img :src="item"></v-img>
+                        <v-img :src="require('@/assets/productImg/' + item.editedName)"></v-img>
                       </div>
                     </v-card>
                   </v-tab>
@@ -124,25 +123,23 @@
               </v-avatar>
 
                 <!--상호명-->
-                {{ /*product.*/writer }}</h5>
-
+                {{ product.nickname }}</h5>
 
               <!--상품명-->
-              <h2 class="display-1 mb-0">{{ /*product.*/title}}</h2>
+              <h2 class="display-1 mb-0">{{ product.title }}</h2>
 
               <!--가격-->
               <v-card-actions class="pa-0">
-                <p class="headline font-weight-light pt-3"> {{ /*product.*/price | comma }}원</p>
+                <p class="headline font-weight-light pt-3"> {{ product.price | comma }}원</p>
                 <v-spacer></v-spacer>
               </v-card-actions>
-
 
               <!--카테고리-->
               <v-col>
                 <v-row>
                   <p class="title">CATEGORY</p>
                   <col class="col-sm-2 mr-3">
-                  <p class="subTitle">{{ /*product.*/category }}</p>
+                  <p class="subTitle">{{ product.productInfo.category }}</p>
                 </v-row>
               </v-col>
 
@@ -168,7 +165,7 @@
                 <v-row>
                   <p class="title">DELIVERYFEE</p>
                   <col class="col-sm-1 mr-7">
-                  <p class="subTitle">{{ /*product.*/deliveryFee | comma }}원</p>
+                  <p class="subTitle">{{ deliveryFee | comma }}원</p>
                   <p class="subTitle" style="font-size: 0.6em">&nbsp;(5만원 이상 무료배송)</p>
                 </v-row>
               </v-col>
@@ -179,8 +176,8 @@
                   <p class="title">ITEMS</p>
                   <!--재고상태표시-->
                   <div class="stockInfo">
-                    <span class="green" style="padding: 5px" v-if="/*product.*/stock > 10"> For Sale </span>
-                    <span class="amber" style="padding: 5px" v-else-if="/*product.*/stock <= 10 && /*product.*/stock > 0"> Only Few Left </span>
+                    <span class="green" style="padding: 5px" v-if="product.productInfo.stock > 10"> For Sale </span>
+                    <span class="amber" style="padding: 5px" v-else-if="product.productInfo.stock <= 10 && product.productInfo.stock > 0"> Only Few Left </span>
                     <span class="grey" style="padding: 5px" v-else>SOLD OUT</span>
                   </div>
                   <col class="col-sm-2">
@@ -201,7 +198,7 @@
                 <v-row>
                   <p class="title">TOTAL PRICE</p>
                   <col class="col-sm-2">
-                  <p class="subTitle">{{ /*product.*/totalPrice | comma }}원</p>
+                  <p class="subTitle">{{ totalPrice | comma }}원</p>
                 </v-row>
               </v-col>
 
@@ -212,7 +209,7 @@
               <v-col cols="6" align="center">
                 <v-btn
                     @click="btnCart"
-                    :disabled="/*product.*/stock <= 0"
+                    :disabled="product.productInfo.stock <= 0"
                     block x-large
                     class="bt1"
                     color="#DAA520"
@@ -221,7 +218,7 @@
 
               </v-col>
               <v-col cols="6" align="center">
-                <v-btn @click="btnPurchase" :disabled="/*product.*/stock <= 0" block x-large class="bt1" color="#2F4F4F" style="color: white" tile >바로구매</v-btn>
+                <v-btn @click="btnPurchase" :disabled="product.productInfo.stock <= 0" block x-large class="bt1" color="#2F4F4F" style="color: white" tile >바로구매</v-btn>
               </v-col>
             </v-row>
 
@@ -246,14 +243,22 @@
           <v-tabs-items v-model="tab">
 
             <v-tab-item>
-              <v-card flat height="800px">
+
+              <v-card flat>
                 <v-card-title>상품 상세 설명</v-card-title>
-                <v-card-text>상품 상세 설명</v-card-text>
-                <v-textarea height="800px" cols="75"
-                            readonly
-                            :value="/*product.*/content">
-                </v-textarea>
+                <v-card-text>
+                  <v-textarea
+                      solo
+                      flat
+                      auto-grow
+                      no-resize
+                      readonly
+                      color="white"
+                      :value="product.productInfo.content"
+                  ></v-textarea>
+                </v-card-text>
               </v-card>
+
             </v-tab-item>
 
 
@@ -261,11 +266,8 @@
 
               <v-card flat height="800px">
                 <v-card-title>상품 정보 제공 고시</v-card-title>
-                <v-card-text>상품 정보 제공 고시</v-card-text>
-                <v-textarea height="800px" cols="75"
-                            readonly
-                            :value="/*product.*/information">
-                </v-textarea>
+                <v-card-text>{{ product.productInfo.infoNotice }}
+                </v-card-text>
               </v-card>
 
             </v-tab-item>
@@ -295,17 +297,24 @@
 
 <script>
 
+
+
+import {mapActions} from "vuex";
+
 export default {
   name: "ProductReadForm",
- /* props: {
+  props: {
+    productNo: {
+      type: String,
+      required: true,
+    },
     product: {
       type: Object,
       required: true,
-    },
-  },*/
+    }
+  },
   data() {
     return {
-
       imgIdx: 0,
       tab2 : null,
       tab : null,
@@ -315,69 +324,30 @@ export default {
         {tab: '구매 후기', content: ''},
         {tab: '상품 문의', content: ''},
       ],
-
-      writer:'[성분맛집]천연화장품_드레싱테이블',
-      title:'라벤더 진정밤 멀티밤 3.5g☞ 트러블에 정말 좋아요~',
-      category: "핸드메이드",
-      content:'',
-      information:'',
-      price: 20000,
+      deliveryFee: '',
       reviewSumAvg: 4,
       reviewNum: 40,
-      deliveryFee: 3000,
       totalPrice: 0,
-      stock: 11,
       quantity: 1,
-
-      productImgs: [
-        require('@/assets/productImg/상품이미지1.jpg'),
-        require('@/assets/productImg/취미이미지1.jpg'),
-        require('@/assets/productImg/상품이미지2.jpg'),
-        require('@/assets/productImg/상품이미지3.jpg'),
-        require('@/assets/productImg/취미이미지2.jpg'),
-        require('@/assets/productImg/취미이미지4.jpg'),
-        require('@/assets/productImg/취미이미지5.jpg'),
-        require('@/assets/productImg/상품이미지4.jpg'),
-        require('@/assets/productImg/상품이미지5.jpg'),
-        require('@/assets/productImg/취미이미지3.jpg'),
-      ],
-
       rules: {
         required: value => !!value || "필수 입력 사항입니다",
         min: v => v > 0 || `상품 구매 최소수량은 1개 입니다.`,
-        max: v => v <= this.stock || `상품재고가 ${this.stock}개 남았습니다`
+        max: v => v <= this.product.productInfo.stock || `상품재고가 ${this.product.productInfo.stock}개 남았습니다`
       }
     }
   },
 
-  /*
-  * 숫자 콤마
-  * */
+  //숫자 콤마
   filters: {
     comma(val) {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
 
-  //별점
-  /*computed: {
-    reviewSumAvg() {
-      let sum = 0;
-      let avg = 0;
-      if (this.reviewList.length != 0) {
-        for (let i = 0; i < this.reviewList.length; i++) {
-          sum = sum + this.reviewList[i].reviewRating;
-        }
-        avg = sum / this.reviewList.length;
-        console.log("평균" + avg);
-        return Number(avg.toFixed(2));
-      }
-      return Number(avg);
-    },
-  },
-*/
-
   methods: {
+    ...mapActions([
+        'requestDeleteProductToSpring'
+    ]),
     selectedImg(e) {
       this.imgIdx = e
       console.log(this.imgIdx)
@@ -393,46 +363,44 @@ export default {
       this.$router.push({name:'OrderForm'})
     },
     onModify () {
-      this.$router.push({name:'ProductModifyView'})
+      this.$router.push({name:'ProductModifyView',
+      params: { productNo: this.product.productNo.toString() }})
+      console.log(this.product.productNo.toString())
     },
     onDelete () {
-      /*const { boardNo, fileName1, fileName2, fileName3, fileName4, fileName5 } = this.market
-      //alert('지우는 게시물 번호: ' + boardNo)
-      axios.delete(`http://localhost:7777/board/market/${boardNo}`, {fileName1,  fileName2, fileName3, fileName4, fileName5})
-          .then(() => {
-            alert('게시글이 삭제되었습니다.')
-            this.$router.push({ name: 'MarketPage' })
-          })
-          .catch(() => {
-            alert('삭제 실패! 문제 발생!')
-          })*/
+      this.requestDeleteProductToSpring(this.productNo)
     },
     onSubmit () {
 
     },
+    freeDelivery () {
+      this.initialDeliveryFee = this.product.productInfo.deliveryFee
+      this.freeDeliveryFee = 0
+      this.deliveryFee = this.product.productInfo.deliveryFee
+
+      this.price = this.product.price
+
+      if(this.quantity <= 0) {
+        this.totalPrice = 0
+      } else {
+        this.totalPrice = this.price * this.quantity + this.deliveryFee
+      }
+
+      if(this.totalPrice >= 50000) {
+        // eslint-disable-next-line vue/no-mutating-props
+        this.deliveryFee = this.freeDeliveryFee
+
+        if (this.totalPrice < 5000) {
+          // eslint-disable-next-line vue/no-mutating-props
+          this.deliveryFee = this.initialDeliveryFee
+        }
+      }
+    }
   },
   beforeUpdate() {
-    this.deliveryFee = 3000
-
-    if(this.quantity <= 0){
-      this.totalPrice = 0
-    } else {
-      this.totalPrice = this.price * this.quantity + this.deliveryFee
-    }
-
-    if(this.totalPrice >= 50000){
-      this.deliveryFee = 0
-    }
-
-    if(this.totalPrice < 50000){
-      this.deliveryFee === this.deliveryFee
-    }
-
+    this.freeDelivery()
   },
-  created () {
 
-   /* this.productNo = this.$store.state.product.*/
-  }
 }
 </script>
 
@@ -470,7 +438,6 @@ span {
 }
 .bt1 {
   left: 20px;
-  /*right: 20px;*/
 }
 .subTitle{
   float: left;
@@ -500,7 +467,6 @@ span {
 a {
   text-decoration: none;
 }
-
 .puple-input >>> .error--text {
   color: #2F4F4F !important;
 }

@@ -6,7 +6,9 @@ import {
     REQUEST_PRODUCT_LIST_BY_HOBBY_TO_SPRING,
     REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
     REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
-    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY
+    REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
+    REQUEST_PRODUCT_FROM_SPRING,
+
 } from './mutation-types'
 
 import axios from 'axios'
@@ -317,5 +319,77 @@ export default {
             .catch(() => {
                 alert("상품에 삭제되지 않았습니다.")
             });
+    },
+
+    /**
+     *  상품 읽기 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    requestProductFromSpring ({ commit }, productNo) {
+        console.log('requestProductFromSpring()' + productNo)
+
+        return axios.get(`http://localhost:8888/product/read/${productNo}`)
+            .then((res) => {
+                commit(REQUEST_PRODUCT_FROM_SPRING, res.data)
+            })
+    },
+
+    /**
+     *  상품 수정 axios
+     *  @param commit
+     *  @param payload productNo, title, category, stock, price, deliveryFee, content, files, information, writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestModifyProductToSpring({}, payload) {
+        console.log('requestModifyProductToSpring()')
+
+        const {title, category, stock, price, deliveryFee, content, files, infoNotice, nickname, productNo} = payload
+
+        let formData = new FormData()
+
+        let product = {
+            title, category, stock, price, deliveryFee, content, infoNotice, nickname
+        }
+        formData.append('product', new Blob([JSON.stringify(product)], {type: "application/json"}))
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i].file)
+        }
+
+        axios.put(`http://localhost:8888/product/modify/${productNo}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(() => {
+                alert('상품이 수정되었습니다')
+                router.push({
+                    name: 'ProductReadView',
+                    params: {productNo: productNo.toString()},
+                })
+            })
+            .catch(() => {
+                alert('오류가 발생하였습니다.')
+            })
+    },
+
+    /**
+     *  상품 삭제 요청 axios
+     *  @param
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestDeleteProductToSpring ({}, productNo) {
+        console.log('requestDeleteProductToSpring()' + productNo)
+
+        return axios.delete(`http://localhost:8888/product/remove/${productNo}`)
+            .then(() => {
+                alert('상품이 삭제되었습니다')
+                router.push({name: 'ProductManageView'})
+            })
     },
 }
