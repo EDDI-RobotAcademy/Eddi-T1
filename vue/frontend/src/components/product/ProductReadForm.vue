@@ -208,7 +208,7 @@
             <v-row>
               <v-col cols="6" align="center">
                 <v-btn
-                    @click="btnCart"
+                    @click="registerShoppingBucketProduct(quantity)"
                     :disabled="product.productInfo.stock <= 0"
                     block x-large
                     class="bt1"
@@ -346,15 +346,20 @@ export default {
 
   methods: {
     ...mapActions([
-        'requestDeleteProductToSpring'
+        'requestDeleteProductToSpring',
+        'requestRegisterShoppingBucketProduct'
     ]),
     selectedImg(e) {
       this.imgIdx = e
       console.log(this.imgIdx)
     },
-    btnCart() {
+    async registerShoppingBucketProduct(quantity) {
+      const productId = this.productNo
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname
+      const productAmountValue = quantity
+
+      await this.requestRegisterShoppingBucketProduct({nickname, productId, productAmountValue})
       // 장바구니에 상품 추가
-      this.$router.push({name:''})
     },
     btnPurchase() {
       // 구매 페이지로 이동
