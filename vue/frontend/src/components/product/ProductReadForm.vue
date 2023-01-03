@@ -5,7 +5,7 @@
       <div id="content">
 
         <!--판매자 수정/삭제 버튼-->
-        <v-row>
+        <v-row v-if="product.nickname == this.$store.state.memberInfoAfterSignIn.nickname">
           <v-menu offset-y bottom>
             <template v-slot:activator="{ attrs, on }">
               <v-btn
