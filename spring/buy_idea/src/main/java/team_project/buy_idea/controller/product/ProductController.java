@@ -104,4 +104,11 @@ public class ProductController {
 
         productService.remove(productNo);
     }
+
+    @GetMapping("/allList/{nickname}")
+    public List<Product> allList (@PathVariable("nickname") String nickname) {
+        log.info("allList()" + nickname);
+
+        return productService.allList(nickname);
+    }
 }

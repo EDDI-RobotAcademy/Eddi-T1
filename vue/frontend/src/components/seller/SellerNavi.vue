@@ -29,7 +29,7 @@
               class="white--text ml-5"
               style="font-size: 18px"
           >
-            {{ this.$store.state.memberInfoAfterSignIn.memberId }}님 환영합니다!
+            {{ this.$store.state.memberInfoAfterSignIn.nickname }}님 환영합니다!
           </v-list-item-subtitle>
 
         </v-list-item-content>

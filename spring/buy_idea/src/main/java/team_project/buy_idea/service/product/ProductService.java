@@ -18,5 +18,6 @@ public interface ProductService {
     public List<ProductImageMapping> imageList(Long productNo);
     public void modify(ProductRequest productRequest, List<MultipartFile> files, Long productNo);
     public void remove(Long productNo);
+    public List<Product> allList(String nickname );
 
 }
