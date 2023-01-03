@@ -212,6 +212,26 @@ export default {
                 alert('오류가 발생하였습니다.')
             })
     },
+    /**
+     *  일반회원 사용자 장바구니 상품 등록 axios
+     *  @param commit
+     *  @param payload productNo, nickname, productAmountValue
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestRegisterShoppingBucketProduct({ }, payload) {
+        console.log("requestRegisterShoppingBucketProduct")
+
+        const {nickname, productId, productAmountValue} = payload;
+        await axios.post('http://localhost:8888/order/register/shopping-bucket',
+            {nickname, productId, productAmountValue})
+            .then(() => {
+                alert("장바구니에 추가되었습니다.")
+            })
+            .catch(() => {
+                alert("문제가 발생하여 장바구니에 추가되지 않았습니다.")
+            });
+    },
 
     /**
      *  일반회원 사용자 장바구니 상품 리스트 요청 axios
