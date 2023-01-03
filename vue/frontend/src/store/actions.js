@@ -376,4 +376,20 @@ export default {
             })
     },
 
+    /**
+     *  상품 삭제 요청 axios
+     *  @param
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    requestDeleteProductToSpring ({}, productNo) {
+        console.log('requestDeleteProductToSpring()' + productNo)
+
+        return axios.delete(`http://localhost:8888/product/remove/${productNo}`)
+            .then(() => {
+                alert('상품이 삭제되었습니다')
+                router.push({name: 'ProductManageView'})
+            })
+    },
 }

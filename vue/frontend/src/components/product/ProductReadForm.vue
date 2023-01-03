@@ -299,6 +299,8 @@
 
 
 
+import {mapActions} from "vuex";
+
 export default {
   name: "ProductReadForm",
   props: {
@@ -343,6 +345,9 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+        'requestDeleteProductToSpring'
+    ]),
     selectedImg(e) {
       this.imgIdx = e
       console.log(this.imgIdx)
@@ -363,7 +368,7 @@ export default {
       console.log(this.product.productNo.toString())
     },
     onDelete () {
-
+      this.requestDeleteProductToSpring(this.productNo)
     },
     onSubmit () {
 
