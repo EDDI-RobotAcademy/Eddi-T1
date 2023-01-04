@@ -42,6 +42,7 @@ dependencies:
   bootpay: ^4.4.3
   remedi_kopo: ^0.0.1
   image_picker: ^0.8.6
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
