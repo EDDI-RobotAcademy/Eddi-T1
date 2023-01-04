@@ -14,41 +14,83 @@
                   <v-img :src="require('@/assets/sign_up_choice_num1.png')" width="130"  class="mx-auto mb-6"/>
                   ✔ My Cart
                 </h1>
-                <table class="cart" v-for="(item, index) in productInfo" :key="index">
-                  <v-simple-table class="ui table">
-                    <thead class="wrap">
-                    <tr>
-                      <th align="left">상품명</th>
-                      <th align="left">수량</th>
-                      <th align="left">배송비</th>
-                      <th align="left">가격</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td class="product">
-                        <v-row class="mt-5 mb-3">
-                          <img :src="require('@/assets/productImg/' + item.product.productImages[0].editedName)">
-                          <p class="mt-7 ml-2"></p>
-                          <h4 class="header">{{ item.product.title }}
-                            <div class="sub header">{{ item.product.nickname }}</div> </h4>
-                        </v-row>
-                      </td>
 
-                      <td class="right aligned">{{ item.itemCount }}</td>
-                      <td class="right aligned">{{ item.product.productInfo.deliveryFee | comma }}원</td>
-                      <td class="right aligned">{{ item.product.price | comma }}원</td>
-                    </tr>
-                    </tbody>
-                    <tfoot class="wrap">
-                    <tr>
-                      <th colspan="2"></th>
-                      <th align="right">TOTAL:</th>
-                      <th align="left"><h3>{{ item.product.price * item.itemCount + item.product.productInfo.deliveryFee | comma }}원</h3></th>
-                    </tr>
-                    </tfoot>
-                  </v-simple-table>
-                </table>
+                <div v-if="this.productReadCheckValue">
+                  <table class="cart">
+                    <v-simple-table class="ui table">
+                      <thead class="wrap">
+                      <tr>
+                        <th align="left">상품명</th>
+                        <th align="left">수량</th>
+                        <th align="left">배송비</th>
+                        <th align="left">가격</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td class="product">
+                          <v-row class="mt-5 mb-3">
+                            <img :src="require('@/assets/productImg/' + product.productImages[0].editedName)">
+                            <p class="mt-7 ml-2"></p>
+                            <h4 class="header">{{ product.title }}
+                              <div class="sub header">{{ product.nickname }}</div> </h4>
+                          </v-row>
+                        </td>
+
+                        <td class="right aligned">{{ productQuantity }}</td>
+                        <td class="right aligned">{{ productDeliveryFee | comma }}원</td>
+                        <td class="right aligned">{{ product.price | comma }}원</td>
+                      </tr>
+                      </tbody>
+                      <tfoot class="wrap">
+                      <tr>
+                        <th colspan="2"></th>
+                        <th align="right">TOTAL:</th>
+                        <th align="left"><h3>{{ productTotalPrice | comma }}원</h3></th>
+                      </tr>
+                      </tfoot>
+                    </v-simple-table>
+                  </table>
+                </div>
+
+                <!--장바구니 데이터-->
+                <div v-else>
+                  <table class="cart" v-for="(item, index) in productInfo" :key="index">
+                    <v-simple-table class="ui table">
+                      <thead class="wrap">
+                      <tr>
+                        <th align="left">상품명</th>
+                        <th align="left">수량</th>
+                        <th align="left">배송비</th>
+                        <th align="left">가격</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td class="product">
+                          <v-row class="mt-5 mb-3">
+                            <img :src="require('@/assets/productImg/' + item.product.productImages[0].editedName)">
+                            <p class="mt-7 ml-2"></p>
+                            <h4 class="header">{{ item.product.title }}
+                              <div class="sub header">{{ item.product.nickname }}</div> </h4>
+                          </v-row>
+                        </td>
+
+                        <td class="right aligned">{{ item.itemCount }}</td>
+                        <td class="right aligned">{{ item.product.productInfo.deliveryFee | comma }}원</td>
+                        <td class="right aligned">{{ item.product.price | comma }}원</td>
+                      </tr>
+                      </tbody>
+                      <tfoot class="wrap">
+                      <tr>
+                        <th colspan="2"></th>
+                        <th align="right">TOTAL:</th>
+                        <th align="left"><h3>{{ item.product.price * item.itemCount + item.product.productInfo.deliveryFee | comma }}원</h3></th>
+                      </tr>
+                      </tfoot>
+                    </v-simple-table>
+                  </table>
+                </div>
               </div>
 
               <v-divider></v-divider>
@@ -66,7 +108,7 @@
                       </div>
 
                       <div class="d-flex">
-                        <v-text-field outlined v-model="phone" label="연락처*" :disabled="false" placeholder=" - 없이 입력해주세요" required/>
+                        <v-text-field outlined v-model="phone" label="연락처*" :disabled="false" placeholder="000-0000-0000" required/>
                       </div>
 
                       <div class="d-flex">
@@ -117,7 +159,7 @@ export default {
   name: "OrderForm",
   data() {
     return{
-      orderNo: '',
+      /*orderNo: '',*/
       recipient: '',
       phone: '',
       city: '',
@@ -127,15 +169,31 @@ export default {
     }
   },
   props:{
+    product:{
+      type: Object,
+      required: true
+    },
+    productQuantity: {
+      type: Number
+    },
+    productDeliveryFee: {
+      type: Number
+    },
+    productReadCheckValue:{
+      type: Boolean
+    },
     productInfo:{
       type: Array,
     },
     productTotalPrice: {
       type: Number
-    }
+    },
   },
   async mounted() {
     console.log(this.productInfo)
+    console.log("product: " + this.product)
+    console.log("productReadCheckValue: " + this.productReadCheckValue)
+    console.log("productQuantity: " + this.productQuantity)
   },
   filters: {
     comma(val) {
@@ -163,7 +221,7 @@ export default {
           }
           this.city = data.sido;
           this.zipcode = data.zonecode;
-          this.street = data.sigungu + ' ' + fullRoadAddr;
+          this.street =/* data.sigungu + ' ' +*/ fullRoadAddr;
           this.streetPass = true
         }
       }).open()

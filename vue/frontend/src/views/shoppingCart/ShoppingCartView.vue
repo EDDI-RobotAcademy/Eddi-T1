@@ -6,7 +6,7 @@
 
 <script>
 
-import ShoppingCartForm from "@/components/ShoppingCart/ShoppingCartForm";
+import ShoppingCartForm from "@/components/shoppingCart/ShoppingCartForm";
 import {mapActions} from "vuex";
 
 export default {
@@ -18,9 +18,9 @@ export default {
     ]),
   },
   async mounted() {
-    const memberId = this.$store.state.memberInfoAfterSignIn.memberId
+    const nickname = this.$store.state.memberInfoAfterSignIn.nickname
 
-    await this.requestShoppingBucketItemListToSpring(memberId)
+    await this.requestShoppingBucketItemListToSpring(nickname)
   }
 }
 </script>

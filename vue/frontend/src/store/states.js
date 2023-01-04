@@ -11,4 +11,5 @@ export default {
     mainPageProductImgListByKnowHOw: [],
     mainPageProductImgListByHobby: [],
     product: {},
+    productList: [],
 }

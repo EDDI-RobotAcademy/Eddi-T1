@@ -19,6 +19,11 @@ import OrderForm from "@/components/order/OrderForm";
 import ShoppingCartView from "@/views/shoppingCart/ShoppingCartView";
 import ProductModifyView from "@/views/product/ProductModifyView";
 
+//카테고리별 페이지
+import HandmadeCategoryView from "@/views/productByCategory/HandmadeCategoryView";
+import KnowhowCategoryView from "@/views/productByCategory/KnowhowCategoryView";
+import HobbyCategoryView from "@/views/productByCategory/HobbyCategoryView";
+
 
 Vue.use(VueRouter)
 
@@ -129,7 +134,26 @@ const routes = [
     name: 'ShoppingCartView',
     component: ShoppingCartView
   },
+
+  //카테고리별 페이지
+  {
+    path: '/handmade',
+    name: 'HandmadeCategoryView',
+    component: HandmadeCategoryView
+  },
+  {
+    path: '/know-how',
+    name: 'KnowhowCategoryView',
+    component: KnowhowCategoryView
+  },
+  {
+    path: '/hobby',
+    name: 'HobbyCategoryView',
+    component: HobbyCategoryView
+  },
 ]
+
+
 
 const router = new VueRouter({
   mode: 'history',

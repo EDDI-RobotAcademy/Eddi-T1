@@ -10,15 +10,15 @@
                  @click="moveToHome"/>
         </div>
         <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
-                     :to="{ name : 'CommonPageHeader'}">
+                     :to="{ name : 'HandmadeCategoryView'}">
           핸드메이드
         </router-link>
         <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
-                     :to="{ name : 'CommonPageHeader'}">
+                     :to="{ name : 'KnowhowCategoryView'}">
           노하우
         </router-link>
         <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
-                     :to="{ name : 'CommonPageHeader'}">
+                     :to="{ name : 'HobbyCategoryView'}">
           취미/특기
         </router-link>
         <v-col cols="4">

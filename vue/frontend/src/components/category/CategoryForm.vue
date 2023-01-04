@@ -34,7 +34,7 @@
                 <v-img
                     class="white--text align-end"
                     height="200px"
-                    :src="require('@/assets/productImg/' + mainPageProductImgListByHandmade[index])"
+                    :src="getHandmadeProductImg(index).mainPageProductImgListByHandmade"
                 >
                 </v-img>
 
@@ -86,7 +86,7 @@
                 <v-img
                     class="white--text align-end"
                     height="200px"
-                    :src="require('@/assets/productImg/' + mainPageProductImgListByKnowHOw[index])"
+                    :src="getKnowhowProductImg(index).mainPageProductImgListByKnowHOw"
                 >
                 </v-img>
 
@@ -136,7 +136,7 @@
                 <v-img
                     class="white--text align-end"
                     height="200px"
-                    :src="require('@/assets/productImg/' + mainPageProductImgListByHobby[index])"
+                    :src="getHobbyProductImg(index).mainPageProductImgListByHobby"
                 >
                 </v-img>
 
@@ -167,6 +167,26 @@ export default {
       'mainPageProductImgListByKnowHOw',
       'mainPageProductImgListByHandmade'
     ]),
+  },
+  methods:{
+    getHobbyProductImg(index){
+      return{
+        ...this.mainPageProductImgListByHobby,
+        mainPageProductImgListByHobby: this.mainPageProductImgListByHobby[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHobby[index]}`)
+      }
+    },
+    getKnowhowProductImg(index){
+      return{
+        ...this.mainPageProductImgListByKnowHOw,
+        mainPageProductImgListByKnowHOw: this.mainPageProductImgListByKnowHOw[index] && require(`@/assets/productImg/${this.mainPageProductImgListByKnowHOw[index]}`)
+      }
+    },
+    getHandmadeProductImg(index){
+      return{
+        ...this.mainPageProductImgListByHandmade,
+        mainPageProductImgListByHandmade: this.mainPageProductImgListByHandmade[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHandmade[index]}`)
+      }
+    },
   },
   filters: {
     comma(val) {

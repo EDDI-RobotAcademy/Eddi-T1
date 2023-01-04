@@ -302,4 +302,16 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(Long.valueOf(productNo));
     }
 
+    @Override
+    public List<Product> allList(String nickname) {
+        log.info(nickname);
+
+        Slice<Product> productsSlice = productRepository.findByNickname(nickname, Pageable.ofSize(12));
+        List<Product> sellerProductList = productsSlice.getContent();
+
+        return sellerProductList;
+    }
+
+
+
 }
