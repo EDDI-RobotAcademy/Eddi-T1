@@ -104,4 +104,11 @@ public class ProductController {
 
         productService.remove(productNo);
     }
+
+    @GetMapping("/search/{keyword}")
+    public List<Product> productSearch (@PathVariable String keyword) {
+        log.info("productSearch() : " + keyword);
+
+        return productService.getFindSearchKeywordList(keyword);
+    }
 }

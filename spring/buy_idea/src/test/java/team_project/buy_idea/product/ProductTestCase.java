@@ -125,4 +125,11 @@ public class ProductTestCase {
     public void productRemove() {
         productService.remove(1L);
     }
+
+    @Test
+    public void productSearch() {
+        List<Product> searchList = productService.getFindSearchKeywordList("키링");
+        System.out.println("searchList size : " + searchList.size());
+        System.out.println("searchList : " + searchList);
+    }
 }

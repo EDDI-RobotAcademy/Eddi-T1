@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.repository.product.mapping.ProductMapping;
 
+import java.util.List;
+
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
@@ -22,4 +24,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                                                      @Param("category") String category,
                                                      Pageable pageable);
 
+    List<Product> findAllProductByTitleContaining(String searchKeyword);
 }

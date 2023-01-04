@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team_project.buy_idea.controller.product.request.ProductRequest;
@@ -80,6 +81,7 @@ public class ProductServiceImpl implements ProductService {
             log.info(multipartFile.getOriginalFilename());
 
             try {
+
                 FileOutputStream writerVue = new FileOutputStream(
                         filePathVue + EditedName
                 );
@@ -102,6 +104,17 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
         productImageRepository.saveAll(productImageList);
 
+    }
+
+    /**
+     * 검색한 상품 리스트 반환 SrviceImpl
+     *
+     * @param searchKeyword 검색어
+     * @return 타이틀에 해당 키워드를 가진 상품 리스트를 반환
+     */
+    @Override
+    public List<Product> getFindSearchKeywordList(String searchKeyword) {
+        return productRepository.findAllProductByTitleContaining(searchKeyword);
     }
 
     // 상품 카드에 필요한 정보들만 반환하는 상품 리스트 반환 (productNo, title, nickname, price)
@@ -179,14 +192,14 @@ public class ProductServiceImpl implements ProductService {
             File flutterFile = new File(flutterPath + fileName);
 
 
-            if(vueFile.exists()){
+            if (vueFile.exists()) {
                 vueFile.delete();
-            }else{
+            } else {
                 System.out.println("파일삭제실패!");
             }
-            if(flutterFile.exists()){
+            if (flutterFile.exists()) {
                 flutterFile.delete();
-            }else{
+            } else {
                 System.out.println("파일삭제실패!");
             }
         }
@@ -250,7 +263,7 @@ public class ProductServiceImpl implements ProductService {
 
         }
 
-       productImageRepository.saveAll(productImageList);
+        productImageRepository.saveAll(productImageList);
 
     }
 
@@ -272,14 +285,14 @@ public class ProductServiceImpl implements ProductService {
             File flutterFile = new File(flutterPath + fileName);
 
 
-            if(vueFile.exists()){
+            if (vueFile.exists()) {
                 vueFile.delete();
-            }else{
+            } else {
                 System.out.println("파일삭제실패!");
             }
-            if(flutterFile.exists()){
+            if (flutterFile.exists()) {
                 flutterFile.delete();
-            }else{
+            } else {
                 System.out.println("파일삭제실패!");
             }
         }
