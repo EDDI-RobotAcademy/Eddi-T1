@@ -1,16 +1,18 @@
+import 'package:buy_idea/component/buyer/category/category_product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SpringProductApi {
+  static const String httpUri = '192.168.0.8:8888';
+  static var SearchProductResponse;
 
-  static const String httpUri = '192.168.0.12:8888';
-
-  Future<List<RequestProductThumbnailInfo>> firstProductList(String category, int productSize) async {
-
+  Future<List<RequestProductThumbnailInfo>> firstProductList(
+      String category, int productSize) async {
     var response = await http.get(
-      Uri.http(httpUri, '/product/list', {'category' : category, 'productSize' : productSize.toString()}),
+      Uri.http(httpUri, '/product/list',
+          {'category': category, 'productSize': productSize.toString()}),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -18,8 +20,9 @@ class SpringProductApi {
       debugPrint('통신 확인');
       var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
 
-      List<RequestProductThumbnailInfo> productList = data.map((list) =>
-          RequestProductThumbnailInfo.fromJson(list)).toList();
+      List<RequestProductThumbnailInfo> productList = data
+          .map((list) => RequestProductThumbnailInfo.fromJson(list))
+          .toList();
 
       debugPrint(productList.toString());
 
@@ -29,10 +32,14 @@ class SpringProductApi {
     }
   }
 
-  Future<List<RequestProductThumbnailInfo>> nextProductList(int productNo, String category, int productSize) async {
-
+  Future<List<RequestProductThumbnailInfo>> nextProductList(
+      int productNo, String category, int productSize) async {
     var response = await http.get(
-      Uri.http(httpUri, '/product/list/next', {'productNo' : productNo.toString(), 'category' : category, 'productSize' : productSize.toString()}),
+      Uri.http(httpUri, '/product/list/next', {
+        'productNo': productNo.toString(),
+        'category': category,
+        'productSize': productSize.toString()
+      }),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -40,8 +47,9 @@ class SpringProductApi {
       debugPrint('통신 확인');
       var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
 
-      List<RequestProductThumbnailInfo> productList = data.map((list) =>
-          RequestProductThumbnailInfo.fromJson(list)).toList();
+      List<RequestProductThumbnailInfo> productList = data
+          .map((list) => RequestProductThumbnailInfo.fromJson(list))
+          .toList();
 
       debugPrint(productList.toString());
 
@@ -52,7 +60,6 @@ class SpringProductApi {
   }
 
   Future<RequestProductImage> productThumbnailImage(int productNo) async {
-
     var response = await http.get(
       Uri.http(httpUri, '/product/image/thumbnail/$productNo'),
       headers: {"Content-Type": "application/json"},
@@ -73,7 +80,6 @@ class SpringProductApi {
   }
 
   Future<RequestProduct> productDetailsInfo(int productNo) async {
-
     var response = await http.get(
       Uri.http(httpUri, '/product/read/$productNo'),
       headers: {"Content-Type": "application/json"},
@@ -96,7 +102,6 @@ class SpringProductApi {
   }
 
   Future<List<RequestProductImage>> productImageList(int productNo) async {
-
     var response = await http.get(
       Uri.http(httpUri, '/product/images/$productNo'),
       headers: {"Content-Type": "application/json"},
@@ -106,13 +111,37 @@ class SpringProductApi {
       debugPrint('통신 확인');
 
       var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
-      List<RequestProductImage> productImages = data.map((list) => RequestProductImage.fromJson(list)).toList();
+      List<RequestProductImage> productImages =
+          data.map((list) => RequestProductImage.fromJson(list)).toList();
 
       debugPrint(productImages.toString());
 
       return productImages;
     } else {
       throw Exception('productThumbnailImage() 에러 발생');
+    }
+  }
+
+  Future<List<CategoryProduct>> searchProduct(String searchKeyword) async {
+    debugPrint('searchKeyword : ' + searchKeyword);
+
+    SearchProductResponse = await http.get(
+      Uri.http(httpUri, '/product/search/$searchKeyword'),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (SearchProductResponse.statusCode == 200) {
+      debugPrint('통신 확인');
+      var data = jsonDecode(utf8.decode(SearchProductResponse.bodyBytes)) as List;
+
+      List<CategoryProduct> searchProductList =
+          data.map((list) => CategoryProduct.fromJson(list)).toList();
+
+      debugPrint(searchProductList.toString());
+
+      return searchProductList;
+    } else {
+      throw Exception('productDetailsInfo() 에러 발생');
     }
   }
 }
@@ -132,10 +161,10 @@ class RequestProductThumbnailInfo {
 
   factory RequestProductThumbnailInfo.fromJson(Map<String, dynamic> json) {
     return RequestProductThumbnailInfo(
-        productNo: json['productNo'],
-        title: json['title'],
-        nickname: json['nickname'],
-        price: json['price'],
+      productNo: json['productNo'],
+      title: json['title'],
+      nickname: json['nickname'],
+      price: json['price'],
     );
   }
 }
@@ -147,7 +176,8 @@ class RequestProductImage {
   RequestProductImage({required this.imageId, required this.editedName});
 
   factory RequestProductImage.fromJson(Map<String, dynamic> json) {
-    return RequestProductImage(imageId: json['imageId'], editedName: json['editedName']);
+    return RequestProductImage(
+        imageId: json['imageId'], editedName: json['editedName']);
   }
 }
 
@@ -165,20 +195,19 @@ class RequestProduct {
   String regDate;
   String updDate;
 
-  RequestProduct({
-    required this.productNo,
-    required this.title,
-    required this.nickname,
-    required this.price,
-    required this.productInfoNo,
-    required this.category,
-    required this.content,
-    required this.infoNotice,
-    required this.deliveryFee,
-    required this.stock,
-    required this.regDate,
-    required this.updDate
-  });
+  RequestProduct(
+      {required this.productNo,
+      required this.title,
+      required this.nickname,
+      required this.price,
+      required this.productInfoNo,
+      required this.category,
+      required this.content,
+      required this.infoNotice,
+      required this.deliveryFee,
+      required this.stock,
+      required this.regDate,
+      required this.updDate});
 
   factory RequestProduct.fromJson(Map<String, dynamic> json) {
     return RequestProduct(
@@ -193,7 +222,6 @@ class RequestProduct {
         deliveryFee: json['productInfo']['deliveryFee'],
         stock: json['productInfo']['stock'],
         regDate: json['productInfo']['regDate'],
-        updDate: json['productInfo']['updDate']
-    );
+        updDate: json['productInfo']['updDate']);
   }
 }
