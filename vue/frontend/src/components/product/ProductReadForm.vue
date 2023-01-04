@@ -218,7 +218,14 @@
 
               </v-col>
               <v-col cols="6" align="center">
-                <v-btn @click="btnPurchase" :disabled="product.productInfo.stock <= 0" block x-large class="bt1" color="#2F4F4F" style="color: white" tile >바로구매</v-btn>
+                <v-btn
+                    :disabled="product.productInfo.stock <= 0"
+                    block x-large
+                    class="bt1"
+                    color="#2F4F4F"
+                    style="color: white" tile
+                    :to="{name: 'OrderForm', params: {product: this.product, productTotalPrice: this.totalPrice, productDeliveryFee: this.deliveryFee, productQuantity: this.quantity , productReadCheckValue:true}}"
+                >바로구매</v-btn>
               </v-col>
             </v-row>
 
@@ -360,12 +367,6 @@ export default {
 
       await this.requestRegisterShoppingBucketProduct({nickname, productId, productAmountValue})
       // 장바구니에 상품 추가
-    },
-    btnPurchase() {
-      // 구매 페이지로 이동
-
-      alert ("구매 페이지로 이동합니다.")
-      this.$router.push({name:'OrderForm'})
     },
     onModify () {
       this.$router.push({name:'ProductModifyView',
