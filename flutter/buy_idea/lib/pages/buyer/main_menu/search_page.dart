@@ -1,10 +1,13 @@
+import 'package:buy_idea/pages/buyer/main_menu/search_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     var _searchController = TextEditingController();
     return Scaffold(
         appBar: AppBar(
@@ -18,6 +21,14 @@ class SearchPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5)),
             child: Center(
               child: TextField(
+                  // 엔터쳐서 API 요청
+                textInputAction: TextInputAction.go,
+                onSubmitted: (value) async{
+                  _searchController.text = value;
+                  if(value.isNotEmpty){
+                    Get.to(SearchListPage(searchKeyword: value));
+                  }
+                },
                 controller: _searchController,
                 autofocus: true,
                 decoration: InputDecoration(
@@ -37,7 +48,7 @@ class SearchPage extends StatelessWidget {
         ),
         body: GestureDetector(
           onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
+            FocusScope.of(context).requestFocus(FocusNode());
           },
         ));
   }
