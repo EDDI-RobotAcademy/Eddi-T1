@@ -7,7 +7,8 @@
       <v-divider style="margin-top: 30px; margin-bottom: 30px;"></v-divider>
 
       <!-- 장바구니 상품 표시 카드 -->
-      <v-container style="width: 900px" v-if="!shoppingBucketProductItemList || (Array.isArray(shoppingBucketProductItemList) && shoppingBucketProductItemList.length === 0)">
+      <v-container style="width: 900px"
+                   v-if="!shoppingBucketProductItemList || (Array.isArray(shoppingBucketProductItemList) && shoppingBucketProductItemList.length === 0)">
         <div align="center">
           <h2>장바구니에 상품이 없습니다.</h2>
         </div>
@@ -31,11 +32,11 @@
             <v-card max-width="100"
                     style="padding: 15px 15px 15px 15px"
                     flat>
-                            <v-img
-                                height="75px"
-                                :src="require('@/assets/productImg/'+ item.product.productImages[0].editedName)"
-                            >
-                            </v-img>
+              <v-img
+                  height="75px"
+                  :src="require('@/assets/productImg/'+ item.product.productImages[0].editedName)"
+              >
+              </v-img>
             </v-card>
 
             <v-card style="width: 100%;" flat>
@@ -173,7 +174,7 @@
         <!--구매하기 버튼-->
         <v-container style="width: 800px">
           <v-btn width="100%" height="40px" elevation="0" style="background-color: #2F4F4F; color: white"
-                 :to="{name: 'OrderForm', params: {productInfo: this.selectList, productTotalPrice: this.totalProductPrice}}"
+                 :to="{name: 'OrderForm', params: {productInfo: this.selectList, productTotalPrice: this.totalPaymentAmount}}"
           >
             <h4>구매하기</h4>
           </v-btn>
@@ -191,13 +192,13 @@ export default {
   name: "ShoppingCartForm",
   computed: {
     ...mapState([
-        'shoppingBucketProductItemList',
+      'shoppingBucketProductItemList',
     ]),
     allSelected: {
       get: function () {
         return this.shoppingBucketProductItemList.length === this.selectList.length
       },
-      set: function (e){
+      set: function (e) {
         this.selectList = e ? this.shoppingBucketProductItemList : []
         for (let i = 0; i < this.selectList.length; i++) {
           this.totalProductPrice += this.selectList[i].product.price * this.selectList[i].itemCount
@@ -218,22 +219,23 @@ export default {
   },
   methods: {
     ...mapActions([
-       'requestDeleteShoppingBucketItemFromSpring'
+      'requestDeleteShoppingBucketItemFromSpring'
     ]),
-    async deleteSelectProduct(productItemId){
+    async deleteSelectProduct(productItemId) {
       await this.requestDeleteShoppingBucketItemFromSpring(productItemId);
     },
-    selectProduct(price, itemCount){
+    selectProduct(price, itemCount) {
       this.totalProductPrice += (price * itemCount)
+      console.log(this.selectList)
     },
     async minusProductAmount(i) {
       this.shoppingBucketProductItemList[i].itemCount--
 
-      if (this.shoppingBucketProductItemList[i].itemCount <= 1){
+      if (this.shoppingBucketProductItemList[i].itemCount <= 1) {
         this.showMinusButtonValue = true
       }
 
-      if (this.shoppingBucketProductItemList[i].product.productInfo.stock > this.shoppingBucketProductItemList[i].itemCount){
+      if (this.shoppingBucketProductItemList[i].product.productInfo.stock > this.shoppingBucketProductItemList[i].itemCount) {
         this.showPlusButtonValue = false
       }
 
@@ -241,11 +243,11 @@ export default {
     async plusProductAmount(i) {
       this.shoppingBucketProductItemList[i].itemCount++
 
-      if (this.shoppingBucketProductItemList[i].itemCount > 1){
+      if (this.shoppingBucketProductItemList[i].itemCount > 1) {
         this.showMinusButtonValue = false
       }
 
-      if (this.shoppingBucketProductItemList[i].product.productInfo.stock <= this.shoppingBucketProductItemList[i].itemCount){
+      if (this.shoppingBucketProductItemList[i].product.productInfo.stock <= this.shoppingBucketProductItemList[i].itemCount) {
         this.showPlusButtonValue = true
       }
     }
@@ -259,6 +261,7 @@ export default {
       this.totalProductPrice += this.selectList[i].product.price * this.selectList[i].itemCount
 
       if (this.selectList[i].product.price * this.selectList[i].itemCount >= 50000) {
+        this.selectList[i].product.productInfo.deliveryFee = 0
         this.totalDeliveryFee += 0
 
       } else {
