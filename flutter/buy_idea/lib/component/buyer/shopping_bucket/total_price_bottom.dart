@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../pages/buyer/order/order_page.dart';
+
 class TotalPriceBottom extends StatefulWidget {
   const TotalPriceBottom({Key? key}) : super(key: key);
 
@@ -78,7 +80,13 @@ class _TotalPriceBottomState extends State<TotalPriceBottom> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    shoppingController.setOrderList();
+                    Get.off(OrderPage(
+                        productNoList: shoppingController.productNoList,
+                        purchaseQuantityList:
+                            shoppingController.purchaseQuantityList));
+                  },
                   child: const Text("결제하기"),
                 ),
               ),

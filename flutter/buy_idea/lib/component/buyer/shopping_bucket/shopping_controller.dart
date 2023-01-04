@@ -7,11 +7,20 @@ import 'package:get/get.dart';
 class ShoppingController extends GetxController {
   static const _storage = FlutterSecureStorage();
   List<ShoppingBucketProduct> productData = [];
+  List<int> productNoList = [];
+  List<int> purchaseQuantityList = [];
   var bucketProducts = <ShoppingBucketProduct>[].obs;
   dynamic memberNickname;
   var sumDeliveryFee;
   var loading = false.obs;
   RxInt totalPrice = 0.obs;
+
+  void setOrderList(){
+    for(var i = 0; i < bucketProducts.length; i++){
+      productNoList.add(bucketProducts[i].productNo);
+      purchaseQuantityList.add(bucketProducts[i].itemCount);
+    }
+  }
 
   void deleteItem(ShoppingBucketProduct product, int index) {
     bucketProducts.removeAt(index);
