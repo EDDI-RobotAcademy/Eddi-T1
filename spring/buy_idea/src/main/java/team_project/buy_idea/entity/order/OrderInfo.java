@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import team_project.buy_idea.entity.product.Product;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Data
-@ToString(exclude = "address")
+@ToString(exclude = {"address", "product"} )
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderInfo {
@@ -30,22 +30,16 @@ public class OrderInfo {
     private String buyer;
 
     @Column(nullable = false)
-    private String seller;
-
-    @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
     private int quantity;
-
-    @Column(nullable = false)
-    private int price;
 
     @Column(nullable = false)
     private String orderStatus;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

@@ -50,6 +50,137 @@
           <v-tabs grow height="55px">
             <v-tabs-slider style="color: #DAA520"></v-tabs-slider>
             <v-layout justify-center v-for="(item, index) in orderListCategoryItems" :key="index">
+              <v-tab style="color: #2F4F4F; border: 1px solid grey">
+                <h4>{{ item.name }}</h4>
+              </v-tab>
+            </v-layout>
+
+            <v-tab-item v-for="(item, index) in orderListCategoryItems" :key="index" style="margin-top: 50px;">
+              <div v-for="(itemList, index) in item.contentList" :key="index">
+                <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9; margin-top: 10px;">
+                  <v-card-subtitle style="border-bottom: 1px solid #eaebee">
+                    <v-layout>
+                      {{ itemList.date }}
+                      <v-spacer></v-spacer>
+
+                      <!--최근 주문상품 상세페이지로 이동-->
+                      <router-link to="/order-detail" style="text-decoration: none; color: black">
+                        <h5>{{ itemList.price }} ></h5>
+                      </router-link>
+                    </v-layout>
+                  </v-card-subtitle>
+
+                  <!--주문일자(주문번호)에 따른 상품 개수-->
+                  <v-layout
+                      v-for="(itemList, index) in item.contentList" :key="index"
+                      style="border-bottom: 0.5px solid #eaebee"
+                  >
+
+                    <v-card max-width="100"
+                            style="padding: 15px 15px 15px 15px"
+                            flat
+                    >
+                      <v-img
+                          height="75px"
+                          :src="require('@/assets/productImg/' + itemList.img)">
+                      </v-img>
+                    </v-card>
+
+                    <v-card width="400px"
+                            flat
+                            style="border-right: 1px solid #eaebee"
+                            tile
+                    >
+                      <v-card-title style="font-weight: bold; font-size: 15px">
+                        <router-link to="null" style="text-decoration: none; color: black">
+                          {{ itemList.productTitle }}&nbsp;
+                        </router-link>
+
+                        <!--주문상태 chip-->
+
+                        <v-chip outlined style="float: right;" color="#DAA520" x-small v-if="itemList.orderStatus == '입금 완료'">입금 완료</v-chip>
+                        <v-chip outlined style="float: right;" color="#44a4fc" x-small v-if="itemList.orderStatus == '배송 중'">배송 중</v-chip>
+                        <v-chip outlined style="float: right;" color="green" x-small v-if="itemList.orderStatus == '배송 완료'">배송 완료</v-chip>
+                        <v-chip outlined style="float: right;" color="warning" x-small v-if="itemList.orderStatus == '교환'">교환</v-chip>
+                        <v-chip outlined style="float: right;" color="grey" x-small v-if="itemList.orderStatus == '취소'">취소</v-chip>
+                        <v-chip outlined style="float: right;" color="red" x-small v-if="itemList.orderStatus == '환불'">환불</v-chip>
+
+
+                      </v-card-title>
+
+                      <v-card-subtitle style="font-size: 12px">
+                        {{ itemList.optionsList }} : {{ itemList.quantity }}개
+                      </v-card-subtitle>
+                    </v-card>
+
+                    <v-card flat
+                            style="border-right: 1px solid #eaebee"
+                            tile
+                            width="200px"
+                    >
+                      <v-layout justify-center style="padding: 1px">
+                        <v-card-title style="font-size: 15px">
+                          <h5>{{ itemList.seller }}</h5>
+                        </v-card-title>
+                      </v-layout>
+
+                      <v-card-subtitle align="center">
+                        <v-btn
+                            small
+                            elevation="0"
+                            style="background-color: #2F4F4F; color: white; margin-top: -35px;"
+                        >
+                          문의하기
+                        </v-btn>
+                      </v-card-subtitle>
+                    </v-card>
+
+                    <v-card flat align="center">
+                      <div style="margin-top: 35px;">
+
+                        <v-btn x-small
+                               :disabled="itemList.orderStatus == '입금 완료' || itemList.orderStatus == '배송 중' || itemList.orderStatus == '취소'"
+                               width="98px"
+                               elevation="0"
+                               style="background-color: #2F4F4F;
+                               color: white">
+                          <h3 style="font-weight: normal">구매후기 작성</h3>
+                        </v-btn>
+
+
+                        <v-btn x-small
+                               :disabled="itemList.orderStatus == '입금 완료'|| itemList.orderStatus == '취소'"
+                               outlined class="#2F4F4F"
+                               width="98px"
+                               elevation="0"
+                               onclick="window.open('https://m.search.daum.net/search?w=tot&year=2022&q=%ED%83%9D%EB%B0%B0%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C+')"
+                        >
+                          <h3 style="font-weight: normal">배송 조회</h3>
+                        </v-btn>
+                      </div>
+                    </v-card>
+                  </v-layout>
+
+                </v-card>
+              </div>
+            </v-tab-item>
+          </v-tabs>
+        </v-container>
+      </v-container>
+
+<!--      <v-container style="width: 1200px; margin-top: 80px">
+        <v-layout>
+          <h3>최근 주문내역</h3>
+          <v-spacer></v-spacer>
+          <router-link to="null" style="text-decoration: none; color: black">
+            <h4 style="font-size: 13px">더보기></h4>
+          </router-link>
+        </v-layout>
+
+        <v-container style="width: 800px; margin-top: 30px;">
+          <v-tabs grow height="55px">
+            <v-tabs-slider style="color: #DAA520"></v-tabs-slider>
+            <v-layout justify-center v-for="(item, index) in orderListCategoryItems" :key="index">
               <v-tab style="color: #2F4F4F; border: 1px solid black">
                 <h4>{{ item.name }}</h4>
               </v-tab>
@@ -63,7 +194,7 @@
                       {{ itemList.date }}
                       <v-spacer></v-spacer>
 
-                      <!--최근 주문상품 상세페이지로 이동-->
+                      &lt;!&ndash;최근 주문상품 상세페이지로 이동&ndash;&gt;
                       <router-link to="null" style="text-decoration: none; color: black">
                         <h5>{{ itemList.price }} ></h5>
                       </router-link>
@@ -144,7 +275,7 @@
             </v-tab-item>
           </v-tabs>
         </v-container>
-      </v-container>
+      </v-container>-->
 
       <!--취소 및 반품 내역-->
       <v-container style="width: 1200px; margin-top: 80px">
@@ -388,7 +519,8 @@ export default {
               productTitle: '핸드메이드 상품',
               optionsList: '수제 케익',
               quantity: 1,
-              seller: "핸드메이드 판매자"
+              seller: "핸드메이드 판매자",
+              orderStatus: '입금 완료'
             },
             {
               date: "2022-12-09",
@@ -397,7 +529,8 @@ export default {
               productTitle: '캔들 판매',
               optionsList: '눈사람 캔들',
               quantity: 1,
-              seller: "캔들판매"
+              seller: "캔들판매",
+              orderStatus: '배송 완료'
             }
           ]
         },
