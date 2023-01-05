@@ -7,32 +7,59 @@ import 'package:get/get.dart';
 class ShoppingController extends GetxController {
   static const _storage = FlutterSecureStorage();
   List<ShoppingBucketProduct> productData = [];
+  List<int> productNoList = [];
+  List<int> purchaseQuantityList = [];
   var bucketProducts = <ShoppingBucketProduct>[].obs;
   dynamic memberNickname;
   var sumDeliveryFee;
   var loading = false.obs;
   RxInt totalPrice = 0.obs;
 
-  void addToItemPrice(ShoppingBucketProduct product, int index) {
-    totalPrice + bucketProducts[index].price;
-    bucketProducts[index].itemCount++;
+  void setOrderList(){
+    for(var i = 0; i < bucketProducts.length; i++){
+      productNoList.add(bucketProducts[i].productNo);
+      purchaseQuantityList.add(bucketProducts[i].itemCount);
+    }
+  }
+
+  void deleteItem(ShoppingBucketProduct product, int index) {
+    bucketProducts.removeAt(index);
     bucketProducts.refresh();
+    checkTotalPrice(bucketProducts);
+  }
+
+  void addToItemPrice(ShoppingBucketProduct product, int index) {
+    bucketProducts[index].itemCount++;
+    checkDeliveryFee(index);
+    bucketProducts.refresh();
+    checkTotalPrice(bucketProducts);
   }
 
   void removeToItemPrice(ShoppingBucketProduct product, int index) {
-    totalPrice - bucketProducts[index].price;
     bucketProducts[index].itemCount--;
+    checkDeliveryFee(index);
     bucketProducts.refresh();
+    checkTotalPrice(bucketProducts);
   }
 
-  void deliveryFeeFree(ShoppingBucketProduct product, int index) {
-    bucketProducts[index].sumDeliveryFee = 0;
-    bucketProducts.refresh();
+  void checkDeliveryFee(int index) {
+    if (bucketProducts[index].price * bucketProducts[index].itemCount >=
+        50000) {
+      bucketProducts[index].sumDeliveryFee = 0;
+    } else {
+      bucketProducts[index].sumDeliveryFee = bucketProducts[index].deliveryFee;
+    }
   }
 
-  void addDeliveryFee(ShoppingBucketProduct product, int index) {
-    bucketProducts[index].sumDeliveryFee = 3000;
-    bucketProducts.refresh();
+  void checkTotalPrice(List<ShoppingBucketProduct> bucketProducts) {
+    totalPrice.value = 0;
+    totalPrice.refresh();
+    for (int i = 0; i < bucketProducts.length; i++) {
+      totalPrice.value +=
+          (bucketProducts[i].price * bucketProducts[i].itemCount) +
+              bucketProducts[i].sumDeliveryFee;
+    }
+    totalPrice.refresh();
   }
 
   @override
@@ -64,6 +91,7 @@ class ShoppingController extends GetxController {
           image: bucketList[i].image,
           nickname: bucketList[i].nickname,
           productNo: bucketList[i].productNo,
+          itemId: bucketList[i].itemId,
           price: bucketList[i].price,
           deliveryFee: bucketList[i].deliveryFee,
           sumDeliveryFee: sumDeliveryFee,
