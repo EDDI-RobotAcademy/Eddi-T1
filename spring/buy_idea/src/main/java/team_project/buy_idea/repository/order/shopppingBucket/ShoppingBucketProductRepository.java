@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface ShoppingBucketProductRepository extends JpaRepository<ShoppingBucketItem, Long> {
 
-    @Query("select sbi from ShoppingBucketItem sbi where sbi.shoppingBucket.member.nickname = :nickname")
-    List<ShoppingBucketItem> findShoppingBucketItemListByMemberId(@Param("nickname") String nickname);
+    @Query("select distinct sbi from ShoppingBucketItem sbi join fetch sbi.shoppingBucket sb " +
+            "join fetch sbi.product p join fetch p.productImages " +
+            "join fetch sb.member m join fetch m.authentications " +
+            "where m.nickname = :nickname")
+    List<ShoppingBucketItem> findShoppingBucketItemListByNickname(@Param("nickname") String nickname);
 }

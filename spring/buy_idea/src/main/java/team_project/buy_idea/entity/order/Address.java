@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@ToString
+@ToString(exclude = "orderInfos")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
@@ -39,7 +39,7 @@ public class Address {
     private String addressDetail;
 
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
 }

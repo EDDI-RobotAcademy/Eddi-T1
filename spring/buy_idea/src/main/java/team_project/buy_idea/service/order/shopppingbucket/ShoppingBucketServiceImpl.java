@@ -79,7 +79,7 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
     @Override
     public List<ShoppingBucketItem> shoppingBucketItemList(String nickname) {
 
-        return bucketProductRepository.findShoppingBucketItemListByMemberId(nickname);
+        return bucketProductRepository.findShoppingBucketItemListByNickname(nickname);
     }
 
     @Override
