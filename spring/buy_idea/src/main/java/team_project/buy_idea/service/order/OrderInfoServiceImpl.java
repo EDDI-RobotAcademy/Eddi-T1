@@ -2,17 +2,17 @@ package team_project.buy_idea.service.order;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team_project.buy_idea.controller.order.request.AddressRequest;
 import team_project.buy_idea.controller.order.request.OrderInfoRequest;
 import team_project.buy_idea.entity.order.Address;
 import team_project.buy_idea.entity.order.OrderInfo;
+import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.repository.order.AddressRepository;
 import team_project.buy_idea.repository.order.OrderInfoRepository;
+import team_project.buy_idea.repository.product.ProductRepository;
 
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,6 +29,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
 
     /**
@@ -77,17 +80,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         String setOrderDate = DateTimeFormatter.ofPattern("yyyyMMddhhmm").format(LocalDateTime.now());
 
+
+
         for(OrderInfoRequest request : orderInfoRequestsList) {
+
+            Optional<Product> maybeProduct = productRepository.findById(request.getProductNo());
+            Product product = maybeProduct.get();
 
             OrderInfo orderInfo = new OrderInfo();
             orderInfo.setOrderNo(setOrderNo);
             orderInfo.setOrderDate(setOrderDate);
             orderInfo.setBuyer(request.getBuyer());
-            orderInfo.setSeller(request.getSeller());
-            orderInfo.setTitle(request.getTitle());
             orderInfo.setQuantity(request.getQuantity());
-            orderInfo.setPrice(request.getPrice());
             orderInfo.setOrderStatus(request.getOrderStatus());
+            orderInfo.setProduct(product);
             orderInfo.setAddress(address);
             orderInfoList.add(orderInfo);
         }
