@@ -28,10 +28,10 @@ public class OrderTestCase {
 
         List<OrderInfoRequest> orderInfoRequestList = new ArrayList<>();
 
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘","anna","강쥐패딩",2,88000,"입금전"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘","kun","강쥐 사료",1,43000,"입금완료"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘","재범티비","핸드메이드 뜨개가방",4,120000,"배송중"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘","jojo","핸드메이드 향초",4,230000,"배송완료"));
+        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘", 19L,2,"입금완료"));
+        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",20L,1,"입금완료"));
+        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",17L,4,"배송중"));
+        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",15L,2,"배송완료"));
 
 
         AddressRequest addressRequest = new AddressRequest(
