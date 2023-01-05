@@ -31,7 +31,7 @@ public class OrderTestCase {
         orderInfoRequestList.add(new OrderInfoRequest("쏘쏘", 19L,2,"입금완료"));
         orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",20L,1,"입금완료"));
         orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",17L,4,"배송중"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",21L,2,"배송완료"));
+        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",15L,2,"배송완료"));
 
 
         AddressRequest addressRequest = new AddressRequest(
