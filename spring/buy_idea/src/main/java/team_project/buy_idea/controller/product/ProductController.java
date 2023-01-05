@@ -105,10 +105,20 @@ public class ProductController {
         productService.remove(productNo);
     }
 
+
+    @GetMapping("/search/{keyword}")
+    public List<Product> productSearch (@PathVariable String keyword) {
+        log.info("productSearch() : " + keyword);
+
+        return productService.getFindSearchKeywordList(keyword);
+    }
+        
+
     @GetMapping("/allList/{nickname}")
     public List<Product> allList (@PathVariable("nickname") String nickname) {
         log.info("allList()" + nickname);
 
         return productService.allList(nickname);
+
     }
 }

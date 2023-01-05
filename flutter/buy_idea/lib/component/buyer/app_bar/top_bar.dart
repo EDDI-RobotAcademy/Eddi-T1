@@ -1,6 +1,8 @@
 import 'package:buy_idea/pages/buyer/main_menu/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../../pages/buyer/shopping_bucket/shopping_bucket_page.dart';
 import 'bottom_bar.dart';
 
 class TopBar extends StatelessWidget with PreferredSizeWidget {
@@ -41,7 +43,9 @@ class TopBar extends StatelessWidget with PreferredSizeWidget {
         ),
         SizedBox(width: 5.0),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(ShoppingBucketPage());
+            },
             icon: const Icon(Icons.add_shopping_cart_outlined)),
       ],
     );

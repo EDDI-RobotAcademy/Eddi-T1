@@ -4,6 +4,7 @@ import 'package:buy_idea/component/buyer/product/product_details_page_image_view
 import 'package:buy_idea/component/buyer/product/product_info_form.dart';
 import 'package:buy_idea/component/buyer/product/product_buy_and_shopping_cart_select_modal_sheet.dart';
 import 'package:buy_idea/pages/buyer/main_page.dart';
+import 'package:buy_idea/pages/buyer/shopping_bucket/shopping_bucket_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -155,7 +156,7 @@ made in Korea
               actions: [
                 IconButton(
                     onPressed: () {
-                      /// 장바구니 페이지로 이동
+                      Get.to(ShoppingBucketPage());
                     },
                     icon: const Icon(Icons.shopping_cart_outlined)
                 ),

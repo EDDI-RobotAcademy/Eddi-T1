@@ -12,6 +12,7 @@ import team_project.buy_idea.repository.product.mapping.ProductMapping;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
@@ -27,9 +28,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                                                      Pageable pageable);
 
 
+    List<Product> findAllProductByTitleContaining(String searchKeyword);
+
+
     @Query("select p from Product p where p.nickname = :nickname order by p.productNo desc")
     Slice<Product> findByNickname(@Param("nickname") String nickname, Pageable pageable);
-
-
 
 }
