@@ -166,6 +166,7 @@ export default {
       street: '',
       addressDetail: '',
       zipcode: '',
+      order_name: {}
     }
   },
   props:{
@@ -194,6 +195,12 @@ export default {
     console.log("product: " + this.product)
     console.log("productReadCheckValue: " + this.productReadCheckValue)
     console.log("productQuantity: " + this.productQuantity)
+
+    if (this.productReadCheckValue == true) {
+      this.order_name = this.product.title
+    } else {
+      this.order_name = this.productInfo[0].product.title
+    }
   },
   filters: {
     comma(val) {
@@ -236,7 +243,7 @@ export default {
           // 실제 가격대로 결제하려면 아래와 같은 코드 사용
           // "price": this.productTotalPrice,
           "price": 100,
-          "order_name": this.productInfo[0].product.title,
+          "order_name": this.order_name,
           "order_id": "TEST_ORDER_ID",
           "pg": "이니시스",
           "method": "카드",
