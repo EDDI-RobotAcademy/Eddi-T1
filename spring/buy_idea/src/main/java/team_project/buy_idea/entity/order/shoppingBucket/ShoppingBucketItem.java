@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@ToString(exclude = {"shoppingBucket", "product"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,11 +18,11 @@ public class ShoppingBucketItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopping_bucket_id")
     private ShoppingBucket shoppingBucket;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 

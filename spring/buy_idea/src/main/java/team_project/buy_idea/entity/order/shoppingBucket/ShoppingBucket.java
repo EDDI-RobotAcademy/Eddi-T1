@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@ToString(exclude = {"member", "shoppingBucketItems"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,13 +23,13 @@ public class ShoppingBucket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @JsonIgnore
     @Builder.Default
-    @OneToMany(mappedBy = "shoppingBucket")
+    @OneToMany(mappedBy = "shoppingBucket", fetch = FetchType.LAZY)
     private List<ShoppingBucketItem> shoppingBucketItems = new ArrayList<>();
 
     private int shoppingBucketTotalCnt;

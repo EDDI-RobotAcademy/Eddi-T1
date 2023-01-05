@@ -17,19 +17,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private String memberId;
-
 
     @Column(nullable = false)
     private String nickname;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER ,cascade = CascadeType.REMOVE)
-    private Set<Authentication> authentications = new HashSet<>();
-
     @Column(nullable = false)
     private String memberType;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY ,cascade = CascadeType.REMOVE)
+    private Set<Authentication> authentications = new HashSet<>();
 
 
     public Member(String memberId, String nickname, String memberType) {
