@@ -5,7 +5,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.repository.product.mapping.ProductMapping;
 
@@ -31,7 +30,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllProductByTitleContaining(String searchKeyword);
 
 
-    @Query("select p from Product p where p.nickname = :nickname order by p.productNo desc")
+    @Query("select p from Product p join fetch p.productImages where p.nickname = :nickname order by p.productNo desc")
     Slice<Product> findByNickname(@Param("nickname") String nickname, Pageable pageable);
 
+    @Query("select p from Product p join fetch p.productImages where p.productNo = :productNo")
+    Optional<Product> findById(@Param("productNo") Long productNo);
 }

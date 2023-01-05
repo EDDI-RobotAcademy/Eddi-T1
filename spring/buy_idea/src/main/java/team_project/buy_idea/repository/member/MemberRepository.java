@@ -15,7 +15,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findBuyDiaMemberByNickname(String nickname);
 
-    @Query("select m from Member m where m.memberId = :memberId and m.memberType = :memberType")
+    @Query("select m from Member m join fetch m.authentications where m.memberId = :memberId and m.memberType = :memberType")
     Optional<Member> findByMemberIdAndMemberType(@Param("memberId") String memberId,
                                                  @Param("memberType") String memberType);
 

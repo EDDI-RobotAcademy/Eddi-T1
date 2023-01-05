@@ -1,6 +1,5 @@
 package team_project.buy_idea.entity.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
+@ToString(exclude = {"productImages", "productInfo"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
@@ -26,7 +26,7 @@ public class Product {
     @Column(nullable = false)
     private int price;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER,  cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
     @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
