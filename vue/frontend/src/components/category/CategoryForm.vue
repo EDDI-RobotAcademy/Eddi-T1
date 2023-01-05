@@ -6,11 +6,12 @@
           <h2 style="font-weight: bold">핸드메이드</h2>
         </div>
         <v-spacer></v-spacer>
-        <div style="margin-top: 40px; margin-right: 110px;">
+        <div style="margin-top: 35px; margin-right: 110px;">
           <v-btn
               elevation="0"
               small
               style="background-color: #FAEBD7"
+              :to="{name: 'HandmadeCategoryView'}"
           >
             <span style="font-size: 12px; font-weight: bold">핸드메이드 더보기</span>
           </v-btn>
@@ -26,22 +27,28 @@
                                     params: { productNo: item.productNo.toString() } }"
                style="text-decoration: none; color: black"
             >
-              <v-card
-                  class="ma-4"
-                  max-width="210"
-                  flat
+              <v-hover
+                  v-slot="{ hover }"
               >
-                <v-img
-                    class="white--text align-end"
-                    height="200px"
-                    :src="getHandmadeProductImg(index).mainPageProductImgListByHandmade"
+                <v-card
+                    :elevation="hover ? 16 : 0"
+                    :class="{'on-hover' : hover}"
+                    class="ma-4"
+                    max-width="265"
+                    flat
                 >
-                </v-img>
+                  <v-img
+                      class="white--text align-end"
+                      height="265px"
+                      :src="getHandmadeProductImg(index).mainPageProductImgListByHandmade"
+                  >
+                  </v-img>
 
-                <div style="padding: 5px 10px 10px 5px; height: 60px;">
-                  <h5>{{ item.title }}</h5>
-                </div>
-              </v-card>
+                  <div style="padding: 10px 10px 10px 10px; height: 60px;">
+                    <h4>{{ item.title }}</h4>
+                  </div>
+                </v-card>
+              </v-hover>
             </router-link>
           </div>
 
@@ -58,11 +65,12 @@
         </div>
       </v-layout>
       <v-spacer></v-spacer>
-      <div style="margin-top: 40px; margin-right: 110px;">
+      <div style="margin-top: 35px; margin-right: 110px;">
         <v-btn
             elevation="0"
             small
             style="background-color: #FAEBD7"
+            :to="{name: 'KnowhowCategoryView'}"
         >
           <span style="font-size: 12px; font-weight: bold">노하우 더보기</span>
         </v-btn>
@@ -78,22 +86,29 @@
                                     params: { productNo: item.productNo.toString() } }"
                style="text-decoration: none; color: black"
             >
-              <v-card
-                  class="ma-4"
-                  max-width="210"
-                  flat
+              <v-hover
+                  v-slot="{ hover }"
               >
-                <v-img
-                    class="white--text align-end"
-                    height="200px"
-                    :src="getKnowhowProductImg(index).mainPageProductImgListByKnowHOw"
+                <v-card
+                    :elevation="hover ? 16 : 0"
+                    :class="{'on-hover' : hover}"
+                    class="ma-4"
+                    max-width="265"
+                    flat
                 >
-                </v-img>
+                  <v-img
+                      class="white--text align-end"
+                      height="265px"
+                      :src="getKnowhowProductImg(index).mainPageProductImgListByKnowHOw"
+                  >
+                  </v-img>
 
-                <div style="padding: 5px 10px 10px 5px; height: 60px;">
-                  <h5>{{ item.title }}</h5>
-                </div>
-              </v-card>
+                  <div style="padding: 10px 10px 10px 10px; height: 60px;">
+                    <h4>{{ item.title }}</h4>
+                  </div>
+                </v-card>
+              </v-hover>
+
             </router-link>
           </div>
         </v-row>
@@ -108,11 +123,12 @@
         </div>
       </v-layout>
       <v-spacer></v-spacer>
-      <div style="margin-top: 40px; margin-right: 110px;">
+      <div style="margin-top: 35px; margin-right: 110px;">
         <v-btn
             elevation="0"
             small
             style="background-color: #FAEBD7"
+            :to="{name: 'HobbyCategoryView'}"
         >
           <span style="font-size: 12px; font-weight: bold">취미/특기 더보기</span>
         </v-btn>
@@ -128,22 +144,28 @@
                                     params: { productNo: item.productNo.toString() } }"
                style="text-decoration: none; color: black"
             >
-              <v-card
-                  class="ma-4"
-                  max-width="210"
-                  flat
+              <v-hover
+                  v-slot="{ hover } "
               >
-                <v-img
-                    class="white--text align-end"
-                    height="200px"
-                    :src="getHobbyProductImg(index).mainPageProductImgListByHobby"
+                <v-card
+                    :elevation="hover ? 16 : 0"
+                    :class="{'on-hover' : hover}"
+                    class="ma-4"
+                    max-width="265"
+                    flat
                 >
-                </v-img>
+                  <v-img
+                      class="white--text align-end"
+                      height="265px"
+                      :src="getHobbyProductImg(index).mainPageProductImgListByHobby"
+                  >
+                  </v-img>
 
-                <div style="padding: 5px 10px 10px 5px; height: 60px;">
-                  <h5>{{ item.title }}</h5>
-                </div>
-              </v-card>
+                  <div style="padding: 10px 10px 10px 10px; height: 60px;">
+                    <h4>{{ item.title }}</h4>
+                  </div>
+                </v-card>
+              </v-hover>
             </router-link>
           </div>
 
