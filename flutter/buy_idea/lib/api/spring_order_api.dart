@@ -5,17 +5,15 @@ import 'package:http/http.dart' as http;
 
 class SpringOrderApi {
 
-  static const String httpUri = '192.168.0.12:8888';
+  static const String httpUri = '192.168.0.8:8888';
 
   Future<void> orderRegister(List<OrderInfo> orderInfoList, AddressInfo addressInfo) async {
     List<Map> orderInfoMapList = [];
     for (OrderInfo orderInfo in orderInfoList) {
       orderInfoMapList.add({
+        'productNo' : orderInfo.productNo,
         'buyer' : orderInfo.buyer,
-        'seller' : orderInfo.seller,
-        'title' : orderInfo.title,
         'quantity' : orderInfo.quantity,
-        'price' : orderInfo.price,
         'orderStatus' : orderInfo.orderStatus,
       });
     }
@@ -50,18 +48,14 @@ class SpringOrderApi {
 
 class OrderInfo {
   String buyer;
-  String seller;
-  String title;
+  int productNo;
   int quantity;
-  int price;
   String orderStatus;
 
   OrderInfo(
       this.buyer,
-      this.seller,
-      this.title,
+      this.productNo,
       this.quantity,
-      this.price,
       this.orderStatus
       );
 }
