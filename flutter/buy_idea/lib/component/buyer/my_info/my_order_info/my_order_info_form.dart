@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import 'my_order_info_product.dart';
 
 class MyOrderInfoForm extends StatefulWidget {
@@ -180,18 +182,42 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                                             elevation: 0,
                                             primary: Color(0xFFDAA520),
                                           )),
-                                      TextButton(
-                                          onPressed: () {},
-                                          child: const Text(
-                                            '리뷰등록',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12),
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                            elevation: 0,
-                                            primary: Color(0xFF2F4F4F),
-                                          )),
+                                      Row(
+                                        children: [
+                                          if (myOrderSliceList[index]
+                                                  .orderStatus ==
+                                              '배송 완료')
+                                            TextButton(
+                                                onPressed: () {
+                                                  Get.to(ReviewRegisterPage(
+                                                      productNo:
+                                                          myOrderSliceList[
+                                                                  index]
+                                                              .productNo,
+                                                      productTitle:
+                                                          myOrderSliceList[
+                                                                  index]
+                                                              .title));
+                                                },
+                                                child: const Text('리뷰등록',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12)),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Color(0xFF2F4F4F)))
+                                          else
+                                            TextButton(
+                                                onPressed: () {},
+                                                child: const Text('리뷰등록',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12)),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Colors.grey))
+                                        ],
+                                      ),
                                     ],
                                   )
                                 ],
