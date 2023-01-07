@@ -13,6 +13,6 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 
     @Query("select distinct oi from OrderInfo oi " +
             "join fetch oi.product p join fetch p.productImages " +
-            "join fetch oi.address where oi.buyer = :nickname")
+            "join fetch oi.address where oi.buyer = :nickname order by oi.id desc")
     List<OrderInfo> findMyOrderInfoListByNickname(@Param("nickname") String nickname);
 }
