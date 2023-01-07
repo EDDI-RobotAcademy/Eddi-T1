@@ -67,4 +67,12 @@ public class OrderTestCase {
 
         System.out.println(setOrderNo);
     }
+
+    @Test
+    void getMyOrderInfoList() {
+        String nickname = "ANNA";
+        List<OrderInfo> myOrderInfoList = orderInfoService.myOrderInfoList(nickname);
+
+        System.out.println( "getMyOrderInfoList" + myOrderInfoList);
+    }
 }
