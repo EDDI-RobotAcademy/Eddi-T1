@@ -126,7 +126,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public Double getAverageOfStarRatingOnSpecificProduct(Long productNo) {
 
-        Double starRatingAverage = reviewRepository.findAverageStarRatingOnSpecificProduct(productNo);
+        Double starRatingAverage = Double.parseDouble(String.format("%.1f", reviewRepository.findAverageStarRatingOnSpecificProduct(productNo)));
 
         return starRatingAverage;
     }
