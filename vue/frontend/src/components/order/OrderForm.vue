@@ -316,7 +316,8 @@ export default {
           "extra": {
             "open_type": "iframe",
             "card_quota": "0,2,3",
-            "escrow": false
+            "escrow": false,
+            "display_success_result": true,
           }
         })
         switch (response.event) {
@@ -327,6 +328,7 @@ export default {
             console.log(response)
             // 결제 완료 처리
             await this.paymentSuccessful()
+            await this.$router.push({name: "HomeView"})
             break
           case 'confirm': //payload.extra.separately_confirmed = true; 일 경우 승인 전 해당 이벤트가 호출됨
             console.log(response.receipt_id)
