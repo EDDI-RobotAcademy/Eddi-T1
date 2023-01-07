@@ -24,6 +24,8 @@ import HandmadeCategoryView from "@/views/productByCategory/HandmadeCategoryView
 import KnowhowCategoryView from "@/views/productByCategory/KnowhowCategoryView";
 import HobbyCategoryView from "@/views/productByCategory/HobbyCategoryView";
 
+import OrderDetailView from "@/views/buyerMyPage/OrderDetailView";
+
 
 Vue.use(VueRouter)
 
@@ -150,6 +152,11 @@ const routes = [
     path: '/hobby',
     name: 'HobbyCategoryView',
     component: HobbyCategoryView
+  },
+  {
+    path: '/order-detail',
+    name: 'OrderDetailView',
+    component: OrderDetailView
   },
 ]
 
