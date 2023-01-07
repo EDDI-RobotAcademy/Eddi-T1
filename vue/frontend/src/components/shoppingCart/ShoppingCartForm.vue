@@ -174,7 +174,7 @@
         <!--구매하기 버튼-->
         <v-container style="width: 800px">
           <v-btn width="100%" height="40px" elevation="0" style="background-color: #2F4F4F; color: white"
-                 :to="{name: 'OrderForm', params: {productInfo: this.selectList, productTotalPrice: this.totalPaymentAmount}}"
+                 :to="{name: 'OrderForm', params: {productInfoByShoppingCart: this.selectList, productTotalPrice: this.totalPaymentAmount}}"
           >
             <h4>구매하기</h4>
           </v-btn>
@@ -266,6 +266,7 @@ export default {
 
       } else {
         this.totalDeliveryFee += this.selectList[i].product.productInfo.deliveryFee
+        this.selectList[i].product.productInfo.deliveryFee = 3000
       }
     }
 

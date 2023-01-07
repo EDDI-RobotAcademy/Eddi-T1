@@ -423,4 +423,26 @@ export default {
                 commit(REQUEST_PRODUCT_LIST_FROM_SPRING, res.data)
             })
     },
+    /**
+     *  주문시 결제 정보 전달 axios
+     *  @param
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestPaymentSuccessfulOrderInfoForSpring( { }, payload){
+        console.log("requestPaymentSuccessfulOrderInfoForSpring")
+        console.log(payload)
+
+        const {orderInfoRequestList, addressRequest} = payload
+
+        await axios.post("http://localhost:8888/order/register", {orderInfoRequestList, addressRequest}
+        )
+            .then(() => {
+                console.log("결제 정보 전송 성공")
+            })
+            .catch(() =>{
+                console.log("결제정보 전송 실패")
+            })
+    }
 }
