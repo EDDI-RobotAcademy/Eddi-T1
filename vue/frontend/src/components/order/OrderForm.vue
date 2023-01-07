@@ -1,149 +1,155 @@
 <template>
 
-    <div class="white" style="font-family: Arial">
-      <v-row justify="center">
-        <v-col cols="auto" style=" padding-top: 100px; padding-bottom: 300px">
+  <div class="white" style="font-family: Arial">
+    <v-row justify="center">
+      <v-col cols="auto" style=" padding-top: 100px; padding-bottom: 300px">
 
-          <div>
-            <v-card style="width:1000px">
-              <div>
+        <div>
+          <v-card style="width:1000px">
+            <div>
 
-                <!--선택한 상품 정보-->
+              <!--선택한 상품 정보-->
 
-                <h1 align="center" class="section" style="color: #2F4F4F">
-                  <v-img :src="require('@/assets/sign_up_choice_num1.png')" width="130"  class="mx-auto mb-6"/>
-                  ✔ My Cart
-                </h1>
+              <h1 align="center" class="section" style="color: #2F4F4F">
+                <v-img :src="require('@/assets/sign_up_choice_num1.png')" width="130" class="mx-auto mb-6"/>
+                ✔ My Cart
+              </h1>
 
-                <div v-if="this.productReadCheckValue">
-                  <table class="cart">
-                    <v-simple-table class="ui table">
-                      <thead class="wrap">
-                      <tr>
-                        <th align="left">상품명</th>
-                        <th align="left">수량</th>
-                        <th align="left">배송비</th>
-                        <th align="left">가격</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                        <td class="product">
-                          <v-row class="mt-5 mb-3">
-                            <img :src="require('@/assets/productImg/' + product.productImages[0].editedName)">
-                            <p class="mt-7 ml-2"></p>
-                            <h4 class="header">{{ product.title }}
-                              <div class="sub header">{{ product.nickname }}</div> </h4>
-                          </v-row>
-                        </td>
+              <div v-if="this.productReadCheckValue">
+                <table class="cart">
+                  <v-simple-table class="ui table">
+                    <thead class="wrap">
+                    <tr>
+                      <th align="left">상품명</th>
+                      <th align="left">수량</th>
+                      <th align="left">배송비</th>
+                      <th align="left">가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td class="product">
+                        <v-row class="mt-5 mb-3">
+                          <img :src="require('@/assets/productImg/' + product.productImages[0].editedName)">
+                          <p class="mt-7 ml-2"></p>
+                          <h4 class="header">{{ product.title }}
+                            <div class="sub header">{{ product.nickname }}</div>
+                          </h4>
+                        </v-row>
+                      </td>
 
-                        <td class="right aligned">{{ productQuantity }}</td>
-                        <td class="right aligned">{{ productDeliveryFee | comma }}원</td>
-                        <td class="right aligned">{{ product.price | comma }}원</td>
-                      </tr>
-                      </tbody>
-                      <tfoot class="wrap">
-                      <tr>
-                        <th colspan="2"></th>
-                        <th align="right">TOTAL:</th>
-                        <th align="left"><h3>{{ productTotalPrice | comma }}원</h3></th>
-                      </tr>
-                      </tfoot>
-                    </v-simple-table>
-                  </table>
-                </div>
-
-                <!--장바구니 데이터-->
-                <div v-else>
-                  <table class="cart" v-for="(item, index) in productInfo" :key="index">
-                    <v-simple-table class="ui table">
-                      <thead class="wrap">
-                      <tr>
-                        <th align="left">상품명</th>
-                        <th align="left">수량</th>
-                        <th align="left">배송비</th>
-                        <th align="left">가격</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                        <td class="product">
-                          <v-row class="mt-5 mb-3">
-                            <img :src="require('@/assets/productImg/' + item.product.productImages[0].editedName)">
-                            <p class="mt-7 ml-2"></p>
-                            <h4 class="header">{{ item.product.title }}
-                              <div class="sub header">{{ item.product.nickname }}</div> </h4>
-                          </v-row>
-                        </td>
-
-                        <td class="right aligned">{{ item.itemCount }}</td>
-                        <td class="right aligned">{{ item.product.productInfo.deliveryFee | comma }}원</td>
-                        <td class="right aligned">{{ item.product.price | comma }}원</td>
-                      </tr>
-                      </tbody>
-                      <tfoot class="wrap">
-                      <tr>
-                        <th colspan="2"></th>
-                        <th align="right">TOTAL:</th>
-                        <th align="left"><h3>{{ item.product.price * item.itemCount + item.product.productInfo.deliveryFee | comma }}원</h3></th>
-                      </tr>
-                      </tfoot>
-                    </v-simple-table>
-                  </table>
-                </div>
+                      <td class="right aligned">{{ productQuantity }}</td>
+                      <td class="right aligned">{{ productDeliveryFee | comma }}원</td>
+                      <td class="right aligned">{{ product.price | comma }}원</td>
+                    </tr>
+                    </tbody>
+                    <tfoot class="wrap">
+                    <tr>
+                      <th colspan="2"></th>
+                      <th align="right">TOTAL:</th>
+                      <th align="left"><h3>{{ productTotalPrice | comma }}원</h3></th>
+                    </tr>
+                    </tfoot>
+                  </v-simple-table>
+                </table>
               </div>
 
-              <v-divider></v-divider>
+              <!--장바구니 데이터-->
+              <div v-else>
+                <table class="cart" v-for="(item, index) in productInfoByShoppingCart" :key="index">
+                  <v-simple-table class="ui table">
+                    <thead class="wrap">
+                    <tr>
+                      <th align="left">상품명</th>
+                      <th align="left">수량</th>
+                      <th align="left">배송비</th>
+                      <th align="left">가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td class="product">
+                        <v-row class="mt-5 mb-3">
+                          <img :src="require('@/assets/productImg/' + item.product.productImages[0].editedName)">
+                          <p class="mt-7 ml-2"></p>
+                          <h4 class="header">{{ item.product.title }}
+                            <div class="sub header">{{ item.product.nickname }}</div>
+                          </h4>
+                        </v-row>
+                      </td>
 
-              <!--배송정보 입력-->
-                <h1 align="center" class="section" style="color: #2F4F4F">
-                  <v-img :src="require('@/assets/sign_up_choice_num2.png')" width="130"  class="mx-auto mb-6"/>
-                  ✔ Shipping
-                </h1>
+                      <td class="right aligned">{{ item.itemCount }}</td>
+                      <td class="right aligned">{{ item.product.productInfo.deliveryFee | comma }}원</td>
+                      <td class="right aligned">{{ item.product.price | comma }}원</td>
+                    </tr>
+                    </tbody>
+                    <tfoot class="wrap">
+                    <tr>
+                      <th colspan="2"></th>
+                      <th align="right">TOTAL:</th>
+                      <th align="left"><h3>
+                        {{ item.product.price * item.itemCount + item.product.productInfo.deliveryFee | comma }}원</h3>
+                      </th>
+                    </tr>
+                    </tfoot>
+                  </v-simple-table>
+                </table>
+              </div>
+            </div>
 
-                    <table class="shipping">
+            <v-divider></v-divider>
 
-                      <div class="d-flex">
-                        <v-text-field outlined v-model="recipient" label="수령인*" :disabled="false" required/>
-                      </div>
+            <!--배송정보 입력-->
+            <h1 align="center" class="section" style="color: #2F4F4F">
+              <v-img :src="require('@/assets/sign_up_choice_num2.png')" width="130" class="mx-auto mb-6"/>
+              ✔ Shipping
+            </h1>
 
-                      <div class="d-flex">
-                        <v-text-field outlined v-model="phone" label="연락처*" :disabled="false" placeholder="000-0000-0000" required/>
-                      </div>
+            <table class="shipping">
 
-                      <div class="d-flex">
-                        <v-text-field outlined v-model="city" label="도시*" :disabled="true" required/>
-                      </div>
-                      <div class="d-flex">
-                        <v-text-field outlined v-model="street" label="기본 주소*" :disabled="true" required/>
-                      </div>
-                      <div class="d-flex">
-                        <v-text-field outlined v-model="addressDetail" label="상세 주소*" :disabled="false" required/>
-                      </div>
-                      <div class="d-flex">
-                        <v-text-field v-model="zipcode" label="우편번호*" :disabled="true" required/>
-                        <v-btn text large outlined style="font-size: 13px"
-                               class="mt-3 ml-5" color="#2F4F4F"
-                               @click="callDaumAddressApi"
-                               :disabled="false">
-                          주소 확인
-                        </v-btn>
-                      </div>
+              <div class="d-flex">
+                <v-text-field outlined v-model="recipient" label="수령인*" :disabled="false" required/>
+              </div>
 
-                    </table>
-              </v-card>
+              <div class="d-flex">
+                <v-text-field outlined v-model="phone" label="연락처*" :disabled="false" placeholder="000-0000-0000"
+                              required/>
+              </div>
+
+              <div class="d-flex">
+                <v-text-field outlined v-model="city" label="도시*" :disabled="true" required/>
+              </div>
+              <div class="d-flex">
+                <v-text-field outlined v-model="street" label="기본 주소*" :disabled="true" required/>
+              </div>
+              <div class="d-flex">
+                <v-text-field outlined type="text" v-model="addressDetail" label="상세 주소*" :disabled="false" required/>
+              </div>
+              <div class="d-flex">
+                <v-text-field v-model="zipcode" label="우편번호*" :disabled="true" required/>
+                <v-btn text large outlined style="font-size: 13px"
+                       class="mt-3 ml-5" color="#2F4F4F"
+                       @click="callDaumAddressApi"
+                       :disabled="false">
+                  주소 확인
+                </v-btn>
+              </div>
+
+            </table>
+          </v-card>
 
 
-            <v-btn @click="PaymentBtn" block x-large class="bt1" color="#2F4F4F" style="color: white" tile >{{productTotalPrice | comma}}원 결제하기</v-btn>
+          <v-btn @click="PaymentBtn" block x-large class="bt1" color="#2F4F4F" style="color: white" tile>
+            {{ productTotalPrice | comma }}원 결제하기
+          </v-btn>
 
-          </div>
-        </v-col>
+        </div>
+      </v-col>
 
-      </v-row>
+    </v-row>
 
 
-    </div>
-
+  </div>
 
 
 </template>
@@ -152,13 +158,14 @@
 <script>
 
 
-import { Bootpay } from '@bootpay/client-js'
+import {Bootpay} from '@bootpay/client-js'
+import {mapActions} from "vuex";
 
 export default {
 
   name: "OrderForm",
   data() {
-    return{
+    return {
       /*orderNo: '',*/
       recipient: '',
       phone: '',
@@ -166,12 +173,14 @@ export default {
       street: '',
       addressDetail: '',
       zipcode: '',
+      order_name: [],
+      address: [],
+      orderInfoRequest: [],
     }
   },
-  props:{
-    product:{
+  props: {
+    product: {
       type: Object,
-      required: true
     },
     productQuantity: {
       type: Number
@@ -179,10 +188,10 @@ export default {
     productDeliveryFee: {
       type: Number
     },
-    productReadCheckValue:{
+    productReadCheckValue: {
       type: Boolean
     },
-    productInfo:{
+    productInfoByShoppingCart: {
       type: Array,
     },
     productTotalPrice: {
@@ -190,10 +199,14 @@ export default {
     },
   },
   async mounted() {
-    console.log(this.productInfo)
-    console.log("product: " + this.product)
-    console.log("productReadCheckValue: " + this.productReadCheckValue)
-    console.log("productQuantity: " + this.productQuantity)
+
+    if (this.productReadCheckValue == true) {
+      this.order_name = this.product.title
+    } else {
+      for (let i = 0; i < this.productInfoByShoppingCart.length; i++) {
+        this.order_name.push(this.productInfoByShoppingCart[i].product.title)
+      }
+    }
   },
   filters: {
     comma(val) {
@@ -201,8 +214,11 @@ export default {
     }
   },
   methods: {
-      //주소Api
-    callDaumAddressApi () {
+    ...mapActions([
+       'requestPaymentSuccessfulOrderInfoForSpring'
+    ]),
+    //주소Api
+    callDaumAddressApi() {
       new window.daum.Postcode({
         oncomplete: (data) => {
           let fullRoadAddr = data.roadAddress;
@@ -226,9 +242,59 @@ export default {
         }
       }).open()
     },
+    //결제 성공시
+    async paymentSuccessful() {
+
+      if (this.productReadCheckValue == true) {
+        console.log("상세페이지 상품")
+        const addressData = {
+          recipient: this.recipient,
+          phone: this.phone,
+          city: this.city,
+          street: this.street,
+          addressDetail: this.addressDetail,
+          zipcode: this.zipcode,
+        }
+
+        this.orderInfoRequest.push({
+          buyer: this.$store.state.memberInfoAfterSignIn.nickname,
+          productNo: this.product.productNo,
+          quantity: this.productQuantity,
+          orderStatus: "입금완료"
+        })
+        const orderInfoRequestList = this.orderInfoRequest
+        const addressRequest = addressData
+        await this.requestPaymentSuccessfulOrderInfoForSpring({orderInfoRequestList, addressRequest})
+
+      } else {
+        console.log("장바구니 상품")
+        const addressData = {
+          recipient: this.recipient,
+          phone: this.phone,
+          city: this.city,
+          street: this.street,
+          addressDetail: this.addressDetail,
+          zipcode: this.zipcode,
+        }
+
+        for (let i = 0; i < this.productInfoByShoppingCart.length; i++) {
+          this.orderInfoRequest.push({
+            buyer: this.$store.state.memberInfoAfterSignIn.nickname,
+            productNo: this.productInfoByShoppingCart[i].product.productNo,
+            quantity: this.productInfoByShoppingCart[i].itemCount,
+            orderStatus: "입금완료"
+          })
+        }
+
+        const orderInfoRequestList = this.orderInfoRequest
+        const addressRequest = addressData
+        await this.requestPaymentSuccessfulOrderInfoForSpring({orderInfoRequestList, addressRequest})
+      }
+    },
 
     //결제
     async PaymentBtn() {
+      console.log(this.city)
       try {
         const response = await Bootpay.requestPayment({
 
@@ -236,7 +302,7 @@ export default {
           // 실제 가격대로 결제하려면 아래와 같은 코드 사용
           // "price": this.productTotalPrice,
           "price": 100,
-          "order_name": this.productInfo[0].product.title,
+          "order_name": this.order_name,
           "order_id": "TEST_ORDER_ID",
           "pg": "이니시스",
           "method": "카드",
@@ -250,7 +316,8 @@ export default {
           "extra": {
             "open_type": "iframe",
             "card_quota": "0,2,3",
-            "escrow": false
+            "escrow": false,
+            "display_success_result": true,
           }
         })
         switch (response.event) {
@@ -260,6 +327,8 @@ export default {
           case 'done':
             console.log(response)
             // 결제 완료 처리
+            await this.paymentSuccessful()
+            await this.$router.push({name: "HomeView"})
             break
           case 'confirm': //payload.extra.separately_confirmed = true; 일 경우 승인 전 해당 이벤트가 호출됨
             console.log(response.receipt_id)
@@ -269,9 +338,9 @@ export default {
              */
                 // eslint-disable-next-line no-case-declarations
             const confirmedData = await Bootpay.confirm() //결제를 승인한다
-            if(confirmedData.event === 'done') {
+            if (confirmedData.event === 'done') {
               //결제 성공
-            } else if(confirmedData.event === 'error') {
+            } else if (confirmedData.event === 'error') {
               //결제 승인 실패
             }
 
@@ -315,24 +384,29 @@ export default {
   padding-bottom: 0px;
   width: 100%;
 }
+
 .shipping {
   padding: 50px;
   padding-bottom: 100px;
   width: 100%;
 }
-img{
+
+img {
   width: 80px;
   height: 80px;
 }
-h4 div{
+
+h4 div {
   color: #666666;
   font-size: .6em;
 }
-.section{
+
+.section {
   padding-top: 50px;
   padding-bottom: 30px;
 }
-.wrap{
+
+.wrap {
   background-color: #eaebee;
 }
 </style>
