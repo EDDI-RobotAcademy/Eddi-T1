@@ -59,4 +59,20 @@ public class ReviewController {
 
         return reviewService.getReviewImage(reviewNo);
     }
+
+    @GetMapping("/count/{productNo}")
+    public Long countReviews(@PathVariable("productNo") Long productNo) {
+        log.info("countReviews()");
+        log.info("productNo : " + productNo);
+
+        return reviewService.getCountReviewsOnSpecificProduct(productNo);
+    }
+
+    @GetMapping("/star-rating/average/{productNo}")
+    public Double averageOfStarRating(@PathVariable("productNo") Long productNo) {
+        log.info("averageOfStarRating()");
+        log.info("productNo : " + productNo);
+
+        return reviewService.getAverageOfStarRatingOnSpecificProduct(productNo);
+    }
 }

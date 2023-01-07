@@ -114,4 +114,20 @@ public class ReviewServiceImpl implements ReviewService{
 
         return reviewImage;
     }
+
+    @Override
+    public Long getCountReviewsOnSpecificProduct(Long productNo) {
+
+        Long reviewCount = reviewRepository.countReviewsOnSpecificProduct(productNo);
+
+        return reviewCount;
+    }
+
+    @Override
+    public Double getAverageOfStarRatingOnSpecificProduct(Long productNo) {
+
+        Double starRatingAverage = reviewRepository.findAverageStarRatingOnSpecificProduct(productNo);
+
+        return starRatingAverage;
+    }
 }

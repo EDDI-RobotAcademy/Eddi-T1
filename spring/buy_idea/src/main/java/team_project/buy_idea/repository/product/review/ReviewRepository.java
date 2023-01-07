@@ -20,4 +20,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Slice<Review> findNextReviewListOnSpecificProduct(@Param("productNo") Long productNo,
                                                       @Param("reviewNo") Long reviewNo,
                                                       Pageable pageable);
+
+    @Query("select count(r) from Review r join r.product p where p.productNo = :productNo")
+    Long countReviewsOnSpecificProduct(@Param("productNo") Long productNo);
+
+    @Query("select avg(r.starRating) from Review r join r.product p where p.productNo = :productNo")
+    Double findAverageStarRatingOnSpecificProduct(@Param("productNo") Long productNo);
 }

@@ -13,4 +13,6 @@ public interface ReviewService {
     List<Review> getReviewList(Long productNo, int reviewSize);
     List<Review> getNextReviewList(Long productNo, Long lastReviewNo, int reviewSize);
     ReviewImageMapping getReviewImage(Long reviewNo);
+    Long getCountReviewsOnSpecificProduct(Long productNo);
+    Double getAverageOfStarRatingOnSpecificProduct(Long productNo);
 }

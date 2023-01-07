@@ -74,4 +74,13 @@ public class ReviewTestCase {
         System.out.println("reviewImage id : " + reviewImageMapping.getReviewImageId());
         System.out.println("reviewImage editedName : " + reviewImageMapping.getEditedName());
     }
+
+    @Test
+    void reviewCountTest() {
+        Long reviewCount = reviewRepository.countReviewsOnSpecificProduct(1L);
+        Double starRatingAverage = Double.parseDouble(String.format("%.1f", reviewRepository.findAverageStarRatingOnSpecificProduct(1L)));
+
+        System.out.println(reviewCount);
+        System.out.println(starRatingAverage);
+    }
 }
