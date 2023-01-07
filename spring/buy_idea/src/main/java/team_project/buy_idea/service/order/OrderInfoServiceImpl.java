@@ -40,7 +40,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * 주문 등록 ServiceImpl
-     * */
+     */
     @Override
     public void register(AddressRequest addressRequest, List<OrderInfoRequest> orderInfoRequestsList) {
 
@@ -51,19 +51,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         String setOrderNo;
 
-        if(maybeOrderInfo != null){
+        if (maybeOrderInfo != null) {
             String lastOrderNo = maybeOrderInfo.getOrderNo();
-            String lastOrder = lastOrderNo.substring(lastOrderNo.length()-9);
-            String lastDate = lastOrderNo.substring(0,8);
+            String lastOrder = lastOrderNo.substring(lastOrderNo.length() - 9);
+            String lastDate = lastOrderNo.substring(0, 8);
             //비교 세팅
-            if ( lastDate.equals(currentDate) ) {
+            if (lastDate.equals(currentDate)) {
                 int setLastOrder = Integer.parseInt(lastOrder) + 1;
-                String tmp = String.format("%09d",setLastOrder);
+                String tmp = String.format("%09d", setLastOrder);
                 setOrderNo = lastDate + tmp;
             } else {
                 setOrderNo = currentDate + "000000001";
             }
-        }else{
+        } else {
             //최초 세팅
             setOrderNo = currentDate + "000000001";
         }
@@ -85,8 +85,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String setOrderDate = DateTimeFormatter.ofPattern("yyyyMMddhhmm").format(LocalDateTime.now());
 
 
-
-        for(OrderInfoRequest request : orderInfoRequestsList) {
+        for (OrderInfoRequest request : orderInfoRequestsList) {
 
             Optional<Product> maybeProduct = productRepository.findById(request.getProductNo());
             Product product = maybeProduct.get();
@@ -112,5 +111,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         addressRepository.save(address);
         orderInfoRepository.saveAll(orderInfoList);
 
+    }
+
+    /**
+     * 회원 주문 정보 list read
+     *
+     * @param nickname 일반회원 nickname
+     * @return nickname 회원이 결제한 주문 정보 리스트 반환
+     */
+    @Override
+    public List<OrderInfo> myOrderInfoList(String nickname) {
+        return orderInfoRepository.findMyOrderInfoListByNickname(nickname);
     }
 }

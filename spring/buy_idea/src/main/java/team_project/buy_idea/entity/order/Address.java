@@ -1,5 +1,6 @@
 package team_project.buy_idea.entity.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,7 +39,7 @@ public class Address {
     @Column(nullable = false)
     private String addressDetail;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderInfo> orderInfos = new ArrayList<>();
 

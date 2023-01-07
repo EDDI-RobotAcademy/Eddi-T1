@@ -10,4 +10,9 @@ import java.util.List;
 
 public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
     OrderInfo findTopByOrderByIdDesc();
+
+    @Query("select distinct oi from OrderInfo oi " +
+            "join fetch oi.product p join fetch p.productImages " +
+            "join fetch oi.address where oi.buyer = :nickname")
+    List<OrderInfo> findMyOrderInfoListByNickname(@Param("nickname") String nickname);
 }

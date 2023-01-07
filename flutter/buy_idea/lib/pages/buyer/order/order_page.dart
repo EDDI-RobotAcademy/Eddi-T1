@@ -234,10 +234,8 @@ class _OrderPageState extends State<OrderPage> {
           orderInfoList.add(
               OrderInfo(
                   buyer,
-                  product.nickname,
-                  product.title,
+                  product.productNo,
                   widget.purchaseQuantityList[i],
-                  product.price * widget.purchaseQuantityList[i],
                   "입금 완료"
               )
           );

@@ -4,22 +4,33 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.order.request.OrderRegisterRequest;
+import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.service.order.OrderInfoService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/order")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class OrderInfoController {
 
     @Autowired
     private OrderInfoService orderInfoService;
 
     @PostMapping("/register")
-    public void orderRegister (@RequestBody OrderRegisterRequest request) {
+    public void orderRegister(@RequestBody OrderRegisterRequest request) {
         log.info("orderRegister()");
         log.info("OrderRegisterRequest request : " + request);
 
         orderInfoService.register(request.getAddressRequest(), request.getOrderInfoRequestList());
+    }
+
+    @PostMapping("/my-order-info-list/{nickname}")
+    public List<OrderInfo> myOrderInfoList(@PathVariable("nickname") String nickname) {
+        log.info("myOrderInfoList()");
+        log.info("myOrderInfo buyer : " + nickname);
+
+        return orderInfoService.myOrderInfoList(nickname);
     }
 }
