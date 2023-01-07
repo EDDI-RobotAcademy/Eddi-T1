@@ -2,6 +2,8 @@ package team_project.buy_idea.service.product.review;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
@@ -11,7 +13,12 @@ import team_project.buy_idea.entity.product.review.ReviewImage;
 import team_project.buy_idea.repository.product.ProductRepository;
 import team_project.buy_idea.repository.product.review.ReviewImageRepository;
 import team_project.buy_idea.repository.product.review.ReviewRepository;
+import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,8 +58,8 @@ public class ReviewServiceImpl implements ReviewService{
         UUID uuid = UUID.randomUUID();
         String originalFileName = file.getOriginalFilename();
         String editedName = uuid + originalFileName;
-        String filePathVue = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\productImg\\";
-        String filePathFlutter = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\product\\";
+        String filePathVue = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\reviewImg\\";
+        String filePathFlutter = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\review\\";
 
         reviewImage.setOriginalName(originalFileName);
         reviewImage.setEditedName(editedName);
@@ -60,6 +67,51 @@ public class ReviewServiceImpl implements ReviewService{
         reviewImage.setImagePathFlutter(filePathFlutter);
         reviewImage.setReview(review);
 
+        try {
+            FileOutputStream writerVue = new FileOutputStream(
+                    filePathVue + editedName
+            );
+            FileOutputStream writerFlutter = new FileOutputStream(
+                    filePathFlutter + editedName
+            );
+            writerVue.write(file.getBytes());
+            writerFlutter.write(file.getBytes());
+            writerVue.close();
+            writerFlutter.close();
+            log.info("file upload success");
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         reviewImageRepository.save(reviewImage);
+    }
+
+    @Override
+    public List<Review> getReviewList(Long productNo, int reviewSize) {
+
+        Slice<Review> reviewSlice = reviewRepository.findReviewListOnSpecificProduct(productNo, Pageable.ofSize(reviewSize));
+        List<Review> reviewList = reviewSlice.getContent();
+
+        return reviewList;
+    }
+
+    @Override
+    public List<Review> getNextReviewList(Long productNo, Long lastReviewNo, int reviewSize) {
+
+        Slice<Review> reviewSlice = reviewRepository.findNextReviewListOnSpecificProduct(productNo, lastReviewNo, Pageable.ofSize(reviewSize));
+        List<Review> reviewList = reviewSlice.getContent();
+
+        return reviewList;
+    }
+
+    @Override
+    public ReviewImageMapping getReviewImage(Long reviewNo) {
+
+        ReviewImageMapping reviewImage = reviewImageRepository.findReviewImageByReviewNo(reviewNo);
+
+        return reviewImage;
     }
 }

@@ -6,7 +6,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
+import team_project.buy_idea.entity.product.review.Review;
+import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
 import team_project.buy_idea.service.product.review.ReviewService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -25,5 +29,34 @@ public class ReviewController {
         log.info("request : " + request);
 
         reviewService.register(request, file);
+    }
+
+    @GetMapping("/list")
+    public List<Review> reviewList(@RequestParam(value = "productNo") Long productNo,
+                                   @RequestParam(value = "reviewSize") int reviewSize) {
+        log.info("reviewList()");
+        log.info("productNo : " + productNo + " reviewSize : " + reviewSize);
+
+        return reviewService.getReviewList(productNo, reviewSize);
+    }
+
+    @GetMapping("/next-list")
+    public List<Review> nextReviewList(@RequestParam(value = "productNo") Long productNo,
+                                       @RequestParam(value = "reviewNo") Long reviewNo,
+                                       @RequestParam(value = "reviewSize") int reviewSize) {
+        log.info("nextReviewList()");
+        log.info("productNo : " + productNo);
+        log.info("reviewNo : " + reviewNo);
+        log.info("reviewSize : " + reviewSize);
+
+        return reviewService.getNextReviewList(productNo, reviewNo, reviewSize);
+    }
+
+    @GetMapping("/image/{reviewNo}")
+    public ReviewImageMapping reviewImage(@PathVariable("reviewNo") Long reviewNo) {
+        log.info("reviewImage()");
+        log.info("reviewNo : " + reviewNo);
+
+        return reviewService.getReviewImage(reviewNo);
     }
 }
