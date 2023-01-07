@@ -82,7 +82,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         address.setAddressDetail(addressRequest.getAddressDetail());
 
 
-        String setOrderDate = DateTimeFormatter.ofPattern("yyyyMMddhhmm").format(LocalDateTime.now());
+        String setOrderDate = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm").format(LocalDateTime.now());
 
 
         for (OrderInfoRequest request : orderInfoRequestsList) {
