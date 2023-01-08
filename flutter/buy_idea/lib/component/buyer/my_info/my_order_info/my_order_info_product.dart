@@ -1,4 +1,5 @@
 List<MyOrderInfoProduct> myOrderInfoList = [];
+List<Address> myOrderAddressList = [];
 
 class MyOrderInfoProduct {
   String title, image, nickname, orderStatus, orderNo, orderDate;
@@ -48,11 +49,11 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
         orderNo: json['orderNo'],
-        recipient: json['recipient'],
-        phone: json['phone'],
-        zipcode: json['zipcode'],
-        city: json['city'],
-        street: json['street'],
-        addressDetail: json['addressDetail']);
+        recipient: json['address']['recipient'],
+        phone: json['address']['phone'],
+        zipcode: json['address']['zipcode'],
+        city: json['address']['city'],
+        street: json['address']['street'],
+        addressDetail: json['address']['addressDetail']);
   }
 }

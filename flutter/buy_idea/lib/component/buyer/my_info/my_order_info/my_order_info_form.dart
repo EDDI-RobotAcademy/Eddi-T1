@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../pages/buyer/my_info/my_order_info/my_order_detail_info_page.dart';
 import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import 'my_order_info_product.dart';
 
@@ -64,7 +65,8 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                 const Expanded(child: SizedBox()),
                 TextButton(
                     onPressed: () {
-                      /// 상품 상세정보 팝업창
+                      Get.to(OrderDetailInfoPage(myOrderDetailList: myOrderSliceList,
+                        orderNo: widget.orderNo, orderDate: widget.orderDate,));
                     },
                     child: const Text('주문상세보기',
                         style: TextStyle(
