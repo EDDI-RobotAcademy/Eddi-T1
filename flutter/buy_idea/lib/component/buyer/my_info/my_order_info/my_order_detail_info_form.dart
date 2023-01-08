@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../pages/buyer/product/product_details_page.dart';
 import 'my_order_info_product.dart';
 
 class MyOrderDetailInfoForm extends StatefulWidget {
@@ -91,17 +94,23 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    width: 80,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/product/${widget
-                                                    .myOrderSliceList[index]
-                                                    .image}'))),
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(ProductDetailsPage(
+                                          productNo: widget.myOrderSliceList[index].productNo));
+                                    },
+                                    child: Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  'assets/product/${widget
+                                                      .myOrderSliceList[index]
+                                                      .image}'))),
+                                    ),
                                   ),
                                   SizedBox(width: 10),
                                   Column(

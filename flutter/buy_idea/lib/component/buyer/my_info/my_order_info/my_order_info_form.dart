@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../pages/buyer/my_info/my_order_info/my_order_detail_info_page.dart';
 import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
+import '../../../../pages/buyer/product/product_details_page.dart';
 import 'my_order_info_product.dart';
 
 class MyOrderInfoForm extends StatefulWidget {
@@ -94,15 +95,21 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    width: 80,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'assets/product/${myOrderSliceList[index].image}'))),
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(ProductDetailsPage(
+                                          productNo: myOrderSliceList[index].productNo));
+                                    },
+                                    child: Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  'assets/product/${myOrderSliceList[index].image}'))),
+                                    ),
                                   ),
                                   SizedBox(width: 10),
                                   Column(
