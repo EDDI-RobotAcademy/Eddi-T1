@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
 class ProductDetailsPageHeader extends StatefulWidget {
@@ -9,6 +10,8 @@ class ProductDetailsPageHeader extends StatefulWidget {
   final int deliveryFee;
   final int freeDeliveryFee;
   final int stock;
+  final double starRatingAverage;
+  final int reviewCount;
 
   const ProductDetailsPageHeader({
     Key? key,
@@ -17,7 +20,9 @@ class ProductDetailsPageHeader extends StatefulWidget {
     required this.productPrice,
     required this.deliveryFee,
     required this.freeDeliveryFee,
-    required this.stock
+    required this.stock,
+    required this.starRatingAverage,
+    required this.reviewCount
   }) : super(key: key);
 
   @override
@@ -54,6 +59,26 @@ class _ProductDetailsPageHeaderState extends State<ProductDetailsPageHeader> {
         SizedBox(height: 10),
         Text('${f.format(widget.productPrice)}원', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
         SizedBox(height: 20),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('구매후기', style: TextStyle(fontSize: 15, color: Colors.grey[600])),
+            SizedBox(width: 10),
+            RatingBarIndicator(
+              rating: widget.starRatingAverage,
+              itemSize: 20,
+              itemBuilder: (context, _) => Icon(
+                Icons.star_rate,
+                color: Colors.amber,
+              )
+            ),
+            SizedBox(width: 5),
+            Text('${widget.starRatingAverage}', style: TextStyle(fontSize: 13, color: Colors.black)),
+            SizedBox(width: 5),
+            Text('(${widget.reviewCount})', style: TextStyle(fontSize: 13, color: Colors.black))
+          ],
+        ),
+        SizedBox(height: 10),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
