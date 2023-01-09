@@ -71,7 +71,8 @@ class _SearchListPageState extends State<SearchListPage> {
                       shrinkWrap: true,
                       primary: true,
                       crossAxisCount: 2,
-                      childAspectRatio: MediaQuery.of(context).size.height / 1400,
+                      childAspectRatio:
+                          MediaQuery.of(context).size.height / 1400,
                       children: List.generate(searchList.length, (index) {
                         return CategoryProductCard(
                           productNo: searchList[index].productNo,
@@ -79,8 +80,6 @@ class _SearchListPageState extends State<SearchListPage> {
                           image: searchList[index].image,
                           price: searchList[index].price,
                           nickname: searchList[index].nickname,
-                          // starRate: widget.category_list[index].starRate,
-                          // reviewCount: widget.category_list[index].reviewCount,
                           press: () {
                             Get.to(ProductDetailsPage(
                                 productNo: searchList[index].productNo));

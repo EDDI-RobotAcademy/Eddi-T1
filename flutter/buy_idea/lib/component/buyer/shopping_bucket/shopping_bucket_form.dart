@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../api/spring_shopping_bucket_api.dart';
+import '../../../pages/buyer/product/product_details_page.dart';
 import '../../common/common_alert_dialog.dart';
 import '../../common/yes_or_no_alert_dialog.dart';
 
@@ -97,15 +98,21 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                      'assets/product/${shoppingController.bucketProducts[index].image}')),
-                              borderRadius: BorderRadius.circular(10)),
+                        InkWell(
+                      onTap: () {
+                        Get.to(ProductDetailsPage(
+                            productNo: shoppingController.bucketProducts[index].productNo));
+                      },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'assets/product/${shoppingController.bucketProducts[index].image}')),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
                         ),
                         const SizedBox(width: 15),
                         Expanded(

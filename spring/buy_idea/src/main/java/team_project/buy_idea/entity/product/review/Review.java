@@ -39,7 +39,7 @@ public class Review {
     private Date updDate;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "review",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "review",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private ReviewImage reviewImage;
 
     @JsonIgnore

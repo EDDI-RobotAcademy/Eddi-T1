@@ -27,6 +27,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                                                      Pageable pageable);
 
 
+    @Query("select distinct p from Product p join fetch p.productImages where p.title like %:searchKeyword% order by p.productNo desc")
     List<Product> findAllProductByTitleContaining(String searchKeyword);
 
 
