@@ -156,7 +156,12 @@ const routes = [
   {
     path: '/order-detail',
     name: 'OrderDetailView',
-    component: OrderDetailView
+    components: {
+      default: OrderDetailView
+    },
+    props:{
+      default: true
+    }
   },
 ]
 
