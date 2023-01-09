@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../pages/buyer/product/product_details_page.dart';
 import 'my_order_info_product.dart';
+import 'order_status_set_string.dart';
 
 class MyOrderDetailInfoForm extends StatefulWidget {
-  const MyOrderDetailInfoForm({Key? key,
-    required this.myOrderSliceList,
-    required this.orderNo,
-    required this.orderDate, required this.memberNickname})
+  const MyOrderDetailInfoForm(
+      {Key? key,
+      required this.myOrderSliceList,
+      required this.orderNo,
+      required this.orderDate,
+      required this.memberNickname})
       : super(key: key);
   final List<MyOrderInfoProduct> myOrderSliceList;
   final String orderNo;
@@ -33,8 +35,8 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
     _sliceMyOrderAddressList();
     for (var i = 0; i < widget.myOrderSliceList.length; i++) {
       debugPrint(widget.myOrderSliceList[i].price.toString() + '원');
-      totalPrice +=
-      (widget.myOrderSliceList[i].price * widget.myOrderSliceList[i].quantity);
+      totalPrice += (widget.myOrderSliceList[i].price *
+          widget.myOrderSliceList[i].quantity);
     }
     for (var i = 0; i < widget.myOrderSliceList.length; i++) {
       totalDeliveryFee += widget.myOrderSliceList[i].deliveryFee;
@@ -62,10 +64,7 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
           children: [
             Container(
               height: 30.0,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              width: MediaQuery.of(context).size.width,
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -84,10 +83,7 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                     child: Column(
                       children: [
                         Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
+                          width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.all(5.0),
                           color: Colors.white,
                           child: Column(
@@ -97,40 +93,41 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                   InkWell(
                                     onTap: () {
                                       Get.to(ProductDetailsPage(
-                                          productNo: widget.myOrderSliceList[index].productNo));
+                                          productNo: widget
+                                              .myOrderSliceList[index]
+                                              .productNo));
                                     },
                                     child: Container(
                                       width: 80,
                                       height: 80,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: AssetImage(
-                                                  'assets/product/${widget
-                                                      .myOrderSliceList[index]
-                                                      .image}'))),
+                                                  'assets/product/${widget.myOrderSliceList[index].image}'))),
                                     ),
                                   ),
                                   SizedBox(width: 10),
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
-
                                       /// 주문 상태
                                       Container(
                                         child: Padding(
                                           padding: const EdgeInsets.all(3.0),
                                           child: Text(
-                                            widget.myOrderSliceList[index]
-                                                .orderStatus,
+                                            OrderStatusTypeChange().setString(
+                                                widget.myOrderSliceList[index]
+                                                    .orderStatus),
                                             style: TextStyle(fontSize: 12),
                                           ),
                                         ),
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(10.0),
+                                                BorderRadius.circular(10.0),
                                             border: Border.all(
                                               color: Colors.grey,
                                               width: 1.0,
@@ -157,17 +154,12 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                       Row(
                                         children: [
                                           Text(
-                                              '${f.format(
-                                                  widget.myOrderSliceList[index]
-                                                      .price * widget
-                                                      .myOrderSliceList[index]
-                                                      .quantity)}원 | ',
+                                              '${f.format(widget.myOrderSliceList[index].price * widget.myOrderSliceList[index].quantity)}원 | ',
                                               style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold)),
                                           Text(
-                                            '${widget.myOrderSliceList[index]
-                                                .quantity}개 | ',
+                                            '${widget.myOrderSliceList[index].quantity}개 | ',
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: Colors.grey[800]),
@@ -177,9 +169,7 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                                   fontSize: 12,
                                                   color: Colors.grey)),
                                           Text(
-                                              '${f.format(
-                                                  widget.myOrderSliceList[index]
-                                                      .deliveryFee)}원',
+                                              '${f.format(widget.myOrderSliceList[index].deliveryFee)}원',
                                               style: const TextStyle(
                                                   fontSize: 12,
                                                   color: Colors.grey))
@@ -272,12 +262,8 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                             textAlign: TextAlign.start,
                           )),
                       Text(
-                          '(${myOrderSliceAddressList[0]
-                              .zipcode}) ${myOrderSliceAddressList[0].city} '
-                              '${myOrderSliceAddressList[0]
-                              .street} ${myOrderSliceAddressList[0]
-                              .addressDetail}'
-                      )
+                          '(${myOrderSliceAddressList[0].zipcode}) ${myOrderSliceAddressList[0].city} '
+                          '${myOrderSliceAddressList[0].street} ${myOrderSliceAddressList[0].addressDetail}')
                     ],
                   ),
                   SizedBox(height: 60.0),
