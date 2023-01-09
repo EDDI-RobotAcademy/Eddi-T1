@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../pages/buyer/my_info/my_order_info/my_order_detail_info_page.dart';
+import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
+import '../../../../pages/buyer/product/product_details_page.dart';
+import 'my_order_info_product.dart';
+
 class MyOrderInfoForm extends StatefulWidget {
-  const MyOrderInfoForm({Key? key}) : super(key: key);
+  const MyOrderInfoForm(
+      {Key? key, required, required this.orderNo, required this.orderDate})
+      : super(key: key);
+
+  final String orderNo;
+  final String orderDate;
 
   @override
   State<MyOrderInfoForm> createState() => _MyOrderInfoFormState();
@@ -11,171 +23,241 @@ class MyOrderInfoForm extends StatefulWidget {
 class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
   final Uri _url = Uri.parse(
       'https://m.search.daum.net/search?nil_profile=btn&w=tot&DA=SBC&q=%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C');
-  bool seeMore = false;
-  bool loading = false;
+  int setItemCount = 2;
+  var f = NumberFormat('###,###,###,###');
+  final List<MyOrderInfoProduct> myOrderSliceList = [];
+
+  @override
+  void initState() {
+    _sliceMyOrderInfoList();
+    super.initState();
+  }
+
+  _sliceMyOrderInfoList() {
+    myOrderSliceList.clear();
+    for (var i = 0; i < myOrderInfoList.length; i++) {
+      if (myOrderInfoList[i].orderNo == widget.orderNo) {
+        myOrderSliceList.add(myOrderInfoList[i]);
+      }
+    }
+    setState(() {
+      if (myOrderSliceList.length < 2) {
+        setItemCount = 1;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    //나중에 다시 false 설정
-    if (loading == true) {
-      return Center(child: CircularProgressIndicator(color: Color(0XFF2F4F4F)));
-    } else {
-      return Padding(
-        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-        child: Column(children: [
-          Container(
-            color: Colors.white,
-            height: 50.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Text('12036875890 | 2023.01.05',
-                          style: TextStyle(fontSize: 14, color: Colors.grey)),
-                    ),
-                    Expanded(child: SizedBox()),
-                    TextButton(
-                        onPressed: () {
-                          /// 상품 상세정보 팝업창
-                        },
-                        child: Text('주문상세보기',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF2F4F4F),
-                                fontWeight: FontWeight.bold))),
-                    Icon(Icons.keyboard_arrow_right)
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text('${widget.orderNo} | ${widget.orderDate}',
+                      style: TextStyle(fontSize: 14, color: Colors.grey)),
                 ),
+                const Expanded(child: SizedBox()),
+                TextButton(
+                    onPressed: () {
+                      Get.to(OrderDetailInfoPage(myOrderDetailList: myOrderSliceList,
+                        orderNo: widget.orderNo, orderDate: widget.orderDate,));
+                    },
+                    child: const Text('주문상세보기',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF2F4F4F),
+                            fontWeight: FontWeight.bold))),
+                Icon(Icons.keyboard_arrow_right)
               ],
             ),
-          ),
-          ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 1,
-              // products.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Row(
+            const Divider(color: Color(0xFFf5f5f5), height: 2.0, thickness: 2),
+            ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: setItemCount,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(5.0),
+                          color: Colors.white,
+                          child: Column(
                             children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            'assets/product/addf03d2-5f84-402a-996e-d5d6febc0d1cproduct19_1.jpg'))),
-                              ),
-                              SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  /// 주문 상태
-                                  Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(3.0),
-                                      child: Text('주문 상태', style: TextStyle(fontSize: 12),),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                          width: 1.0,
-                                        )
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(ProductDetailsPage(
+                                          productNo: myOrderSliceList[index].productNo));
+                                    },
+                                    child: Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  'assets/product/${myOrderSliceList[index].image}'))),
                                     ),
                                   ),
-                                  SizedBox(height: 5.0),
-                                  Container(
-                                    width: 205.0,
-                                    child: Text('<Buydia 단독판매> 탄생화팔찌?소원팔찌?꽃팔찌',
-                                        // products[index].title,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 13)),
-                                  ),
-                                  Text('ANNAsSHOP',
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.grey)),
-                                  SizedBox(height: 5.0),
-                                  Row(
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text('5,000원 | ',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(
-                                        '1개 | ',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey[800]),
+                                      /// 주문 상태
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Text(
+                                            myOrderSliceList[index].orderStatus,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                        ),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            border: Border.all(
+                                              color: Colors.grey,
+                                              width: 1.0,
+                                            )),
                                       ),
-                                      Text('배송비 ',
-                                          style: TextStyle(
+                                      SizedBox(height: 5.0),
+                                      Container(
+                                        width: 215.0,
+                                        child: Text(
+                                            myOrderSliceList[index].title,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 13)),
+                                      ),
+                                      Text(myOrderSliceList[index].nickname,
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: Colors.grey)),
-                                      Text('3,000원',
-                                          style: TextStyle(
-                                              fontSize: 12, color: Colors.grey))
+                                      Row(
+                                        children: [
+                                          Text(
+                                              '${f.format(myOrderSliceList[index].price * myOrderSliceList[index].quantity)}원 | ',
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(
+                                            '${myOrderSliceList[index].quantity}개 | ',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[800]),
+                                          ),
+                                          const Text('배송비 ',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey)),
+                                          Text(
+                                              '${f.format(myOrderSliceList[index].deliveryFee)}원',
+                                              style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey))
+                                        ],
+                                      ),
                                     ],
                                   ),
+                                  SizedBox(width: 22.0),
+                                  Column(
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            _launchURL();
+                                          },
+                                          child: const Text(
+                                            '배송조회',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            primary: Color(0xFFDAA520),
+                                          )),
+                                      Row(
+                                        children: [
+                                          if (myOrderSliceList[index]
+                                                  .orderStatus ==
+                                              '배송 완료')
+                                            TextButton(
+                                                onPressed: () {
+                                                  Get.to(ReviewRegisterPage(
+                                                      productNo:
+                                                          myOrderSliceList[
+                                                                  index]
+                                                              .productNo,
+                                                      productTitle:
+                                                          myOrderSliceList[
+                                                                  index]
+                                                              .title));
+                                                },
+                                                child: const Text('리뷰등록',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12)),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Color(0xFF2F4F4F)))
+                                          else
+                                            TextButton(
+                                                onPressed: () {},
+                                                child: const Text('리뷰등록',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12)),
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Colors.grey))
+                                        ],
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
-                              SizedBox(width: 22.0),
-                              Column(
-                                children: [
-                                  TextButton(
-                                      onPressed: () {
-                                        _launchURL();
-                                      },
-                                      child: Text(
-                                        '배송조회',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Color(0xFFDAA520),
-                                      )),
-                                  TextButton(
-                                      onPressed: () {},
-                                      child: Text(
-                                        '리뷰등록',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Color(0xFF2F4F4F),
-                                      )),
-                                ],
-                              )
+                              const SizedBox(height: 20.0),
+                              const Divider(
+                                  color: Color(0xFFf5f5f5),
+                                  height: 2.0,
+                                  thickness: 2),
                             ],
                           ),
-                          Divider(color: Colors.grey, height: 30, thickness: 1),
-                        ],
-                      ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (myOrderSliceList.length > 2)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                      child: Text('외 주문 ${myOrderSliceList.length - 2}건',
+                          style: TextStyle(fontSize: 12, color: Colors.grey)),
                     )
-                  ],
-                );
-              }),
-        ]),
-      );
-    }
+                ])
+          ],
+        ),
+      ),
+    );
   }
 
   _launchURL() async {
