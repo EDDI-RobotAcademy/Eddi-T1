@@ -171,6 +171,21 @@ class SpringReviewApi {
       throw Exception("productReviewModify() 에러 발생");
     }
   }
+
+  Future<bool> productReviewDelete(int reviewNo) async {
+
+    var response = await http.delete(
+      Uri.http(httpUri, '/review/delete/$reviewNo'),
+      headers: {'Content-Type' : 'application/json'}
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("productReviewDelete() 통신 확인");
+      return true;
+    } else {
+      throw Exception("productReviewDelete() 에러 발생");
+    }
+  }
 }
 
 class RequestProductReview {
