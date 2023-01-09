@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../api/spring_review_api.dart';
+
 class CategoryProductCard extends StatefulWidget {
   const CategoryProductCard(
       {Key? key,
@@ -9,8 +11,6 @@ class CategoryProductCard extends StatefulWidget {
       required this.title,
       required this.nickname,
       required this.price,
-      // required this.starRate,
-      // required this.reviewCount,
       required this.press})
       : super(key: key);
 
@@ -19,12 +19,30 @@ class CategoryProductCard extends StatefulWidget {
   final int productNo, price;
   final String image, title, nickname;
 
-  // final int starRate, reviewCount;
   final VoidCallback press;
 }
 
 class _CategoryProductCardState extends State<CategoryProductCard> {
   var f = NumberFormat('###,###,###,###');
+  double starRate = 0.0;
+  int reviewCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getStarRateAndReviewCount();
+  }
+
+  _getStarRateAndReviewCount() async {
+    double getStarRate = await SpringReviewApi().averageOfStarRating(widget.productNo);
+    int getReviewCount = await SpringReviewApi().reviewCount(widget.productNo);
+
+    setState(() {
+      starRate = getStarRate;
+      reviewCount = getReviewCount;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,15 +107,13 @@ class _CategoryProductCardState extends State<CategoryProductCard> {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                '',
-                                // widget.starRate,
+                                '$starRate',
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold),
                               ),
                               Expanded(
                                   child: Text(
-                                '',
-                                // "(" + widget.reviewCount + ")",
+                                "($reviewCount)",
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey),
                               )),

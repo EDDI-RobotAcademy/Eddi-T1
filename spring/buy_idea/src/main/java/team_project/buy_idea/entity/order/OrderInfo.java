@@ -8,7 +8,6 @@ import team_project.buy_idea.entity.product.Product;
 
 import javax.persistence.*;
 
-
 @Entity
 @Data
 @ToString(exclude = {"address", "product"} )
@@ -33,7 +32,7 @@ public class OrderInfo {
     private int quantity;
 
     @Column(nullable = false)
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")

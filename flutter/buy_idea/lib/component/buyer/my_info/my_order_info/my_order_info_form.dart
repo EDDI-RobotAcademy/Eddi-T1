@@ -7,6 +7,7 @@ import '../../../../pages/buyer/my_info/my_order_info/my_order_detail_info_page.
 import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import '../../../../pages/buyer/product/product_details_page.dart';
 import 'my_order_info_product.dart';
+import 'order_status_set_string.dart';
 
 class MyOrderInfoForm extends StatefulWidget {
   const MyOrderInfoForm(
@@ -66,8 +67,11 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                 const Expanded(child: SizedBox()),
                 TextButton(
                     onPressed: () {
-                      Get.to(OrderDetailInfoPage(myOrderDetailList: myOrderSliceList,
-                        orderNo: widget.orderNo, orderDate: widget.orderDate,));
+                      Get.to(OrderDetailInfoPage(
+                        myOrderDetailList: myOrderSliceList,
+                        orderNo: widget.orderNo,
+                        orderDate: widget.orderDate,
+                      ));
                     },
                     child: const Text('주문상세보기',
                         style: TextStyle(
@@ -98,13 +102,15 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                                   InkWell(
                                     onTap: () {
                                       Get.to(ProductDetailsPage(
-                                          productNo: myOrderSliceList[index].productNo));
+                                          productNo: myOrderSliceList[index]
+                                              .productNo));
                                     },
                                     child: Container(
                                       width: 80,
                                       height: 80,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: AssetImage(
@@ -121,7 +127,9 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(3.0),
                                           child: Text(
-                                            myOrderSliceList[index].orderStatus,
+                                            OrderStatusTypeChange().setString(
+                                                myOrderSliceList[index]
+                                                    .orderStatus),
                                             style: TextStyle(fontSize: 12),
                                           ),
                                         ),
@@ -195,7 +203,7 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                                         children: [
                                           if (myOrderSliceList[index]
                                                   .orderStatus ==
-                                              '배송 완료')
+                                              'DELIVERED')
                                             TextButton(
                                                 onPressed: () {
                                                   Get.to(ReviewRegisterPage(

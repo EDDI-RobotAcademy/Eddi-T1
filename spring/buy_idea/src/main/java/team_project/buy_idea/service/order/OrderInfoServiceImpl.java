@@ -1,13 +1,14 @@
 package team_project.buy_idea.service.order;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team_project.buy_idea.controller.order.request.AddressRequest;
 import team_project.buy_idea.controller.order.request.OrderInfoRequest;
+import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.entity.order.Address;
 import team_project.buy_idea.entity.order.OrderInfo;
+import team_project.buy_idea.entity.order.OrderStatus;
 import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.entity.product.ProductInfo;
 import team_project.buy_idea.repository.order.AddressRepository;
@@ -98,7 +99,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderInfo.setOrderDate(setOrderDate);
             orderInfo.setBuyer(request.getBuyer());
             orderInfo.setQuantity(request.getQuantity());
-            orderInfo.setOrderStatus(request.getOrderStatus());
+            orderInfo.setOrderStatus(OrderStatus.PAYMENT_COMPLETE);
             orderInfo.setProduct(product);
             orderInfo.setAddress(address);
             orderInfoList.add(orderInfo);
@@ -122,5 +123,30 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public List<OrderInfo> myOrderInfoList(String nickname) {
         return orderInfoRepository.findMyOrderInfoListByNickname(nickname);
+    }
+
+    /**
+     * 주문 상태 변경 Service Impl
+     * @param orderStatusModifyRequest 변경할 order info ID, 변경할 status 값
+     */
+    @Override
+    public void myOrderStatusModify(OrderStatusModifyRequest orderStatusModifyRequest){
+        Long orderInfoId = orderStatusModifyRequest.getOrderInfoId();
+        String orderStatus = orderStatusModifyRequest.getOrderStatus();
+        Optional<OrderInfo> maybeOrderInfo = orderInfoRepository.findById(orderInfoId);
+
+        OrderStatus status = switch (orderStatus) {
+            case "결제 완료" -> OrderStatus.PAYMENT_COMPLETE;
+            case "배송중" -> OrderStatus.DELIVERING;
+            case "배송 완료" -> OrderStatus.DELIVERED;
+            case "취소" -> OrderStatus.CANCEL;
+            case "환불" -> OrderStatus.REFUND;
+            case "교환" -> OrderStatus.EXCHANGE;
+            default -> null;
+        };
+
+        OrderInfo orderInfo = maybeOrderInfo.get();
+        orderInfo.setOrderStatus(status);
+        orderInfoRepository.save(orderInfo);
     }
 }

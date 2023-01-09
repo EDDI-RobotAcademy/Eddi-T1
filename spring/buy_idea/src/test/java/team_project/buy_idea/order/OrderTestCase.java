@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import team_project.buy_idea.controller.order.request.AddressRequest;
 import team_project.buy_idea.controller.order.request.OrderInfoRequest;
+import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.repository.order.OrderInfoRepository;
 import team_project.buy_idea.service.order.OrderInfoService;
@@ -28,10 +29,10 @@ public class OrderTestCase {
 
         List<OrderInfoRequest> orderInfoRequestList = new ArrayList<>();
 
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘", 19L,2,"입금완료"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",20L,1,"입금완료"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",17L,4,"배송중"));
-        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",15L,2,"배송완료"));
+//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘", 19L,2,"입금완료"));
+//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",20L,1,"입금완료"));
+//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",17L,4,"배송중"));
+//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",15L,2,"배송완료"));
 
 
         AddressRequest addressRequest = new AddressRequest(
@@ -74,5 +75,11 @@ public class OrderTestCase {
         List<OrderInfo> myOrderInfoList = orderInfoService.myOrderInfoList(nickname);
 
         System.out.println( "getMyOrderInfoList" + myOrderInfoList);
+    }
+
+    @Test
+    void setOrderStatus() {
+        OrderStatusModifyRequest orderStatusModifyRequest = new OrderStatusModifyRequest(5L, "배송중");
+        orderInfoService.myOrderStatusModify(orderStatusModifyRequest);
     }
 }

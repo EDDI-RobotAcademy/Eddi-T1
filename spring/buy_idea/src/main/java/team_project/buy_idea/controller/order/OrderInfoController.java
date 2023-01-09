@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.order.request.OrderRegisterRequest;
+import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.service.order.OrderInfoService;
 
@@ -32,5 +33,13 @@ public class OrderInfoController {
         log.info("myOrderInfo buyer : " + nickname);
 
         return orderInfoService.myOrderInfoList(nickname);
+    }
+
+    @PostMapping("/status-modify/")
+    public void orderStatusModify(@RequestBody OrderStatusModifyRequest request) {
+        log.info("orderStatus()");
+        log.info("orderStatus : " + request);
+
+        orderInfoService.myOrderStatusModify(request);
     }
 }
