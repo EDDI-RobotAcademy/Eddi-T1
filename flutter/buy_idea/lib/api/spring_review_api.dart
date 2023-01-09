@@ -138,6 +138,39 @@ class SpringReviewApi {
       throw Exception("averageOfStarRating() 에러 발생");
     }
   }
+
+  Future<bool> productReviewModify(int reviewNo, int starRating, String content, XFile file) async {
+    Dio dio = Dio();
+
+    final MultipartFile image = MultipartFile.fromFileSync(
+        file.path,
+        contentType: MediaType('image', 'jpg')
+    );
+
+    FormData formData = FormData.fromMap({
+      'file' : image,
+      'review' : MultipartFile.fromString(
+          jsonEncode({
+            'reviewNo' : reviewNo,
+            'starRating' : starRating,
+            'content' : content
+          }),
+          contentType: MediaType.parse('application/json')
+      )
+    });
+
+    var response = await dio.put(
+        'http://$httpUri/review/modify',
+        data: formData
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("productReviewModify() 통신 확인");
+      return true;
+    } else {
+      throw Exception("productReviewModify() 에러 발생");
+    }
+  }
 }
 
 class RequestProductReview {
