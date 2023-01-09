@@ -260,7 +260,6 @@ export default {
           buyer: this.$store.state.memberInfoAfterSignIn.nickname,
           productNo: this.product.productNo,
           quantity: this.productQuantity,
-          orderStatus: "입금완료"
         })
         const orderInfoRequestList = this.orderInfoRequest
         const addressRequest = addressData
@@ -282,7 +281,6 @@ export default {
             buyer: this.$store.state.memberInfoAfterSignIn.nickname,
             productNo: this.productInfoByShoppingCart[i].product.productNo,
             quantity: this.productInfoByShoppingCart[i].itemCount,
-            orderStatus: "입금완료"
           })
         }
 

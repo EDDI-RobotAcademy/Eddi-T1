@@ -49,12 +49,12 @@
                       <v-card-title style="font-weight: bold; font-size: 15px">
                         <!--주문상태 chip-->
                         <div style="margin-right: 100%">
-                        <v-chip outlined style="float: right;" color="#DAA520" x-small v-if="itemList.orderStatus == '입금완료'">입금 완료</v-chip>
-                        <v-chip outlined style="float: right;" color="#44a4fc" x-small v-if="itemList.orderStatus == '배송 중'">배송 중</v-chip>
-                        <v-chip outlined style="float: right;" color="green" x-small v-if="itemList.orderStatus == '배송 완료'">배송 완료</v-chip>
-                        <v-chip outlined style="float: right;" color="warning" x-small v-if="itemList.orderStatus == '교환'">교환</v-chip>
-                        <v-chip outlined style="float: right;" color="grey" x-small v-if="itemList.orderStatus == '취소'">취소</v-chip>
-                        <v-chip outlined style="float: right;" color="red" x-small v-if="itemList.orderStatus == '환불'">환불</v-chip>
+                        <v-chip outlined style="float: right;" color="#DAA520" x-small v-if="itemList.orderStatus == 'PAYMENT_COMPLETE'">결제 완료</v-chip>
+                        <v-chip outlined style="float: right;" color="#44a4fc" x-small v-if="itemList.orderStatus == 'DELIVERING'">배송 중</v-chip>
+                        <v-chip outlined style="float: right;" color="green" x-small v-if="itemList.orderStatus == 'DELIVERED'">배송 완료</v-chip>
+                        <v-chip outlined style="float: right;" color="warning" x-small v-if="itemList.orderStatus == 'EXCHANGE'">교환</v-chip>
+                        <v-chip outlined style="float: right;" color="grey" x-small v-if="itemList.orderStatus == 'CANCEL'">취소</v-chip>
+                        <v-chip outlined style="float: right;" color="red" x-small v-if="itemList.orderStatus == 'REFUND'">환불</v-chip>
                         </div>
 
                         <!--상품명(상세페이지연결)-->
@@ -97,7 +97,7 @@
                       <div style="margin-top: 35px;">
 
                         <v-btn x-small
-                               :disabled="itemList.orderStatus == '배송 중' || itemList.orderStatus == '배송 중' || itemList.orderStatus == '배송 완료' || itemList.orderStatus == '취소' || itemList.orderStatus == '환불'"
+                               :disabled="itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'DELIVERED' || itemList.orderStatus == 'CANCEL' || itemList.orderStatus == 'REFUND'"
                                width="98px"
                                elevation="0"
                                style="background-color: #DAA520;
@@ -108,7 +108,7 @@
 
 
                         <v-btn x-small
-                               :disabled="itemList.orderStatus == '입금 완료'|| itemList.orderStatus == '취소' || itemList.orderStatus == '환불'"
+                               :disabled="itemList.orderStatus == 'CANCEL' || itemList.orderStatus == 'REFUND'"
                                outlined class="#2F4F4F"
                                width="98px"
                                elevation="0"
@@ -217,7 +217,7 @@
                 <div align="center" style="width: 380px">
                   <v-card width="380px" height="auto" flat color="#f5f5f5" style="border: 1px solid #eaebee; margin-left: 30px" tile >
                     <v-card-title style="font-weight: normal; font-size: 13px; text-align: left;" >
-                      {{ itemList.product.title | truncate(26) }} <br/>
+                      {{ itemList.product.title | truncate(23) }} <br/>
                       <v-spacer></v-spacer>
                       {{ itemList.product.price * itemList.quantity | comma }}
                     </v-card-title>
