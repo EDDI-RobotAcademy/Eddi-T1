@@ -218,12 +218,21 @@
                   <v-card width="380px" height="auto" flat color="#f5f5f5" style="border: 1px solid #eaebee; margin-left: 30px" tile >
                     <v-card-title style="font-weight: normal; font-size: 13px; text-align: left;" >
                       {{ itemList.product.title | truncate(26) }} <br/>
-                      배송비
                       <v-spacer></v-spacer>
                       {{ itemList.product.price * itemList.quantity | comma }}
-                      <br/>
-                      {{ itemList.product.productInfo.deliveryFee | comma }}
                     </v-card-title>
+
+                    <v-card-title style="font-weight: normal; font-size: 13px; text-align: left; margin-top: -32px" >
+                     배송비
+                      <v-spacer></v-spacer>
+                      <span v-if="itemList.product.price * itemList.quantity > 50000">
+                        무료배송
+                      </span>
+                      <span v-else>
+                        {{ itemList.product.productInfo.deliveryFee | comma }}
+                      </span>
+                    </v-card-title>
+
                   </v-card>
                 </div>
                 </div>
@@ -237,11 +246,11 @@
               <v-card width="350px" flat color="#f5f5f5">
                 <v-card-title style="font-weight: lighter; font-size: 15px">
                   상품금액
-                  <v-spacer></v-spacer> {{totalProductPrice}}원
+                  <v-spacer></v-spacer> {{totalProductPrice | comma }}원
                 </v-card-title>
                 <v-card-title style="font-weight: lighter; font-size: 15px">
                   총 배송비
-                  <v-spacer></v-spacer> {{totalDelivery}}원
+                  <v-spacer></v-spacer> {{totalDelivery | comma }}원
                 </v-card-title>
               </v-card>
               </div>
@@ -255,7 +264,7 @@
                 </v-card-title>
                 <v-card-title style="font-weight: bolder; font-size: 25px; color: #DAA520">
                   <v-spacer></v-spacer>
-                  {{ totalPrice }}원
+                  {{ totalProductPrice + totalDelivery | comma }}원
                 </v-card-title>
               </v-card>
 
@@ -289,13 +298,11 @@ export default {
   },
   data() {
     return {
-      totalProductPrice: "28,000",
-      totalDelivery: "20,000",
-      totalPrice: 0,
+      totalProductPrice: "",
+      totalDelivery: "",
 
       orderNoList: [],
       orderDateList: [],
-
     }
   },
   orderNo: {
@@ -309,7 +316,30 @@ export default {
 
     truncate: function(data,num){
       const reqdString = data.split("").slice(0, num).join("");
-      return reqdString + "...";
+      if (data.length < num) {
+        return reqdString
+      } else {
+        return reqdString + "...";
+      }
+    }
+  },
+  beforeUpdate() {
+    this.totalProductPrice = 0
+    this.totalDelivery = 0
+
+    for (let i = 0; i < this.myOrderInfoList.length; i++) {
+      if(this.orderNoList[this.orderNo] === this.myOrderInfoList[i].orderNo) {
+
+        this.totalProductPrice += this.myOrderInfoList[i].product.price * this.myOrderInfoList[i].quantity
+      }
+    }
+
+    for (let i = 0; i < this.myOrderInfoList.length; i++) {
+      if(this.orderNoList[this.orderNo] === this.myOrderInfoList[i].orderNo) {
+        if(this.myOrderInfoList[i].product.price * this.myOrderInfoList[i].quantity < 50000) {
+          this.totalDelivery += this.myOrderInfoList[i].product.productInfo.deliveryFee
+        }
+      }
     }
 
   },
