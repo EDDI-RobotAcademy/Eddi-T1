@@ -47,7 +47,7 @@ class SpringReviewApi {
   Future<List<RequestProductReview>> productReviewList(int productNo, int reviewSize) async {
 
     var response = await http.get(
-      Uri.http(httpUri, '/review/list', {'productNo' : productNo, 'reviewSize' : reviewSize}),
+      Uri.http(httpUri, '/review/list', {'productNo' : productNo.toString(), 'reviewSize' : reviewSize.toString()}),
       headers: {'Content-Type' : 'application/json'}
     );
 
@@ -67,7 +67,7 @@ class SpringReviewApi {
   Future<List<RequestProductReview>> nextProductReviewList(int productNo, int reviewNo, int reviewSize) async {
 
     var response = await http.get(
-        Uri.http(httpUri, '/review/next-list', {'productNo' : productNo, 'reviewNo' : reviewNo, 'reviewSize' : reviewSize}),
+        Uri.http(httpUri, '/review/next-list', {'productNo' : productNo.toString(), 'reviewNo' : reviewNo.toString(), 'reviewSize' : reviewSize.toString()}),
         headers: {'Content-Type' : 'application/json'}
     );
 
@@ -95,11 +95,47 @@ class SpringReviewApi {
       debugPrint("reviewImage() 통신 확인");
 
       var data = jsonDecode(utf8.decode(response.bodyBytes));
+      debugPrint("data : $data");
       RequestProductReviewImage reviewImage = RequestProductReviewImage.fromJson(data);
+      debugPrint("reviewImage edited name : " + reviewImage.editedName);
 
       return reviewImage;
     } else {
       throw Exception("reviewImage() 에러 발생");
+    }
+  }
+
+  Future<int> reviewCount(int productNo) async {
+
+    var response = await http.get(
+      Uri.http(httpUri, '/review/count/$productNo'),
+      headers: {'Content-Type' : 'application/json'}
+    );
+
+    var data = int.parse(response.body);
+
+    if(response.statusCode == 200) {
+      debugPrint("reviewCount() 통신 확인");
+      return data;
+    } else {
+      throw Exception("reviewCount() 에러 발생");
+    }
+  }
+
+  Future<double> averageOfStarRating(int productNo) async {
+
+    var response = await http.get(
+        Uri.http(httpUri, '/review/star-rating/average/$productNo'),
+        headers: {'Content-Type' : 'application/json'}
+    );
+
+    var data = double.parse(response.body);
+
+    if(response.statusCode == 200) {
+      debugPrint("averageOfStarRating() 통신 확인");
+      return data;
+    } else {
+      throw Exception("averageOfStarRating() 에러 발생");
     }
   }
 }
@@ -134,14 +170,14 @@ class RequestProductReview {
 }
 
 class RequestProductReviewImage {
-  int reviewImageNo;
+  int reviewImageId;
   String editedName;
 
-  RequestProductReviewImage({required this.reviewImageNo, required this.editedName});
+  RequestProductReviewImage({required this.reviewImageId, required this.editedName});
 
   factory RequestProductReviewImage.fromJson(Map<String, dynamic> json) {
     return RequestProductReviewImage(
-      reviewImageNo: json['reviewImageNo'],
+      reviewImageId: json['reviewImageId'],
       editedName: json['editedName']
     );
   }
