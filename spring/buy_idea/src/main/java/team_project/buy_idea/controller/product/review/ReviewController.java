@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team_project.buy_idea.controller.product.review.request.ReviewModifyRequest;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
 import team_project.buy_idea.entity.product.review.Review;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
@@ -74,5 +75,15 @@ public class ReviewController {
         log.info("productNo : " + productNo);
 
         return reviewService.getAverageOfStarRatingOnSpecificProduct(productNo);
+    }
+
+    @PutMapping(value = "/modify", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public void reviewModify(@RequestPart(value = "review") ReviewModifyRequest request,
+                             @RequestPart(value = "file") MultipartFile file) {
+        log.info("reviewModify()");
+        log.info("request : " + request);
+        log.info("file : " + file);
+
+        reviewService.modify(request, file);
     }
 }

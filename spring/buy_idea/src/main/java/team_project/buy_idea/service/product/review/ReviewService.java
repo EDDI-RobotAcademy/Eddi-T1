@@ -1,6 +1,7 @@
 package team_project.buy_idea.service.product.review;
 
 import org.springframework.web.multipart.MultipartFile;
+import team_project.buy_idea.controller.product.review.request.ReviewModifyRequest;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
 import team_project.buy_idea.entity.product.review.Review;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
@@ -15,4 +16,5 @@ public interface ReviewService {
     ReviewImageMapping getReviewImage(Long reviewNo);
     Long getCountReviewsOnSpecificProduct(Long productNo);
     Double getAverageOfStarRatingOnSpecificProduct(Long productNo);
+    void modify(ReviewModifyRequest request, MultipartFile file);
 }
