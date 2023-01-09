@@ -17,10 +17,9 @@ export default {
         'requestMyOrderInfoListFromSpring'
     ])
   },
-  mounted() {
+  async mounted() {
     const nickname = this.$store.state.memberInfoAfterSignIn.nickname
-    this.requestMyOrderInfoListFromSpring(nickname)
-    console.log(nickname)
+    await this.requestMyOrderInfoListFromSpring(nickname)
   }
 }
 </script>
