@@ -17,4 +17,5 @@ public interface ReviewService {
     Long getCountReviewsOnSpecificProduct(Long productNo);
     Double getAverageOfStarRatingOnSpecificProduct(Long productNo);
     void modify(ReviewModifyRequest request, MultipartFile file);
+    void delete(Long reviewNo);
 }

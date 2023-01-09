@@ -86,4 +86,12 @@ public class ReviewController {
 
         reviewService.modify(request, file);
     }
+
+    @DeleteMapping("/delete/{reviewNo}")
+    public void reviewDelete(@PathVariable("reviewNo") Long reviewNo) {
+        log.info("reviewDelete()");
+        log.info("reviewNo : " + reviewNo);
+
+        reviewService.delete(reviewNo);
+    }
 }

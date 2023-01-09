@@ -96,4 +96,9 @@ public class ReviewTestCase {
         );
         reviewService.modify(request, file);
     }
+
+    @Test
+    void reviewDeleteTest() {
+        reviewService.delete(29L);
+    }
 }

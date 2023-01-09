@@ -197,4 +197,37 @@ public class ReviewServiceImpl implements ReviewService{
             throw new RuntimeException("등록되지 않은 리뷰입니다.");
         }
     }
+
+    @Override
+    public void delete(Long reviewNo) {
+        Optional<ReviewImage> maybeReviewImage = reviewImageRepository.findByReviewNo(reviewNo);
+        ReviewImage reviewImage;
+        if (maybeReviewImage.isPresent()) {
+            reviewImage = maybeReviewImage.get();
+
+            String fileName = reviewImage.getEditedName();
+
+            String vuePath = "C:\\Eddi-T1\\vue\\frontend\\src\\assets\\reviewImg\\";
+            String flutterPath = "C:\\Eddi-T1\\flutter\\buy_idea\\assets\\review\\";
+
+            File vueFile = new File(vuePath + fileName);
+            File flutterFile = new File(flutterPath + fileName);
+
+            if (vueFile.exists()) {
+                vueFile.delete();
+            } else {
+                System.out.println("파일삭제실패!");
+            }
+            if (flutterFile.exists()) {
+                flutterFile.delete();
+            } else {
+                System.out.println("파일삭제실패!");
+            }
+
+            reviewRepository.deleteById(reviewNo);
+
+        } else {
+            throw new RuntimeException("이미지가 없습니다.");
+        }
+    }
 }
