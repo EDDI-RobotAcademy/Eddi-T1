@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import '../../../../pages/buyer/product/product_details_page.dart';
 import 'my_order_info_product.dart';
 import 'order_status_set_string.dart';
@@ -24,6 +26,8 @@ class MyOrderDetailInfoForm extends StatefulWidget {
 }
 
 class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
+  final Uri _url = Uri.parse(
+      'https://m.search.daum.net/search?nil_profile=btn&w=tot&DA=SBC&q=%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C');
   final List<Address> myOrderSliceAddressList = [];
   var totalPrice = 0;
   var totalDeliveryFee = 0;
@@ -50,6 +54,15 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
       if (myOrderAddressList[i].orderNo == widget.orderNo) {
         myOrderSliceAddressList.add(myOrderAddressList[i]);
       }
+    }
+  }
+
+  _launchURL() async {
+    debugPrint('_launchURL()');
+    if (await launchUrl(_url)) {
+      await canLaunchUrl(_url);
+    } else {
+      throw 'Could not launch $_url';
     }
   }
 
@@ -115,27 +128,13 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       /// 주문 상태
-                                      Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: Text(
-                                            OrderStatusTypeChange().setString(
-                                                widget.myOrderSliceList[index]
-                                                    .orderStatus),
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                        ),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            border: Border.all(
-                                              color: Colors.grey,
-                                              width: 1.0,
-                                            )),
+                                      Text(
+                                        '• ${OrderStatusTypeChange().setString(widget.myOrderSliceList[index].orderStatus)}',
+                                        style: TextStyle(fontSize: 12),
                                       ),
                                       SizedBox(height: 5.0),
                                       Container(
-                                        width: 215.0,
+                                        width: 275.0,
                                         child: Text(
                                             widget
                                                 .myOrderSliceList[index].title,
@@ -145,12 +144,14 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 13)),
                                       ),
+                                      SizedBox(height: 4.0),
                                       Text(
                                           widget
                                               .myOrderSliceList[index].nickname,
                                           style: const TextStyle(
                                               fontSize: 12,
                                               color: Colors.grey)),
+                                      SizedBox(height: 2.0),
                                       Row(
                                         children: [
                                           Text(
@@ -178,21 +179,95 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                     ],
                                   ),
                                   SizedBox(width: 22.0),
-                                  Column(
+                                ],
+                              ),
+                              SizedBox(height: 20.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                        onPressed: () {
+                                          _launchURL();
+                                        },
+                                        child: const Text(
+                                          '배송 조회',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          side: const BorderSide(
+                                              color: Colors.black, width: 1.0),
+                                          elevation: 0,
+                                          primary: Colors.white,
+                                        )),
+                                  ),
+                                  SizedBox(width: 20.0),
+                                  Expanded(
+                                    child: TextButton(
+                                        onPressed: () {
+                                          /// 문의 등록 페이지
+                                        },
+                                        child: const Text('문의하기',
+                                            style: TextStyle(
+                                                color: Color(0xFFDAA520),
+                                                fontSize: 12)),
+                                        style: ElevatedButton.styleFrom(
+                                            side: const BorderSide(
+                                                color: Color(0xFFDAA520),
+                                                width: 1.0),
+                                            elevation: 0,
+                                            primary: Colors.white)),
+                                  ),
+                                  SizedBox(width: 20.0),
+                                  Row(
                                     children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            /// 문의 등록 페이지
-                                          },
-                                          child: const Text('문의하기',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12)),
-                                          style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              primary: Color(0xFF2F4F4F)))
+                                      if (widget.myOrderSliceList[index]
+                                              .orderStatus ==
+                                          'DELIVERED')
+                                        Container(
+                                          width: 115.0,
+                                          child: TextButton(
+                                              onPressed: () {
+                                                Get.to(ReviewRegisterPage(
+                                                    productNo: widget
+                                                        .myOrderSliceList[index]
+                                                        .productNo,
+                                                    productTitle: widget
+                                                        .myOrderSliceList[index]
+                                                        .title));
+                                              },
+                                              child: const Text('리뷰 등록',
+                                                  style: TextStyle(
+                                                      color: Color(0xFF2F4F4F),
+                                                      fontSize: 12)),
+                                              style: ElevatedButton.styleFrom(
+                                                  side: const BorderSide(
+                                                      color: Color(0xFF2F4F4F),
+                                                      width: 1.0),
+                                                  elevation: 0,
+                                                  primary: Colors.white)),
+                                        )
+                                      else
+                                        Container(
+                                          width: 115.0,
+                                          child: TextButton(
+                                              onPressed: () {},
+                                              child: const Text('리뷰 등록',
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12)),
+                                              style: ElevatedButton.styleFrom(
+                                                  splashFactory:
+                                                      NoSplash.splashFactory,
+                                                  side: const BorderSide(
+                                                      color: Colors.grey,
+                                                      width: 1.0),
+                                                  elevation: 0,
+                                                  primary: Colors.white)),
+                                        ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 20.0),
