@@ -7,8 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.mock.web.MockMultipartFile;
+import team_project.buy_idea.controller.product.review.request.ReviewModifyRequest;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
 import team_project.buy_idea.entity.product.review.Review;
+import team_project.buy_idea.entity.product.review.ReviewImage;
 import team_project.buy_idea.repository.product.review.ReviewImageRepository;
 import team_project.buy_idea.repository.product.review.ReviewRepository;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
@@ -16,6 +18,7 @@ import team_project.buy_idea.service.product.review.ReviewService;
 
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,17 +35,17 @@ public class ReviewTestCase {
 
     @Test
     void reviewRegisterTest() throws Exception {
-        ReviewRegisterRequest request = new ReviewRegisterRequest(1L, "굳굳맨", 3, "이 상품 너무 좋아요!");
+        ReviewRegisterRequest request = new ReviewRegisterRequest(1L, "굳굳맨", 4, "이 상품 너무 좋아요!");
 
         MockMultipartFile file = new MockMultipartFile(
-                "image1", "review1", "image/jpg",
+                "image1", "review.jpg", "image/jpg",
                 new FileInputStream("C:/Users/seonho/Desktop/review_image.jpg")
         );
 
         System.out.println("request : " + request);
         System.out.println("file : " + file);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             reviewService.register(request, file);
         }
     }
@@ -82,5 +85,20 @@ public class ReviewTestCase {
 
         System.out.println(reviewCount);
         System.out.println(starRatingAverage);
+    }
+
+    @Test
+    void reviewModifyTest() throws Exception {
+        ReviewModifyRequest request = new ReviewModifyRequest(1L, 3, "상품 굳굳 짱짱 너무 좋다 또 살까 말까 고민고민하지마");
+        MockMultipartFile file = new MockMultipartFile(
+                "image1", "review111111.jpg", "image/jpg",
+                new FileInputStream("C:/Users/seonho/Desktop/review_image.jpg")
+        );
+        reviewService.modify(request, file);
+    }
+
+    @Test
+    void reviewDeleteTest() {
+        reviewService.delete(29L);
     }
 }
