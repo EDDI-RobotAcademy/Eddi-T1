@@ -10,6 +10,5 @@ public class OrderInfoRequest {
     private String buyer;
     private Long productNo;
     private int quantity;
-    private String orderStatus;
 
 }
