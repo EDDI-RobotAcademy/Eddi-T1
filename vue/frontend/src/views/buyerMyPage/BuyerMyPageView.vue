@@ -7,11 +7,21 @@
 <script>
 
 import BuyerMyPageForm from "@/components/buyerMyPage/BuyerMyPageForm";
+import {mapActions} from "vuex";
 
 export default {
   name: "buyerMyPageView",
-  components: {BuyerMyPageForm}
-
+  components: {BuyerMyPageForm},
+  methods: {
+    ...mapActions([
+        'requestMyOrderInfoListFromSpring'
+    ])
+  },
+  mounted() {
+    const nickname = this.$store.state.memberInfoAfterSignIn.nickname
+    this.requestMyOrderInfoListFromSpring(nickname)
+    console.log(nickname)
+  }
 }
 </script>
 

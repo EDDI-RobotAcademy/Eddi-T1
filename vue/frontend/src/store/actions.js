@@ -8,6 +8,7 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
     REQUEST_PRODUCT_FROM_SPRING, REQUEST_PRODUCT_LIST_FROM_SPRING,
+    REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
 
 } from './mutation-types'
 
@@ -398,7 +399,6 @@ export default {
 
     /**
      *  상품 삭제 요청 axios
-     *  @param
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
@@ -444,5 +444,22 @@ export default {
             .catch(() =>{
                 console.log("결제정보 전송 실패")
             })
-    }
+    },
+
+    /**
+     *  일반회원 주문한 상품 리스트 요청 axios
+     *  @param commit
+     *  @param payload nickname
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    requestMyOrderInfoListFromSpring ({ commit }, nickname) {
+        console.log('requestMyOrderInfoListFromSpring()' + nickname)
+        /*const nickname = payload;*/
+
+        return axios.post(`http://localhost:8888/order/my-order-info-list/${nickname}`)
+            .then((res) => {
+                console.log('action : ' + res.data[0])
+                commit(REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING, res.data)
+            })
+    },
 }

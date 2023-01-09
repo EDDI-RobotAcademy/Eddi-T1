@@ -12,4 +12,5 @@ export default {
     mainPageProductImgListByHobby: [],
     product: {},
     productList: [],
+    myOrderInfoList: [],
 }

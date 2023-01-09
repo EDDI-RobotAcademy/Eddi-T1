@@ -13,6 +13,7 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
     REQUEST_PRODUCT_FROM_SPRING,
     REQUEST_PRODUCT_LIST_FROM_SPRING,
+    REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
 
 
 } from './mutation-types'
@@ -61,5 +62,7 @@ export default {
         console.log("mutation " + passingData[0])
         state.productList = passingData
     },
-
+    [REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING](state, passingData) {
+        state.myOrderInfoList = passingData
+    },
 }
