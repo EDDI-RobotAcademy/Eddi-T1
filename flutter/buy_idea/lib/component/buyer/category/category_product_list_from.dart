@@ -45,8 +45,6 @@ class _CategoryProductListFormState extends State<CategoryProductListForm> {
                 image: widget.category_list[index].image,
                 price: widget.category_list[index].price,
                 nickname: widget.category_list[index].nickname,
-                // starRate: widget.category_list[index].starRate,
-                // reviewCount: widget.category_list[index].reviewCount,
                 press: () {
                   Get.to(ProductDetailsPage(
                       productNo: widget.category_list[index].productNo));
