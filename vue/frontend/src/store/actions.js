@@ -452,14 +452,45 @@ export default {
      *  @param payload nickname
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestMyOrderInfoListFromSpring ({ commit }, nickname) {
+    async requestMyOrderInfoListFromSpring ({ commit }, nickname) {
         console.log('requestMyOrderInfoListFromSpring()' + nickname)
         /*const nickname = payload;*/
 
-        return axios.post(`http://localhost:8888/order/my-order-info-list/${nickname}`)
+        await axios.post(`http://localhost:8888/order/my-order-info-list/${nickname}`)
             .then((res) => {
-                console.log('action : ' + res.data[0])
+                console.log(res.data)
                 commit(REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING, res.data)
             })
+    },
+
+    /**
+     *  상품 리뷰 등록 axios
+     *  @param commit
+     *  @param payload nickname
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestRegisterReviewFromSpring({ }, payload) {
+        console.log("requestRegisterReviewFromSpring")
+
+        const { productNo, writer, starRating, content, files } = payload
+        let formData = new FormData()
+        let review = { productNo, writer, starRating, content }
+        formData.append('review', new Blob([JSON.stringify(review)], {type: "application/json"}))
+
+        formData.append('file', files.file)
+
+        await axios.post('http://localhost:8888/review/register', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(() => {
+                alert("리뷰가 작성되었습니다.")
+                router.push({name: 'BuyerMyPageView'}).catch(() => {})
+            })
+            .catch(() => {
+                alert("정상적으로 등록되지 않았습니다.")
+            });
     },
 }
