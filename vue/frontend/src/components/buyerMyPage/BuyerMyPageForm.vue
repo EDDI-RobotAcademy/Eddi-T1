@@ -120,15 +120,8 @@
                   </v-layout>
 
                   <v-card-subtitle align="center">
-<!--                    <v-btn
-                        small
-                        outlined
-                        elevation="0"
-                        style="background-color: #2F4F4F; color: white; margin-top: -35px;"
-                        @click="inquiry()"
-                    >
-                      문의하기
-                    </v-btn>-->
+
+                    <!--문의하기 버튼 / 문의 등록 dialog-->
                     <v-dialog
                         v-model="dialogQna"
                         @click:outside="fn_cancel2"
@@ -192,18 +185,18 @@
                           <v-card height="auto" width="500" flat style="border: 1px solid transparent">
 
                             <v-select
-                                v-model="category" label="카테고리" color="#2F4F4F" :items="categoryList" required
+                                v-model="qnaCategory" label="카테고리" color="#2F4F4F" :items="categoryList" required
                                 :rules="categoryRule"/>
 
                             <v-text-field
-                                v-model="title" label="제목" color="#2F4F4F" required
+                                v-model="qnaTitle" label="제목" color="#2F4F4F" required
                                 :rules="titleRule"/>
 
                             <v-text-field
                                 :value="writer" label="작성자" color="#2F4F4F" readonly required/>
 
                             <v-textarea
-                                v-model="content" label="내용" counter outlined clearable
+                                v-model="qnaContent" label="내용" counter outlined clearable
                                 row-height="60" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
                                 :rules="contentRule"/>
 
@@ -214,6 +207,7 @@
                           </v-card>
 
                           <v-btn style="margin-top: -90px; background-color: #2F4F4F; color: white" plain
+                                 @click="registerQna()"
                           >
                             등록하기
                           </v-btn>
@@ -615,7 +609,7 @@
 
 <script>
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "BuyerMyPageForm",
@@ -661,11 +655,11 @@ export default {
 
       dialogQna: false,
       writer: this.$store.state.memberInfoAfterSignIn.nickname,
-      category: '',
-      categoryList : ['상품문의', '배송문의', '환불/취소 문의','교환문의','기타'],
-      title: '',
-      content: '',
-      checkStatus: false,
+      qnaCategory: '',
+      categoryList : ['상품 문의', '배송 문의', '환불/취소 문의','교환 문의','기타'],
+      qnaTitle: '',
+      qnaContent: '',
+      checkStatus: '',
       categoryRule: [
         v => !!v || '카테고리를 선택해주세요.'
       ],
@@ -685,14 +679,29 @@ export default {
     }
   },
   methods: {
-    inquiry(){
-
-    },
+    ...mapActions([
+      "requestRegisterQnaFromSpring"
+    ]),
     handleImgFile(e) {
       this.files = {
         file: e.target.files[0],
         preview: URL.createObjectURL(e.target.files[0])
       }
+    },
+    async registerQna() {
+
+      const productNo = this.myOrderInfoList[this.currentSelectedQnaProductNumber].product.productNo
+      const writer = this.$store.state.memberInfoAfterSignIn.nickname
+      const questionCategory = this.qnaCategory
+      const questionTitle = this.qnaTitle
+      const questionContent = this.qnaContent
+      const openStatus =  this.checkStatus == true ? false : true
+
+      console.log('openStatus: ' + openStatus)
+      console.log(productNo, writer, questionCategory, questionTitle, questionContent, openStatus)
+
+      await this.requestRegisterQnaFromSpring({productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
+
     },
     async registerReview() {
 
