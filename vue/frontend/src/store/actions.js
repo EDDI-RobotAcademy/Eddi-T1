@@ -9,6 +9,7 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
     REQUEST_PRODUCT_FROM_SPRING, REQUEST_PRODUCT_LIST_FROM_SPRING,
     REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
+    REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING
 
 } from './mutation-types'
 
@@ -493,4 +494,23 @@ export default {
                 alert("정상적으로 등록되지 않았습니다.")
             });
     },
+
+    /**
+     *  검색 axios
+     *  @param commit
+     *  @param payload searchWord
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestSearchBySearchTermToSpring({ commit }, payload){
+        console.log("requestSearchBySearchTermToSpring" + payload)
+
+        const keyword = payload
+        await axios.get(`http://localhost:8888/product/search/${keyword}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING, res.data);
+            })
+            .catch(() => {});
+
+    }
 }
