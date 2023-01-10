@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../pages/buyer/my_info/my_order_info/QnA/question_register_page.dart';
 import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import '../../../../pages/buyer/product/product_details_page.dart';
 import 'my_order_info_product.dart';
@@ -207,6 +208,11 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                     child: TextButton(
                                         onPressed: () {
                                           /// 문의 등록 페이지
+                                          Get.to(QuestionRegisterPage(
+                                            productNo: widget.myOrderSliceList[index].productNo,
+                                            productImage: widget.myOrderSliceList[index].image,
+                                            productTitle: widget.myOrderSliceList[index].title,
+                                            nickname: widget.myOrderSliceList[index].nickname,));
                                         },
                                         child: const Text('문의하기',
                                             style: TextStyle(
