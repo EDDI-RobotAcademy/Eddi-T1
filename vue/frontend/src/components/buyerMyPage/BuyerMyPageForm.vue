@@ -231,7 +231,7 @@
                             <v-btn x-small
                                    v-bind="attrs"
                                    v-on="on"
-                                   :disabled="itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL'"
+                                   :disabled="itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL'"
                                    width="98px"
                                    elevation="0"
                                    style="background-color: #DAA520;
@@ -713,7 +713,7 @@ export default {
       const files = this.files
 
       await this.requestRegisterReviewFromSpring({productNo, writer, starRating, content, files})
-      this.$router
+      await this.$router.go(0)
     },
     fn_cancel() {
       this.dialog = false
