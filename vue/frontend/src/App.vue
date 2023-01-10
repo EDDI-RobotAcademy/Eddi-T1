@@ -23,13 +23,15 @@
         </router-link>
         <v-col cols="4">
           <v-text-field
+              v-model="searchWord"
               outlined
               color="#2F4F4F"
               solo
               flat
               :append-icon="'mdi-magnify'"
               placeholder="통합검색"
-              @click:append="show"
+              @click:append="moveSearchPage"
+              @keypress.e.enter="moveSearchPage"
               style="margin-top: 30px;
               border: #2F4F4F"></v-text-field>
         </v-col>
@@ -74,32 +76,44 @@
 <script>
 
 
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'App',
-  data () {
+  components: {},
+  data() {
     return {
-      show: false,
+      searchWord: ""
     }
   },
   methods: {
     ...mapState([
       'signInCheckValue'
     ]),
+    ...mapActions([
+      'requestSearchBySearchTermToSpring'
+    ]),
     moveToHome() {
       this.$router.push('/');
     },
     signOut() {
-      this.$store.commit("SIGN_IN_CHECK_VALUE",false)
+      this.$store.commit("SIGN_IN_CHECK_VALUE", false)
       localStorage.removeItem("vuex")
       localStorage.removeItem("userToken")
       alert("로그아웃 되었습니다.")
       this.$router.push({name: "HomeView"})
       history.go(0)
     },
-    moveShoppingCardPage(){
+    moveShoppingCardPage() {
       this.$router.push({name: 'ShoppingCartView'})
+    },
+    async moveSearchPage() {
+      const keyword = this.searchWord
+      console.log(keyword)
+      await this.requestSearchBySearchTermToSpring(keyword)
+      await this.$router.push({name: 'SearchView', params: {searchWord: keyword}});
+      localStorage.setItem('searchWord', keyword)
+      history.go(0)
     }
   },
 };
@@ -112,7 +126,7 @@ export default {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  white-space:nowrap;
+  white-space: nowrap;
   display: inline-block;
   text-decoration: none;
   font-size: 18px;
