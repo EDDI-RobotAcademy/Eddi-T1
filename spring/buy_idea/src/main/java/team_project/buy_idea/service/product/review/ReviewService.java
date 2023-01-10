@@ -5,6 +5,7 @@ import team_project.buy_idea.controller.product.review.request.ReviewModifyReque
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
 import team_project.buy_idea.entity.product.review.Review;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
+import team_project.buy_idea.service.product.review.response.MyReviewResponse;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface ReviewService {
     Double getAverageOfStarRatingOnSpecificProduct(Long productNo);
     void modify(ReviewModifyRequest request, MultipartFile file);
     void delete(Long reviewNo);
+    List<MyReviewResponse> getMyReviewList(String writer);
 }

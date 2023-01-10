@@ -10,15 +10,14 @@ import org.springframework.mock.web.MockMultipartFile;
 import team_project.buy_idea.controller.product.review.request.ReviewModifyRequest;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
 import team_project.buy_idea.entity.product.review.Review;
-import team_project.buy_idea.entity.product.review.ReviewImage;
 import team_project.buy_idea.repository.product.review.ReviewImageRepository;
 import team_project.buy_idea.repository.product.review.ReviewRepository;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
 import team_project.buy_idea.service.product.review.ReviewService;
+import team_project.buy_idea.service.product.review.response.MyReviewResponse;
 
 import java.io.FileInputStream;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -100,5 +99,12 @@ public class ReviewTestCase {
     @Test
     void reviewDeleteTest() {
         reviewService.delete(29L);
+    }
+
+    @Test
+    void myReviewListTest() {
+        List<MyReviewResponse> myReviewList = reviewService.getMyReviewList("굳굳맨");
+
+        System.out.println(myReviewList);
     }
 }

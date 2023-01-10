@@ -15,11 +15,13 @@ import team_project.buy_idea.repository.product.ProductRepository;
 import team_project.buy_idea.repository.product.review.ReviewImageRepository;
 import team_project.buy_idea.repository.product.review.ReviewRepository;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
+import team_project.buy_idea.service.product.review.response.MyReviewResponse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -229,5 +231,28 @@ public class ReviewServiceImpl implements ReviewService{
         } else {
             throw new RuntimeException("이미지가 없습니다.");
         }
+    }
+
+    @Override
+    public List<MyReviewResponse> getMyReviewList(String writer) {
+
+        List<Review> reviews = reviewRepository.findReviewsByWriter(writer);
+        List<MyReviewResponse> myReviewList = new ArrayList<>();
+
+        for (Review review : reviews) {
+            myReviewList.add(new MyReviewResponse(
+                    review.getReviewNo(),
+                    review.getWriter(),
+                    review.getStarRating(),
+                    review.getContent(),
+                    review.getRegDate(),
+                    review.getUpdDate(),
+                    review.getProduct().getProductNo(),
+                    review.getProduct().getTitle()
+                    )
+            );
+        }
+
+        return myReviewList;
     }
 }
