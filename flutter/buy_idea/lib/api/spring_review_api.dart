@@ -204,6 +204,23 @@ class SpringReviewApi {
       throw Exception("myReviewList() 에러 발생");
     }
   }
+
+  Future<bool> checkWriteReview(String writer, int productNo) async {
+
+    var response = await http.get(
+      Uri.http(httpUri, '/review/check/write', {'writer' : writer, 'productNo' : productNo.toString()}),
+      headers: {'Content-Type' : 'application/json'}
+    );
+
+
+    if (response.statusCode == 200) {
+      debugPrint("checkWriteReview() 통신 확인");
+      bool check = response.body.toLowerCase() == 'true';
+      return check;
+    } else {
+      throw Exception("checkWriteReview() 에러 발생");
+    }
+  }
 }
 
 class RequestProductReview {
