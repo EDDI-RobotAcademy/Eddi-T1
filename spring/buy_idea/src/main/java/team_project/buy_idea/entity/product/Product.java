@@ -2,6 +2,7 @@ package team_project.buy_idea.entity.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import team_project.buy_idea.entity.product.qna.QnA;
 import team_project.buy_idea.entity.product.review.Review;
 
 import javax.persistence.*;
@@ -37,4 +38,8 @@ public class Product {
     @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Review> reviews;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<QnA> qna;
 }
