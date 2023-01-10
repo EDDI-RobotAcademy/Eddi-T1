@@ -10,12 +10,15 @@ import team_project.buy_idea.entity.product.qna.QnA;
 import team_project.buy_idea.entity.product.qna.QuestionCategory;
 import team_project.buy_idea.repository.product.ProductRepository;
 import team_project.buy_idea.repository.product.qna.QnARepository;
+import team_project.buy_idea.service.product.qna.response.QnaHistoryResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-public class QnAServiceImpl implements QnAService{
+public class QnAServiceImpl implements QnAService {
 
     @Autowired
     private QnARepository qnARepository;
@@ -25,16 +28,17 @@ public class QnAServiceImpl implements QnAService{
 
     /**
      * 문의 등록 ServiceImpl
+     *
      * @param request ProductNo, writer, questionCategory,
      *                questionTitle, questionContent, openStatus
      */
-    public void register(QuestionRegisterRequest request){
+    public void register(QuestionRegisterRequest request) {
         QnA qnA = new QnA();
 
         Optional<Product> maybeProduct = productRepository.findById(request.getProductNo());
 
         Product product;
-        if(maybeProduct.isPresent()) {
+        if (maybeProduct.isPresent()) {
             product = maybeProduct.get();
         } else {
             throw new RuntimeException("등록되지 않은 상품입니다.");
@@ -53,11 +57,41 @@ public class QnAServiceImpl implements QnAService{
     }
 
     /**
+     * 일반회원이 문의한 내역 List
+     *
+     * @param writer 일반회원(작성자)
+     */
+    public List<QnaHistoryResponse> questionHistoryList(String writer) {
+        List<QnaHistoryResponse> qnaHistoryResponseList = new ArrayList<>();
+        List<QnA> qnAList = qnARepository.findQnaHistoryByWriter(writer);
+        for (int i = 0; i < qnAList.size(); i++) {
+            qnaHistoryResponseList.add(
+                    new QnaHistoryResponse(
+                            qnAList.get(i).getProduct().getProductNo(),
+                            qnAList.get(i).getProduct().getTitle(),
+                            qnAList.get(i).getWriter(),
+                            qnAList.get(i).getProduct().getNickname(),
+                            qnAList.get(i).getQuestionCategory().name(),
+                            qnAList.get(i).getQuestionTitle(),
+                            qnAList.get(i).getQuestionContent(),
+                            qnAList.get(i).getAnswer(),
+                            qnAList.get(i).getAnswerStatus().name(),
+                            qnAList.get(i).getRegDate(),
+                            qnAList.get(i).getUpdDate(),
+                            qnAList.get(i).isOpenStatus()
+                    ));
+        }
+
+        return qnaHistoryResponseList;
+    }
+
+    /**
      * 문의 카테고리 String -> enum 변환 메서드
+     *
      * @param categoryName String 문의 카테고리
      * @return 문의카테고리 enum
      */
-    public QuestionCategory questionCategoryStringMapping(String categoryName){
+    public QuestionCategory questionCategoryStringMapping(String categoryName) {
 
         return switch (categoryName) {
             case "상품 문의" -> QuestionCategory.PRODUCT_Q;
