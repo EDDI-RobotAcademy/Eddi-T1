@@ -120,7 +120,7 @@
                   </v-layout>
 
                   <v-card-subtitle align="center">
-                    <v-btn
+<!--                    <v-btn
                         small
                         outlined
                         elevation="0"
@@ -128,7 +128,99 @@
                         @click="inquiry()"
                     >
                       문의하기
-                    </v-btn>
+                    </v-btn>-->
+                    <v-dialog
+                        v-model="dialogQna"
+                        @click:outside="fn_cancel2"
+                        persistent
+                        max-width="568px"
+                        :retain-focus="false"
+                    >
+                      <template v-slot:activator="{on, attrs}">
+                        <v-btn
+                            small
+                            v-bind="attrs"
+                            v-on="on"
+                            width="98px"
+                            elevation="0"
+                            style="background-color: #2F4F4F; color: white; margin-top: -35px;"
+                            @click="setProductQna(i)"
+                        >
+                          문의하기
+                        </v-btn>
+                      </template>
+                      <v-card height="auto">
+                        <v-layout style="margin-left: 35px">
+                          <h3 style="padding: 20px 10px 10px 10px">문의 작성</h3>
+                          <v-spacer></v-spacer>
+                        </v-layout>
+
+                        <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
+
+                        <v-layout style="margin-left: 35px">
+                          <v-card max-width="100"
+                                  style="padding: 15px 15px 15px 15px"
+                                  flat
+                          >
+                            <v-img
+                                height="75px"
+                                :src="require(`@/assets/productImg/${qnaProductImg}`)">
+                            </v-img>
+                          </v-card>
+
+                          <v-card width="400px"
+                                  flat
+                                  tile
+                          >
+                            <v-card-title style="font-weight: bold; font-size: 15px">
+                              <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: qnaProductNo.toString() } }"
+                                           style="text-decoration: none; color: black">
+                                {{ qnaProductTitle }}
+                              </router-link>
+                            </v-card-title>
+
+                            <v-card-subtitle style="font-size: 12px">
+                              {{ qnaProductQuantity }}개
+                            </v-card-subtitle>
+                          </v-card>
+                        </v-layout>
+
+                        <v-divider style="margin: 10px 38px 10px 38px;"></v-divider>
+
+                        <div align="center">
+                          <v-card height="auto" width="500" flat style="border: 1px solid transparent">
+
+                            <v-select
+                                v-model="category" label="카테고리" color="#2F4F4F" :items="categoryList" required
+                                :rules="categoryRule"/>
+
+                            <v-text-field
+                                v-model="title" label="제목" color="#2F4F4F" required
+                                :rules="titleRule"/>
+
+                            <v-text-field
+                                :value="writer" label="작성자" color="#2F4F4F" readonly required/>
+
+                            <v-textarea
+                                v-model="content" label="내용" counter outlined clearable
+                                row-height="60" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
+                                :rules="contentRule"/>
+
+                            <v-checkbox v-model="checkStatus" row style="margin-top: -20px; color: #DAA520"
+                                        label="비밀글로 작성하기">
+                            </v-checkbox>
+
+                          </v-card>
+
+                          <v-btn style="margin-top: -90px; background-color: #2F4F4F; color: white" plain
+                          >
+                            등록하기
+                          </v-btn>
+                        </div>
+                      </v-card>
+                    </v-dialog>
+
                   </v-card-subtitle>
                 </v-card>
 
@@ -558,7 +650,31 @@ export default {
       reviewProductQuantity: 0,
       reviewProductImg: [],
       currentSelectedReviewProductNumber: 0,
-      reviewProductNo: 0
+      reviewProductNo: 0,
+
+
+      qnaProductImg: [],
+      qnaProductTitle: '',
+      currentSelectedQnaProductNumber: 0,
+      qnaProductNo: 0,
+      qnaProductQuantity: 0,
+
+      dialogQna: false,
+      writer: this.$store.state.memberInfoAfterSignIn.nickname,
+      category: '',
+      categoryList : ['상품문의', '배송문의', '환불/취소 문의','교환문의','기타'],
+      title: '',
+      content: '',
+      checkStatus: false,
+      categoryRule: [
+        v => !!v || '카테고리를 선택해주세요.'
+      ],
+      titleRule: [
+        v => !(v.length >= 70) || '70자 이상 입력할 수 없습니다.'
+      ],
+      contentRule: [
+        v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
+      ],
 
     }
   },
@@ -591,6 +707,9 @@ export default {
     fn_cancel() {
       this.dialog = false
     },
+    fn_cancel2() {
+      this.dialogQna = false
+    },
     setProductReview(i) {
       this.reviewProductTitle = this.myOrderInfoList[i].product.title
       this.reviewProductQuantity = this.myOrderInfoList[i].quantity
@@ -598,6 +717,14 @@ export default {
       this.reviewProductImg = this.myOrderInfoList[i].product.productImages[0].editedName
       this.currentSelectedReviewProductNumber = i
       this.reviewProductNo = this.myOrderInfoList[this.currentSelectedReviewProductNumber].product.productNo
+    },
+    setProductQna(i) {
+      this.qnaProductTitle = this.myOrderInfoList[i].product.title
+      this.qnaProductQuantity = this.myOrderInfoList[i].quantity
+
+      this.qnaProductImg = this.myOrderInfoList[i].product.productImages[0].editedName
+      this.currentSelectedQnaProductNumber = i
+      this.qnaProductNo = this.myOrderInfoList[this.currentSelectedReviewProductNumber].product.productNo
     },
   },
   async mounted(){
@@ -627,6 +754,10 @@ export default {
     //리뷰페이지 상품 이미지 받는 로직
     //상품 이미지 받기전 상품 이미지 받을 변수 초기화작업
     this.reviewProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
+
+    //문의페이지 상품 이미지 받는 로직
+    //문의 이미지 받기전 받을 변수 초기화
+    this.qnaProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
   }
 }
 </script>
