@@ -10,6 +10,7 @@ import team_project.buy_idea.controller.product.review.request.ReviewRegisterReq
 import team_project.buy_idea.entity.product.review.Review;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
 import team_project.buy_idea.service.product.review.ReviewService;
+import team_project.buy_idea.service.product.review.response.MyReviewResponse;
 
 import java.util.List;
 
@@ -93,5 +94,23 @@ public class ReviewController {
         log.info("reviewNo : " + reviewNo);
 
         reviewService.delete(reviewNo);
+    }
+
+    @GetMapping("/my-review/list/{writer}")
+    public List<MyReviewResponse> myReviewList(@PathVariable("writer") String writer) {
+        log.info("myReviewList()");
+        log.info("writer : " + writer);
+
+        return reviewService.getMyReviewList(writer);
+    }
+
+    @GetMapping("/check/write")
+    public boolean checkWriteReview(@RequestParam(value = "writer") String writer,
+                                    @RequestParam(value = "productNo") Long productNo) {
+        log.info("checkWriteReview()");
+        log.info("writer : " + writer);
+        log.info("productNo : " + productNo);
+
+        return reviewService.checkWriteReview(writer, productNo);
     }
 }

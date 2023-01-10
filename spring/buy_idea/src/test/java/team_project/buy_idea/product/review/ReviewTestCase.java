@@ -10,15 +10,14 @@ import org.springframework.mock.web.MockMultipartFile;
 import team_project.buy_idea.controller.product.review.request.ReviewModifyRequest;
 import team_project.buy_idea.controller.product.review.request.ReviewRegisterRequest;
 import team_project.buy_idea.entity.product.review.Review;
-import team_project.buy_idea.entity.product.review.ReviewImage;
 import team_project.buy_idea.repository.product.review.ReviewImageRepository;
 import team_project.buy_idea.repository.product.review.ReviewRepository;
 import team_project.buy_idea.repository.product.review.mapping.ReviewImageMapping;
 import team_project.buy_idea.service.product.review.ReviewService;
+import team_project.buy_idea.service.product.review.response.MyReviewResponse;
 
 import java.io.FileInputStream;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,7 +34,7 @@ public class ReviewTestCase {
 
     @Test
     void reviewRegisterTest() throws Exception {
-        ReviewRegisterRequest request = new ReviewRegisterRequest(1L, "굳굳맨", 4, "이 상품 너무 좋아요!");
+        ReviewRegisterRequest request = new ReviewRegisterRequest(1L, "체크체크", 5, "좋습니다.");
 
         MockMultipartFile file = new MockMultipartFile(
                 "image1", "review.jpg", "image/jpg",
@@ -45,9 +44,9 @@ public class ReviewTestCase {
         System.out.println("request : " + request);
         System.out.println("file : " + file);
 
-        for (int i = 0; i < 20; i++) {
-            reviewService.register(request, file);
-        }
+
+        reviewService.register(request, file);
+
     }
 
     @Test
@@ -100,5 +99,19 @@ public class ReviewTestCase {
     @Test
     void reviewDeleteTest() {
         reviewService.delete(29L);
+    }
+
+    @Test
+    void myReviewListTest() {
+        List<MyReviewResponse> myReviewList = reviewService.getMyReviewList("굳굳맨");
+
+        System.out.println(myReviewList);
+    }
+
+    @Test
+    void checkWriteReviewTest() {
+        boolean check = reviewService.checkWriteReview("체크체크", 1L);
+
+        System.out.println(check);
     }
 }
