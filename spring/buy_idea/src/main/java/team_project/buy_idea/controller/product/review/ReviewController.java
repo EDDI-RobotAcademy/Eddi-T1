@@ -103,4 +103,14 @@ public class ReviewController {
 
         return reviewService.getMyReviewList(writer);
     }
+
+    @GetMapping("/check/write")
+    public boolean checkWriteReview(@RequestParam(value = "writer") String writer,
+                                    @RequestParam(value = "productNo") Long productNo) {
+        log.info("checkWriteReview()");
+        log.info("writer : " + writer);
+        log.info("productNo : " + productNo);
+
+        return reviewService.checkWriteReview(writer, productNo);
+    }
 }

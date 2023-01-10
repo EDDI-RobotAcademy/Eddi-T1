@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import team_project.buy_idea.entity.product.review.Review;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
@@ -31,4 +32,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("select r from Review r join fetch r.product where r.writer = :writer order by r.reviewNo desc ")
     List<Review> findReviewsByWriter(@Param("writer") String writer);
+
+    @Query("select r from Review r join fetch r.product p where r.writer = :writer and p.productNo = :productNo")
+    Optional<Review> findReviewByWriterOnSpecificProduct(@Param("writer") String writer,
+                                                         @Param("productNo") Long productNo);
 }

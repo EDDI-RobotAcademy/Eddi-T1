@@ -255,4 +255,15 @@ public class ReviewServiceImpl implements ReviewService{
 
         return myReviewList;
     }
+
+    @Override
+    public boolean checkWriteReview(String writer, Long productNo) {
+
+        Optional<Review> maybeReview = reviewRepository.findReviewByWriterOnSpecificProduct(writer, productNo);
+
+        if(maybeReview.isPresent()) {
+            return true;
+        }
+        return false;
+    }
 }

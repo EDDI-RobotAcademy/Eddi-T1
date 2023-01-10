@@ -20,4 +20,5 @@ public interface ReviewService {
     void modify(ReviewModifyRequest request, MultipartFile file);
     void delete(Long reviewNo);
     List<MyReviewResponse> getMyReviewList(String writer);
+    boolean checkWriteReview(String writer, Long productNo);
 }
