@@ -680,7 +680,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      "requestRegisterQnaFromSpring"
+      "requestRegisterQnaFromSpring",
+      'requestRegisterReviewFromSpring'
     ]),
     handleImgFile(e) {
       this.files = {
@@ -712,6 +713,7 @@ export default {
       const files = this.files
 
       await this.requestRegisterReviewFromSpring({productNo, writer, starRating, content, files})
+      await this.$router.go(0)
     },
     fn_cancel() {
       this.dialog = false
