@@ -1,5 +1,6 @@
 import 'package:buy_idea/component/buyer/my_info/my_order_info/QnA/question_register_bottom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:switcher_button/switcher_button.dart';
 
@@ -21,12 +22,24 @@ class QuestionRegisterForm extends StatefulWidget {
 }
 
 class _QuestionRegisterFormState extends State<QuestionRegisterForm> {
-  List<String> dropdownList = ['상품문의', '배송문의', '환불/취소 문의', '교환문의', '기타'];
-  String selectedDropdown = '상품문의';
+  List<String> dropdownList = ['상품 문의', '배송 문의', '환불/취소 문의', '교환 문의', '기타'];
+  String selectedDropdown = '상품 문의';
   TextEditingController _contentController = TextEditingController();
-  String textValue = "";
+  static const storage = FlutterSecureStorage();
+  String textValue = '';
+  dynamic nickname = '';
   bool lockButton = true;
   final int maxLength = 500;
+
+  @override
+  void initState() {
+    _asyncMethod();
+    super.initState();
+  }
+
+  _asyncMethod() async {
+    nickname = await storage.read(key: 'nickname');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +136,7 @@ class _QuestionRegisterFormState extends State<QuestionRegisterForm> {
               size: 40.0,
               offColor: Color(0xFFf2f2f2),
               onColor: Color(0xFF2F4F4F),
-              onChange: (value){
+              onChange: (value) {
                 lockButton = value;
               },
             ),
@@ -132,7 +145,15 @@ class _QuestionRegisterFormState extends State<QuestionRegisterForm> {
           ],
         ),
         SizedBox(height: 60.0),
-        QuestionRegisterBottomButton(contentController: _contentController),
+        QuestionRegisterBottomButton(
+          contentController: _contentController,
+          productNo: widget.productNo,
+          writer: nickname,
+          questionCategory: selectedDropdown,
+          questionTitle: '문의합니다.',
+          questionContent: textValue,
+          openStatus: lockButton,
+        ),
       ],
     );
   }
