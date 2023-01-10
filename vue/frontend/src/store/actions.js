@@ -512,5 +512,27 @@ export default {
             })
             .catch(() => {});
 
-    }
+    },
+
+    /**
+     *  상품 문의 등록 axios
+     *  @param commit
+     *  @param payload nickname
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestRegisterQnaFromSpring({ }, payload) {
+        console.log("requestRegisterQnaFromSpring()")
+
+        const { productNo, writer, questionCategory, questionTitle, questionContent, openStatus } = payload
+        await axios.post('http://localhost:8888/qna/register',
+            { productNo, writer, questionCategory, questionTitle, questionContent, openStatus })
+            .then(() => {
+                alert("문의가 작성되었습니다.")
+                router.push({name: 'BuyerMyPageView'}).catch(() => {})
+            })
+            .catch(() => {
+                alert("정상적으로 등록되지 않았습니다.")
+            });
+    },
 }
