@@ -9,7 +9,7 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
     REQUEST_PRODUCT_FROM_SPRING, REQUEST_PRODUCT_LIST_FROM_SPRING,
     REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
-    REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING
+    REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING, REQUEST_SELLER_ORDER_LIST_FROM_SPRING
 
 } from './mutation-types'
 
@@ -534,5 +534,43 @@ export default {
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
             });
+    },
+
+    /**
+     * 판매자에게 들어온 주문상태별 주문내역 요청
+     * @param commit
+     * @param payload
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    requestSellerOrderListFromSpring ({ commit }, payload) {
+        console.log('requestSellerOrderListFromSpring()')
+        const {nickname, orderStatus} = payload;
+        console.log(payload);
+
+        return axios.post(`http://localhost:8888/order/seller-order-info-list`, {nickname, orderStatus})
+            .then((res) => {
+                console.log(res.data)
+
+                commit(REQUEST_SELLER_ORDER_LIST_FROM_SPRING, res.data)
+            })
+    },
+
+
+    /**
+     * 판매자 주문내역의 주문상태 변동 요청
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestOrderStatusModifyToSpring({  }, payload){
+        console.log('requestOrderStatusModifyToSpring()')
+        const {orderInfoId, orderStatus} = payload;
+        console.log("payload :" + payload);
+
+        await axios.post('http://localhost:8888/order/status-modify/', {orderInfoId, orderStatus})
+            .then(() => {
+                history.go(0)
+            })
+
     },
 }

@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import team_project.buy_idea.controller.order.request.AddressRequest;
 import team_project.buy_idea.controller.order.request.OrderInfoRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
+import team_project.buy_idea.controller.order.request.OrderStatusRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.repository.order.OrderInfoRepository;
 import team_project.buy_idea.service.order.OrderInfoService;
@@ -29,10 +30,14 @@ public class OrderTestCase {
 
         List<OrderInfoRequest> orderInfoRequestList = new ArrayList<>();
 
-//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘", 19L,2,"입금완료"));
-//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",20L,1,"입금완료"));
-//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",17L,4,"배송중"));
-//        orderInfoRequestList.add(new OrderInfoRequest("쏘쏘",15L,2,"배송완료"));
+
+        orderInfoRequestList.add(new OrderInfoRequest("재범1", 1L,2));
+        orderInfoRequestList.add(new OrderInfoRequest("재범2",2L,1));
+        orderInfoRequestList.add(new OrderInfoRequest("재범3",3L,4));
+        orderInfoRequestList.add(new OrderInfoRequest("재범4",4L,2));
+        orderInfoRequestList.add(new OrderInfoRequest("재범5",5L,5));
+        orderInfoRequestList.add(new OrderInfoRequest("재범6",42L,1));
+        orderInfoRequestList.add(new OrderInfoRequest("재범7",43L,3));
 
 
         AddressRequest addressRequest = new AddressRequest(
@@ -79,7 +84,18 @@ public class OrderTestCase {
 
     @Test
     void setOrderStatus() {
-        OrderStatusModifyRequest orderStatusModifyRequest = new OrderStatusModifyRequest(5L, "배송중");
+        OrderStatusModifyRequest orderStatusModifyRequest = new OrderStatusModifyRequest(2L, "배송 완료");
         orderInfoService.myOrderStatusModify(orderStatusModifyRequest);
     }
+
+    @Test
+    void getSellerOrderInfoList() {
+        OrderStatusRequest orderStatusRequest = new OrderStatusRequest("쿤", "결제 완료");
+
+
+        System.out.println(orderInfoService.SellerOrderInfoList(orderStatusRequest));
+
+    }
+
+
 }
