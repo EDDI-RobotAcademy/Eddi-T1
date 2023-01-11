@@ -112,7 +112,7 @@ class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
                 children: [
                   SizedBox(
                     width: 350.0,
-                    child: Text('[${widget.nickname}] ${widget.title}}',
+                    child: Text('[${widget.nickname}] ${widget.title}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: Color(0xFF2F4F4F))),
@@ -172,7 +172,7 @@ class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text('${widget.nickname}} | ',
+                        Text('${widget.nickname} | ',
                             style: TextStyle(color: Colors.grey, fontSize: 12)),
                         Text(updDateFormat,
                             style: TextStyle(color: Colors.grey, fontSize: 12)),

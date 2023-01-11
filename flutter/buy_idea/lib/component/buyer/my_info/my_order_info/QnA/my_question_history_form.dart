@@ -60,14 +60,8 @@ class _MyQuestionHistoryFormState extends State<MyQuestionHistoryForm> {
   @override
   Widget build(BuildContext context) {
     if (!loading) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            color: Colors.white,
-              child: CircularProgressIndicator(color: Color(0XFF2F4F4F))),
-        ],
+      return Center(
+        child: CircularProgressIndicator(color: Color(0XFF2F4F4F)),
       );
     } else {
       if (myQnaHistoryList.isEmpty) {

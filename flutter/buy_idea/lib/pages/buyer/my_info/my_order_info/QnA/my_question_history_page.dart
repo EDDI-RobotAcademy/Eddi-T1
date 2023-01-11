@@ -14,16 +14,10 @@ class _MyQuestionHistoryPageState extends State<MyQuestionHistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TitleTopBar(titleText: '나의 문의내역'),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        color: Colors.grey,
-        child: Column(
-          children: [
-            MyQuestionHistoryForm()
-          ],
-        ),
-      )
-    );
+        appBar: const TitleTopBar(titleText: '나의 문의내역'),
+        body: Container(
+            width: MediaQuery.of(context).size.width,
+            color: Colors.grey[300],
+            child: MyQuestionHistoryForm()));
   }
 }
