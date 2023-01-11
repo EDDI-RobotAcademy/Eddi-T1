@@ -698,11 +698,8 @@ export default {
       const questionContent = this.qnaContent
       const openStatus =  this.checkStatus == true ? false : true
 
-      console.log('openStatus: ' + openStatus)
-      console.log(productNo, writer, questionCategory, questionTitle, questionContent, openStatus)
-
       await this.requestRegisterQnaFromSpring({productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
-
+      this.dialogQna = false
     },
     async registerReview() {
 
