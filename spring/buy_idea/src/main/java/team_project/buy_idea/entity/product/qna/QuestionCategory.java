@@ -1,9 +1,5 @@
 package team_project.buy_idea.entity.product.qna;
-
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import java.util.Arrays;
 
 @Getter
 public enum QuestionCategory {

@@ -1,7 +1,5 @@
 package team_project.buy_idea.entity.product.qna;
-
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public enum AnswerStatus {
