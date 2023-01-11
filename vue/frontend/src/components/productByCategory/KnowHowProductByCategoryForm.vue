@@ -1,0 +1,108 @@
+<template>
+  <v-container style="width: 1200px; margin-top: 50px;">
+    <h2>{{ categoryName }}</h2>
+
+    <v-layout style="margin-top: 50px;">
+      <v-row class="justify-start">
+        <div v-for="(item, index) in productListByCategory" :key="index">
+          <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString() } }"
+                       style="text-decoration: none; color: black"
+          >
+            <v-hover
+                v-slot="{ hover } "
+            >
+              <v-card
+                  :elevation="hover ? 16 : 0"
+                  :class="{'on-hover' : hover}"
+                  class="ma-4"
+                  max-width="265"
+                  flat
+              >
+                <v-img
+                    class="white--text align-end"
+                    height="265px"
+                    :src="getProductThumbnail(index).productThumbnailListByCategory"
+                >
+                </v-img>
+                <div style="padding: 10px 10px 10px 10px">
+                  <div style="margin-top: 3px; color: darkgray;">
+                    <h6>{{ item.nickname }}</h6>
+                  </div>
+
+                  <div style="padding: 5px 10px 10px 5px; height: 60px;">
+                    <h4>{{ item.title }}</h4>
+                  </div>
+
+                  <div align="end">
+                    <h5>{{ item.price | comma }}원</h5>
+                  </div>
+                </div>
+
+              </v-card>
+            </v-hover>
+          </router-link>
+        </div>
+      </v-row>
+    </v-layout>
+  </v-container>
+
+</template>
+
+<script>
+import {mapActions, mapState} from "vuex";
+
+export default {
+  name: "KnowHowProductByCategoryForm",
+  props: {
+    categoryName: {
+      type: String
+    },
+    productListByCategory: {
+      type: Array
+    },
+  },
+  computed: {
+    ...mapState([
+      'mainPageProductImgListByKnowHOw',
+      'mainPageProductListByKnowHow',
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'requestProductImgListToSpring',
+
+    ]),
+    getProductThumbnail(index) {
+      return {
+        ...this.mainPageProductImgListByKnowHOw,
+        productThumbnailListByCategory: this.mainPageProductImgListByKnowHOw[index] && require(`@/assets/productImg/${this.mainPageProductImgListByKnowHOw[index]}`)
+      }
+    },
+    getMainPageProductImgByKnowhow() {
+
+      const category = this.categoryName
+      //상품 받아오기
+      this.mainPageProductImgListByKnowHOw.splice(0)
+      for (let j = 0; j < this.mainPageProductListByKnowHow.length; j++) {
+        let productNo = this.mainPageProductListByKnowHow[j].productNo;
+
+        this.requestProductImgListToSpring({productNo, category});
+      }
+    },
+  },
+  filters: {
+    comma(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  },
+  mounted() {
+    console.log()
+    this.getMainPageProductImgByKnowhow()
+  },
+}
+</script>
+
+<style scoped>
+
+</style>
