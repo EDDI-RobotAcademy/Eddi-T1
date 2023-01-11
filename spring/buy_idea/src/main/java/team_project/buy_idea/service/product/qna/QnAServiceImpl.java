@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @Slf4j
 @Service
 public class QnAServiceImpl implements QnAService {
@@ -64,6 +65,7 @@ public class QnAServiceImpl implements QnAService {
     public List<QnaHistoryResponse> questionHistoryList(String writer) {
         List<QnaHistoryResponse> qnaHistoryResponseList = new ArrayList<>();
         List<QnA> qnAList = qnARepository.findQnaHistoryByWriter(writer);
+
         for (int i = 0; i < qnAList.size(); i++) {
             qnaHistoryResponseList.add(
                     new QnaHistoryResponse(
@@ -71,11 +73,11 @@ public class QnAServiceImpl implements QnAService {
                             qnAList.get(i).getProduct().getTitle(),
                             qnAList.get(i).getWriter(),
                             qnAList.get(i).getProduct().getNickname(),
-                            qnAList.get(i).getQuestionCategory().name(),
+                            qnAList.get(i).getQuestionCategory().questionCategory(),
                             qnAList.get(i).getQuestionTitle(),
                             qnAList.get(i).getQuestionContent(),
                             qnAList.get(i).getAnswer(),
-                            qnAList.get(i).getAnswerStatus().name(),
+                            qnAList.get(i).getAnswerStatus().answerStatus(),
                             qnAList.get(i).getRegDate(),
                             qnAList.get(i).getUpdDate(),
                             qnAList.get(i).isOpenStatus()

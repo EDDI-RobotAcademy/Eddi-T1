@@ -3,8 +3,9 @@ package team_project.buy_idea.entity.product.qna;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+
 @Getter
-@RequiredArgsConstructor
 public enum QuestionCategory {
 
     PRODUCT_Q("상품 문의"),
@@ -15,4 +16,11 @@ public enum QuestionCategory {
 
     private final String questionCategory;
 
+    QuestionCategory(String questionCategory){
+        this.questionCategory = questionCategory;
+    }
+
+    public String questionCategory() {
+        return questionCategory;
+    }
 }
