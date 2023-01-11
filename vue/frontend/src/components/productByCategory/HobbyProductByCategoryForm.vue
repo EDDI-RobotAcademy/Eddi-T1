@@ -3,7 +3,7 @@
     <h2>{{ categoryName }}</h2>
 
     <v-layout style="margin-top: 50px;">
-      <v-row class="justify-center">
+      <v-row class="justify-start">
         <div v-for="(item, index) in productListByCategory" :key="index">
           <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString() } }"
@@ -14,8 +14,8 @@
             >
               <v-card
                   :elevation="hover ? 16 : 0"
-                  class="ma-4"
                   :class="{'on-hover' : hover}"
+                  class="ma-4"
                   max-width="265"
                   flat
               >
@@ -27,7 +27,7 @@
                 </v-img>
                 <div style="padding: 10px 10px 10px 10px">
                   <div style="margin-top: 3px; color: darkgray;">
-                    <h6>{{item.nickname}}</h6>
+                    <h6>{{ item.nickname }}</h6>
                   </div>
 
                   <div style="padding: 5px 10px 10px 5px; height: 60px;">
@@ -50,24 +50,44 @@
 </template>
 
 <script>
+import {mapActions, mapState} from "vuex";
+
 export default {
-  name: "ProductByCategoryForm",
+  name: "HobbyProductByCategoryForm",
   props: {
     categoryName: {
       type: String
     },
-    productListByCategory:{
+    productListByCategory: {
       type: Array
     },
-    productThumbnailListByCategory:{
-      type: Array
-    }
   },
-  methods:{
-    getProductThumbnail(index){
+  computed: {
+    ...mapState([
+      'mainPageProductImgListByHobby',
+      'mainPageProductListByHobby',
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'requestProductImgListToSpring',
+
+    ]),
+    getProductThumbnail(index) {
       return {
-        ...this.productThumbnailListByCategory,
-        productThumbnailListByCategory: this.productThumbnailListByCategory[index] && require(`@/assets/productImg/${this.productThumbnailListByCategory[index]}`)
+        ...this.mainPageProductImgListByHobby,
+        productThumbnailListByCategory: this.mainPageProductImgListByHobby[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHobby[index]}`)
+      }
+    },
+    getMainPageProductImgByHobby() {
+
+      const category = this.categoryName
+      //상품 받아오기
+      this.mainPageProductImgListByHobby.splice(0)
+      for (let j = 0; j < this.mainPageProductListByHobby.length; j++) {
+        let productNo = this.mainPageProductListByHobby[j].productNo;
+
+        this.requestProductImgListToSpring({productNo, category});
       }
     },
   },
@@ -75,6 +95,9 @@ export default {
     comma(val) {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+  },
+  mounted() {
+    this.getMainPageProductImgByHobby()
   },
 }
 </script>

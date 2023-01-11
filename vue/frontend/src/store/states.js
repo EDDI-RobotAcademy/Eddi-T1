@@ -14,4 +14,6 @@ export default {
     productList: [],
     myOrderInfoList: [],
     searchResultList: [],
+    mainPageNextProductList: [],
+    mainPageNextProductImgList: [],
 }

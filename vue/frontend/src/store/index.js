@@ -16,7 +16,10 @@ export default new Vuex.Store({
             'signInCheckValue',
             'memberInfoAfterSignIn',
             'userToken',
-            'searchResultList'
+            'searchResultList',
+            'mainPageProductListByHandmade',
+            'mainPageProductListByKnowHow',
+            'mainPageProductListByHobby'
         ]
       })
   ],
