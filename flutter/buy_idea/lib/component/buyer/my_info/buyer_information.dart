@@ -1,4 +1,5 @@
 import 'package:buy_idea/pages/buyer/my_info/my_order_info/my_order_info_page.dart';
+import 'package:buy_idea/pages/buyer/my_info/my_order_info/review/my_review_page.dart';
 import 'package:buy_idea/utility/size.dart';
 import 'package:flutter/material.dart';
 import '../../../pages/buyer/my_info/my_order_info/QnA/my_question_history_page.dart';
@@ -101,7 +102,9 @@ class _BuyerInformationState extends State<BuyerInformation> {
               BuyerInfoCard(
                 iconData: Icons.note_alt_outlined,
                 menuTitle: '나의 후기',
-                onCustomButtonPressed: () {},
+                onCustomButtonPressed: () {
+                  Get.to(MyReviewPage(writer: widget.memberNickname));
+                },
               ),
             ],
           ),
