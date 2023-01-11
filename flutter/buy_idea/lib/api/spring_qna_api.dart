@@ -44,6 +44,28 @@ class SpringQnaApi {
       throw Exception('orderRegister() 에러 발생');
     }
   }
+
+  Future<List<MyQuestionHistoryInfo>> getQnaListByProductNo(int productNo) async {
+    debugPrint('getQnaListByProductNo()');
+    var body = json.encode(productNo);
+
+    var response = await http.post(Uri.http(httpUri, '/qna/p-history-list/$productNo'),
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    if (response.statusCode == 200) {
+
+      List<MyQuestionHistoryInfo> quaList = data
+          .map((list) => MyQuestionHistoryInfo.fromJson(list))
+          .toList();
+
+      debugPrint('통신 확인');
+      return quaList;
+    } else {
+      throw Exception('orderRegister() 에러 발생');
+    }
+  }
 }
 
 class Question {
