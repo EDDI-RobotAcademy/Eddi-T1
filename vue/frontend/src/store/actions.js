@@ -9,6 +9,7 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
     REQUEST_PRODUCT_FROM_SPRING, REQUEST_PRODUCT_LIST_FROM_SPRING,
     REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
+    REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING
 
 } from './mutation-types'
 
@@ -487,6 +488,47 @@ export default {
         })
             .then(() => {
                 alert("리뷰가 작성되었습니다.")
+                router.push({name: 'BuyerMyPageView'}).catch(() => {})
+            })
+            .catch(() => {
+                alert("정상적으로 등록되지 않았습니다.")
+            });
+    },
+
+    /**
+     *  검색 axios
+     *  @param commit
+     *  @param payload searchWord
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestSearchBySearchTermToSpring({ commit }, payload){
+        console.log("requestSearchBySearchTermToSpring" + payload)
+
+        const keyword = payload
+        await axios.get(`http://localhost:8888/product/search/${keyword}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING, res.data);
+            })
+            .catch(() => {});
+
+    },
+
+    /**
+     *  상품 문의 등록 axios
+     *  @param commit
+     *  @param payload nickname
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestRegisterQnaFromSpring({ }, payload) {
+        console.log("requestRegisterQnaFromSpring()")
+
+        const { productNo, writer, questionCategory, questionTitle, questionContent, openStatus } = payload
+        await axios.post('http://localhost:8888/qna/register',
+            { productNo, writer, questionCategory, questionTitle, questionContent, openStatus })
+            .then(() => {
+                alert("문의가 작성되었습니다.")
                 router.push({name: 'BuyerMyPageView'}).catch(() => {})
             })
             .catch(() => {

@@ -186,6 +186,41 @@ class SpringReviewApi {
       throw Exception("productReviewDelete() 에러 발생");
     }
   }
+
+  Future<List<RequestMyReview>> myReviewList(String writer) async {
+
+    var response = await http.get(
+      Uri.http(httpUri, '/review/my-review/list/$writer'),
+      headers: {'Content-Type' : 'application/json'}
+    );
+
+    if (response.statusCode == 200) {
+      debugPrint("myReviewList() 통신 확인");
+      var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+      List<RequestMyReview> myReviewList = data.map((list) => RequestMyReview.fromJson(list)).toList();
+
+      return myReviewList;
+    } else {
+      throw Exception("myReviewList() 에러 발생");
+    }
+  }
+
+  Future<bool> checkWriteReview(String writer, int productNo) async {
+
+    var response = await http.get(
+      Uri.http(httpUri, '/review/check/write', {'writer' : writer, 'productNo' : productNo.toString()}),
+      headers: {'Content-Type' : 'application/json'}
+    );
+
+
+    if (response.statusCode == 200) {
+      debugPrint("checkWriteReview() 통신 확인");
+      bool check = response.body.toLowerCase() == 'true';
+      return check;
+    } else {
+      throw Exception("checkWriteReview() 에러 발생");
+    }
+  }
 }
 
 class RequestProductReview {
@@ -245,4 +280,39 @@ class ProductReviewRegisterInfo {
     this.image,
     this.content
   );
+}
+
+class RequestMyReview {
+  int reviewNo;
+  String writer;
+  int starRating;
+  String content;
+  String regDate;
+  String updDate;
+  int productNo;
+  String productTitle;
+
+  RequestMyReview({
+    required this.reviewNo,
+    required this.writer,
+    required this.starRating,
+    required this.content,
+    required this.regDate,
+    required this.updDate,
+    required this.productNo,
+    required this.productTitle
+  });
+
+  factory RequestMyReview.fromJson(Map<String, dynamic> json) {
+    return RequestMyReview(
+      reviewNo: json['reviewNo'],
+      writer: json['writer'],
+      starRating: json['starRating'],
+      content: json['content'],
+      regDate: json['regDate'],
+      updDate: json['updDate'],
+      productNo: json['productNo'],
+      productTitle: json['productTitle']
+    );
+  }
 }

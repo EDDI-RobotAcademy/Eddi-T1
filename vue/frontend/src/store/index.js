@@ -12,7 +12,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins:[
       createPersistedState({
-        paths: ['signInCheckValue','memberInfoAfterSignIn', 'userToken']
+        paths: [
+            'signInCheckValue',
+            'memberInfoAfterSignIn',
+            'userToken',
+            'searchResultList'
+        ]
       })
   ],
   state,

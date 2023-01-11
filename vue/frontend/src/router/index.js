@@ -25,9 +25,17 @@ import KnowhowCategoryView from "@/views/productByCategory/KnowhowCategoryView";
 import HobbyCategoryView from "@/views/productByCategory/HobbyCategoryView";
 
 import OrderDetailView from "@/views/buyerMyPage/OrderDetailView";
+import SearchView from "@/views/product/search/SearchView";
 
 
 Vue.use(VueRouter)
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location){
+  return originalPush.call(this, location).catch(err => {
+    if (err.name !== 'NavigationDuplicated') throw err;
+  });
+}
 
 const routes = [
   {
@@ -163,6 +171,18 @@ const routes = [
       default: true
     }
   },
+  {
+    path: '/search',
+    name: 'SearchView',
+    components: {
+      default: SearchView
+    },
+    props:{
+      default: true
+    }
+  },
+
+
 ]
 
 
