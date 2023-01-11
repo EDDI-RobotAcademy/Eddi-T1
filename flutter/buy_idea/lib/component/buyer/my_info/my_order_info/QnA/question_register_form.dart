@@ -152,7 +152,7 @@ class _QuestionRegisterFormState extends State<QuestionRegisterForm> {
           questionCategory: selectedDropdown,
           questionTitle: '문의합니다.',
           questionContent: textValue,
-          openStatus: lockButton,
+          openStatus: !lockButton,
         ),
       ],
     );

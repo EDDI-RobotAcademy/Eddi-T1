@@ -6,6 +6,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import team_project.buy_idea.controller.product.qna.request.QuestionRegisterRequest;
 import team_project.buy_idea.service.product.qna.QnAService;
+import team_project.buy_idea.service.product.qna.response.QnaHistoryResponse;
+
+import java.util.List;
 
 
 @SpringBootTest
@@ -25,5 +28,11 @@ public class QnATestCase {
                 "문의 내용", true);
 
         qnAService.register(request);
+    }
+
+    @Test
+    void qnaHistoryList() {
+        List<QnaHistoryResponse> qnaHistoryResponseList = qnAService.questionHistoryList("ANNA");
+        System.out.println("qnaHistoryResponseList : " + qnaHistoryResponseList.get(0));
     }
 }
