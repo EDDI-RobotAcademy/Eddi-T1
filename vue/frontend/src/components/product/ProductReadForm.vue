@@ -252,8 +252,12 @@
             <v-tab-item>
 
               <v-card flat>
-                <v-card-title>상품 상세 설명</v-card-title>
-                <v-card-text>
+<!--                <v-card-title>상품 상세 설명</v-card-title>-->
+                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                  상품 상세 설명
+                </v-card-title>
+                <v-card-text class="mt-5">
                   <v-textarea
                       solo
                       flat
@@ -272,24 +276,50 @@
             <v-tab-item>
 
               <v-card flat height="800px">
-                <v-card-title>상품 정보 제공 고시</v-card-title>
-                <v-card-text>{{ product.productInfo.infoNotice }}
+                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                  상품 정보 제공 고시
+                </v-card-title>
+                <v-card-text
+                    class="mt-5"
+                    style="font-weight: bold">
+                  {{ product.productInfo.infoNotice }}
                 </v-card-text>
               </v-card>
 
             </v-tab-item>
 
             <v-tab-item>
-              <v-card flat height="800px">
-                <v-card-title>상품 후기</v-card-title>
-                <v-card-text>상품 구매 후기</v-card-text>
+              <v-card flat height="auto">
+                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                  상품 후기
+                </v-card-title>
+                <v-card-text>상품에 대한 후기를 보는 공간입니다. <br/>
+                  구매한 상품의 <strong>후기는 구매내역의 주문상세보기에서 작성</strong> 가능합니다. <br/>
+                  후기 작성은 배송완료 시점부터 가능합니다. <br/>
+                  <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
+                </v-card-text>
+                <hr color="#DAA520" width="100%">
+
+<!--                <test-form/>-->
+
               </v-card>
             </v-tab-item>
 
             <v-tab-item>
-              <v-card flat height="800px">
-                <v-card-title>상품 문의</v-card-title>
-                <v-card-text>상품 문의</v-card-text>
+              <v-card flat height="auto">
+                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                  상품 문의
+                </v-card-title>
+
+                <v-card-text>상품에 대한 문의를 남기는 공간입니다. <br/>
+                  구매한 상품의 <strong>취소/환불은 구매내역의 주문상세보기에서 신청</strong> 가능합니다. <br/>
+                  상품문의 및 후기게시판을 통해 취소나 환불은 처리되지 않습니다. <br/>
+                  <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
+                </v-card-text>
+                <qna-form/>
               </v-card>
             </v-tab-item>
 
@@ -307,9 +337,11 @@
 
 
 import {mapActions} from "vuex";
+import QnaForm from "@/components/product/qna/QnaForm";
 
 export default {
   name: "ProductReadForm",
+  components: {QnaForm},
   props: {
     productNo: {
       type: String,
