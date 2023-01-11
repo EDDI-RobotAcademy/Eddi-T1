@@ -713,7 +713,7 @@ export default {
       const files = this.files
 
       await this.requestRegisterReviewFromSpring({productNo, writer, starRating, content, files})
-      await this.$router.go(0)
+      this.dialog = false
     },
     fn_cancel() {
       this.dialog = false
