@@ -342,9 +342,12 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                             style: TextStyle(color: Colors.grey),
                             textAlign: TextAlign.start,
                           )),
-                      Text(
-                          '(${myOrderSliceAddressList[0].zipcode}) ${myOrderSliceAddressList[0].city} '
-                          '${myOrderSliceAddressList[0].street} ${myOrderSliceAddressList[0].addressDetail}')
+                      SizedBox(
+                        width: 300.0,
+                        child: Text(
+                            '(${myOrderSliceAddressList[0].zipcode}) ${myOrderSliceAddressList[0].city} '
+                            '${myOrderSliceAddressList[0].street} ${myOrderSliceAddressList[0].addressDetail}'),
+                      )
                     ],
                   ),
                   SizedBox(height: 60.0),
