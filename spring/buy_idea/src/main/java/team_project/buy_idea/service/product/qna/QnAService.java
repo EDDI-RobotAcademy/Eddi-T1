@@ -8,4 +8,5 @@ import java.util.List;
 public interface QnAService {
     void register(QuestionRegisterRequest request);
     List<QnaHistoryResponse> questionHistoryList(String writer);
+    List<QnaHistoryResponse> questionHistoryListByproductNo(Long productNo);
 }

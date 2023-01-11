@@ -58,14 +58,39 @@ public class QnAServiceImpl implements QnAService {
     }
 
     /**
-     * 일반회원이 문의한 내역 List
+     * 작성자로 찾는 문의 내역 List
      *
-     * @param writer 일반회원(작성자)
+     * @param writer 작성자(일반회원 닉네임)
+     * @return 문의 내역 리스트
      */
     public List<QnaHistoryResponse> questionHistoryList(String writer) {
         List<QnaHistoryResponse> qnaHistoryResponseList = new ArrayList<>();
         List<QnA> qnAList = qnARepository.findQnaHistoryByWriter(writer);
 
+        return getQnaHistoryResponses(qnaHistoryResponseList, qnAList);
+    }
+
+    /**
+     * 상품 번호로 찾는 문의 내역 List
+     *
+     * @param productNo 상품 번호
+     * @return 문의 내역 리스트
+     */
+    public List<QnaHistoryResponse> questionHistoryListByproductNo(Long productNo) {
+        List<QnaHistoryResponse> qnaHistoryResponseList = new ArrayList<>();
+        List<QnA> qnAList = qnARepository.findQnaHistoryByProductNo(productNo);
+
+        return getQnaHistoryResponses(qnaHistoryResponseList, qnAList);
+    }
+
+    /**
+     * 문의 내역 리스트를 QnaHistoryResponse에 저장하는 시스템
+     * @param qnaHistoryResponseList 담을 QnaHistoryResponse 리스트
+     * @param qnAList 찾은 리스트
+     * @return response 형태에 저장한 리스트
+     */
+    private List<QnaHistoryResponse> getQnaHistoryResponses(
+            List<QnaHistoryResponse> qnaHistoryResponseList, List<QnA> qnAList) {
         for (int i = 0; i < qnAList.size(); i++) {
             qnaHistoryResponseList.add(
                     new QnaHistoryResponse(
@@ -83,7 +108,6 @@ public class QnAServiceImpl implements QnAService {
                             qnAList.get(i).isOpenStatus()
                     ));
         }
-
         return qnaHistoryResponseList;
     }
 
