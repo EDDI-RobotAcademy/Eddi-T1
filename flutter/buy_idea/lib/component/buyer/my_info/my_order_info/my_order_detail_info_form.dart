@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../api/spring_review_api.dart';
 import '../../../../pages/buyer/my_info/my_order_info/QnA/question_register_page.dart';
 import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import '../../../../pages/buyer/product/product_details_page.dart';
@@ -32,7 +33,7 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
   final List<Address> myOrderSliceAddressList = [];
   var totalPrice = 0;
   var totalDeliveryFee = 0;
-
+  bool check = true;
   var f = NumberFormat('###,###,###,###');
 
   @override
@@ -65,6 +66,11 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
     } else {
       throw 'Could not launch $_url';
     }
+  }
+
+  _reviewCheckAction(int productNo) async {
+    check = await SpringReviewApi()
+        .checkWriteReview(widget.memberNickname, productNo);
   }
 
   @override
@@ -209,10 +215,17 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                         onPressed: () {
                                           /// 문의 등록 페이지
                                           Get.to(QuestionRegisterPage(
-                                            productNo: widget.myOrderSliceList[index].productNo,
-                                            productImage: widget.myOrderSliceList[index].image,
-                                            productTitle: widget.myOrderSliceList[index].title,
-                                            nickname: widget.myOrderSliceList[index].nickname,));
+                                            productNo: widget
+                                                .myOrderSliceList[index]
+                                                .productNo,
+                                            productImage: widget
+                                                .myOrderSliceList[index].image,
+                                            productTitle: widget
+                                                .myOrderSliceList[index].title,
+                                            nickname: widget
+                                                .myOrderSliceList[index]
+                                                .nickname,
+                                          ));
                                         },
                                         child: const Text('문의하기',
                                             style: TextStyle(
@@ -231,29 +244,55 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                       if (widget.myOrderSliceList[index]
                                               .orderStatus ==
                                           'DELIVERED')
-                                        Container(
-                                          width: 115.0,
-                                          child: TextButton(
-                                              onPressed: () {
-                                                Get.to(ReviewRegisterPage(
-                                                    productNo: widget
-                                                        .myOrderSliceList[index]
-                                                        .productNo,
-                                                    productTitle: widget
-                                                        .myOrderSliceList[index]
-                                                        .title));
-                                              },
-                                              child: const Text('리뷰 등록',
-                                                  style: TextStyle(
-                                                      color: Color(0xFF2F4F4F),
-                                                      fontSize: 12)),
-                                              style: ElevatedButton.styleFrom(
-                                                  side: const BorderSide(
-                                                      color: Color(0xFF2F4F4F),
-                                                      width: 1.0),
-                                                  elevation: 0,
-                                                  primary: Colors.white)),
-                                        )
+                                        if (_reviewCheckAction(widget
+                                                .myOrderSliceList[index]
+                                                .productNo) ==
+                                            false)
+                                          Container(
+                                            width: 115.0,
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Get.to(ReviewRegisterPage(
+                                                      productNo: widget
+                                                          .myOrderSliceList[
+                                                              index]
+                                                          .productNo,
+                                                      productTitle: widget
+                                                          .myOrderSliceList[
+                                                              index]
+                                                          .title));
+                                                },
+                                                child: const Text('리뷰 등록',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF2F4F4F),
+                                                        fontSize: 12)),
+                                                style: ElevatedButton.styleFrom(
+                                                    side: const BorderSide(
+                                                        color:
+                                                            Color(0xFF2F4F4F),
+                                                        width: 1.0),
+                                                    elevation: 0,
+                                                    primary: Colors.white)),
+                                          )
+                                        else
+                                          Container(
+                                            width: 115.0,
+                                            child: TextButton(
+                                                onPressed: () {},
+                                                child: const Text('리뷰 등록',
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12)),
+                                                style: ElevatedButton.styleFrom(
+                                                    splashFactory:
+                                                        NoSplash.splashFactory,
+                                                    side: const BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 1.0),
+                                                    elevation: 0,
+                                                    primary: Colors.white)),
+                                          )
                                       else
                                         Container(
                                           width: 115.0,
