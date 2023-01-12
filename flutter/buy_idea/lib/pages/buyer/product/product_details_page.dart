@@ -10,6 +10,8 @@ import 'package:buy_idea/pages/buyer/shopping_bucket/shopping_bucket_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../component/buyer/product/QnA/product_qna_form.dart';
+
 class ProductDetailsPage extends StatefulWidget {
   final int productNo;
   const ProductDetailsPage({Key? key, required this.productNo}) : super(key: key);
@@ -160,7 +162,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
                     children: [
                       ProductInfoForm(content: product.content),
                       ProductReviewForm(productNo: widget.productNo, reviewSize: 3, nextReviewSize: 5, reviewCount: reviewCount),
-                      Text('문의'),
+                      ProductQnaForm(productNo: widget.productNo, title: product.title, image: productImageList[0].editedName, nickname: product.nickname,),
                     ]
                 ),
               ),

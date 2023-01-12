@@ -39,6 +39,7 @@ class _MyQuestionHistoryFormState extends State<MyQuestionHistoryForm> {
     for (var i = 0; i < qnaLists.length; i++) {
       myQnaHistoryList.add(MyQuestionHistoryInfo(
           productNo: qnaLists[i].productNo,
+          qnaNo: qnaLists[i].qnaNo,
           title: qnaLists[i].title,
           writer: qnaLists[i].writer,
           nickname: qnaLists[i].nickname,
@@ -75,6 +76,7 @@ class _MyQuestionHistoryFormState extends State<MyQuestionHistoryForm> {
           itemBuilder: (BuildContext context, int index) {
             return MyQuestionHistoryCard(
                 productNo: myQnaHistoryList[index].productNo,
+                qnaNo: myQnaHistoryList[index].qnaNo,
                 title: myQnaHistoryList[index].title,
                 writer: myQnaHistoryList[index].writer,
                 nickname: myQnaHistoryList[index].nickname,
