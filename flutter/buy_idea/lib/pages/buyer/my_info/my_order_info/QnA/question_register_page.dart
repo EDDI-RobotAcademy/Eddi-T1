@@ -1,7 +1,10 @@
 import 'package:buy_idea/component/buyer/my_info/my_order_info/QnA/question_register_form.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../../component/buyer/app_bar/title_top_bar.dart';
+import 'my_question_history_page.dart';
 
 class QuestionRegisterPage extends StatefulWidget {
   const QuestionRegisterPage(
@@ -53,6 +56,7 @@ class _QuestionRegisterPageState extends State<QuestionRegisterPage> {
                     InkWell(
                       onTap: (){
                         ///문의 내역 페이지 연결
+                        Get.to(MyQuestionHistoryPage());
                       },
                       child: Text('문의내역 바로가기 >',
                           style: TextStyle(

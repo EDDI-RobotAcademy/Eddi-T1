@@ -32,6 +32,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       loading = false;
     });
     memberNickname = await _storage.read(key: 'nickname');
+    setState(() {
+      memberNickname = memberNickname;
+    });
     List<MyOrderInfoProduct> orderInfoList =
         await SpringMyInfoApi().myOrderInfoList(memberNickname);
 
@@ -87,6 +90,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                     return MyOrderInfoForm(
                       orderNo: orderNoList.elementAt(index),
                       orderDate: orderDateList.elementAt(index),
+                      memberNickname: memberNickname,
                     );
                   }),
             ),

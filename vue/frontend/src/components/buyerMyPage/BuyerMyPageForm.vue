@@ -680,7 +680,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      "requestRegisterQnaFromSpring",
+      'requestRegisterQnaFromSpring',
       'requestRegisterReviewFromSpring'
     ]),
     handleImgFile(e) {
