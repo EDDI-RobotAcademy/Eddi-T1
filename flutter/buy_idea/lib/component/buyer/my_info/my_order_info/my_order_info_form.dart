@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../api/spring_review_api.dart';
 import '../../../../pages/buyer/my_info/my_order_info/my_order_detail_info_page.dart';
 import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import '../../../../pages/buyer/product/product_details_page.dart';
@@ -11,11 +12,16 @@ import 'order_status_set_string.dart';
 
 class MyOrderInfoForm extends StatefulWidget {
   const MyOrderInfoForm(
-      {Key? key, required, required this.orderNo, required this.orderDate})
+      {Key? key,
+      required,
+      required this.orderNo,
+      required this.orderDate,
+      required this.memberNickname})
       : super(key: key);
 
   final String orderNo;
   final String orderDate;
+  final String memberNickname;
 
   @override
   State<MyOrderInfoForm> createState() => _MyOrderInfoFormState();
@@ -25,6 +31,7 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
   final Uri _url = Uri.parse(
       'https://m.search.daum.net/search?nil_profile=btn&w=tot&DA=SBC&q=%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C');
   int setItemCount = 2;
+  bool check = true;
   var f = NumberFormat('###,###,###,###');
   final List<MyOrderInfoProduct> myOrderSliceList = [];
 
@@ -46,6 +53,11 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
         setItemCount = 1;
       }
     });
+  }
+
+  _reviewCheckAction(int productNo) async {
+    check = await SpringReviewApi()
+        .checkWriteReview(widget.memberNickname, productNo);
   }
 
   @override
@@ -204,25 +216,42 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                                           if (myOrderSliceList[index]
                                                   .orderStatus ==
                                               'DELIVERED')
-                                            TextButton(
-                                                onPressed: () {
-                                                  Get.to(ReviewRegisterPage(
-                                                      productNo:
-                                                          myOrderSliceList[
-                                                                  index]
-                                                              .productNo,
-                                                      productTitle:
-                                                          myOrderSliceList[
-                                                                  index]
-                                                              .title));
-                                                },
-                                                child: const Text('리뷰등록',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12)),
-                                                style: ElevatedButton.styleFrom(
-                                                    elevation: 0,
-                                                    primary: Color(0xFF2F4F4F)))
+                                            if (_reviewCheckAction(
+                                                    myOrderSliceList[index]
+                                                        .productNo) ==
+                                                false)
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Get.to(ReviewRegisterPage(
+                                                        productNo:
+                                                            myOrderSliceList[
+                                                                    index]
+                                                                .productNo,
+                                                        productTitle:
+                                                            myOrderSliceList[
+                                                                    index]
+                                                                .title));
+                                                  },
+                                                  child: const Text('리뷰등록',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12)),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          elevation: 0,
+                                                          primary: Color(
+                                                              0xFF2F4F4F)))
+                                            else
+                                              TextButton(
+                                                  onPressed: () {},
+                                                  child: const Text('리뷰등록',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12)),
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          elevation: 0,
+                                                          primary: Colors.grey))
                                           else
                                             TextButton(
                                                 onPressed: () {},
