@@ -135,6 +135,7 @@ public class ReviewServiceImpl implements ReviewService{
         Double maybeReviewAverage = reviewRepository.findAverageStarRatingOnSpecificProduct(productNo);
 
         if (maybeReviewAverage == null) {
+
             starRatingAverage = 0.0;
 
             return starRatingAverage;
