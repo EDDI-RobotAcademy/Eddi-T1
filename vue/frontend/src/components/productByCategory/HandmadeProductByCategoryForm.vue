@@ -30,6 +30,28 @@
                     <h6>{{ item.nickname }}</h6>
                   </div>
 
+                  <v-layout>
+                    <div style="padding: 5px 0px 5px 5px;">
+                      <v-rating
+                          color="#DAA520"
+                          background-color="#DAA520"
+                          empty-icon="mdi-star-outline"
+                          full-icon="mdi-star"
+                          hover
+                          dense
+                          length="5"
+                          size="18"
+                          v-model="handmadeProductRatingValue[index]"
+                          readonly
+                      >
+                      </v-rating>
+                    </div>
+
+                    <div style="padding-top: 9px;">
+                      <h5>( {{handmadeProductRatingValue[index].toFixed(1)}} )</h5>
+                    </div>
+                  </v-layout>
+
                   <div style="padding: 5px 10px 10px 5px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
@@ -66,6 +88,7 @@ export default {
     ...mapState([
       'mainPageProductImgListByHandmade',
       'mainPageProductListByHandmade',
+      'handmadeProductRatingValue'
     ])
   },
   methods: {
