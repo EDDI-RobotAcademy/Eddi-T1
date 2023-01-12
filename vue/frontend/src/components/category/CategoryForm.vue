@@ -25,7 +25,7 @@
           <div v-for="(item, index) in mainPageProductListByHandmade" :key="index">
             <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString() } }"
-               style="text-decoration: none; color: black"
+                         style="text-decoration: none; color: black"
             >
               <v-hover
                   v-slot="{ hover }"
@@ -44,6 +44,21 @@
                   >
                   </v-img>
 
+                  <div style="padding: 5px 10px 5px 10px;">
+                    <v-rating
+                        color="#DAA520"
+                        background-color="#DAA520"
+                        empty-icon="mdi-star-outline"
+                        full-icon="mdi-star"
+                        hover
+                        dense
+                        length="5"
+                        size="18"
+                        v-model="handmadeProductRatingValue[index]"
+                        readonly
+                    >
+                    </v-rating>
+                  </div>
                   <div style="padding: 10px 10px 10px 10px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
@@ -84,7 +99,7 @@
           <div v-for="(item, index) in mainPageProductListByKnowHow" :key="index">
             <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString() } }"
-               style="text-decoration: none; color: black"
+                         style="text-decoration: none; color: black"
             >
               <v-hover
                   v-slot="{ hover }"
@@ -103,7 +118,22 @@
                   >
                   </v-img>
 
-                  <div style="padding: 10px 10px 10px 10px; height: 60px;">
+                  <div style="padding: 5px 10px 5px 10px;">
+                    <v-rating
+                        color="#DAA520"
+                        background-color="#DAA520"
+                        empty-icon="mdi-star-outline"
+                        full-icon="mdi-star"
+                        hover
+                        dense
+                        length="5"
+                        size="18"
+                        v-model="knowhowProductRatingValue[index]"
+                        readonly
+                    >
+                    </v-rating>
+                  </div>
+                  <div style="padding: 5px 10px 10px 10px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
                 </v-card>
@@ -142,7 +172,7 @@
           <div v-for="(item, index) in mainPageProductListByHobby" :key="index">
             <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString() } }"
-               style="text-decoration: none; color: black"
+                         style="text-decoration: none; color: black"
             >
               <v-hover
                   v-slot="{ hover } "
@@ -160,8 +190,22 @@
                       :src="getHobbyProductImg(index).mainPageProductImgListByHobby"
                   >
                   </v-img>
-
-                  <div style="padding: 10px 10px 10px 10px; height: 60px;">
+                  <div style="padding: 5px 10px 5px 10px;">
+                    <v-rating
+                        color="#DAA520"
+                        background-color="#DAA520"
+                        empty-icon="mdi-star-outline"
+                        full-icon="mdi-star"
+                        hover
+                        dense
+                        length="5"
+                        size="18"
+                        v-model="hobbyProductRatingValue[index]"
+                        readonly
+                    >
+                    </v-rating>
+                  </div>
+                  <div style="padding: 5px 10px 10px 10px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
                 </v-card>
@@ -187,24 +231,30 @@ export default {
       'mainPageProductListByHobby',
       'mainPageProductImgListByHobby',
       'mainPageProductImgListByKnowHOw',
-      'mainPageProductImgListByHandmade'
+      'mainPageProductImgListByHandmade',
+      'handmadeProductRatingValue',
+      'knowhowProductRatingValue',
+      'hobbyProductRatingValue'
     ]),
   },
-  methods:{
-    getHobbyProductImg(index){
-      return{
+  methods: {
+    check(index){
+      console.log(index)
+    },
+    getHobbyProductImg(index) {
+      return {
         ...this.mainPageProductImgListByHobby,
         mainPageProductImgListByHobby: this.mainPageProductImgListByHobby[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHobby[index]}`)
       }
     },
-    getKnowhowProductImg(index){
-      return{
+    getKnowhowProductImg(index) {
+      return {
         ...this.mainPageProductImgListByKnowHOw,
         mainPageProductImgListByKnowHOw: this.mainPageProductImgListByKnowHOw[index] && require(`@/assets/productImg/${this.mainPageProductImgListByKnowHOw[index]}`)
       }
     },
-    getHandmadeProductImg(index){
-      return{
+    getHandmadeProductImg(index) {
+      return {
         ...this.mainPageProductImgListByHandmade,
         mainPageProductImgListByHandmade: this.mainPageProductImgListByHandmade[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHandmade[index]}`)
       }

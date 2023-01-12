@@ -30,7 +30,10 @@ export default {
       'mainPageProductListByHobby',
       'mainPageProductImgListByHandmade',
       'mainPageProductImgListByKnowHOw',
-      'mainPageProductImgListByHobby'
+      'mainPageProductImgListByHobby',
+      'handmadeProductRatingValue',
+      'knowhowProductRatingValue',
+      'hobbyProductRatingValue'
     ])
   },
   data() {
@@ -49,20 +52,23 @@ export default {
   methods: {
     ...mapActions([
       'requestProductListByCategoryToSpring',
-      'requestProductImgListToSpring'
+      'requestProductImgListToSpring',
+      'requestProductRatingValueToSpring'
     ]),
     async getMainPageProductImgByHandmade() {
-
+      this.handmadeProductRatingValue.splice(0)
       let category = "핸드메이드"
       // 핸드메이드 상품 받아오기
       for (let j = 0; j < this.mainPageProductListByHandmade.length; j++) {
         let productNo = this.mainPageProductListByHandmade[j].productNo;
 
         await this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
 
     async getMainPageProductImgByKnowHow() {
+      this.knowhowProductRatingValue.splice(0)
       //노하우 상품 이미지 받아오기
       let category = '노하우'
 
@@ -70,10 +76,12 @@ export default {
         let productNo = this.mainPageProductListByKnowHow[j].productNo;
 
         await this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
 
     async getMainPageProductImgByHobby() {
+      this.hobbyProductRatingValue.splice(0)
       // 취미/특기 상품 받아오기
       let category = "취미/특기"
 
@@ -81,6 +89,7 @@ export default {
         let productNo = this.mainPageProductListByHobby[j].productNo
 
         await this.requestProductImgListToSpring({productNo, category})
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
     }
   },
