@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../api/spring_qna_api.dart';
-import '../../../../../pages/buyer/product/product_details_page.dart';
-import '../../../../common/common_alert_dialog.dart';
-import '../../../../common/yes_or_no_alert_dialog.dart';
 
-class MyQuestionHistoryCard extends StatefulWidget {
-  const MyQuestionHistoryCard(
+class ProductOpenQnaCard extends StatefulWidget {
+  const ProductOpenQnaCard(
       {Key? key,
-      required this.productNo,
-      required this.title,
-      required this.writer,
-      required this.nickname,
-      required this.questionCategory,
-      required this.questionTitle,
-      required this.questionContent,
-      required this.answer,
-      required this.answerStatus,
-      required this.regDate,
-      required this.updDate,
-      required this.openStatus,
-      required this.qnaNo})
+        required this.productNo,
+        required this.title,
+        required this.writer,
+        required this.nickname,
+        required this.questionCategory,
+        required this.questionTitle,
+        required this.questionContent,
+        required this.answer,
+        required this.answerStatus,
+        required this.regDate,
+        required this.updDate,
+        required this.openStatus})
       : super(key: key);
   final int productNo;
-  final int qnaNo;
   final String title;
   final String writer;
   final String nickname;
@@ -39,21 +32,30 @@ class MyQuestionHistoryCard extends StatefulWidget {
   final bool openStatus;
 
   @override
-  State<MyQuestionHistoryCard> createState() => _MyQuestionHistoryCardState();
+  State<ProductOpenQnaCard> createState() => _ProductOpenQnaCardState();
 }
 
-class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
+class _ProductOpenQnaCardState extends State<ProductOpenQnaCard> {
+    String privateWriter = '';
 
-  deleteAction() async {
-    await SpringQnaApi().qnaDelete(widget.qnaNo);
-    if (SpringQnaApi.qnaDeleteResponse.statusCode == 200) {
-      debugPrint('문의글 삭제 성공');
-      _deleteSuccessShowDialog();
-    }else {
-      _deleteFailShowDialog();
-      debugPrint('error');
+    @override
+    void initState() {
+      _writerChangePrivate();
+      super.initState();
     }
+
+_writerChangePrivate() {
+    for (var i = 0; i < widget.writer.length; i++) {
+      var char = widget.writer[i];
+      if(i > 1){
+        privateWriter = privateWriter + '*';
+      }else{
+        privateWriter = privateWriter + char;
+      }
+    }
+    debugPrint('privateWriter : ' + privateWriter);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,35 +95,11 @@ class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
                             fontWeight: FontWeight.bold)),
                   Text(' | ${widget.questionCategory}'),
                   Expanded(child: SizedBox()),
-                  Text('${widget.writer} | ',
+                  Text('$privateWriter | ',
                       style: TextStyle(color: Colors.grey, fontSize: 12)),
                   Text(regDateFormat,
                       style: TextStyle(color: Colors.grey, fontSize: 12)),
                   SizedBox(width: 4.0),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return YesOrNoAlertDialog(
-                              title: '🗑️',
-                              content: '문의 내역을 삭제하시겠습니까?',
-                              yesButtonPressed: () {
-                                Get.back();
-                                /// 삭제 요청
-                                deleteAction();
-                              },
-                              noButtonPressed: () {
-                                Get.back();
-                              },
-                            );
-                          });
-                    },
-                    child: Container(
-                      child: Icon(Icons.cancel_outlined),
-                    ),
-                  ),
                 ],
               ),
               SizedBox(height: 5.0),
@@ -202,37 +180,5 @@ class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
         ),
       ),
     );
-  }
-
-  void _deleteSuccessShowDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return CommonAlertDialog(
-              title: "🙆‍♀️",
-              content: '삭제되었습니다.',
-              onCustomButtonPressed: () {
-                Get.back();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(productNo: widget.productNo)))
-                    .then((value) => setState(() {}));
-              });
-        });
-  }
-
-  void _deleteFailShowDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return CommonAlertDialog(
-              title: "⚠️",
-              content: '죄송합니다. \n서버가 불안정하여 삭제가 실패했습니다.',
-              onCustomButtonPressed: () {
-                Get.back();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(productNo: widget.productNo)))
-                    .then((value) => setState(() {}));
-              });
-        });
   }
 }

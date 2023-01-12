@@ -75,6 +75,10 @@ export default {
           title: "내 정보",
           icon: "mdi-account",
           route: "/buyer-info"},
+        {
+          title: "나의 문의",
+          icon: "mdi-comment-question",
+          route: "/buyer-qna"},
       ],
     }
   },

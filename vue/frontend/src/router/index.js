@@ -26,6 +26,7 @@ import HobbyCategoryView from "@/views/productByCategory/HobbyCategoryView";
 
 import OrderDetailView from "@/views/buyerMyPage/OrderDetailView";
 import SearchView from "@/views/product/search/SearchView";
+import BuyerQnaView from "@/views/buyerMyPage/BuyerQnaView";
 
 
 Vue.use(VueRouter)
@@ -128,6 +129,11 @@ const routes = [
     path: '/buyer-info',
     name: 'BuyerInfoView',
     component: BuyerInfoView
+  },
+  {
+    path: '/buyer-qna',
+    name: 'BuyerQnaView',
+    component: BuyerQnaView
   },
   {
     path: '/order-form',

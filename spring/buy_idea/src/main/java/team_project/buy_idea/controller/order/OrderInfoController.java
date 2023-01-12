@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.order.request.OrderRegisterRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
+import team_project.buy_idea.controller.order.request.OrderStatusRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.service.order.OrderInfoService;
 
@@ -42,4 +43,13 @@ public class OrderInfoController {
 
         orderInfoService.myOrderStatusModify(request);
     }
+
+    @PostMapping("/seller-order-info-list")
+    public List<OrderInfo> SellerOrderInfoList (@RequestBody OrderStatusRequest request) {
+        log.info("SellerOrderInfoList()" + request);
+
+        return orderInfoService.SellerOrderInfoList(request);
+
+    }
+
 }

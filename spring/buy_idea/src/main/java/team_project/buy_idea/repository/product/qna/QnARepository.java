@@ -11,4 +11,7 @@ public interface QnARepository extends JpaRepository<QnA, Long> {
 
     @Query("select distinct q from QnA q join fetch q.product where q.writer = :writer")
     List<QnA> findQnaHistoryByWriter(String writer);
+
+    @Query("select distinct q from QnA q join fetch q.product p where p.productNo = :productNo")
+    List<QnA> findQnaHistoryByProductNo(Long productNo);
 }
