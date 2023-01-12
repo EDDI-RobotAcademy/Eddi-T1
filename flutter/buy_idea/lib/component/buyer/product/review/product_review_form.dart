@@ -256,9 +256,7 @@ class _ProductReviewFormState extends State<ProductReviewForm> {
               color: Colors.white,
               child: Center(
                 child: Text(
-                    '현재 등록된 구매 후기가 없습니다.',
-                    style: TextStyle(fontSize: 20)
-                ),
+                    '현재 등록된 구매 후기가 없습니다.'),
               ),
             );
           }
