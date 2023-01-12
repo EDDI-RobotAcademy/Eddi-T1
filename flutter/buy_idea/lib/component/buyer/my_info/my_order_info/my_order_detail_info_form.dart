@@ -5,8 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../api/spring_review_api.dart';
 import '../../../../pages/buyer/my_info/my_order_info/QnA/question_register_page.dart';
-import '../../../../pages/buyer/my_info/my_order_info/review/review_register_page.dart';
 import '../../../../pages/buyer/product/product_details_page.dart';
+import 'detail_review_register_button.dart';
 import 'my_order_info_product.dart';
 import 'order_status_set_string.dart';
 
@@ -241,76 +241,16 @@ class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
                                   SizedBox(width: 20.0),
                                   Row(
                                     children: [
-                                      if (widget.myOrderSliceList[index]
-                                              .orderStatus ==
-                                          'DELIVERED')
-                                        if (_reviewCheckAction(widget
-                                                .myOrderSliceList[index]
-                                                .productNo) ==
-                                            false)
-                                          Container(
-                                            width: 115.0,
-                                            child: TextButton(
-                                                onPressed: () {
-                                                  Get.to(ReviewRegisterPage(
-                                                      productNo: widget
-                                                          .myOrderSliceList[
-                                                              index]
-                                                          .productNo,
-                                                      productTitle: widget
-                                                          .myOrderSliceList[
-                                                              index]
-                                                          .title));
-                                                },
-                                                child: const Text('리뷰 등록',
-                                                    style: TextStyle(
-                                                        color:
-                                                            Color(0xFF2F4F4F),
-                                                        fontSize: 12)),
-                                                style: ElevatedButton.styleFrom(
-                                                    side: const BorderSide(
-                                                        color:
-                                                            Color(0xFF2F4F4F),
-                                                        width: 1.0),
-                                                    elevation: 0,
-                                                    primary: Colors.white)),
-                                          )
-                                        else
-                                          Container(
-                                            width: 115.0,
-                                            child: TextButton(
-                                                onPressed: () {},
-                                                child: const Text('리뷰 등록',
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 12)),
-                                                style: ElevatedButton.styleFrom(
-                                                    splashFactory:
-                                                        NoSplash.splashFactory,
-                                                    side: const BorderSide(
-                                                        color: Colors.grey,
-                                                        width: 1.0),
-                                                    elevation: 0,
-                                                    primary: Colors.white)),
-                                          )
-                                      else
-                                        Container(
-                                          width: 115.0,
-                                          child: TextButton(
-                                              onPressed: () {},
-                                              child: const Text('리뷰 등록',
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 12)),
-                                              style: ElevatedButton.styleFrom(
-                                                  splashFactory:
-                                                      NoSplash.splashFactory,
-                                                  side: const BorderSide(
-                                                      color: Colors.grey,
-                                                      width: 1.0),
-                                                  elevation: 0,
-                                                  primary: Colors.white)),
-                                        ),
+                                      DetailReviewRegisterButton(
+                                          productNo: widget
+                                              .myOrderSliceList[index]
+                                              .productNo,
+                                          orderStatus: widget
+                                              .myOrderSliceList[index]
+                                              .orderStatus,
+                                          memberNickname: widget.memberNickname,
+                                          productTitle: widget
+                                              .myOrderSliceList[index].title)
                                     ],
                                   ),
                                 ],
