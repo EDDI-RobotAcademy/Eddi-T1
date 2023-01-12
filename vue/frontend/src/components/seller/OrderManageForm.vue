@@ -23,80 +23,57 @@
       </template>
     </v-simple-table>
 
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-        <tr>
-
-          <th class="text-center">
-            입금완료
-          </th>
-          <th class="text-center">
-            배송 중
-          </th>
-          <th class="text-center">
-            배송완료
-          </th>
-          <th class="text-center">
-            취소
-          </th>
-          <th class="text-center">
-            교환
-          </th>
-          <th class="text-center">
-            반품
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-
-          <th class="text-center">
-            {{afterDepositAmount}}
-          </th>
-          <th class="text-center">
-            {{inDeliveryAmount}}
-          </th>
-          <th class="text-center">
-            {{deliveryCompletedAmount}}
-          </th>
-          <th class="text-center">
-            {{deliveryCanceledAmount}}
-          </th>
-          <th class="text-center">
-            {{exchangedAmount}}
-          </th>
-          <th class="text-center">
-            {{returnedAmount}}
-          </th>
-        </tr>
-        </tbody>
-      </template>
-    </v-simple-table><br/><br/>
-
 
     <v-expansion-panels focusable>
 
 
-
-
-      <!--입금 완료-->
-      <OrderStatusForm :status="afterDeposit" :product-lists="afterDepositList"></OrderStatusForm>
+      <!--결제 완료-->
+      <v-expansion-panel>
+        <v-expansion-panel-header @click="requestPaymentCompletedList">{{ paymentComplete }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <OrderStatusForm :order-status="paymentComplete" :order-info-list="sellerOrderList"></OrderStatusForm>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
       <!--배송 중-->
-      <OrderStatusForm :status="inDelivery" :product-lists="inDeliveryList"></OrderStatusForm>
+      <v-expansion-panel>
+        <v-expansion-panel-header @click="requestInDeliveryList">{{ inDelivery }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <OrderStatusForm :order-status="inDelivery" :order-info-list="sellerOrderList"></OrderStatusForm>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
       <!--배송 완료-->
-      <OrderStatusForm :status="deliveryCompleted" :product-lists="deliveryCompletedList"></OrderStatusForm>
+      <v-expansion-panel>
+        <v-expansion-panel-header @click="requestDeliveryCompletedList">{{ deliveryCompleted }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <OrderStatusForm :order-status="deliveryCompleted" :order-info-list="sellerOrderList"></OrderStatusForm>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
       <!--취소-->
-      <OrderStatusForm :status="deliveryCanceled" :product-lists="deliveryCanceledList"></OrderStatusForm>
+      <v-expansion-panel>
+        <v-expansion-panel-header @click="requestDeliveryCanceledList">{{ Canceled }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <OrderStatusForm :order-status="Canceled" :order-info-list="sellerOrderList"></OrderStatusForm>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
       <!--교환-->
-      <OrderStatusForm :status="exchanged" :product-lists="exchangedList"></OrderStatusForm>
+      <v-expansion-panel>
+        <v-expansion-panel-header @click="requestExchangedList">{{ exchanged }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <OrderStatusForm  :order-status="exchanged" :order-info-list="sellerOrderList"></OrderStatusForm>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
       <!--반품-->
-      <OrderStatusForm :status="returned" :product-lists="returnedList"></OrderStatusForm>
+      <v-expansion-panel>
+        <v-expansion-panel-header @click="requestReturnedList">{{ returned }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <OrderStatusForm  :order-status="returned" :order-info-list="sellerOrderList"></OrderStatusForm>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
     </v-expansion-panels>
 
@@ -107,88 +84,110 @@
 import SellerNavi from "@/components/seller/SellerNavi";
 import OrderStatusForm from "@/components/orderStatus/OrderStatusForm";
 import {mapActions, mapState} from "vuex";
+
 export default {
   name: "OrderManageForm",
   components: {OrderStatusForm, SellerNavi},
-  props: {
-
-  },
+  props: {},
   computed: {
     ...mapState([
-      'inDeliveryList'
+      'sellerOrderList'
     ]),
 
   },
-  data () {
+
+
+
+  methods: {
+    ...mapActions([
+      'requestSellerOrderListFromSpring'
+    ]),
+
+   async requestPaymentCompletedList() {
+      console.log("requestPaymentCompleteList()")
+
+        const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+        const orderStatus = this.paymentComplete;
+
+         console.log(nickname)
+
+        await this.requestSellerOrderListFromSpring({nickname, orderStatus})
+
+    },
+
+
+    async requestInDeliveryList() {
+      console.log("requestInDeliveryList()")
+
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+      const orderStatus = this.inDelivery;
+
+      console.log(nickname)
+      await this.requestSellerOrderListFromSpring({nickname, orderStatus})
+    },
+
+
+    async requestDeliveryCompletedList() {
+      console.log("requestDeliveryCompletedList()")
+
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+      const orderStatus = this.deliveryCompleted;
+
+      console.log(nickname)
+      await this.requestSellerOrderListFromSpring({nickname, orderStatus})
+    },
+
+
+    async requestDeliveryCanceledList() {
+      console.log("requestDeliveryCanceledList()")
+
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+      const orderStatus = this.Canceled;
+
+      console.log(nickname)
+      await this.requestSellerOrderListFromSpring({nickname, orderStatus})
+    },
+
+
+    async requestExchangedList() {
+      console.log("requestExchangedList()")
+
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+      const orderStatus = this.exchanged;
+
+      console.log(nickname)
+      await this.requestSellerOrderListFromSpring({nickname, orderStatus})
+    },
+
+
+    async requestReturnedList() {
+      console.log("requestReturnedList()")
+
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+      const orderStatus = this.returned;
+
+      console.log(nickname)
+      await this.requestSellerOrderListFromSpring({nickname, orderStatus})
+    },
+
+
+  },
+
+  data() {
     return {
-      nickname:  this.$store.state.memberInfoAfterSignIn.nickname,
+      nickname: this.$store.state.memberInfoAfterSignIn.nickname,
 
-      beforeDeposit: "입금 전",
-      afterDeposit: "입금 완료",
-      inDelivery: "배송 중",
+
+      paymentComplete: "결제 완료",
+      inDelivery: "배송중",
       deliveryCompleted: "배송 완료",
-      deliveryCanceled: "취소",
+      Canceled: "취소",
       exchanged: "교환",
-      returned: "반품",
-
-
-      Seller: "재범티비",
-
-      beforeDepositAmount: 0,
-      afterDepositAmount: 1,
-      inDeliveryAmount: 2,
-      deliveryCompletedAmount: 5,
-      deliveryCanceledAmount: 5,
-      exchangedAmount: 0,
-      returnedAmount: 2,
-
-
-      beforeDepositList:[],
-
-      afterDepositList:[
-        {date: "2022-12-12", buyer: "woqja123", productInformation: "핫초코", amount: 10, totalPrice: 15000, status:"입금 완료" },
-      ],
-
-      /*
-      inDeliveryList: [
-        {date: "2022-12-12", buyer: "ljb123", productInformation: "바닐라빈", amount: 1, totalPrice: 3700, status:"배송 중" },
-        {date: "2022-12-13", buyer: "ljb8194", productInformation: "아이스라떼", amount: 1, totalPrice: 3500, status:"배송 중" },
-      ],
-*/
-      deliveryCompletedList: [
-        {date: "2022-12-12", buyer: "jbtv1", productInformation: "차카니", amount: 1, totalPrice: 500, status:"배송 완료" },
-        {date: "2022-12-12", buyer: "jbtv2", productInformation: "와우", amount: 1, totalPrice: 500, status:"배송 완료" },
-        {date: "2022-12-12", buyer: "jbtv3", productInformation: "자일리톨", amount: 1, totalPrice: 2000, status:"배송 완료" },
-        {date: "2022-12-12", buyer: "jbtv4", productInformation: "밭두렁", amount: 1, totalPrice: 500, status:"배송 완료" },
-        {date: "2022-12-12", buyer: "jbtv5", productInformation: "예감", amount: 1, totalPrice: 1800, status:"배송 완료" },
-      ],
-
-      deliveryCanceledList: [
-        {date: "2022-12-12", buyer: "jbtv11", productInformation: "슬라임메론빵", amount: 1, totalPrice: 2000, status:"취소" },
-        {date: "2022-12-12", buyer: "jbtv22", productInformation: "주황버섯빵", amount: 1, totalPrice: 2500, status:"취소" },
-        {date: "2022-12-12", buyer: "jbtv33", productInformation: "좀비버섯빵", amount: 1, totalPrice: 3300, status:"취소" },
-        {date: "2022-12-12", buyer: "jbtv44", productInformation: "루팡빵", amount: 1, totalPrice: 2500, status:"취소" },
-        {date: "2022-12-12", buyer: "jbtv55", productInformation: "예티빵", amount: 1, totalPrice: 4000, status:"취소" },
-      ],
-
-      exchangedList: [],
-
-      returnedList: [
-        {date: "2022-12-12", buyer: "jbtva", productInformation: "뿔버섯샌드", amount: 1, totalPrice: 2500, status:"반품" },
-        {date: "2022-12-12", buyer: "jbtvb", productInformation: "자쿰손파이", amount: 1, totalPrice: 4000, status:"반품" },
-      ],
-
+      returned: "환불",
 
     }
   },
-  mounted() {
-    this.requestInDeliveryListFromSpring()
-  },
-  methods:{
-    ...mapActions([
-      'requestInDeliveryListFromSpring'
-    ])
-  },
+
 }
 </script>
 

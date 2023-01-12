@@ -12,7 +12,8 @@ import {
     REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING,
     REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
     REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
-    REQUEST_MY_QNA_LIST_FROM_SPRING
+    REQUEST_MY_QNA_LIST_FROM_SPRING,
+    REQUEST_SELLER_ORDER_LIST_FROM_SPRING
 
 } from './mutation-types'
 
@@ -224,7 +225,7 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestRegisterShoppingBucketProduct({}, payload) {
+    async requestRegisterShoppingBucketProduct({ }, payload) {
         console.log("requestRegisterShoppingBucketProduct")
 
         const {nickname, productId, productAmountValue} = payload;
@@ -263,6 +264,7 @@ export default {
      */
     async requestProductListByCategoryToSpring({commit}, payload) {
         console.log("requestProductListByCategoryToSpring")
+
 
         await axios.get('http://localhost:8888/product/list', {
             params: {
@@ -309,7 +311,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestRegisterSellerInfoToSpring({}, payload) {
+    requestRegisterSellerInfoToSpring({ }, payload) {
         console.log('requestRegisterSellerInfoToSpring()')
 
         const {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber} = payload
@@ -330,7 +332,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestDeleteShoppingBucketItemFromSpring({}, payload) {
+    async requestDeleteShoppingBucketItemFromSpring({ }, payload) {
         console.log("requestDeleteShoppingBucketItemFromSpring");
 
         const itemId = payload;
@@ -351,7 +353,7 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestProductFromSpring({commit}, productNo) {
+    requestProductFromSpring ({ commit }, productNo) {
         console.log('requestProductFromSpring()' + productNo)
 
         return axios.get(`http://localhost:8888/product/read/${productNo}`)
@@ -406,7 +408,7 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestDeleteProductToSpring({}, productNo) {
+    requestDeleteProductToSpring ({}, productNo) {
         console.log('requestDeleteProductToSpring()' + productNo)
 
         return axios.delete(`http://localhost:8888/product/remove/${productNo}`)
@@ -416,7 +418,7 @@ export default {
             })
     },
 
-    requestProductListFromSpring({commit}, payload) {
+    requestProductListFromSpring ({ commit }, payload) {
         console.log('requestProductListFromSpring()')
         const nickname = payload;
 
@@ -433,7 +435,7 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestPaymentSuccessfulOrderInfoForSpring({}, payload) {
+    async requestPaymentSuccessfulOrderInfoForSpring( { }, payload){
         console.log("requestPaymentSuccessfulOrderInfoForSpring")
         console.log(payload)
 
@@ -444,7 +446,7 @@ export default {
             .then(() => {
                 console.log("결제 정보 전송 성공")
             })
-            .catch(() => {
+            .catch(() =>{
                 console.log("결제정보 전송 실패")
             })
     },
@@ -455,12 +457,13 @@ export default {
      *  @param payload nickname
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestMyOrderInfoListFromSpring({commit}, nickname) {
+    async requestMyOrderInfoListFromSpring ({ commit }, nickname) {
         console.log('requestMyOrderInfoListFromSpring()' + nickname)
         /*const nickname = payload;*/
 
         await axios.post(`http://localhost:8888/order/my-order-info-list/${nickname}`)
             .then((res) => {
+                console.log(res.data)
                 commit(REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING, res.data)
             })
     },
@@ -472,12 +475,12 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestRegisterReviewFromSpring({}, payload) {
+    async requestRegisterReviewFromSpring({ }, payload) {
         console.log("requestRegisterReviewFromSpring")
 
-        const {productNo, writer, starRating, content, files} = payload
+        const { productNo, writer, starRating, content, files } = payload
         let formData = new FormData()
-        let review = {productNo, writer, starRating, content}
+        let review = { productNo, writer, starRating, content }
         formData.append('review', new Blob([JSON.stringify(review)], {type: "application/json"}))
 
         formData.append('file', files.file)
@@ -489,8 +492,7 @@ export default {
         })
             .then(() => {
                 alert("리뷰가 작성되었습니다.")
-                router.push({name: 'BuyerMyPageView'}).catch(() => {
-                })
+                router.push({name: 'BuyerMyPageView'}).catch(() => {})
             })
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
@@ -503,16 +505,16 @@ export default {
      *  @param payload searchWord
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestSearchBySearchTermToSpring({commit}, payload) {
+    async requestSearchBySearchTermToSpring({ commit }, payload){
         console.log("requestSearchBySearchTermToSpring" + payload)
 
         const keyword = payload
         await axios.get(`http://localhost:8888/product/search/${keyword}`)
             .then((res) => {
+                console.log(res.data)
                 commit(REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING, res.data);
             })
-            .catch(() => {
-            });
+            .catch(() => {});
 
     },
 
@@ -523,16 +525,15 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestRegisterQnaFromSpring({}, payload) {
+    async requestRegisterQnaFromSpring({ }, payload) {
         console.log("requestRegisterQnaFromSpring()")
 
-        const {productNo, writer, questionCategory, questionTitle, questionContent, openStatus} = payload
+        const { productNo, writer, questionCategory, questionTitle, questionContent, openStatus } = payload
         await axios.post('http://localhost:8888/qna/register',
-            {productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
+            { productNo, writer, questionCategory, questionTitle, questionContent, openStatus })
             .then(() => {
                 alert("문의가 작성되었습니다.")
-                router.push({name: 'BuyerMyPageView'}).catch(() => {
-                })
+                router.push({name: 'BuyerMyPageView'}).catch(() => {})
             })
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
@@ -600,5 +601,43 @@ export default {
                 console.log(res.data)
                 commit(REQUEST_MY_QNA_LIST_FROM_SPRING, res.data)
             })
+    },
+
+    /**
+     * 판매자에게 들어온 주문상태별 주문내역 요청
+     * @param commit
+     * @param payload
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    requestSellerOrderListFromSpring ({ commit }, payload) {
+        console.log('requestSellerOrderListFromSpring()')
+        const {nickname, orderStatus} = payload;
+        console.log(payload);
+
+        return axios.post(`http://localhost:8888/order/seller-order-info-list`, {nickname, orderStatus})
+            .then((res) => {
+                console.log(res.data)
+
+                commit(REQUEST_SELLER_ORDER_LIST_FROM_SPRING, res.data)
+            })
+    },
+
+
+    /**
+     * 판매자 주문내역의 주문상태 변동 요청
+     * @param payload
+     * @returns {Promise<void>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestOrderStatusModifyToSpring({  }, payload){
+        console.log('requestOrderStatusModifyToSpring()')
+        const {orderInfoId, orderStatus} = payload;
+        console.log("payload :" + payload);
+
+        await axios.post('http://localhost:8888/order/status-modify/', {orderInfoId, orderStatus})
+            .then(() => {
+                history.go(0)
+            })
+
     },
 }
