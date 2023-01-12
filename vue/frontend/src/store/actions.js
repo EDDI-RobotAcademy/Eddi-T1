@@ -533,7 +533,7 @@ export default {
             { productNo, writer, questionCategory, questionTitle, questionContent, openStatus })
             .then(() => {
                 alert("문의가 작성되었습니다.")
-                router.push({name: 'BuyerMyPageView'}).catch(() => {})
+                router.push({name: 'BuyerQnaView'}).catch(() => {})
             })
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
