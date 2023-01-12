@@ -622,7 +622,6 @@ export default {
             })
     },
 
-
     /**
      * 판매자 주문내역의 주문상태 변동 요청
      * @param payload
@@ -639,5 +638,26 @@ export default {
                 history.go(0)
             })
 
+    },
+
+    /**
+     * 문의 삭제 axios.
+     * @param qnaNo
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteQnaFromSpring({}, payload) {
+        console.log("requestDeleteQnaFromSpring()");
+
+        const qnaNo = payload;
+
+        await axios.delete(`http://localhost:8888/qna/delete/${qnaNo}`)
+            .then(() => {
+                alert("문의가 삭제 되었습니다.")
+                history.go(0)
+            })
+            .catch(() => {
+                alert("문의가 삭제되지 않았습니다.")
+            });
     },
 }

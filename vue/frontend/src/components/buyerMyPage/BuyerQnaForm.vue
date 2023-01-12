@@ -52,7 +52,7 @@
                           <v-btn class="white--text" color="#DAA520" @click="dialog = false">
                             취소
                           </v-btn>
-                          <v-btn class="white--text" color="#2F4F4F" @click="onDelete()">
+                          <v-btn class="white--text" color="#2F4F4F" @click="onDelete(item.qnaNo)">
                             삭제
                           </v-btn>
                           <v-spacer></v-spacer>
@@ -180,7 +180,7 @@
 
 <script>
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 export default {
   name: "BuyerQnaForm",
   components: {BuyerNav},
@@ -195,14 +195,12 @@ export default {
       singleExpand: true,
       page: 1,
       pageCount: 0,
-
       headers: [
         {text: '유형', value: 'questionCategory', width: "80px"},
         {text: '제목', value: 'questionTitle', width: "300px"},
         {text: 'date ', value: 'regDate', width: "100px"},
         {text: '답변상태 ', value: 'answerStatus', width: "50px"},
       ],
-
       dialog : false,
     }
   },
@@ -217,6 +215,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+        'requestDeleteQnaFromSpring'
+    ]),
     expandRow(item, event) {
       if(event.isExpanded)
       { var index = this.expanded.findIndex(i => i === item);
@@ -224,8 +225,9 @@ export default {
       else
       { this.expanded.push(item); } },
 
-    onDelete () {
-      //삭제
+    onDelete (qnaNo) {
+      console.log("qnaNo: " + qnaNo)
+      this.requestDeleteQnaFromSpring(qnaNo)
     }
   }
 }
