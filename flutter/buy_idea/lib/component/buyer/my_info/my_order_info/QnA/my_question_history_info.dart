@@ -1,5 +1,6 @@
 class MyQuestionHistoryInfo {
   final int productNo;
+  final int qnaNo;
   final String title;
   final String writer;
   final String nickname;
@@ -14,6 +15,7 @@ class MyQuestionHistoryInfo {
 
   MyQuestionHistoryInfo({
     required this.productNo,
+    required this.qnaNo,
     required this.title,
     required this.writer,
     required this.nickname,
@@ -30,6 +32,7 @@ class MyQuestionHistoryInfo {
   factory MyQuestionHistoryInfo.fromJson(Map<String, dynamic> json) {
     return MyQuestionHistoryInfo(
       productNo: json['productNo'],
+      qnaNo: json['qnaNo'],
       title: json['title'],
       writer: json['writer'],
       nickname: json['nickname'],

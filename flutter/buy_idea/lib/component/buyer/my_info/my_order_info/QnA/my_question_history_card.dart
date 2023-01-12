@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../api/spring_qna_api.dart';
+import '../../../../../pages/buyer/product/product_details_page.dart';
+import '../../../../common/common_alert_dialog.dart';
 import '../../../../common/yes_or_no_alert_dialog.dart';
 
 class MyQuestionHistoryCard extends StatefulWidget {
@@ -18,9 +21,11 @@ class MyQuestionHistoryCard extends StatefulWidget {
       required this.answerStatus,
       required this.regDate,
       required this.updDate,
-      required this.openStatus})
+      required this.openStatus,
+      required this.qnaNo})
       : super(key: key);
   final int productNo;
+  final int qnaNo;
   final String title;
   final String writer;
   final String nickname;
@@ -38,6 +43,18 @@ class MyQuestionHistoryCard extends StatefulWidget {
 }
 
 class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
+
+  deleteAction() async {
+    await SpringQnaApi().qnaDelete(widget.qnaNo);
+    if (SpringQnaApi.qnaDeleteResponse.statusCode == 200) {
+      debugPrint('문의글 삭제 성공');
+      _deleteSuccessShowDialog();
+    }else {
+      _deleteFailShowDialog();
+      debugPrint('error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime parseRegDate = DateTime.parse(widget.regDate);
@@ -92,8 +109,8 @@ class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
                               content: '문의 내역을 삭제하시겠습니까?',
                               yesButtonPressed: () {
                                 Get.back();
-
                                 /// 삭제 요청
+                                deleteAction();
                               },
                               noButtonPressed: () {
                                 Get.back();
@@ -185,5 +202,37 @@ class _MyQuestionHistoryCardState extends State<MyQuestionHistoryCard> {
         ),
       ),
     );
+  }
+
+  void _deleteSuccessShowDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CommonAlertDialog(
+              title: "🙆‍♀️",
+              content: '삭제되었습니다.',
+              onCustomButtonPressed: () {
+                Get.back();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(productNo: widget.productNo)))
+                    .then((value) => setState(() {}));
+              });
+        });
+  }
+
+  void _deleteFailShowDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CommonAlertDialog(
+              title: "⚠️",
+              content: '죄송합니다. \n서버가 불안정하여 삭제가 실패했습니다.',
+              onCustomButtonPressed: () {
+                Get.back();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(productNo: widget.productNo)))
+                    .then((value) => setState(() {}));
+              });
+        });
   }
 }

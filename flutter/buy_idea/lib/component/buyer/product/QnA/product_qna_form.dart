@@ -47,23 +47,24 @@ class _ProductQnaFormState extends State<ProductQnaForm> {
       memberNickname = memberNickname;
     });
 
-      List<MyQuestionHistoryInfo> qnaLists =
-          await SpringQnaApi().getQnaListByProductNo(widget.productNo);
+    List<MyQuestionHistoryInfo> qnaLists =
+        await SpringQnaApi().getQnaListByProductNo(widget.productNo);
 
-      for (var i = 0; i < qnaLists.length; i++) {
-        myQnaHistoryList.add(MyQuestionHistoryInfo(
-            productNo: qnaLists[i].productNo,
-            title: qnaLists[i].title,
-            writer: qnaLists[i].writer,
-            nickname: qnaLists[i].nickname,
-            questionCategory: qnaLists[i].questionCategory,
-            questionTitle: qnaLists[i].questionTitle,
-            questionContent: qnaLists[i].questionContent,
-            answer: qnaLists[i].answer,
-            answerStatus: qnaLists[i].answerStatus,
-            regDate: qnaLists[i].regDate,
-            updDate: qnaLists[i].updDate,
-            openStatus: qnaLists[i].openStatus));
+    for (var i = 0; i < qnaLists.length; i++) {
+      myQnaHistoryList.add(MyQuestionHistoryInfo(
+          productNo: qnaLists[i].productNo,
+          title: qnaLists[i].title,
+          writer: qnaLists[i].writer,
+          nickname: qnaLists[i].nickname,
+          questionCategory: qnaLists[i].questionCategory,
+          questionTitle: qnaLists[i].questionTitle,
+          questionContent: qnaLists[i].questionContent,
+          answer: qnaLists[i].answer,
+          answerStatus: qnaLists[i].answerStatus,
+          regDate: qnaLists[i].regDate,
+          updDate: qnaLists[i].updDate,
+          openStatus: qnaLists[i].openStatus,
+          qnaNo: qnaLists[i].qnaNo));
     }
 
     setState(() {
@@ -74,7 +75,7 @@ class _ProductQnaFormState extends State<ProductQnaForm> {
   @override
   Widget build(BuildContext context) {
     if (!loading) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(color: Color(0XFF2F4F4F)),
       );
     } else {
@@ -90,46 +91,48 @@ class _ProductQnaFormState extends State<ProductQnaForm> {
                 image: widget.image,
                 title: widget.title,
               ),
-              Divider(indent: 10, endIndent: 10, height: 20.0, thickness: 1,),
+              const Divider(
+                indent: 10,
+                endIndent: 10,
+                height: 20.0,
+                thickness: 1,
+              ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: myQnaHistoryList.length,
                 itemBuilder: (BuildContext context, int index) {
                   /// 내가 작성한 문의 일 때
-                  if (memberNickname == myQnaHistoryList[index].writer)
+                  if (memberNickname == myQnaHistoryList[index].writer) {
                     return MyQuestionHistoryCard(
                         productNo: myQnaHistoryList[index].productNo,
                         title: myQnaHistoryList[index].title,
                         writer: myQnaHistoryList[index].writer,
                         nickname: myQnaHistoryList[index].nickname,
-                        questionCategory:
-                            myQnaHistoryList[index].questionCategory,
+                        questionCategory: myQnaHistoryList[index].questionCategory,
                         questionTitle: myQnaHistoryList[index].questionTitle,
                         questionContent: myQnaHistoryList[index].questionContent,
                         answer: myQnaHistoryList[index].answer,
                         answerStatus: myQnaHistoryList[index].answerStatus,
                         regDate: myQnaHistoryList[index].regDate,
                         updDate: myQnaHistoryList[index].updDate,
-                        openStatus: myQnaHistoryList[index].openStatus);
-
-                  /// 다른 사람이 작성한 문의 글이 비공개 일 때
-                  else if (!myQnaHistoryList[index].openStatus)
+                        openStatus: myQnaHistoryList[index].openStatus,
+                        qnaNo: myQnaHistoryList[index].qnaNo);
+                    /// 다른 사람이 작성한 문의 글이 비공개 일 때
+                  } else if (!myQnaHistoryList[index].openStatus) {
                     return ProductPrivateQnaCard(
                         writer: myQnaHistoryList[index].writer,
                         answerStatus: myQnaHistoryList[index].answerStatus,
                         regDate: myQnaHistoryList[index].regDate,
                         openStatus: myQnaHistoryList[index].openStatus);
-
-                  /// 다른 사람이 작성한 문의 글이 공개일 때
-                  else
+                    /// 다른 사람이 작성한 문의 글이 공개일 때
+                  } else {
                     return ProductOpenQnaCard(
                         productNo: myQnaHistoryList[index].productNo,
                         title: myQnaHistoryList[index].title,
                         writer: myQnaHistoryList[index].writer,
                         nickname: myQnaHistoryList[index].nickname,
-                        questionCategory:
-                            myQnaHistoryList[index].questionCategory,
+                        questionCategory: myQnaHistoryList[index].questionCategory,
                         questionTitle: myQnaHistoryList[index].questionTitle,
                         questionContent: myQnaHistoryList[index].questionContent,
                         answer: myQnaHistoryList[index].answer,
@@ -137,6 +140,7 @@ class _ProductQnaFormState extends State<ProductQnaForm> {
                         regDate: myQnaHistoryList[index].regDate,
                         updDate: myQnaHistoryList[index].updDate,
                         openStatus: myQnaHistoryList[index].openStatus);
+                  }
                 },
               ),
             ],

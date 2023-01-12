@@ -7,6 +7,7 @@ import '../component/buyer/my_info/my_order_info/QnA/my_question_history_info.da
 
 class SpringQnaApi {
   static const String httpUri = '192.168.0.8:8888';
+  static var qnaDeleteResponse;
 
   Future<bool> questionRegister(Question question) async {
     debugPrint('questionRegister()');
@@ -27,16 +28,16 @@ class SpringQnaApi {
     debugPrint('getQnaList()');
     var body = json.encode(nickname);
 
-    var response = await http.post(Uri.http(httpUri, '/qna/history-list/$nickname'),
-        headers: {"Content-Type": "application/json"}, body: body);
+    var response = await http.post(
+        Uri.http(httpUri, '/qna/history-list/$nickname'),
+        headers: {"Content-Type": "application/json"},
+        body: body);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
 
     if (response.statusCode == 200) {
-
-      List<MyQuestionHistoryInfo> quaList = data
-          .map((list) => MyQuestionHistoryInfo.fromJson(list))
-          .toList();
+      List<MyQuestionHistoryInfo> quaList =
+          data.map((list) => MyQuestionHistoryInfo.fromJson(list)).toList();
 
       debugPrint('통신 확인');
       return quaList;
@@ -45,25 +46,40 @@ class SpringQnaApi {
     }
   }
 
-  Future<List<MyQuestionHistoryInfo>> getQnaListByProductNo(int productNo) async {
+  Future<List<MyQuestionHistoryInfo>> getQnaListByProductNo(
+      int productNo) async {
     debugPrint('getQnaListByProductNo()');
     var body = json.encode(productNo);
 
-    var response = await http.post(Uri.http(httpUri, '/qna/p-history-list/$productNo'),
-        headers: {"Content-Type": "application/json"}, body: body);
+    var response = await http.post(
+        Uri.http(httpUri, '/qna/p-history-list/$productNo'),
+        headers: {"Content-Type": "application/json"},
+        body: body);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
 
     if (response.statusCode == 200) {
-
-      List<MyQuestionHistoryInfo> quaList = data
-          .map((list) => MyQuestionHistoryInfo.fromJson(list))
-          .toList();
+      List<MyQuestionHistoryInfo> quaList =
+          data.map((list) => MyQuestionHistoryInfo.fromJson(list)).toList();
 
       debugPrint('통신 확인');
       return quaList;
     } else {
       throw Exception('orderRegister() 에러 발생');
+    }
+  }
+
+  qnaDelete(int qnaNo) async {
+    debugPrint("qnaDelete()");
+    var body = json.encode(qnaNo);
+    try {
+      qnaDeleteResponse = await http.delete(
+        Uri.http(httpUri, '/qna/delete/$qnaNo'),
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }
