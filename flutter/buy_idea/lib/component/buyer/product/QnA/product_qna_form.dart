@@ -80,7 +80,20 @@ class _ProductQnaFormState extends State<ProductQnaForm> {
       );
     } else {
       if (myQnaHistoryList.isEmpty) {
-        return const Center(child: Text("현재 등록된 문의 내역이 없습니다."));
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              QnaRegisterCard(
+                nickname: widget.nickname,
+                productNo:widget.productNo,
+                image: widget.image,
+                title: widget.title),
+              SizedBox(height: 40.0),
+              Center(child: Text("현재 등록된 문의 내역이 없습니다.")),
+            ],
+          ),
+        );
+
       } else {
         return SingleChildScrollView(
           child: Column(
