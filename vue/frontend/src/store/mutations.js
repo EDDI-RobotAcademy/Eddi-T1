@@ -16,7 +16,8 @@ import {
     REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
     REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING,
     REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
-    REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING
+    REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
+    REQUEST_MY_QNA_LIST_FROM_SPRING
 
 
 } from './mutation-types'
@@ -76,5 +77,8 @@ export default {
     },
     [REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING](state, passingData) {
         state.mainPageNextProductImgList.push(passingData)
+    },
+    [REQUEST_MY_QNA_LIST_FROM_SPRING](state, passingData) {
+        state.myQnaList = passingData
     },
 }
