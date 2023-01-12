@@ -17,4 +17,5 @@ export default {
     mainPageNextProductList: [],
     mainPageNextProductImgList: [],
     myQnaList: [],
+    sellerOrderList: [],
 }

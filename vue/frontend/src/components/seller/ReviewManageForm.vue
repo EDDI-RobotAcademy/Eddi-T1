@@ -52,8 +52,12 @@
           <td>{{ reviews.at(0).date }}</td>
           <td>  <div class="text-center">
             <v-rating
-                v-model="rating"
-                icon-label="custom icon label text {0} of {1}"
+                :value="4.5"
+                color="amber"
+                dense
+                half-increments
+                readonly
+                size="14"
             ></v-rating>
           </div></td>
         </tr>
@@ -66,8 +70,12 @@
           <td>{{ reviews.at(1).date }}</td>
           <td>  <div class="text-center">
             <v-rating
-                v-model="rating"
-                icon-label="custom icon label text {0} of {1}"
+                :value="3.0"
+                color="amber"
+                dense
+                half-increments
+                readonly
+                size="14"
             ></v-rating>
           </div></td>
         </tr>
@@ -80,8 +88,12 @@
           <td>{{ reviews.at(2).date }}</td>
           <td>  <div class="text-center">
             <v-rating
-                v-model="rating"
-                icon-label="custom icon label text {0} of {1}"
+                :value="5.0"
+                color="amber"
+                dense
+                half-increments
+                readonly
+                size="14"
             ></v-rating>
           </div></td>
         </tr>

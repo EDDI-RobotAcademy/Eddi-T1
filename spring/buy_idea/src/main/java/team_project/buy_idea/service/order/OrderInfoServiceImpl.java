@@ -2,10 +2,12 @@ package team_project.buy_idea.service.order;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import team_project.buy_idea.controller.order.request.AddressRequest;
 import team_project.buy_idea.controller.order.request.OrderInfoRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
+import team_project.buy_idea.controller.order.request.OrderStatusRequest;
 import team_project.buy_idea.entity.order.Address;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.entity.order.OrderStatus;
@@ -148,5 +150,28 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         OrderInfo orderInfo = maybeOrderInfo.get();
         orderInfo.setOrderStatus(status);
         orderInfoRepository.save(orderInfo);
+    }
+
+    @Override
+    public List<OrderInfo> SellerOrderInfoList(OrderStatusRequest request) {
+        log.info(request.getNickname());
+        log.info(request.getOrderStatus());
+        String sellerNickname = request.getNickname();
+        String orderStatus = request.getOrderStatus();
+
+        OrderStatus status = switch (orderStatus) {
+            case "결제 완료" -> OrderStatus.PAYMENT_COMPLETE;
+            case "배송중" -> OrderStatus.DELIVERING;
+            case "배송 완료" -> OrderStatus.DELIVERED;
+            case "취소" -> OrderStatus.CANCEL;
+            case "환불" -> OrderStatus.REFUND;
+            case "교환" -> OrderStatus.EXCHANGE;
+            default -> null;
+        };
+
+        Slice<OrderInfo> orderSlice = orderInfoRepository.findSellerOrderInfoListByNickname(sellerNickname, status);
+        List<OrderInfo> sellerOrderInfoList = orderSlice.getContent();
+
+        return sellerOrderInfoList;
     }
 }
