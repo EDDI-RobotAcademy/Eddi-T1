@@ -34,6 +34,9 @@ class _QuestionRegisterFormState extends State<QuestionRegisterForm> {
   @override
   void initState() {
     _asyncMethod();
+    setState(() {
+      lockButton = true;
+    });
     super.initState();
   }
 
@@ -132,12 +135,14 @@ class _QuestionRegisterFormState extends State<QuestionRegisterForm> {
         Row(
           children: [
             SwitcherButton(
-              value: true,
+              value: lockButton,
               size: 40.0,
               offColor: Color(0xFFf2f2f2),
               onColor: Color(0xFF2F4F4F),
               onChange: (value) {
-                lockButton = value;
+                setState(() {
+                  lockButton = value;
+                });
               },
             ),
             SizedBox(width: 10.0),
