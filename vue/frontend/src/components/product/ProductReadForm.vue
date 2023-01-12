@@ -312,6 +312,147 @@
                 <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
                   <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
                   상품 문의
+                  <v-spacer></v-spacer>
+
+                  <!--로그인하지 않은 사용자 로그인 알림창-->
+                  <v-dialog
+                      v-if="$store.state.signInCheckValue==false"
+                      v-model="loginDialog"
+                      max-width="400"
+                      max-height="50"
+                  >
+                    <template v-slot:activator="{on, attrs}">
+                      <v-btn
+                          v-if="$store.state.signInCheckValue==false"
+                          @click="loginAlert()"
+                          large
+                          dense
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                          width="140px"
+                          elevation="0"
+                          style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
+                      >
+                        문의하기
+                      </v-btn>
+                    </template>
+                    <v-card align="center">
+                      <v-card-title class="justify-center" style="font-size: 16px;">
+                        ⚠️ 로그인이 필요합니다. <br/>
+                        로그인 페이지로 이동하시겠습니까?
+                      </v-card-title><br>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn outlined  color="#DAA520" width="80px" style="margin-bottom: 10px" @click="loginDialog = false">
+                          취소
+                        </v-btn>
+                        <v-btn
+                            outlined
+                            color="#2F4F4F"
+                            style="margin-bottom: 10px"
+                            width="80px"
+                            @click="$router.push('/sign-in')"
+                        >
+                          이동
+                        </v-btn>
+                        <v-spacer></v-spacer>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+
+                  <!--문의하기 버튼 / 문의 등록 dialog-->
+                  <v-dialog
+                      v-if="$store.state.signInCheckValue==true"
+                      v-model="dialogQna"
+                      @click:outside="fn_cancel2"
+                      persistent
+                      max-width="568px"
+                      :retain-focus="false"
+                  >
+                    <template v-slot:activator="{on, attrs}">
+                      <v-btn
+                          large
+                          dense
+                          outlined
+                          v-bind="attrs"
+                          v-on="on"
+                          width="140px"
+                          elevation="0"
+                          style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
+                      >
+                        문의하기
+                      </v-btn>
+                    </template>
+                    <v-card height="auto">
+                      <v-layout style="margin-left: 35px">
+                        <h3 style="padding: 20px 10px 10px 10px">문의 작성</h3>
+                        <v-spacer></v-spacer>
+                      </v-layout>
+
+                      <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
+
+                      <v-layout style="margin-left: 35px">
+                        <v-card max-width="100"
+                                style="padding: 15px 15px 15px 15px"
+                                flat
+                        >
+                          <v-img
+                              height="75px"
+                              :src="require('@/assets/productImg/' + product.productImages[0].editedName)">
+                          </v-img>
+                        </v-card>
+
+                        <v-card width="400px"
+                                flat
+                                tile
+                        >
+                          <v-card-title style="font-weight: bold; font-size: 15px">
+                             {{product.title}}
+                          </v-card-title>
+
+                          <v-card-subtitle style="font-size: 12px">
+                            {{ product.nickname }}
+                          </v-card-subtitle>
+                        </v-card>
+                      </v-layout>
+
+                      <v-divider style="margin: 10px 38px 10px 38px;"></v-divider>
+
+                      <div align="center">
+                        <v-card height="auto" width="500" flat style="border: 1px solid transparent">
+
+                          <v-select
+                              v-model="qnaCategory" label="카테고리" color="#2F4F4F" :items="categoryList" required
+                              :rules="categoryRule"/>
+
+                          <v-text-field
+                              v-model="qnaTitle" label="제목" color="#2F4F4F" required
+                              :rules="titleRule"/>
+
+                          <v-text-field
+                              :value="writer" label="작성자" color="#2F4F4F" readonly required/>
+
+                          <v-textarea
+                              v-model="qnaContent" label="내용" counter outlined clearable
+                              row-height="60" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
+                              :rules="contentRule"/>
+
+                          <v-checkbox v-model="checkStatus" row style="margin-top: -20px; color: #DAA520"
+                                      label="비밀글로 작성하기">
+                          </v-checkbox>
+
+                        </v-card>
+
+                        <v-btn style="margin-top: -90px; background-color: #2F4F4F; color: white" plain
+                               @click="registerQna()"
+                        >
+                          등록하기
+                        </v-btn>
+                      </div>
+                    </v-card>
+                  </v-dialog>
+
                 </v-card-title>
 
                 <v-card-text>상품에 대한 문의를 남기는 공간입니다. <br/>
@@ -372,7 +513,26 @@ export default {
         required: value => !!value || "필수 입력 사항입니다",
         min: v => v > 0 || `상품 구매 최소수량은 1개 입니다.`,
         max: v => v <= this.product.productInfo.stock || `상품재고가 ${this.product.productInfo.stock}개 남았습니다`
-      }
+      },
+
+      loginDialog : false,
+      qnaProductTitle: '',
+      dialogQna: false,
+      writer: this.$store.state.memberInfoAfterSignIn.nickname,
+      qnaCategory: '',
+      categoryList : ['상품 문의', '배송 문의', '환불/취소 문의','교환 문의','기타'],
+      qnaTitle: '',
+      qnaContent: '',
+      checkStatus: '',
+      categoryRule: [
+        v => !!v || '카테고리를 선택해주세요.'
+      ],
+      titleRule: [
+        v => !(v.length >= 70) || '70자 이상 입력할 수 없습니다.'
+      ],
+      contentRule: [
+        v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
+      ],
     }
   },
 
@@ -386,7 +546,8 @@ export default {
   methods: {
     ...mapActions([
         'requestDeleteProductToSpring',
-        'requestRegisterShoppingBucketProduct'
+        'requestRegisterShoppingBucketProduct',
+        'requestRegisterQnaFromSpring'
     ]),
     selectedImg(e) {
       this.imgIdx = e
@@ -433,7 +594,22 @@ export default {
           this.deliveryFee = this.initialDeliveryFee
         }
       }
-    }
+    },
+    fn_cancel2() {
+      this.dialogQna = false
+    },
+    async registerQna() {
+
+      const productNo = this.product.productNo
+      const writer = this.$store.state.memberInfoAfterSignIn.nickname
+      const questionCategory = this.qnaCategory
+      const questionTitle = this.qnaTitle
+      const questionContent = this.qnaContent
+      const openStatus =  this.checkStatus == true ? false : true
+
+      await this.requestRegisterQnaFromSpring({productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
+      this.dialogQna = false
+    },
   },
   beforeUpdate() {
     this.freeDelivery()
