@@ -11,7 +11,8 @@ import {
     REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
     REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING,
     REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
-    REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING
+    REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
+    REQUEST_MY_QNA_LIST_FROM_SPRING
 
 } from './mutation-types'
 
@@ -583,5 +584,21 @@ export default {
             })
             .catch(() => {})
 
+    },
+
+    /**
+     *  일반회원 등록한 문의 리스트 요청 axios
+     *  @param commit
+     *  @param payload writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestMyQnaListFromSpring ({ commit }, writer) {
+        console.log('requestMyQnaListFromSpring()' + writer)
+
+        await axios.post(`http://localhost:8888/qna/history-list/${writer}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_MY_QNA_LIST_FROM_SPRING, res.data)
+            })
     },
 }
