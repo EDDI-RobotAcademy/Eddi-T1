@@ -13,8 +13,10 @@ import {
     REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
     REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
     REQUEST_MY_QNA_LIST_FROM_SPRING,
-    REQUEST_SELLER_ORDER_LIST_FROM_SPRING
-
+    REQUEST_SELLER_ORDER_LIST_FROM_SPRING,
+    REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING,
+    REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING,
+    REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -640,4 +642,20 @@ export default {
             })
 
     },
+
+    async requestProductRatingValueToSpring( { commit }, payload){
+        console.log('requestProductRatingValueToSpring')
+        const {productNo, category} = payload
+
+        await axios.get(`http://localhost:8888/review/star-rating/average/${productNo}/`)
+            .then((res) => {
+                if (category == "핸드메이드"){
+                    commit(REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
+                } else if (category == "노하우"){
+                    commit(REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
+                } else {
+                    commit(REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
+                }
+            });
+    }
 }

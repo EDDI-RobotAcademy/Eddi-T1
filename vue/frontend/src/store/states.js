@@ -18,4 +18,7 @@ export default {
     mainPageNextProductImgList: [],
     myQnaList: [],
     sellerOrderList: [],
+    handmadeProductRatingValue: [],
+    knowhowProductRatingValue: [],
+    hobbyProductRatingValue: [],
 }
