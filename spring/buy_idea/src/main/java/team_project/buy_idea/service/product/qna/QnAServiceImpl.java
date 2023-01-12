@@ -85,8 +85,9 @@ public class QnAServiceImpl implements QnAService {
 
     /**
      * 문의 내역 리스트를 QnaHistoryResponse에 저장하는 시스템
+     *
      * @param qnaHistoryResponseList 담을 QnaHistoryResponse 리스트
-     * @param qnAList 찾은 리스트
+     * @param qnAList                찾은 리스트
      * @return response 형태에 저장한 리스트
      */
     private List<QnaHistoryResponse> getQnaHistoryResponses(
@@ -95,6 +96,7 @@ public class QnAServiceImpl implements QnAService {
             qnaHistoryResponseList.add(
                     new QnaHistoryResponse(
                             qnAList.get(i).getProduct().getProductNo(),
+                            qnAList.get(i).getQnaNo(),
                             qnAList.get(i).getProduct().getTitle(),
                             qnAList.get(i).getWriter(),
                             qnAList.get(i).getProduct().getNickname(),
@@ -127,5 +129,15 @@ public class QnAServiceImpl implements QnAService {
             case "기타" -> QuestionCategory.OTHER_Q;
             default -> null;
         };
+    }
+
+    /**
+     * 문의글 삭제 service
+     *
+     * @param qnaNo 문의글 번호
+     */
+    @Override
+    public void deleteQna(Long qnaNo) {
+        qnARepository.deleteById(qnaNo);
     }
 }

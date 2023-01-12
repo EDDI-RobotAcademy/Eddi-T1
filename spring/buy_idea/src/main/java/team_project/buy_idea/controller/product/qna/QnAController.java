@@ -59,4 +59,14 @@ public class QnAController {
 
         return qnAService.questionHistoryListByproductNo(productNo);
     }
+
+    /**
+     * 문의글 삭제 contoller
+     * @param qnaNo
+     */
+    @DeleteMapping("/delete/{qnaNo}")
+    public void deleteQna(@PathVariable("qnaNo") Long qnaNo) {
+        log.info("deleteQna: " + qnaNo);
+        qnAService.deleteQna(qnaNo);
+    }
 }

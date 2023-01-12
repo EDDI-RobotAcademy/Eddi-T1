@@ -9,4 +9,5 @@ public interface QnAService {
     void register(QuestionRegisterRequest request);
     List<QnaHistoryResponse> questionHistoryList(String writer);
     List<QnaHistoryResponse> questionHistoryListByproductNo(Long productNo);
+    void deleteQna(Long qnaId);
 }

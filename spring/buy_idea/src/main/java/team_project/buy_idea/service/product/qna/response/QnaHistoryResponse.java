@@ -14,6 +14,7 @@ import java.util.Date;
 public class QnaHistoryResponse {
 
     private Long productNo;
+    private Long qnaNo;
     private String title;
     private String writer;
     private String nickname;
