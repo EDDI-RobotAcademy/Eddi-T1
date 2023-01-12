@@ -30,6 +30,28 @@
                     <h6>{{ item.nickname }}</h6>
                   </div>
 
+                  <v-layout>
+                    <div style="padding: 5px 0px 5px 5px;">
+                      <v-rating
+                          color="#DAA520"
+                          background-color="#DAA520"
+                          empty-icon="mdi-star-outline"
+                          full-icon="mdi-star"
+                          hover
+                          dense
+                          length="5"
+                          size="18"
+                          v-model="knowhowProductRatingValue[index]"
+                          readonly
+                      >
+                      </v-rating>
+                    </div>
+
+                    <div style="padding-top: 9px;">
+                      <h5>( {{knowhowProductRatingValue[index].toFixed(1)}} )</h5>
+                    </div>
+                  </v-layout>
+
                   <div style="padding: 5px 10px 10px 5px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
@@ -38,7 +60,6 @@
                     <h5>{{ item.price | comma }}원</h5>
                   </div>
                 </div>
-
               </v-card>
             </v-hover>
           </router-link>
@@ -66,6 +87,7 @@ export default {
     ...mapState([
       'mainPageProductImgListByKnowHOw',
       'mainPageProductListByKnowHow',
+      'knowhowProductRatingValue'
     ])
   },
   methods: {

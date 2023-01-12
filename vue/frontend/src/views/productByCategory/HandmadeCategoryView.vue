@@ -22,6 +22,7 @@ export default {
       'mainPageNextProductList',
       'mainPageNextProductImgList',
       'mainPageProductImgListByHandmade',
+      'handmadeProductRatingValue'
     ])
   },
   data() {
@@ -36,7 +37,8 @@ export default {
     ...mapActions([
       'requestProductListByCategoryToSpring',
       'requestProductListNextPageByCategoryToSpring',
-      'requestProductListImgNextPageByCategoryToSpring'
+      'requestProductListImgNextPageByCategoryToSpring',
+      'requestProductRatingValueToSpring'
     ]),
     async nextPageOnScroll($state) {
       const productNo = this.lastProductNo
@@ -64,6 +66,7 @@ export default {
         let productNo = this.mainPageNextProductList[i].productNo
 
         await this.requestProductListImgNextPageByCategoryToSpring(productNo)
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
 
       for (let i = 0; i < this.mainPageNextProductImgList.length; i++) {
