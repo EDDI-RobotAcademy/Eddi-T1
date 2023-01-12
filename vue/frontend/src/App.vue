@@ -1,86 +1,92 @@
 <template>
-  <v-app>
-    <v-container>
-      <v-app-bar
-          class="v-toolbar__content" elevation="0" height="100" color="white"
-          width="auto" style="margin: 0 auto; justify-content: center" app>
-        <div>
-          <v-img class="mr-9" :src="require('@/assets/buydia_logo.png')" width="200px" contain
-                 style="cursor: pointer"
-                 @click="moveToHome"/>
-        </div>
-        <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
-                     :to="{ name : 'HandmadeCategoryView'}">
-          핸드메이드
-        </router-link>
-        <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
-                     :to="{ name : 'KnowhowCategoryView'}">
-          노하우
-        </router-link>
-        <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
-                     :to="{ name : 'HobbyCategoryView'}">
-          취미/특기
-        </router-link>
-        <v-col cols="4">
-          <v-text-field
-              v-model="searchWord"
-              outlined
-              color="#2F4F4F"
-              solo
-              flat
-              :append-icon="'mdi-magnify'"
-              placeholder="통합검색"
-              @click:append="moveSearchPage"
-              @keypress.e.enter="moveSearchPage"
-              style="margin-top: 30px;
-              border: #2F4F4F"></v-text-field>
-        </v-col>
-        <template v-if="this.$store.state.signInCheckValue">
-          <v-btn
-              plain
-              to="/my-page"
-          >
-            <h4>마이페이지</h4>
-          </v-btn>
-          <v-btn
-              plain
-              @click="signOut"
-          >
-            <h4>로그아웃</h4>
-          </v-btn>
-        </template>
+  <div>
 
-        <template v-else>
-          <v-btn
-              plain
-              to="/sign-in"
-          >
-            <h4>로그인</h4>
-          </v-btn>
-          <v-btn
-              plain
-              to="/sign-up-choice"
-          >
-            <h4>회원가입</h4>
-          </v-btn>
-        </template>
-        <v-icon @click="moveShoppingCardPage" size="30" color="#2F4F4F">mdi-cart-variant</v-icon>
-      </v-app-bar>
-    </v-container>
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+    <v-app>
+      <v-container>
+        <v-app-bar
+            class="v-toolbar__content" elevation="0" height="100" color="white"
+            width="auto" style="margin: 0 auto; justify-content: center" app>
+          <div>
+            <v-img class="mr-9" :src="require('@/assets/buydia_logo.png')" width="200px" contain
+                   style="cursor: pointer"
+                   @click="moveToHome"/>
+          </div>
+          <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
+                       :to="{ name : 'HandmadeCategoryView'}">
+            핸드메이드
+          </router-link>
+          <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
+                       :to="{ name : 'KnowhowCategoryView'}">
+            노하우
+          </router-link>
+          <router-link class="service" style="text-decoration: none; color: #2F4F4F;"
+                       :to="{ name : 'HobbyCategoryView'}">
+            취미/특기
+          </router-link>
+          <v-col cols="4">
+            <v-text-field
+                v-model="searchWord"
+                outlined
+                color="#2F4F4F"
+                solo
+                flat
+                :append-icon="'mdi-magnify'"
+                placeholder="통합검색"
+                @click:append="moveSearchPage"
+                @keypress.e.enter="moveSearchPage"
+                style="margin-top: 30px;
+              border: #2F4F4F"></v-text-field>
+          </v-col>
+          <template v-if="this.$store.state.signInCheckValue">
+            <v-btn
+                plain
+                to="/my-page"
+            >
+              <h4>마이페이지</h4>
+            </v-btn>
+            <v-btn
+                plain
+                @click="signOut"
+            >
+              <h4>로그아웃</h4>
+            </v-btn>
+          </template>
+
+          <template v-else>
+            <v-btn
+                plain
+                to="/sign-in"
+            >
+              <h4>로그인</h4>
+            </v-btn>
+            <v-btn
+                plain
+                to="/sign-up-choice"
+            >
+              <h4>회원가입</h4>
+            </v-btn>
+          </template>
+          <v-icon @click="moveShoppingCardPage" size="30" color="#2F4F4F">mdi-cart-variant</v-icon>
+        </v-app-bar>
+      </v-container>
+      <v-main>
+        <router-view/>
+      </v-main>
+    </v-app>
+
+    <v-divider style="margin-top: 80px;"></v-divider>
+    <footer-form/>
+  </div>
 </template>
 
 <script>
 
 
 import {mapActions, mapState} from "vuex";
-
+import FooterForm from "@/components/footer/FooterForm";
 export default {
   name: 'App',
-  components: {},
+  components: {FooterForm},
   data() {
     return {
       searchWord: ""

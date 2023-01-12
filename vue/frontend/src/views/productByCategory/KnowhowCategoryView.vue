@@ -57,7 +57,7 @@ export default {
                 }
                 this.lastProductNo = this.knowHowCategoryProduct[this.knowHowCategoryProduct.length - 1].productNo
                 $state.loaded()
-              }, 1000);
+              }, 2000);
             }
           });
 

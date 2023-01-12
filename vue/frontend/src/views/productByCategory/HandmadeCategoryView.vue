@@ -55,7 +55,7 @@ export default {
                 }
                 this.lastProductNo = this.handmadeCategoryProduct[this.handmadeCategoryProduct.length - 1].productNo
                 $state.loaded()
-              }, 1000);
+              }, 2000);
             }
           });
 

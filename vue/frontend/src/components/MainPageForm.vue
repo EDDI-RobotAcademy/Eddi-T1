@@ -86,7 +86,7 @@ export default {
   },
   async mounted() {
     const categoryArr = ['핸드메이드', '노하우', '취미/특기']
-    const productSize = 5
+    const productSize = 8
 
     for (let i = 0; i < categoryArr.length; i++) {
       let category = categoryArr[i]
