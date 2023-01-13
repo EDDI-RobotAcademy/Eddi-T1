@@ -8,6 +8,7 @@ import '../component/buyer/shopping_bucket/shopping_bucket_product.dart';
 class SpringShoppingBucketApi {
   static const String httpUri = '192.168.0.8:8888';
   static var bucketRegisterResponse;
+  static var bucketDeleteResponse;
 
   Future<List<ShoppingBucketProduct>> shoppingBucketList(
       String memberNickname) async {
@@ -46,7 +47,7 @@ class SpringShoppingBucketApi {
   shoppingBucketDelete(int itemId) async {
     var body = json.encode(itemId);
 
-    bucketRegisterResponse = await http.delete(
+    bucketDeleteResponse = await http.delete(
       Uri.http(httpUri, '/order/shopping-bucket-list/$itemId'),
       headers: {"Content-Type": "application/json"},
       body : body,

@@ -1,3 +1,4 @@
+import 'package:buy_idea/component/buyer/my_info/my_order_info/review_register_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +32,6 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
   final Uri _url = Uri.parse(
       'https://m.search.daum.net/search?nil_profile=btn&w=tot&DA=SBC&q=%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C');
   int setItemCount = 2;
-  bool check = true;
   var f = NumberFormat('###,###,###,###');
   final List<MyOrderInfoProduct> myOrderSliceList = [];
 
@@ -55,10 +55,6 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
     });
   }
 
-  _reviewCheckAction(int productNo) async {
-    check = await SpringReviewApi()
-        .checkWriteReview(widget.memberNickname, productNo);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,55 +209,11 @@ class _MyOrderInfoFormState extends State<MyOrderInfoForm> {
                                           )),
                                       Row(
                                         children: [
-                                          if (myOrderSliceList[index]
-                                                  .orderStatus ==
-                                              'DELIVERED')
-                                            if (_reviewCheckAction(
-                                                    myOrderSliceList[index]
-                                                        .productNo) ==
-                                                false)
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Get.to(ReviewRegisterPage(
-                                                        productNo:
-                                                            myOrderSliceList[
-                                                                    index]
-                                                                .productNo,
-                                                        productTitle:
-                                                            myOrderSliceList[
-                                                                    index]
-                                                                .title));
-                                                  },
-                                                  child: const Text('리뷰등록',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12)),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          elevation: 0,
-                                                          primary: Color(
-                                                              0xFF2F4F4F)))
-                                            else
-                                              TextButton(
-                                                  onPressed: () {},
-                                                  child: const Text('리뷰등록',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12)),
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                          elevation: 0,
-                                                          primary: Colors.grey))
-                                          else
-                                            TextButton(
-                                                onPressed: () {},
-                                                child: const Text('리뷰등록',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12)),
-                                                style: ElevatedButton.styleFrom(
-                                                    elevation: 0,
-                                                    primary: Colors.grey))
+                                          ReviewRegisterButton(
+                                            productNo: myOrderSliceList[index].productNo,
+                                            orderStatus: myOrderSliceList[index].orderStatus,
+                                            memberNickname: widget.memberNickname,
+                                            productTitle: myOrderSliceList[index].title)
                                         ],
                                       ),
                                     ],

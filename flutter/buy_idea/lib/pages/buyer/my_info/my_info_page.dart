@@ -54,20 +54,23 @@ class _MyInfoPageState extends State<MyInfoPage> {
       );
     } else {
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const TopBar(),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.grey,
-          child: Column(
-            children: [
-              Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.all(10),
-                  child: BuyerInformation(memberNickname: memberNickname)),
-              const SizedBox(height: 1.0),
-              BuyerInfoListTileForm(memberNickname: memberNickname),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.grey,
+            child: Column(
+              children: [
+                Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.all(10),
+                    child: BuyerInformation(memberNickname: memberNickname)),
+                const SizedBox(height: 1.0),
+                BuyerInfoListTileForm(memberNickname: memberNickname),
+              ],
+            ),
           ),
         ),
       );
