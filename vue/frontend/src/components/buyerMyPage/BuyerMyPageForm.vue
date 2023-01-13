@@ -3,38 +3,9 @@
     <buyer-nav/>
 
     <v-container style="width: 1400px">
-      <h2>마이페이지</h2>
-      <v-divider style="margin-top: 40px"></v-divider>
-
-      <v-container style="width: 880px; margin-top: 80px">
-        <v-card style="height: 150px"
-                tile
-                fla
-        >
-          <v-row class="justify-center">
-            <v-card class="cardStyle"
-                    v-for="(item, index) in myPageCategoryItems"
-                    :key="index"
-                    tile
-                    flat
-            >
-              <v-card-title class="justify-center">
-                <h5>{{ item.title }}</h5>
-              </v-card-title>
-
-              <v-card-title class="justify-sm-end" style="margin-right: 10px">
-                <router-link to="null" style="text-decoration: none; color: white">
-                  <h5 style="font-size: 33px; color: #FAEBD7">{{ item.count }}</h5>
-                </router-link>
-
-                <span style="margin-top: 7px">
-                  개
-                </span>
-              </v-card-title>
-            </v-card>
-          </v-row>
-        </v-card>
-      </v-container>
+      <buyer-my-page-top-nav :myPageCategoryItems="myPageCategoryItems"
+                             :countByInfo="countByInfo"
+      />
 
 
       <!--최근 주문내역-->
@@ -394,215 +365,215 @@
       </v-container>
 
 
-      <!--취소 및 반품 내역-->
-      <v-container style="width: 1200px; margin-top: 80px">
-        <v-layout>
-          <h3>취소/반품 내역</h3>
-          <v-spacer></v-spacer>
-          <router-link to="null" style="text-decoration: none; color: black">
-            <h4 style="font-size: 13px">더보기></h4>
-          </router-link>
-        </v-layout>
+<!--      &lt;!&ndash;취소 및 반품 내역&ndash;&gt;-->
+<!--      <v-container style="width: 1200px; margin-top: 80px">-->
+<!--        <v-layout>-->
+<!--          <h3>취소/반품 내역</h3>-->
+<!--          <v-spacer></v-spacer>-->
+<!--          <router-link to="null" style="text-decoration: none; color: black">-->
+<!--            <h4 style="font-size: 13px">더보기></h4>-->
+<!--          </router-link>-->
+<!--        </v-layout>-->
 
-        <v-container style="width: 800px; margin-top: 30px">
-          <div>
-            <v-card style="border: 1px solid black; margin-top: 10px;">
-              <v-card-subtitle style="border-bottom: 1px solid black">
-                <v-layout>
-                    취소 접수일: <h4>2022-12-20</h4> &nbsp;| 주문일: <h4>2022-12-20</h4> &nbsp;| 주문번호: <h4>202212200000001</h4>
-                  <v-spacer></v-spacer>
+<!--        <v-container style="width: 800px; margin-top: 30px">-->
+<!--          <div>-->
+<!--            <v-card style="border: 1px solid black; margin-top: 10px;">-->
+<!--              <v-card-subtitle style="border-bottom: 1px solid black">-->
+<!--                <v-layout>-->
+<!--                    취소 접수일: <h4>2022-12-20</h4> &nbsp;| 주문일: <h4>2022-12-20</h4> &nbsp;| 주문번호: <h4>202212200000001</h4>-->
+<!--                  <v-spacer></v-spacer>-->
 
-                  <router-link to="null" style="text-decoration: none; color: black">
-                    <!--                  <h5>{{ itemList.price }} ></h5>-->
-                    <h5>35,000원</h5>
-                  </router-link>
-                </v-layout>
-              </v-card-subtitle>
+<!--                  <router-link to="null" style="text-decoration: none; color: black">-->
+<!--                    &lt;!&ndash;                  <h5>{{ itemList.price }} ></h5>&ndash;&gt;-->
+<!--                    <h5>35,000원</h5>-->
+<!--                  </router-link>-->
+<!--                </v-layout>-->
+<!--              </v-card-subtitle>-->
 
-              <v-layout>
-                <v-card max-width="100"
-                        style="padding: 15px 15px 15px 15px"
-                        flat
-                >
-                  <v-img
-                      height="75px"
-                      src="@/assets/productImg/상품이미지1.jpg"
-                  >
-                  </v-img>
-                </v-card>
+<!--              <v-layout>-->
+<!--                <v-card max-width="100"-->
+<!--                        style="padding: 15px 15px 15px 15px"-->
+<!--                        flat-->
+<!--                >-->
+<!--                  <v-img-->
+<!--                      height="75px"-->
+<!--                      src="@/assets/productImg/상품이미지1.jpg"-->
+<!--                  >-->
+<!--                  </v-img>-->
+<!--                </v-card>-->
 
-                <v-card width="400px"
-                        flat
-                        style="border-right: 1px solid black"
-                        tile
-                >
-                  <v-card-title style="font-weight: bold; font-size: 15px">
-                    <router-link to="null" style="text-decoration: none; color: black">
-                      <!--                    {{ itemList.productTitle }}-->
-                      핸드메이드 상품
-                    </router-link>
-                  </v-card-title>
+<!--                <v-card width="400px"-->
+<!--                        flat-->
+<!--                        style="border-right: 1px solid black"-->
+<!--                        tile-->
+<!--                >-->
+<!--                  <v-card-title style="font-weight: bold; font-size: 15px">-->
+<!--                    <router-link to="null" style="text-decoration: none; color: black">-->
+<!--                      &lt;!&ndash;                    {{ itemList.productTitle }}&ndash;&gt;-->
+<!--                      핸드메이드 상품-->
+<!--                    </router-link>-->
+<!--                  </v-card-title>-->
 
-                  <v-card-subtitle style="font-size: 12px">
-                    <!--                  {{ itemList.optionsList }} : {{ itemList.quantity }}개-->
-                    수제 케익 : 1개
-                  </v-card-subtitle>
-                </v-card>
+<!--                  <v-card-subtitle style="font-size: 12px">-->
+<!--                    &lt;!&ndash;                  {{ itemList.optionsList }} : {{ itemList.quantity }}개&ndash;&gt;-->
+<!--                    수제 케익 : 1개-->
+<!--                  </v-card-subtitle>-->
+<!--                </v-card>-->
 
-                <v-card flat
-                        style="border-right: 1px solid black"
-                        tile
-                        width="200px"
-                >
-                  <v-layout justify-center style="padding: 1px">
-                    <v-card-title style="font-size: 15px">
-                      <!--                    <h5>{{ itemList.seller }}</h5>-->
-                      <h5> 핸드메이드 판매자 </h5>
-                    </v-card-title>
-                  </v-layout>
+<!--                <v-card flat-->
+<!--                        style="border-right: 1px solid black"-->
+<!--                        tile-->
+<!--                        width="200px"-->
+<!--                >-->
+<!--                  <v-layout justify-center style="padding: 1px">-->
+<!--                    <v-card-title style="font-size: 15px">-->
+<!--                      &lt;!&ndash;                    <h5>{{ itemList.seller }}</h5>&ndash;&gt;-->
+<!--                      <h5> 핸드메이드 판매자 </h5>-->
+<!--                    </v-card-title>-->
+<!--                  </v-layout>-->
 
-                  <v-card-subtitle align="center">
-                    <v-btn
-                        small
-                        elevation="0"
-                        style="background-color: #2F4F4F; color: white; margin-top: -35px;"
-                    >
-                      문의하기
-                    </v-btn>
-                  </v-card-subtitle>
-                </v-card>
+<!--                  <v-card-subtitle align="center">-->
+<!--                    <v-btn-->
+<!--                        small-->
+<!--                        elevation="0"-->
+<!--                        style="background-color: #2F4F4F; color: white; margin-top: -35px;"-->
+<!--                    >-->
+<!--                      문의하기-->
+<!--                    </v-btn>-->
+<!--                  </v-card-subtitle>-->
+<!--                </v-card>-->
 
-                <v-card flat align="center">
-                  <div style="margin: 50px 0px 0px 5px">
-                    <h4>취소완료</h4>
-                  </div>
-                </v-card>
-              </v-layout>
-            </v-card>
-          </div>
-        </v-container>
-      </v-container>
+<!--                <v-card flat align="center">-->
+<!--                  <div style="margin: 50px 0px 0px 5px">-->
+<!--                    <h4>취소완료</h4>-->
+<!--                  </div>-->
+<!--                </v-card>-->
+<!--              </v-layout>-->
+<!--            </v-card>-->
+<!--          </div>-->
+<!--        </v-container>-->
+<!--      </v-container>-->
 
-      <v-container style="width: 1200px; margin-top: 80px">
-        <v-layout>
-          <h3>최근 본 상품</h3>
-          <v-spacer></v-spacer>
-          <router-link to="null" style="text-decoration: none; color: black">
-            <h4 style="font-size: 13px">더보기></h4>
-          </router-link>
-        </v-layout>
-      </v-container>
+<!--      <v-container style="width: 1200px; margin-top: 80px">-->
+<!--        <v-layout>-->
+<!--          <h3>최근 본 상품</h3>-->
+<!--          <v-spacer></v-spacer>-->
+<!--          <router-link to="null" style="text-decoration: none; color: black">-->
+<!--            <h4 style="font-size: 13px">더보기></h4>-->
+<!--          </router-link>-->
+<!--        </v-layout>-->
+<!--      </v-container>-->
 
-      <v-container style="width: 1000px; margin-top: 80px">
-        <v-layout>
-          <v-row class="justify-start">
-            <v-card
-                    class="ma-4"
-                    max-width="210"
-                    style="margin-right: 20px"
-            >
-              <v-img
-                  class="white--text align-end"
-                  height="200px"
-                  src="@/assets/productImg/상품이미지1.jpg"
-              >
-              </v-img>
-              <v-card-subtitle class="pb-0">
-<!--                {{ item.sellerNickname }}-->
-                핸드메이드 판매자
-              </v-card-subtitle>
-              <v-card-title>
-<!--                <h4>{{ item.commodityTitle }}</h4>-->
-                <h4>핸드메이드 상품</h4>
-              </v-card-title>
-              <v-divider></v-divider>
+<!--      <v-container style="width: 1000px; margin-top: 80px">-->
+<!--        <v-layout>-->
+<!--          <v-row class="justify-start">-->
+<!--            <v-card-->
+<!--                    class="ma-4"-->
+<!--                    max-width="210"-->
+<!--                    style="margin-right: 20px"-->
+<!--            >-->
+<!--              <v-img-->
+<!--                  class="white&#45;&#45;text align-end"-->
+<!--                  height="200px"-->
+<!--                  src="@/assets/productImg/상품이미지1.jpg"-->
+<!--              >-->
+<!--              </v-img>-->
+<!--              <v-card-subtitle class="pb-0">-->
+<!--&lt;!&ndash;                {{ item.sellerNickname }}&ndash;&gt;-->
+<!--                핸드메이드 판매자-->
+<!--              </v-card-subtitle>-->
+<!--              <v-card-title>-->
+<!--&lt;!&ndash;                <h4>{{ item.commodityTitle }}</h4>&ndash;&gt;-->
+<!--                <h4>핸드메이드 상품</h4>-->
+<!--              </v-card-title>-->
+<!--              <v-divider></v-divider>-->
 
-              <v-card-text class="text--primary">
-<!--                {{ item.contents }}-->
-                핸드메이드 상품 설명
-              </v-card-text>
+<!--              <v-card-text class="text&#45;&#45;primary">-->
+<!--&lt;!&ndash;                {{ item.contents }}&ndash;&gt;-->
+<!--                핸드메이드 상품 설명-->
+<!--              </v-card-text>-->
 
-            </v-card>
-            <v-card
-                class="ma-4"
-                max-width="210"
-            >
-              <v-img
-                  class="white--text align-end"
-                  height="200px"
-                  src="@/assets/productImg/상품이미지1.jpg"
-              >
-              </v-img>
-              <v-card-subtitle class="pb-0">
-                <!--                {{ item.sellerNickname }}-->
-                핸드메이드 판매자
-              </v-card-subtitle>
-              <v-card-title>
-                <!--                <h4>{{ item.commodityTitle }}</h4>-->
-                <h4>핸드메이드 상품</h4>
-              </v-card-title>
-              <v-divider></v-divider>
+<!--            </v-card>-->
+<!--            <v-card-->
+<!--                class="ma-4"-->
+<!--                max-width="210"-->
+<!--            >-->
+<!--              <v-img-->
+<!--                  class="white&#45;&#45;text align-end"-->
+<!--                  height="200px"-->
+<!--                  src="@/assets/productImg/상품이미지1.jpg"-->
+<!--              >-->
+<!--              </v-img>-->
+<!--              <v-card-subtitle class="pb-0">-->
+<!--                &lt;!&ndash;                {{ item.sellerNickname }}&ndash;&gt;-->
+<!--                핸드메이드 판매자-->
+<!--              </v-card-subtitle>-->
+<!--              <v-card-title>-->
+<!--                &lt;!&ndash;                <h4>{{ item.commodityTitle }}</h4>&ndash;&gt;-->
+<!--                <h4>핸드메이드 상품</h4>-->
+<!--              </v-card-title>-->
+<!--              <v-divider></v-divider>-->
 
-              <v-card-text class="text--primary">
-                <!--                {{ item.contents }}-->
-                핸드메이드 상품 설명
-              </v-card-text>
+<!--              <v-card-text class="text&#45;&#45;primary">-->
+<!--                &lt;!&ndash;                {{ item.contents }}&ndash;&gt;-->
+<!--                핸드메이드 상품 설명-->
+<!--              </v-card-text>-->
 
-            </v-card><v-card
-              class="ma-4"
-              max-width="210"
-          >
-            <v-img
-                class="white--text align-end"
-                height="200px"
-                src="@/assets/productImg/상품이미지1.jpg"
-            >
-            </v-img>
-            <v-card-subtitle class="pb-0">
-              <!--                {{ item.sellerNickname }}-->
-              핸드메이드 판매자
-            </v-card-subtitle>
-            <v-card-title>
-              <!--                <h4>{{ item.commodityTitle }}</h4>-->
-              <h4>핸드메이드 상품</h4>
-            </v-card-title>
-            <v-divider></v-divider>
+<!--            </v-card><v-card-->
+<!--              class="ma-4"-->
+<!--              max-width="210"-->
+<!--          >-->
+<!--            <v-img-->
+<!--                class="white&#45;&#45;text align-end"-->
+<!--                height="200px"-->
+<!--                src="@/assets/productImg/상품이미지1.jpg"-->
+<!--            >-->
+<!--            </v-img>-->
+<!--            <v-card-subtitle class="pb-0">-->
+<!--              &lt;!&ndash;                {{ item.sellerNickname }}&ndash;&gt;-->
+<!--              핸드메이드 판매자-->
+<!--            </v-card-subtitle>-->
+<!--            <v-card-title>-->
+<!--              &lt;!&ndash;                <h4>{{ item.commodityTitle }}</h4>&ndash;&gt;-->
+<!--              <h4>핸드메이드 상품</h4>-->
+<!--            </v-card-title>-->
+<!--            <v-divider></v-divider>-->
 
-            <v-card-text class="text--primary">
-              <!--                {{ item.contents }}-->
-              핸드메이드 상품 설명
-            </v-card-text>
+<!--            <v-card-text class="text&#45;&#45;primary">-->
+<!--              &lt;!&ndash;                {{ item.contents }}&ndash;&gt;-->
+<!--              핸드메이드 상품 설명-->
+<!--            </v-card-text>-->
 
-          </v-card>
-            <v-card
-                class="ma-4"
-                max-width="210"
-            >
-              <v-img
-                  class="white--text align-end"
-                  height="200px"
-                  src="@/assets/productImg/상품이미지1.jpg"
-              >
-              </v-img>
-              <v-card-subtitle class="pb-0">
-                <!--                {{ item.sellerNickname }}-->
-                핸드메이드 판매자
-              </v-card-subtitle>
-              <v-card-title>
-                <!--                <h4>{{ item.commodityTitle }}</h4>-->
-                <h4>핸드메이드 상품</h4>
-              </v-card-title>
-              <v-divider></v-divider>
+<!--          </v-card>-->
+<!--            <v-card-->
+<!--                class="ma-4"-->
+<!--                max-width="210"-->
+<!--            >-->
+<!--              <v-img-->
+<!--                  class="white&#45;&#45;text align-end"-->
+<!--                  height="200px"-->
+<!--                  src="@/assets/productImg/상품이미지1.jpg"-->
+<!--              >-->
+<!--              </v-img>-->
+<!--              <v-card-subtitle class="pb-0">-->
+<!--                &lt;!&ndash;                {{ item.sellerNickname }}&ndash;&gt;-->
+<!--                핸드메이드 판매자-->
+<!--              </v-card-subtitle>-->
+<!--              <v-card-title>-->
+<!--                &lt;!&ndash;                <h4>{{ item.commodityTitle }}</h4>&ndash;&gt;-->
+<!--                <h4>핸드메이드 상품</h4>-->
+<!--              </v-card-title>-->
+<!--              <v-divider></v-divider>-->
 
-              <v-card-text class="text--primary">
-                <!--                {{ item.contents }}-->
-                핸드메이드 상품 설명
-              </v-card-text>
+<!--              <v-card-text class="text&#45;&#45;primary">-->
+<!--                &lt;!&ndash;                {{ item.contents }}&ndash;&gt;-->
+<!--                핸드메이드 상품 설명-->
+<!--              </v-card-text>-->
 
-            </v-card>
-          </v-row>
-        </v-layout>
-      </v-container>
+<!--            </v-card>-->
+<!--          </v-row>-->
+<!--        </v-layout>-->
+<!--      </v-container>-->
     </v-container>
   </div>
 </template>
@@ -610,13 +581,16 @@
 <script>
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
 import {mapActions, mapState} from "vuex";
+import buyerMyPageTopNav from "@/components/buyerMyPage/buyerMyPageTopNav";
+import BuyerMyPageTopNav from "@/components/buyerMyPage/buyerMyPageTopNav";
 
 export default {
   name: "BuyerMyPageForm",
-  components: {BuyerNav},
+  components: {BuyerMyPageTopNav, buyerMyPageTopNav, BuyerNav},
   computed: {
     ...mapState([
-        'myOrderInfoList'
+        'myOrderInfoList',
+        'myQnaList'
     ])
   },
   data() {
@@ -632,10 +606,10 @@ export default {
         {name: '배송 조회'},
       ],
       myPageCategoryItems: [
-        {title: "최근 주문내역", count: 0},
-        {title: "취소/반품 내역", count: 0},
-        {title: "최근 본 상품", count: 3},
-        {title: "내가 작성한 리뷰", count: 4},
+        {title: "최근 주문내역"},
+        {title: "문의 내역"},
+        {title: "작성한 리뷰 내역"},
+        {title: "최근 본 상품 내역"},
       ],
 
       orderNoList: [],
@@ -669,7 +643,7 @@ export default {
       contentRule: [
         v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
       ],
-
+      countByInfo: []
     }
   },
   //숫자 콤마
@@ -757,27 +731,27 @@ export default {
     const orderListTotalCount = handmadeListLength + knowHowListLength + hobbyListLength
 
     this.$set(this.myPageCategoryItems[0], 'count', orderListTotalCount)
+
   },
   async created() {
     //리뷰페이지 상품 이미지 받는 로직
     //상품 이미지 받기전 상품 이미지 받을 변수 초기화작업
     this.reviewProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
+    console.log(this.myQnaList.length)
 
     //문의페이지 상품 이미지 받는 로직
     //문의 이미지 받기전 받을 변수 초기화
     this.qnaProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
+
+    const infoNum = new Array
+    infoNum.push(this.myOrderInfoList.length)
+    infoNum.push(this.myQnaList.length)
+
+    this.countByInfo = infoNum
   }
 }
 </script>
 
 <style scoped>
-.cardStyle {
-  height: 150px;
-  width: 215px;
-  padding: 10px 10px;
-  background-color: #2F4F4F;
-  color: white;
-  border-right: 1px solid white;
-  border-left: 1px solid white;
-}
+
 </style>
