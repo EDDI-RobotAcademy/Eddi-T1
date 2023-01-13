@@ -1,5 +1,9 @@
 import 'package:buy_idea/pages/seller/product_registration_status/product_registration_status_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../../pages/seller/qna_management/qna_management_page.dart';
 
 class SellerDrawer extends StatefulWidget {
   const SellerDrawer({Key? key, required this.nickname}) : super(key: key);
@@ -58,7 +62,9 @@ class _SellerDrawerState extends State<SellerDrawer> {
           ),
           Divider(),
           ListTile(
-            onTap: (){},
+            onTap: (){
+              Get.to(QnaManagementPage());
+            },
             leading: Icon(Icons.quiz_outlined, color: Colors.black),
             title: Text('문의 관리'),
             trailing: Icon(Icons.navigate_next, color: Colors.black),
