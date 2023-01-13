@@ -135,7 +135,7 @@ export default {
                         store.commit("USER_TOKEN", res.data.userToken)
                     }
 
-                    store.commit('SING_IN_CHECK_VALUE', true)
+                    store.commit('SIGN_IN_CHECK_VALUE', true)
 
                     if (res.data.memberType == "일반회원") {
                         router.push({name: "HomeView"})
