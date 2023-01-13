@@ -1,4 +1,5 @@
 import 'package:buy_idea/api/seller/spring_seller_qna_api.dart';
+import 'package:buy_idea/component/seller/qna_management/top_count_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -70,39 +71,44 @@ class _AnswerCompleteFormState extends State<AnswerCompleteForm> {
         return const Center(
             child: Text("답변 완료 상태의 문의 내역이 없습니다."));
       } else {
-        return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: answerCompleteList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ExpansionTile(
-                backgroundColor: Colors.white,
-                collapsedBackgroundColor: Colors.white,
-                iconColor: Colors.black,
-                collapsedIconColor: Colors.black,
-                childrenPadding: EdgeInsets.all(10),
-                title: Row(
-                  children: [
-                    Text('[${answerCompleteList[index].questionCategory}] '),
-                    Text(answerCompleteList[index].title),
-                  ],
-                ),
-                children: [
-              AnswerCompleteHistoryCard(
-                productNo: answerCompleteList[index].productNo,
-                qnaNo: answerCompleteList[index].qnaNo,
-                title: answerCompleteList[index].title,
-                writer: answerCompleteList[index].writer,
-                nickname: answerCompleteList[index].nickname,
-                questionCategory: answerCompleteList[index].questionCategory,
-                questionTitle: answerCompleteList[index].questionTitle,
-                questionContent: answerCompleteList[index].questionContent,
-                answer: answerCompleteList[index].answer,
-                answerStatus: answerCompleteList[index].answerStatus,
-                regDate: answerCompleteList[index].regDate,
-                updDate: answerCompleteList[index].updDate,
-                openStatus: answerCompleteList[index].openStatus)]);
-          },
+        return Column(
+          children: [
+            TopCountWidget(questionCount: answerCompleteList.length, answerStatus: '답변 완료'),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: answerCompleteList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ExpansionTile(
+                    backgroundColor: Colors.white,
+                    collapsedBackgroundColor: Colors.white,
+                    iconColor: Colors.black,
+                    collapsedIconColor: Colors.black,
+                    childrenPadding: EdgeInsets.all(10),
+                    title: Row(
+                      children: [
+                        Text('[${answerCompleteList[index].questionCategory}] '),
+                        Text(answerCompleteList[index].title),
+                      ],
+                    ),
+                    children: [
+                  AnswerCompleteHistoryCard(
+                    productNo: answerCompleteList[index].productNo,
+                    qnaNo: answerCompleteList[index].qnaNo,
+                    title: answerCompleteList[index].title,
+                    writer: answerCompleteList[index].writer,
+                    nickname: answerCompleteList[index].nickname,
+                    questionCategory: answerCompleteList[index].questionCategory,
+                    questionTitle: answerCompleteList[index].questionTitle,
+                    questionContent: answerCompleteList[index].questionContent,
+                    answer: answerCompleteList[index].answer,
+                    answerStatus: answerCompleteList[index].answerStatus,
+                    regDate: answerCompleteList[index].regDate,
+                    updDate: answerCompleteList[index].updDate,
+                    openStatus: answerCompleteList[index].openStatus)]);
+              },
+            ),
+          ],
         );
       }
     }
