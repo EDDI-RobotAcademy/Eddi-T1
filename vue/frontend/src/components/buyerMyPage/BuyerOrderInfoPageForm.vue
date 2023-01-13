@@ -585,7 +585,7 @@ import buyerMyPageTopNav from "@/components/buyerMyPage/buyerMyPageTopNav";
 import BuyerMyPageTopNav from "@/components/buyerMyPage/buyerMyPageTopNav";
 
 export default {
-  name: "BuyerMyPageForm",
+  name: "BuyerOrderInfoPageForm",
   components: {BuyerMyPageTopNav, buyerMyPageTopNav, BuyerNav},
   computed: {
     ...mapState([

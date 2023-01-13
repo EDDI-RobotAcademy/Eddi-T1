@@ -121,7 +121,7 @@ const routes = [
     }
   },
   {
-    path: '/my-page',
+    path: '/buyer-orderInfo',
     name: 'BuyerMyPageView',
     component: BuyerMyPageView
   },
