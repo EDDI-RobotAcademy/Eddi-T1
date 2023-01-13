@@ -1,25 +1,29 @@
 <template>
   <div>
-    <buyer-my-page-form/>
+    <buyer-order-info-page-form/>
   </div>
 </template>
 
 <script>
 
-import BuyerMyPageForm from "@/components/buyerMyPage/BuyerMyPageForm";
 import {mapActions} from "vuex";
+import BuyerOrderInfoPageForm from "@/components/buyerMyPage/BuyerOrderInfoPageForm";
 
 export default {
   name: "buyerMyPageView",
-  components: {BuyerMyPageForm},
+  components: {BuyerOrderInfoPageForm},
   methods: {
     ...mapActions([
-        'requestMyOrderInfoListFromSpring'
+        'requestMyOrderInfoListFromSpring',
+        'requestMyQnaListFromSpring'
     ])
   },
   async mounted() {
     const nickname = this.$store.state.memberInfoAfterSignIn.nickname
     await this.requestMyOrderInfoListFromSpring(nickname)
+
+    const writer = nickname
+    await this.requestMyQnaListFromSpring(writer)
   }
 }
 </script>
