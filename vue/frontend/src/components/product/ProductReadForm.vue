@@ -460,7 +460,9 @@
                   상품문의 및 후기게시판을 통해 취소나 환불은 처리되지 않습니다. <br/>
                   <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
                 </v-card-text>
-                <qna-form/>
+
+                <!--상품 문의 리스트-->
+                <qna-form :productNo="productNo"/>
               </v-card>
             </v-tab-item>
 
@@ -609,6 +611,7 @@ export default {
 
       await this.requestRegisterQnaFromSpring({productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
       this.dialogQna = false
+      history.go(0)
     },
   },
   beforeUpdate() {

@@ -21,4 +21,5 @@ export default {
     handmadeProductRatingValue: [],
     knowhowProductRatingValue: [],
     hobbyProductRatingValue: [],
+    productQnaList: [],
 }
