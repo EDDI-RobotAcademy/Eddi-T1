@@ -1,8 +1,6 @@
 package team_project.buy_idea.service.product.qna.response;
 
 import lombok.*;
-import team_project.buy_idea.entity.product.qna.AnswerStatus;
-import team_project.buy_idea.entity.product.qna.QuestionCategory;
 
 import java.util.Date;
 

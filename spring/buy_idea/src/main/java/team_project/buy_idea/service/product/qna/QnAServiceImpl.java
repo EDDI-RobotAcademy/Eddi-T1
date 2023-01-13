@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team_project.buy_idea.controller.product.qna.request.QuestionRegisterRequest;
+import team_project.buy_idea.controller.product.qna.request.SellerQnaListRequest;
 import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.entity.product.qna.AnswerStatus;
 import team_project.buy_idea.entity.product.qna.QnA;
@@ -114,6 +115,31 @@ public class QnAServiceImpl implements QnAService {
     }
 
     /**
+     * 문의글 삭제 service
+     *
+     * @param qnaNo 문의글 번호
+     */
+    @Override
+    public void deleteQna(Long qnaNo) {
+        qnARepository.deleteById(qnaNo);
+    }
+
+
+    /**
+     * 판매자와 답변 상태로 찾는 문의 내역 List
+     * @param request 판매자 닉네임(상호명), 답변 상태
+     * @return 문의 내역 리스트
+     */
+    public List<QnaHistoryResponse> qnaHistoryListByNicknameAndAnswerStatus(SellerQnaListRequest request) {
+        List<QnaHistoryResponse> qnaHistoryResponseList = new ArrayList<>();
+        String nickname = request.getNickname();
+        AnswerStatus answerStatus = answerStatusStringMapping(request.getAnswerStatus());
+        List<QnA> qnAList = qnARepository.findQnaHistoryByNicknameAndAnswerStatus(nickname, answerStatus);
+
+        return getQnaHistoryResponses(qnaHistoryResponseList, qnAList);
+    }
+
+    /**
      * 문의 카테고리 String -> enum 변환 메서드
      *
      * @param categoryName String 문의 카테고리
@@ -131,13 +157,12 @@ public class QnAServiceImpl implements QnAService {
         };
     }
 
-    /**
-     * 문의글 삭제 service
-     *
-     * @param qnaNo 문의글 번호
-     */
-    @Override
-    public void deleteQna(Long qnaNo) {
-        qnARepository.deleteById(qnaNo);
+    public AnswerStatus answerStatusStringMapping(String answerStatus) {
+
+        return switch (answerStatus) {
+            case "답변 대기" -> AnswerStatus.BEFORE_ANSWER;
+            case "답변 완료" -> AnswerStatus.ANSWER_COMPLETE;
+            default -> null;
+        };
     }
 }
