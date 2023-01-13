@@ -22,4 +22,10 @@ export default {
     knowhowProductRatingValue: [],
     hobbyProductRatingValue: [],
     productQnaList: [],
+    myPageCategoryItems: [
+        {title: "최근 주문내역"},
+        {title: "문의 내역"},
+        {title: "작성한 리뷰 내역"},
+        {title: "최근 본 상품 내역"},
+    ],
 }
