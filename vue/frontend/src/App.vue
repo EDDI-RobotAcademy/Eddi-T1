@@ -37,7 +37,7 @@
                 style="margin-top: 30px;
               border: #2F4F4F"></v-text-field>
           </v-col>
-          <template v-if="this.$store.state.signInCheckValue">
+          <template v-if="this.signInCheckValue">
             <v-btn
                 plain
                 to="/my-page"
@@ -87,15 +87,17 @@ import FooterForm from "@/components/footer/FooterForm";
 export default {
   name: 'App',
   components: {FooterForm},
+  computed:{
+    ...mapState([
+      'signInCheckValue'
+    ]),
+  },
   data() {
     return {
       searchWord: ""
     }
   },
   methods: {
-    ...mapState([
-      'signInCheckValue'
-    ]),
     ...mapActions([
       'requestSearchBySearchTermToSpring'
     ]),
@@ -122,6 +124,9 @@ export default {
       history.go(0)
     }
   },
+  beforeUpdate() {
+    console.log(this.signInCheckValue)
+  }
 };
 </script>
 

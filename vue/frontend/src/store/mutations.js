@@ -2,7 +2,7 @@ import {
     REQUEST_ID_PASS_CHECK,
     REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
     REQUEST_NICKNAME_MODIFY_FROM_SPRING,
-    SING_IN_CHECK_VALUE,
+    SIGN_IN_CHECK_VALUE,
     USER_TOKEN,
     REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,
     REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING,
@@ -37,7 +37,7 @@ export default {
     [REQUEST_NICKNAME_MODIFY_FROM_SPRING](state, passingData) {
         state.memberInfoAfterSignIn = passingData
     },
-    [SING_IN_CHECK_VALUE](state, passingData) {
+    [SIGN_IN_CHECK_VALUE](state, passingData) {
         state.signInCheckValue = passingData
     },
     [USER_TOKEN](state, passingData) {
