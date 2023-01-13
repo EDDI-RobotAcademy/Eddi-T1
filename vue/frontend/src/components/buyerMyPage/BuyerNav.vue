@@ -83,6 +83,10 @@ export default {
           title: "나의 문의",
           icon: "mdi-comment-question",
           route: "/buyer-qna"},
+        {
+          title: "마이 리뷰",
+          icon: "mdi-star",
+          route: "/buyer-review"},
       ],
     }
   },
