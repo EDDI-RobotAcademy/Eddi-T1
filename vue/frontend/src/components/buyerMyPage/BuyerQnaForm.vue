@@ -105,7 +105,6 @@
                           {{ item.answer }}
                         </v-card-title>
                       </v-card-title>
-
                     </v-card>
 
                   </v-card>
@@ -114,6 +113,13 @@
               </v-card>
 
             </td>
+          </template>
+
+          <!--등록된 문의가 없을 때-->
+          <template slot="no-data">
+            <v-alert :value="true" color="transparent" >
+              등록된 문의가 없습니다.
+            </v-alert>
           </template>
 
           <!--답변상태 chip-->
