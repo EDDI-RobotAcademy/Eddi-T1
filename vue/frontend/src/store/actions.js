@@ -16,7 +16,9 @@ import {
     REQUEST_SELLER_ORDER_LIST_FROM_SPRING,
     REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING
+    REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING,
+    REQUEST_PRODUCT_QNA_LIST_FROM_SPRING
+
 } from './mutation-types'
 
 import axios from 'axios'
@@ -535,7 +537,7 @@ export default {
             { productNo, writer, questionCategory, questionTitle, questionContent, openStatus })
             .then(() => {
                 alert("문의가 작성되었습니다.")
-                router.push({name: 'BuyerQnaView'}).catch(() => {})
+               /* router.push({name: 'BuyerQnaView'}).catch(() => {})*/
             })
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
@@ -657,7 +659,7 @@ export default {
                     commit(REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
                 }
             });
-    }
+    },
 
     /**
      * 문의 삭제 axios.
@@ -678,5 +680,21 @@ export default {
             .catch(() => {
                 alert("문의가 삭제되지 않았습니다.")
             });
+    },
+
+    /**
+     *  상품에 등록된 문의 리스트 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductQnaListFromSpring ({ commit }, productNo) {
+        console.log('requestProductQnaListFromSpring()' + productNo)
+
+        await axios.post(`http://localhost:8888/qna/p-history-list/${productNo}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_PRODUCT_QNA_LIST_FROM_SPRING, res.data)
+            })
     },
 }

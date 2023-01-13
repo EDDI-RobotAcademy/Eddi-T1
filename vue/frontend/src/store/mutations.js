@@ -21,7 +21,8 @@ import {
     REQUEST_SELLER_ORDER_LIST_FROM_SPRING,
     REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING
+    REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING,
+    REQUEST_PRODUCT_QNA_LIST_FROM_SPRING
 
 
 } from './mutation-types'
@@ -97,5 +98,7 @@ export default {
     [REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING](state, passingData) {
         state.hobbyProductRatingValue.push(passingData)
     },
-
+    [REQUEST_PRODUCT_QNA_LIST_FROM_SPRING](state, passingData) {
+        state.productQnaList = passingData
+    },
 }
