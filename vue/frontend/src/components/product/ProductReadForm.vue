@@ -302,7 +302,8 @@
                 </v-card-text>
                 <hr color="#DAA520" width="100%">
 
-<!--                <test-form/>-->
+                <!--리뷰 리스트-->
+                <review-form :productNo="productNo"/>
 
               </v-card>
             </v-tab-item>
@@ -481,10 +482,11 @@
 
 import {mapActions} from "vuex";
 import QnaForm from "@/components/product/qna/QnaForm";
+import ReviewForm from "@/components/product/review/ReviewForm";
 
 export default {
   name: "ProductReadForm",
-  components: {QnaForm},
+  components: {ReviewForm, QnaForm},
   props: {
     productNo: {
       type: String,
