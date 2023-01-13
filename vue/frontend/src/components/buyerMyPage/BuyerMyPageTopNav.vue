@@ -32,12 +32,16 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "buyerMyPageTopNav",
-  props: {
-    myPageCategoryItems:{
-      type: Array
-    },
+  computed:{
+    ...mapState([
+        'myPageCategoryItems'
+    ])
+  },
+  props:{
     countByInfo:{
       type: Array
     }

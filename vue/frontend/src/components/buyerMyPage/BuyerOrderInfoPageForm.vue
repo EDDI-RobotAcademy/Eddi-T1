@@ -9,9 +9,7 @@
     </v-container>
 
     <v-container style="width: 1400px" v-else>
-      <buyer-my-page-top-nav :myPageCategoryItems="myPageCategoryItems"
-                             :countByInfo="countByInfo"
-      />
+      <buyer-my-page-top-nav :countByInfo="countByInfo"/>
 
 
       <!--최근 주문내역-->
@@ -376,16 +374,15 @@
 <script>
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
 import {mapActions, mapState} from "vuex";
-import buyerMyPageTopNav from "@/components/buyerMyPage/buyerMyPageTopNav";
-import BuyerMyPageTopNav from "@/components/buyerMyPage/buyerMyPageTopNav";
+import BuyerMyPageTopNav from "@/components/buyerMyPage/BuyerMyPageTopNav";
 
 export default {
   name: "BuyerOrderInfoPageForm",
-  components: {BuyerMyPageTopNav, buyerMyPageTopNav, BuyerNav},
+  components: {BuyerMyPageTopNav, BuyerNav},
   computed: {
     ...mapState([
         'myOrderInfoList',
-        'myQnaList'
+        'myQnaList',
     ])
   },
   data() {
@@ -399,12 +396,6 @@ export default {
       orderListBtnName:[
         {name: '구매후기 작성'},
         {name: '배송 조회'},
-      ],
-      myPageCategoryItems: [
-        {title: "최근 주문내역"},
-        {title: "문의 내역"},
-        {title: "작성한 리뷰 내역"},
-        {title: "최근 본 상품 내역"},
       ],
 
       orderNoList: [],
