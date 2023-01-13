@@ -3,13 +3,12 @@
     <buyer-nav/>
 
     <v-container style="width: 1400px">
-      <h2>내가 작성한 문의</h2>
-      <v-divider style="margin-top: 40px"></v-divider>
+      <buyer-my-page-top-nav :countByInfo="countByInfo"/>
 
 
       <div style="margin-top: 80px">
         <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
-          <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
+          <v-icon size="30" color="#2F4F4F">mdi-bullhorn-variant-outline</v-icon>&nbsp;
           {{ this.$store.state.memberInfoAfterSignIn.nickname }}님의 상품 문의
           <v-spacer></v-spacer>
           총 {{ myQnaList.length }}건
@@ -38,7 +37,9 @@
                   <v-card width="100%" height="auto" flat color="#f5f5f5" style="border-bottom: 1px solid #eaebee" tile>
 
                     <!--삭제버튼-->
-                    <v-icon style="color: #666666; margin-top: 5px; margin-left: 96%" @click="dialog = true">mdi-close-circle-outline</v-icon>
+                    <v-icon style="color: #666666; margin-top: 5px; margin-left: 96%" @click="dialog = true">
+                      mdi-close-circle-outline
+                    </v-icon>
                     <v-dialog
                         v-model="dialog"
                         max-width="500"
@@ -46,7 +47,8 @@
                       <v-card align="center">
                         <v-card-title class="justify-center">
                           정말 삭제하시겠습니까?
-                        </v-card-title><br>
+                        </v-card-title>
+                        <br>
                         <v-card-actions>
                           <v-spacer></v-spacer>
                           <v-btn class="white--text" color="#DAA520" @click="dialog = false">
@@ -69,8 +71,8 @@
 
                       <v-card-title style="padding-top: 0px; font-weight: bolder; font-size: 20px; color: #2F4F4F">
                         Q
-                        <v-card-title style="font-weight: normal; font-size: 15px" >
-                          {{item.questionContent}}
+                        <v-card-title style="font-weight: normal; font-size: 15px">
+                          {{ item.questionContent }}
                         </v-card-title>
                       </v-card-title>
 
@@ -82,10 +84,10 @@
                         class="card-p"
                         v-show="item.answerStatus != 'BEFORE_ANSWER'"
                     >
-                      <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520" >
+                      <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520">
                         A
 
-                        <v-card-title style="font-weight: normal; font-size: 15px;" >
+                        <v-card-title style="font-weight: normal; font-size: 15px;">
                           아직 답변이 등록되지 않았습니다.
                         </v-card-title>
                       </v-card-title>
@@ -98,10 +100,10 @@
                         v-show="item.answerStatus == 'ANSWER_COMPLETE'"
                     >
 
-                      <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520" >
+                      <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520">
                         A
 
-                        <v-card-title style="font-weight: normal; font-size: 15px" >
+                        <v-card-title style="font-weight: normal; font-size: 15px">
                           {{ item.answer }}
                         </v-card-title>
                       </v-card-title>
@@ -117,7 +119,7 @@
 
           <!--등록된 문의가 없을 때-->
           <template slot="no-data">
-            <v-alert :value="true" color="transparent" >
+            <v-alert :value="true" color="transparent">
               등록된 문의가 없습니다.
             </v-alert>
           </template>
@@ -187,12 +189,15 @@
 <script>
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
 import {mapActions, mapState} from "vuex";
+import BuyerMyPageTopNav from "@/components/buyerMyPage/BuyerMyPageTopNav";
+
 export default {
   name: "BuyerQnaForm",
-  components: {BuyerNav},
+  components: {BuyerMyPageTopNav, BuyerNav},
   computed: {
     ...mapState([
-        'myQnaList'
+      'myQnaList',
+      'myOrderInfoList',
     ])
   },
   data() {
@@ -207,34 +212,44 @@ export default {
         {text: 'date ', value: 'regDate', width: "100px"},
         {text: '답변상태 ', value: 'answerStatus', width: "50px"},
       ],
-      dialog : false,
+      dialog: false,
+      countByInfo: []
     }
   },
   filters: {
-    date : function(data){
+    date: function (data) {
       const reqdString = data.split("").slice(0, 10).join("");
       if (data.length < 10) {
         return reqdString
       } else {
-        return reqdString ;
+        return reqdString;
       }
     }
   },
   methods: {
     ...mapActions([
-        'requestDeleteQnaFromSpring'
+      'requestDeleteQnaFromSpring'
     ]),
     expandRow(item, event) {
-      if(event.isExpanded)
-      { var index = this.expanded.findIndex(i => i === item);
-        this.expanded.splice(index, 1) }
-      else
-      { this.expanded.push(item); } },
+      if (event.isExpanded) {
+        var index = this.expanded.findIndex(i => i === item);
+        this.expanded.splice(index, 1)
+      } else {
+        this.expanded.push(item);
+      }
+    },
 
-    onDelete (qnaNo) {
+    onDelete(qnaNo) {
       console.log("qnaNo: " + qnaNo)
       this.requestDeleteQnaFromSpring(qnaNo)
     }
+  },
+  async created() {
+    const infoNum = new Array
+    infoNum.push(this.myOrderInfoList.length)
+    infoNum.push(this.myQnaList.length)
+
+    this.countByInfo = infoNum
   }
 }
 </script>
