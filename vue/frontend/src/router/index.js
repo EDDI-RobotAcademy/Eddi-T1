@@ -27,6 +27,7 @@ import HobbyCategoryView from "@/views/productByCategory/HobbyCategoryView";
 import OrderDetailView from "@/views/buyerMyPage/OrderDetailView";
 import SearchView from "@/views/product/search/SearchView";
 import BuyerQnaView from "@/views/buyerMyPage/BuyerQnaView";
+import BuyerReviewView from "@/views/buyerMyPage/BuyerReviewView";
 
 
 Vue.use(VueRouter)
@@ -186,6 +187,11 @@ const routes = [
     props:{
       default: true
     }
+  },
+  {
+    path: '/buyer-review',
+    name: 'BuyerReviewView',
+    component: BuyerReviewView
   },
 
 
