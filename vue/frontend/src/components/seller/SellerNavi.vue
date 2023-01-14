@@ -63,7 +63,7 @@
 
       <template>
         <v-list dense nav>
-          <div class="pa-2" style="margin-top: 230px">
+          <div class="pa-2" style="margin-top: 280px">
             <v-btn
                 block
                 @click="signOut"
