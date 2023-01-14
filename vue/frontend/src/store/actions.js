@@ -1,5 +1,6 @@
 import {
-    REQUEST_ID_PASS_CHECK, REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
+    REQUEST_ID_PASS_CHECK,
+    REQUEST_SIGN_IN_TOKEN_FROM_SPRING,
     REQUEST_SHOPPING_BUCKET_ITEM_LIST_TO_SPRING,
     REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING,
     REQUEST_PRODUCT_LIST_BY_KNOWHOW_TO_SPRING,
@@ -7,7 +8,8 @@ import {
     REQUEST_PRODUCT_IMG_LIST_BY_HANDMADE,
     REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW,
     REQUEST_PRODUCT_IMG_LIST_BY_HOBBY,
-    REQUEST_PRODUCT_FROM_SPRING, REQUEST_PRODUCT_LIST_FROM_SPRING,
+    REQUEST_PRODUCT_FROM_SPRING,
+    REQUEST_PRODUCT_LIST_FROM_SPRING,
     REQUEST_MY_ORDER_INFO_LIST_FROM_SPRING,
     REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING,
     REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
@@ -20,7 +22,10 @@ import {
     REQUEST_PRODUCT_QNA_LIST_FROM_SPRING,
     REQUEST_PRODUCT_REVIEW_LIST_FROM_SPRING,
     REQUEST_REVIEW_IMAGE_FROM_SPRING,
-    REQUEST_REVIEW_CNT_FROM_SPRING
+    REQUEST_REVIEW_CNT_FROM_SPRING,
+    REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
+    REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
+
 
 } from './mutation-types'
 
@@ -753,4 +758,27 @@ export default {
                 commit(REQUEST_REVIEW_CNT_FROM_SPRING, res.data)
             })
     },
+
+    /**
+     *  판매자 닉네임과 답변 상태에 따른 문의 리스트 요청 axios
+     *  @param commit
+     *  @param payload nickname,answerStatus
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestAnswerStatusListFromSpring ({ commit }, payload) {
+        console.log('requestAnswerStatusListFromSpring()')
+
+        const { nickname, answerStatus } = payload
+
+        await axios.post('http://localhost:8888/qna/answer-status-list',{nickname, answerStatus})
+            .then((res) => {
+                if (payload.answerStatus == 'BEFORE_ANSWER'){
+                    commit(REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING, res.data)
+                } else {
+                    commit(REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING, res.data)
+                }
+            });
+    },
+
 }

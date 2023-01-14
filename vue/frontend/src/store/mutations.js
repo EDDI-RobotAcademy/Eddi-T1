@@ -24,9 +24,10 @@ import {
     REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_PRODUCT_QNA_LIST_FROM_SPRING,
     REQUEST_PRODUCT_REVIEW_LIST_FROM_SPRING,
- /*   REQUEST_NEXT_REVIEW_LIST_FROM_SPRING,*/
     REQUEST_REVIEW_IMAGE_FROM_SPRING,
-    REQUEST_REVIEW_CNT_FROM_SPRING
+    REQUEST_REVIEW_CNT_FROM_SPRING,
+    REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
+    REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
 
 
 } from './mutation-types'
@@ -114,4 +115,10 @@ export default {
     [REQUEST_REVIEW_CNT_FROM_SPRING](state, passingData) {
         state.productReviewCnt = passingData
     },
+    [REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING](state, passingData) {
+        state.qnaBeforeAnswerList = passingData
+    },
+    [REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING](state, passingData) {
+        state.qnaCompleteList = passingData
+    }
 }
