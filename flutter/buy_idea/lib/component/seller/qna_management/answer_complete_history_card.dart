@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../api/seller/spring_seller_qna_api.dart';
+import '../../../pages/seller/qna_management/qna_management_page.dart';
+import '../../common/common_alert_dialog.dart';
+import '../../common/yes_or_no_alert_dialog.dart';
 
 class AnswerCompleteHistoryCard extends StatefulWidget {
   const AnswerCompleteHistoryCard(
@@ -38,6 +44,18 @@ class AnswerCompleteHistoryCard extends StatefulWidget {
 }
 
 class _AnswerCompleteHistoryCardState extends State<AnswerCompleteHistoryCard> {
+
+  deleteAction() async {
+    await SpringSellerQnaApi().deleteAnswer(widget.qnaNo);
+    if (SpringSellerQnaApi.deleteAnswerResponse.statusCode == 200) {
+      debugPrint('문의글 삭제 성공');
+      _deleteSuccessShowDialog();
+    }else {
+      _deleteFailShowDialog();
+      debugPrint('error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime parseRegDate = DateTime.parse(widget.regDate);
@@ -148,7 +166,23 @@ class _AnswerCompleteHistoryCardState extends State<AnswerCompleteHistoryCard> {
                         width: 300.0,
                         child: TextButton(
                             onPressed: () {
-                              /// 답변 삭제 요청
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return YesOrNoAlertDialog(
+                                      title: '🗑️',
+                                      content: '답변을 삭제하시겠습니까?',
+                                      yesButtonPressed: () {
+                                        Get.back();
+                                        /// 삭제 요청
+                                        deleteAction();
+                                      },
+                                      noButtonPressed: () {
+                                        Get.back();
+                                      },
+                                    );
+                                  });
                             },
                             child: const Text('답변 삭제',
                                 style: TextStyle(
@@ -165,5 +199,37 @@ class _AnswerCompleteHistoryCardState extends State<AnswerCompleteHistoryCard> {
         ),
       ),
     );
+  }
+
+  void _deleteSuccessShowDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CommonAlertDialog(
+              title: "🙆‍♀️",
+              content: '삭제되었습니다.',
+              onCustomButtonPressed: () {
+                Get.back();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QnaManagementPage()))
+                    .then((value) => setState(() {}));
+              });
+        });
+  }
+
+  void _deleteFailShowDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CommonAlertDialog(
+              title: "⚠️",
+              content: '죄송합니다. \n서버가 불안정하여 삭제가 실패했습니다.',
+              onCustomButtonPressed: () {
+                Get.back();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QnaManagementPage()))
+                    .then((value) => setState(() {}));
+              });
+        });
   }
 }

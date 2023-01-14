@@ -143,7 +143,7 @@ public class QnAServiceImpl implements QnAService {
 
     /**
      * 판매자 답변 등록 service Impl
-     * @param request qnaNo, answer(답변 본문)
+     * @param request 문의글 번호, answer(답변 본문)
      */
     @Override
     public void answerRegister(AnswerRegisterRequest request) {
@@ -157,6 +157,23 @@ public class QnAServiceImpl implements QnAService {
         qnARepository.save(qnA);
 
     }
+
+    /**
+     * 판매자 답변 삭제 Service Impl
+     * @param qnaNo 문의글 번호
+     */
+    @Override
+    public void deleteAnswer(Long qnaNo) {
+        Optional<QnA> maybeQnA = qnARepository.findById(qnaNo);
+
+        QnA qna = maybeQnA.get();
+
+        qna.setAnswerStatus(AnswerStatus.BEFORE_ANSWER);
+        qna.setAnswer("");
+
+        qnARepository.save(qna);
+    }
+
 
     /**
      * 문의 카테고리 String -> enum 변환 메서드

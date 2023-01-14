@@ -64,8 +64,11 @@ class _AnswerCompleteFormState extends State<AnswerCompleteForm> {
   @override
   Widget build(BuildContext context) {
     if (!loading) {
-      return Center(
-        child: CircularProgressIndicator(color: Color(0XFF2F4F4F)),
+      return Container(
+        height: 620.0,
+        child: Center(
+          child: CircularProgressIndicator(color: Color(0XFF2F4F4F)),
+        ),
       );
     } else {
       if (answerCompleteList.isEmpty) {

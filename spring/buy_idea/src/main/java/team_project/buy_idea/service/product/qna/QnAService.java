@@ -14,4 +14,5 @@ public interface QnAService {
     void deleteQna(Long qnaId);
     List<QnaHistoryResponse> qnaHistoryListByNicknameAndAnswerStatus(SellerQnaListRequest request);
     void answerRegister(AnswerRegisterRequest request);
+    public void deleteAnswer(Long qnaNo);
 }
