@@ -28,4 +28,7 @@ export default {
         {title: "작성한 리뷰 내역"},
         {title: "최근 본 상품 내역"},
     ],
+    productReviewList: [],
+    reviewImage: [],
+    productReviewCnt: "",
 }

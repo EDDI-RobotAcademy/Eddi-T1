@@ -22,7 +22,11 @@ import {
     REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_PRODUCT_QNA_LIST_FROM_SPRING
+    REQUEST_PRODUCT_QNA_LIST_FROM_SPRING,
+    REQUEST_PRODUCT_REVIEW_LIST_FROM_SPRING,
+ /*   REQUEST_NEXT_REVIEW_LIST_FROM_SPRING,*/
+    REQUEST_REVIEW_IMAGE_FROM_SPRING,
+    REQUEST_REVIEW_CNT_FROM_SPRING
 
 
 } from './mutation-types'
@@ -100,5 +104,14 @@ export default {
     },
     [REQUEST_PRODUCT_QNA_LIST_FROM_SPRING](state, passingData) {
         state.productQnaList = passingData
+    },
+    [REQUEST_PRODUCT_REVIEW_LIST_FROM_SPRING](state, passingData) {
+        state.productReviewList = passingData
+    },
+    [REQUEST_REVIEW_IMAGE_FROM_SPRING](state, passingData) {
+        state.reviewImage.push(passingData)
+    },
+    [REQUEST_REVIEW_CNT_FROM_SPRING](state, passingData) {
+        state.productReviewCnt = passingData
     },
 }

@@ -17,7 +17,10 @@ import {
     REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_PRODUCT_QNA_LIST_FROM_SPRING
+    REQUEST_PRODUCT_QNA_LIST_FROM_SPRING,
+    REQUEST_PRODUCT_REVIEW_LIST_FROM_SPRING,
+    REQUEST_REVIEW_IMAGE_FROM_SPRING,
+    REQUEST_REVIEW_CNT_FROM_SPRING
 
 } from './mutation-types'
 
@@ -695,6 +698,59 @@ export default {
             .then((res) => {
                 console.log(res.data)
                 commit(REQUEST_PRODUCT_QNA_LIST_FROM_SPRING, res.data)
+            })
+    },
+
+    /**
+     *  상품 상세페이지 기본 리뷰 리스트 요청 axios
+     *  @param commit
+     *  @param payload productNo, reviewSize
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductReviewListFromSpring({commit}, payload) {
+        console.log("requestProductReviewListFromSpring()")
+        const {productNo, reviewSize} = payload;
+
+        await axios.get('http://localhost:8888/review/list', {
+            params: {
+                'productNo': productNo,
+                'reviewSize': reviewSize
+            }
+        })
+            .then((res) => {
+                commit(REQUEST_PRODUCT_REVIEW_LIST_FROM_SPRING, res.data)
+            });
+    },
+
+    /**
+     *  리뷰 이미지 요청 axios
+     *  @param commit
+     *  @param payload reviewNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestReviewImageFromSpring ({ commit }, reviewNo) {
+        console.log('requestReviewImageFromSpring()' + reviewNo)
+
+        await axios.get(`http://localhost:8888/review/image/${reviewNo}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_REVIEW_IMAGE_FROM_SPRING, res.data)
+            })
+    },
+
+    /**
+     *  상품 리뷰 개수 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestReviewCntFromSpring ({ commit }, productNo) {
+        console.log('requestReviewCntFromSpring()' + productNo)
+
+        await axios.get(`http://localhost:8888/review/count/${productNo}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_REVIEW_CNT_FROM_SPRING, res.data)
             })
     },
 }

@@ -10,8 +10,7 @@ import ProductManageView from "@/views/seller/ProductManageView";
 import OrderManageView from "@/views/seller/OrderManageView";
 import SellerInfoView from "@/views/seller/SellerInfoView";
 import ReviewManageView from "@/views/seller/ReviewManageView";
-import InquiryManageView from "@/views/seller/InquiryManageView";
-import DeliveryManageView from "@/views/seller/DeliveryManageView";
+import InquiryManageView from "@/views/seller/QnaManageView";
 import BuyerMyPageView from "@/views/buyerMyPage/BuyerMyPageView";
 import BuyerInfoView from "@/views/buyerMyPage/BuyerInfoView";
 import ProductReadView from "@/views/product/ProductReadView";
@@ -86,16 +85,10 @@ const routes = [
     component: ReviewManageView
   },
   {
-    path: '/inquiry-manage',
+    path: '/qna-manage',
     name: 'InquiryManageView',
     component: InquiryManageView
   },
-  {
-    path: '/delivery-manage',
-    name: 'DeliveryManageView',
-    component: DeliveryManageView
-  },
-
   {
     path: '/product-register',
     name: 'ProductRegisterView',

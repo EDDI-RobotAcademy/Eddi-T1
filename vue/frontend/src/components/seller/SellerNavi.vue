@@ -63,7 +63,7 @@
 
       <template>
         <v-list dense nav>
-          <div class="pa-2" style="margin-top: 230px">
+          <div class="pa-2" style="margin-top: 280px">
             <v-btn
                 block
                 @click="signOut"
@@ -102,12 +102,7 @@ export default {
         {
           title: "문의 관리",
           icon: "mdi-comment-question",
-          route: "/inquiry-manage",
-        },
-        {
-          title: "배송 관리",
-          icon: "mdi-truck-delivery-outline",
-          route: "/delivery-manage",
+          route: "/qna-manage",
         },
       ],
     };

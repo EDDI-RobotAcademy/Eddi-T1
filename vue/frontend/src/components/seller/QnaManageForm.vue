@@ -5,9 +5,9 @@
     <seller-navi/>
 
     <!--Top bar-->
-    <v-app-bar color="white" elevate-on-scroll height="80" app elevation="3">
+    <v-app-bar color="white" elevate-on-scroll height="81" app elevation="3">
       <v-toolbar-title class="ml-3" style="color: #2F4F4F">
-        📌 Inquiry Manage
+        📌 QnA Manage
       </v-toolbar-title>
     </v-app-bar>
 
@@ -17,7 +17,7 @@
 <script>
 import SellerNavi from "@/components/seller/SellerNavi";
 export default {
-  name: "InquiryManageForm",
+  name: "QnaManageForm",
   components: {SellerNavi}
 }
 </script>
