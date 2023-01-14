@@ -27,7 +27,22 @@ class SpringSellerQnaApi {
       debugPrint('통신 확인');
       return quaList;
     } else {
-      throw Exception('orderRegister() 에러 발생');
+      throw Exception('getAnswerStatusList() 에러 발생');
+    }
+  }
+
+  Future<bool> answerRegister(Answer answer) async {
+    debugPrint('answerRegister()');
+    var body = json.encode(answer);
+
+    var response = await http.post(Uri.http(httpUri, '/qna/answer-register'),
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    if (response.statusCode == 200) {
+      debugPrint('통신 확인');
+      return true;
+    } else {
+      throw Exception('answerRegister() 에러 발생');
     }
   }
 
@@ -63,5 +78,17 @@ class Question {
     'questionTitle': questionTitle,
     'questionContent': questionContent,
     'openStatus': openStatus
+  };
+}
+
+class Answer {
+  int qnaNo;
+  String answer;
+
+  Answer(this.qnaNo, this.answer);
+
+  Map<String, dynamic> toJson() => {
+    'qnaNo': qnaNo,
+    'answer': answer,
   };
 }
