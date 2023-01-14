@@ -7,22 +7,21 @@ import '../../component/buyer/my_info/my_order_info/QnA/my_question_history_info
 
 class SpringSellerQnaApi {
   static const String httpUri = '192.168.0.8:8888';
+  static var deleteAnswerResponse;
 
-
-  Future<List<MyQuestionHistoryInfo>> getAnswerStatusList(AnswerStatusRequest request) async {
+  Future<List<MyQuestionHistoryInfo>> getAnswerStatusList(
+      AnswerStatusRequest request) async {
     debugPrint('getAnswerStatusList()');
     var body = json.encode(request);
 
-    var response = await http.post(
-        Uri.http(httpUri, '/qna/answer-status-list'),
-        headers: {"Content-Type": "application/json"},
-        body: body);
+    var response = await http.post(Uri.http(httpUri, '/qna/answer-status-list'),
+        headers: {"Content-Type": "application/json"}, body: body);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
 
     if (response.statusCode == 200) {
       List<MyQuestionHistoryInfo> quaList =
-      data.map((list) => MyQuestionHistoryInfo.fromJson(list)).toList();
+          data.map((list) => MyQuestionHistoryInfo.fromJson(list)).toList();
 
       debugPrint('통신 확인');
       return quaList;
@@ -46,18 +45,31 @@ class SpringSellerQnaApi {
     }
   }
 
+  deleteAnswer(int qnaNo) async {
+    debugPrint('deleteAnswer()');
+
+    deleteAnswerResponse = await http.post(
+        Uri.http(httpUri, '/qna/delete-answer/$qnaNo'),
+        headers: {"Content-Type": "application/json"});
+
+    if (deleteAnswerResponse.statusCode == 200) {
+      debugPrint('통신 확인');
+    } else {
+      throw Exception('deleteAnswer() 에러 발생');
+    }
+  }
 }
 
-class AnswerStatusRequest{
+class AnswerStatusRequest {
   String nickname;
   String answerStatus;
 
   AnswerStatusRequest(this.nickname, this.answerStatus);
 
-Map<String, dynamic> toJson() => {
-  'nickname': nickname,
-  'answerStatus': answerStatus,
-};
+  Map<String, dynamic> toJson() => {
+        'nickname': nickname,
+        'answerStatus': answerStatus,
+      };
 }
 
 class Question {
@@ -72,13 +84,13 @@ class Question {
       this.questionTitle, this.questionContent, this.openStatus);
 
   Map<String, dynamic> toJson() => {
-    'productNo': productNo,
-    'writer': writer,
-    'questionCategory': questionCategory,
-    'questionTitle': questionTitle,
-    'questionContent': questionContent,
-    'openStatus': openStatus
-  };
+        'productNo': productNo,
+        'writer': writer,
+        'questionCategory': questionCategory,
+        'questionTitle': questionTitle,
+        'questionContent': questionContent,
+        'openStatus': openStatus
+      };
 }
 
 class Answer {
@@ -88,7 +100,7 @@ class Answer {
   Answer(this.qnaNo, this.answer);
 
   Map<String, dynamic> toJson() => {
-    'qnaNo': qnaNo,
-    'answer': answer,
-  };
+        'qnaNo': qnaNo,
+        'answer': answer,
+      };
 }
