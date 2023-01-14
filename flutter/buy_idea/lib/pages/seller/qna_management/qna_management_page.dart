@@ -34,6 +34,7 @@ class _QnaManagementPageState extends State<QnaManagementPage> with TickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -64,8 +65,8 @@ class _QnaManagementPageState extends State<QnaManagementPage> with TickerProvid
       body: TabBarView(
         controller: tabController,
         children: [
-          WaitForAnswerForm(),
-          AnswerCompleteForm(),
+          SingleChildScrollView(child: WaitForAnswerForm()),
+          SingleChildScrollView(child: AnswerCompleteForm()),
         ],
       ),
     );

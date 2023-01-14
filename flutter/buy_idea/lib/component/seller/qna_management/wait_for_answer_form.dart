@@ -33,11 +33,11 @@ class _WaitForAnswerFormState extends State<WaitForAnswerForm> {
     });
 
     dynamic memberNickname = await _storage.read(key: 'nickname');
-    AnswerStatusRequest answerStatusRequest = AnswerStatusRequest(
-        memberNickname, "답변 대기");
+    AnswerStatusRequest answerStatusRequest =
+        AnswerStatusRequest(memberNickname, "답변 대기");
 
     List<MyQuestionHistoryInfo> qnaLists =
-    await SpringSellerQnaApi().getAnswerStatusList(answerStatusRequest);
+        await SpringSellerQnaApi().getAnswerStatusList(answerStatusRequest);
 
     for (var i = 0; i < qnaLists.length; i++) {
       waitForAnswerList.add(MyQuestionHistoryInfo(
@@ -69,44 +69,54 @@ class _WaitForAnswerFormState extends State<WaitForAnswerForm> {
       );
     } else {
       if (waitForAnswerList.isEmpty) {
-        return const Center(
-            child: Text("답변 대기 상태의 문의 내역이 없습니다."));
+        return Container(
+          height: 620.0,
+            child: const Center(child: Text("답변 대기 상태의 문의 내역이 없습니다.")));
       } else {
         return Column(
           children: [
-            TopCountWidget(questionCount: waitForAnswerList.length, answerStatus: '답변 대기'),
+            TopCountWidget(
+                questionCount: waitForAnswerList.length, answerStatus: '답변 대기'),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: waitForAnswerList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ExpansionTile(
-                    backgroundColor: Colors.white,
-                    collapsedBackgroundColor: Colors.white,
-                    iconColor: Colors.black,
-                    collapsedIconColor: Colors.black,
-                    childrenPadding: EdgeInsets.all(10),
-                    title: Row(
-                      children: [
-                        Text('[${waitForAnswerList[index].questionCategory}] '),
-                        Text(waitForAnswerList[index].title),
-                      ],
-                    ),
+                  backgroundColor: Colors.white,
+                  collapsedBackgroundColor: Colors.white,
+                  iconColor: Colors.black,
+                  collapsedIconColor: Colors.black,
+                  childrenPadding: EdgeInsets.all(10),
+                  title: Row(
                     children: [
-                      WaitForAnswerHistoryCard(
-                productNo: waitForAnswerList[index].productNo,
-                    qnaNo: waitForAnswerList[index].qnaNo,
-                    title: waitForAnswerList[index].title,
-                    writer: waitForAnswerList[index].writer,
-                    nickname: waitForAnswerList[index].nickname,
-                    questionCategory: waitForAnswerList[index].questionCategory,
-                    questionTitle: waitForAnswerList[index].questionTitle,
-                    questionContent: waitForAnswerList[index].questionContent,
-                    answer: waitForAnswerList[index].answer,
-                    answerStatus: waitForAnswerList[index].answerStatus,
-                    regDate: waitForAnswerList[index].regDate,
-                    updDate: waitForAnswerList[index].updDate,
-                    openStatus: waitForAnswerList[index].openStatus)],
+                      Text('[${waitForAnswerList[index].questionCategory}] ',
+                          style: TextStyle(color: Color(0xFF2F4F4F))),
+                      Expanded(
+                        child: Text(waitForAnswerList[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ],
+                  ),
+                  children: [
+                    WaitForAnswerHistoryCard(
+                        productNo: waitForAnswerList[index].productNo,
+                        qnaNo: waitForAnswerList[index].qnaNo,
+                        title: waitForAnswerList[index].title,
+                        writer: waitForAnswerList[index].writer,
+                        nickname: waitForAnswerList[index].nickname,
+                        questionCategory:
+                            waitForAnswerList[index].questionCategory,
+                        questionTitle: waitForAnswerList[index].questionTitle,
+                        questionContent:
+                            waitForAnswerList[index].questionContent,
+                        answer: waitForAnswerList[index].answer,
+                        answerStatus: waitForAnswerList[index].answerStatus,
+                        regDate: waitForAnswerList[index].regDate,
+                        updDate: waitForAnswerList[index].updDate,
+                        openStatus: waitForAnswerList[index].openStatus)
+                  ],
                 );
               },
             ),

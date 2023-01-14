@@ -33,10 +33,11 @@ class _AnswerCompleteFormState extends State<AnswerCompleteForm> {
     });
 
     dynamic memberNickname = await _storage.read(key: 'nickname');
-    AnswerStatusRequest answerStatusRequest = AnswerStatusRequest(memberNickname, "답변 완료");
+    AnswerStatusRequest answerStatusRequest =
+        AnswerStatusRequest(memberNickname, "답변 완료");
 
     List<MyQuestionHistoryInfo> qnaLists =
-    await SpringSellerQnaApi().getAnswerStatusList(answerStatusRequest);
+        await SpringSellerQnaApi().getAnswerStatusList(answerStatusRequest);
 
     for (var i = 0; i < qnaLists.length; i++) {
       answerCompleteList.add(MyQuestionHistoryInfo(
@@ -68,12 +69,15 @@ class _AnswerCompleteFormState extends State<AnswerCompleteForm> {
       );
     } else {
       if (answerCompleteList.isEmpty) {
-        return const Center(
-            child: Text("답변 완료 상태의 문의 내역이 없습니다."));
+        return Container(
+            height: 620.0,
+            child: const Center(child: Text("답변 완료 상태의 문의 내역이 없습니다.")));
       } else {
         return Column(
           children: [
-            TopCountWidget(questionCount: answerCompleteList.length, answerStatus: '답변 완료'),
+            TopCountWidget(
+                questionCount: answerCompleteList.length,
+                answerStatus: '답변 완료'),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -87,25 +91,32 @@ class _AnswerCompleteFormState extends State<AnswerCompleteForm> {
                     childrenPadding: EdgeInsets.all(10),
                     title: Row(
                       children: [
-                        Text('[${answerCompleteList[index].questionCategory}] '),
-                        Text(answerCompleteList[index].title),
+                        Text(
+                            '[${answerCompleteList[index].questionCategory}] '),
+                        Expanded(
+                            child: Text(answerCompleteList[index].title,
+                                maxLines: 1, overflow: TextOverflow.ellipsis)),
                       ],
                     ),
                     children: [
-                  AnswerCompleteHistoryCard(
-                    productNo: answerCompleteList[index].productNo,
-                    qnaNo: answerCompleteList[index].qnaNo,
-                    title: answerCompleteList[index].title,
-                    writer: answerCompleteList[index].writer,
-                    nickname: answerCompleteList[index].nickname,
-                    questionCategory: answerCompleteList[index].questionCategory,
-                    questionTitle: answerCompleteList[index].questionTitle,
-                    questionContent: answerCompleteList[index].questionContent,
-                    answer: answerCompleteList[index].answer,
-                    answerStatus: answerCompleteList[index].answerStatus,
-                    regDate: answerCompleteList[index].regDate,
-                    updDate: answerCompleteList[index].updDate,
-                    openStatus: answerCompleteList[index].openStatus)]);
+                      AnswerCompleteHistoryCard(
+                          productNo: answerCompleteList[index].productNo,
+                          qnaNo: answerCompleteList[index].qnaNo,
+                          title: answerCompleteList[index].title,
+                          writer: answerCompleteList[index].writer,
+                          nickname: answerCompleteList[index].nickname,
+                          questionCategory:
+                              answerCompleteList[index].questionCategory,
+                          questionTitle:
+                              answerCompleteList[index].questionTitle,
+                          questionContent:
+                              answerCompleteList[index].questionContent,
+                          answer: answerCompleteList[index].answer,
+                          answerStatus: answerCompleteList[index].answerStatus,
+                          regDate: answerCompleteList[index].regDate,
+                          updDate: answerCompleteList[index].updDate,
+                          openStatus: answerCompleteList[index].openStatus)
+                    ]);
               },
             ),
           ],
