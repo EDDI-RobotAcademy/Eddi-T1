@@ -3,6 +3,7 @@ package team_project.buy_idea.service.product.qna;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team_project.buy_idea.controller.product.qna.request.AnswerRegisterRequest;
 import team_project.buy_idea.controller.product.qna.request.QuestionRegisterRequest;
 import team_project.buy_idea.controller.product.qna.request.SellerQnaListRequest;
 import team_project.buy_idea.entity.product.Product;
@@ -137,6 +138,24 @@ public class QnAServiceImpl implements QnAService {
         List<QnA> qnAList = qnARepository.findQnaHistoryByNicknameAndAnswerStatus(nickname, answerStatus);
 
         return getQnaHistoryResponses(qnaHistoryResponseList, qnAList);
+    }
+
+
+    /**
+     * 판매자 답변 등록 service Impl
+     * @param request qnaNo, answer(답변 본문)
+     */
+    @Override
+    public void answerRegister(AnswerRegisterRequest request) {
+        Optional<QnA> maybeQnA = qnARepository.findById(request.getQnaNo());
+
+        QnA qnA = maybeQnA.get();
+
+        qnA.setAnswer(request.getAnswer());
+        qnA.setAnswerStatus(AnswerStatus.ANSWER_COMPLETE);
+
+        qnARepository.save(qnA);
+
     }
 
     /**

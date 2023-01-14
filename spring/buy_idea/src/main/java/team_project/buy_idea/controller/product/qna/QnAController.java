@@ -4,6 +4,7 @@ package team_project.buy_idea.controller.product.qna;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import team_project.buy_idea.controller.product.qna.request.AnswerRegisterRequest;
 import team_project.buy_idea.controller.product.qna.request.QuestionRegisterRequest;
 import team_project.buy_idea.controller.product.qna.request.SellerQnaListRequest;
 import team_project.buy_idea.service.product.qna.QnAService;
@@ -82,5 +83,17 @@ public class QnAController {
         log.info("request : " + request);
 
         return qnAService.qnaHistoryListByNicknameAndAnswerStatus(request);
+    }
+
+    /**
+     * 판매자 답변 등록 Controller
+     * @param request qnaNo, answer(답변 내용)
+     */
+    @PostMapping("/answer-register")
+    public void answerRegister(@RequestBody AnswerRegisterRequest request) {
+        log.info("answerRegister()");
+        log.info("request : " + request.toString());
+
+        qnAService.answerRegister(request);
     }
 }
