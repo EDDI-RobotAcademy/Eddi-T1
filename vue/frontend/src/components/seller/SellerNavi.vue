@@ -102,13 +102,8 @@ export default {
         {
           title: "문의 관리",
           icon: "mdi-comment-question",
-          route: "/inquiry-manage",
+          route: "/qna-manage",
         },
-        /*{
-          title: "배송 관리",
-          icon: "mdi-truck-delivery-outline",
-          route: "/delivery-manage",
-        },*/
       ],
     };
   },
