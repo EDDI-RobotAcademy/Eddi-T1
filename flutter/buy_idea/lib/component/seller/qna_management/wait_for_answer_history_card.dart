@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../pages/seller/qna_management/answer_register_page.dart';
 
 class WaitForAnswerHistoryCard extends StatefulWidget {
   const WaitForAnswerHistoryCard(
       {Key? key,
-        required this.productNo,
-        required this.title,
-        required this.writer,
-        required this.nickname,
-        required this.questionCategory,
-        required this.questionTitle,
-        required this.questionContent,
-        required this.answer,
-        required this.answerStatus,
-        required this.regDate,
-        required this.updDate,
-        required this.openStatus,
-        required this.qnaNo})
+      required this.productNo,
+      required this.title,
+      required this.writer,
+      required this.nickname,
+      required this.questionCategory,
+      required this.questionTitle,
+      required this.questionContent,
+      required this.answer,
+      required this.answerStatus,
+      required this.regDate,
+      required this.updDate,
+      required this.openStatus,
+      required this.qnaNo})
       : super(key: key);
   final int productNo;
   final int qnaNo;
@@ -34,11 +36,11 @@ class WaitForAnswerHistoryCard extends StatefulWidget {
   final bool openStatus;
 
   @override
-  State<WaitForAnswerHistoryCard> createState() => _WaitForAnswerHistoryCardState();
+  State<WaitForAnswerHistoryCard> createState() =>
+      _WaitForAnswerHistoryCardState();
 }
 
 class _WaitForAnswerHistoryCardState extends State<WaitForAnswerHistoryCard> {
-
   @override
   Widget build(BuildContext context) {
     DateTime parseRegDate = DateTime.parse(widget.regDate);
@@ -109,12 +111,24 @@ class _WaitForAnswerHistoryCardState extends State<WaitForAnswerHistoryCard> {
                 child: TextButton(
                     onPressed: () {
                       /// 답변 등록 페이지 이동
+                      Get.to(AnswerRegisterPage(
+                        qnaNo: widget.qnaNo,
+                        title: widget.title,
+                        writer: widget.writer,
+                        questionCategory: widget.questionCategory,
+                        questionContent: widget.questionContent,
+                        answerStatus: widget.answerStatus,
+                        regDate: widget.regDate,
+                        openStatus: widget.openStatus,
+                        nickname: widget.nickname,
+                      ));
                     },
                     child: const Text('답변 하기',
-                        style: TextStyle(color: Color(0xFF2F4F4F), fontSize: 14)),
+                        style:
+                            TextStyle(color: Color(0xFF2F4F4F), fontSize: 14)),
                     style: ElevatedButton.styleFrom(
-                        side:
-                        const BorderSide(color: Color(0xFF2F4F4F), width: 1.0),
+                        side: const BorderSide(
+                            color: Color(0xFF2F4F4F), width: 1.0),
                         elevation: 0,
                         primary: Colors.white)),
               )
