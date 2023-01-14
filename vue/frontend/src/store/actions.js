@@ -773,7 +773,7 @@ export default {
 
         await axios.post('http://localhost:8888/qna/answer-status-list',{nickname, answerStatus})
             .then((res) => {
-                if (payload.answerStatus == 'BEFORE_ANSWER'){
+                if (payload.answerStatus == '답변 대기'){
                     commit(REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING, res.data)
                 } else {
                     commit(REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING, res.data)

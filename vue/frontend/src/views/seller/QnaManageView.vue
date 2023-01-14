@@ -15,7 +15,7 @@ export default {
   },
   async mounted() {
     const nickname = this.$store.state.memberInfoAfterSignIn.nickname
-    const answerStatusArr = ['BEFORE_ANSWER', 'ANSWER_COMPLETE']
+    const answerStatusArr = ['답변 대기', '답변 완료']
 
     for (let i = 0; i < answerStatusArr.length; i++) {
       let answerStatus = answerStatusArr[i]
