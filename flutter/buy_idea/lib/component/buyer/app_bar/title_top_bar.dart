@@ -16,7 +16,7 @@ class _TitleTopBarState extends State<TitleTopBar> {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(widget.titleText,
-          style: TextStyle(color: Colors.black)),
+          style: TextStyle(color: Colors.black, fontSize: 15)),
       backgroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
