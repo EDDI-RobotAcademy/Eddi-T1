@@ -1,6 +1,4 @@
-import 'package:buy_idea/component/seller/product_registration_status/handmade_product_registration_status_list.dart';
-import 'package:buy_idea/component/seller/product_registration_status/hobby_product_registration_status_list.dart';
-import 'package:buy_idea/component/seller/product_registration_status/knowhow_product_registration_status_list.dart';
+import 'package:buy_idea/component/seller/product_registration_status/product_registration_status_list.dart';
 import 'package:flutter/material.dart';
 
 class ProductRegistrationStatusPage extends StatefulWidget {
@@ -15,6 +13,10 @@ class ProductRegistrationStatusPage extends StatefulWidget {
 class _ProductRegistrationStatusPageState extends State<ProductRegistrationStatusPage> with TickerProviderStateMixin {
 
   late TabController tabController;
+
+  final String _handmade = "핸드메이드";
+  final String _knowhow = "노하우";
+  final String _hobby = "취미/특기";
 
   @override
   void initState() {
@@ -66,9 +68,9 @@ class _ProductRegistrationStatusPageState extends State<ProductRegistrationStatu
       body: TabBarView(
         controller: tabController,
         children: [
-          HandmadeProductRegistrationStatusList(),
-          KnowHowProductRegistrationStatusList(),
-          HobbyProductRegistrationStatusList(),
+          ProductRegistrationStatusList(seller: widget.nickname!, category: _handmade, listSize: 4, nextListSize: 4),
+          ProductRegistrationStatusList(seller: widget.nickname!, category: _knowhow, listSize: 4, nextListSize: 4),
+          ProductRegistrationStatusList(seller: widget.nickname!, category: _hobby, listSize: 4, nextListSize: 4),
         ],
       ),
     );

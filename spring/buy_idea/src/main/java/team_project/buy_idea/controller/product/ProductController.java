@@ -10,6 +10,7 @@ import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.repository.product.mapping.ProductImageMapping;
 import team_project.buy_idea.repository.product.mapping.ProductMapping;
 import team_project.buy_idea.service.product.ProductService;
+import team_project.buy_idea.service.product.response.SellerProductResponse;
 
 import java.util.List;
 
@@ -120,5 +121,19 @@ public class ProductController {
 
         return productService.allList(nickname);
 
+    }
+
+    @GetMapping("/seller/list")
+    public List<SellerProductResponse> sellerProductList(@RequestParam(value = "seller") String seller,
+                                                         @RequestParam(value = "category") String category,
+                                                         @RequestParam(value = "productNo", required = false) Long productNo,
+                                                         @RequestParam(value = "listSize") int listSize) {
+        log.info("sellerProductList()");
+        log.info("seller : " + seller);
+        log.info("category : " + category);
+        log.info("productNo : " + productNo);
+        log.info("listSize : " + listSize);
+
+        return productService.getProductsBySeller(seller, category, productNo, listSize);
     }
 }

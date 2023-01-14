@@ -8,19 +8,32 @@ import 'package:buy_idea/component/buyer/product/review/product_review_form.dart
 import 'package:buy_idea/pages/buyer/main_page.dart';
 import 'package:buy_idea/pages/buyer/shopping_bucket/shopping_bucket_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../component/buyer/product/QnA/product_qna_form.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final int productNo;
-  const ProductDetailsPage({Key? key, required this.productNo}) : super(key: key);
+  final String? seller;
+  const ProductDetailsPage({Key? key, required this.productNo, this.seller}) : super(key: key);
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
 }
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProviderStateMixin {
+
+  static const storage = FlutterSecureStorage();
+  dynamic nickname = '';
+
+  _asyncMethod() async {
+    nickname = await storage.read(key: 'nickname');
+    debugPrint('불러온 닉네임 : $nickname');
+    setState(() {
+      nickname;
+    });
+  }
 
   late TabController tabController;
 
@@ -39,6 +52,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
   @override
   void initState() {
     super.initState();
+    _asyncMethod();
     tabController = TabController(length: 3, vsync: this);
     _requestProduct();
     _requestReviewCountAndStarRating();
@@ -83,21 +97,21 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
               iconTheme: IconThemeData(color: Colors.black),
               backgroundColor: Colors.white,
               centerTitle: true,
-              title: GestureDetector(
+              title: widget.seller != nickname ? GestureDetector(
                 child: Image.asset('assets/buydia_logo.png', width: 80, height: 50),
                 onTap: () {
                     Get.offAll(MainPage());
                 },
-              ),
+              ) : Image.asset('assets/buydia_logo.png', width: 80, height: 50),
               elevation: 0,
-              actions: [
+              actions: widget.seller != nickname ? [
                 IconButton(
                     onPressed: () {
                       Get.to(ShoppingBucketPage());
                     },
                     icon: const Icon(Icons.shopping_cart_outlined)
                 ),
-              ],
+              ] : null
             ),
             body: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -155,7 +169,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
                   ),
                 ];
               },
-              body: Padding(
+              body: widget.seller != nickname ? Padding(
                 padding: EdgeInsets.only(bottom: 60),
                 child: TabBarView(
                     controller: tabController,
@@ -165,9 +179,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
                       ProductQnaForm(productNo: widget.productNo, title: product.title, image: productImageList[0].editedName, nickname: product.nickname,),
                     ]
                 ),
+              ) : TabBarView(
+                  controller: tabController,
+                  children: [
+                    ProductInfoForm(content: product.content),
+                    ProductReviewForm(productNo: widget.productNo, reviewSize: 3, nextReviewSize: 5, reviewCount: reviewCount),
+                    ProductQnaForm(productNo: widget.productNo, title: product.title, image: productImageList[0].editedName, nickname: product.nickname,),
+                  ]
               ),
             ),
-            bottomSheet: Container(
+            bottomSheet: widget.seller != nickname ? Container(
               width: MediaQuery.of(context).size.width,
               height: 60,
               decoration: BoxDecoration(
@@ -209,7 +230,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
                   ),
                 ],
               ),
-            ),
+            ) : null
           );
         }
       }

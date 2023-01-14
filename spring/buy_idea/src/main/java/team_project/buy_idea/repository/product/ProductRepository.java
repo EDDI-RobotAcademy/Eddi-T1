@@ -36,4 +36,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p join fetch p.productImages where p.productNo = :productNo")
     Optional<Product> findById(@Param("productNo") Long productNo);
+
+    @Query("select p from Product p join fetch p.productImages join fetch p.productInfo " +
+            "where p.nickname = :seller and p.productInfo.category = :category " +
+            "order by p.productNo desc ")
+    Slice<Product> findProductsBySellerAndCategory(@Param("seller") String seller,
+                                                   @Param("category") String category,
+                                                   Pageable pageable);
+
+    @Query("select p from Product p join fetch p.productImages join fetch p.productInfo " +
+            "where p.nickname = :seller and p.productInfo.category = :category and p.productNo < :productNo " +
+            "order by p.productNo desc ")
+    Slice<Product> findNextProductsBySellerAndCategory(@Param("seller") String seller,
+                                                       @Param("category") String category,
+                                                       @Param("productNo") Long productNo,
+                                                       Pageable pageable);
 }

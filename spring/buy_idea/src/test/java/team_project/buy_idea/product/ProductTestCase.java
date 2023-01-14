@@ -132,4 +132,9 @@ public class ProductTestCase {
         System.out.println("searchList size : " + searchList.size());
         System.out.println("searchList : " + searchList);
     }
+
+    @Test
+    void sellerProductListTest() {
+        System.out.println(productService.getProductsBySeller("쿤", "핸드메이드", null, 5));
+    }
 }
