@@ -63,8 +63,8 @@ public class QnAController {
     }
 
     /**
-     * 문의글 삭제 contoller
-     * @param qnaNo
+     * 문의글 삭제 Controller
+     * @param qnaNo 문의글 번호
      */
     @DeleteMapping("/delete/{qnaNo}")
     public void deleteQna(@PathVariable("qnaNo") Long qnaNo) {
@@ -95,5 +95,17 @@ public class QnAController {
         log.info("request : " + request.toString());
 
         qnAService.answerRegister(request);
+    }
+
+    /**
+     * 판매자 답변 삭제 Controller
+     * @param qnaNo 문의글 번호
+     */
+    @PostMapping("/delete-answer/{qnaNo}")
+    public void answerDelete(@PathVariable Long qnaNo) {
+        log.info("answerDelete()");
+        log.info("qnaNo : " + qnaNo.toString());
+
+        qnAService.deleteAnswer(qnaNo);
     }
 }
