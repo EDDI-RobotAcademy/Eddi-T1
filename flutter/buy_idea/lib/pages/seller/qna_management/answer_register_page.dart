@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../component/buyer/app_bar/title_top_bar.dart';
+import '../../../component/seller/app_bar/seller_drawer.dart';
 import '../../../component/seller/qna_management/answer_register_form.dart';
+import '../seller_info.dart';
 
 class AnswerRegisterPage extends StatefulWidget {
   const AnswerRegisterPage(
@@ -34,6 +36,7 @@ class _AnswerRegisterPageState extends State<AnswerRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: SellerDrawer(nickname: SellerInfo.sellerNickname),
         appBar: TitleTopBar(titleText: '답변하기'),
         body: SingleChildScrollView(
           child: Padding(
