@@ -11,14 +11,26 @@
       </v-toolbar-title>
     </v-app-bar>
 
+    <!--문의 답변전 리스트-->
+
+
+
   </v-container>
 </template>
 
 <script>
 import SellerNavi from "@/components/seller/SellerNavi";
+import {mapState} from "vuex";
 export default {
   name: "QnaManageForm",
-  components: {SellerNavi}
+  components: {SellerNavi},
+  computed: {
+    ...mapState([
+        'qnaBeforeAnswerList',
+        'qnaCompleteList',
+    ])
+  },
+
 }
 </script>
 

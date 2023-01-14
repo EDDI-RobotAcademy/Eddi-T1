@@ -31,4 +31,6 @@ export default {
     productReviewList: [],
     reviewImage: [],
     productReviewCnt: "",
+    qnaBeforeAnswerList: [],
+    qnaCompleteList: [],
 }
