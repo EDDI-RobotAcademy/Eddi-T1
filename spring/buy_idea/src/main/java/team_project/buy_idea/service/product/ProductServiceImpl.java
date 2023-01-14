@@ -16,6 +16,8 @@ import team_project.buy_idea.repository.product.ProductInfoRepository;
 import team_project.buy_idea.repository.product.ProductRepository;
 import team_project.buy_idea.repository.product.mapping.ProductImageMapping;
 import team_project.buy_idea.repository.product.mapping.ProductMapping;
+import team_project.buy_idea.repository.product.review.ReviewRepository;
+import team_project.buy_idea.service.product.response.SellerProductResponse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +40,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductInfoRepository productInfoRepository;
+
+    @Autowired
+    ReviewRepository reviewRepository;
 
     /**
      * 상품 등록 ServiceImpl
@@ -312,6 +317,43 @@ public class ProductServiceImpl implements ProductService {
         return sellerProductList;
     }
 
+    @Override
+    public List<SellerProductResponse> getProductsBySeller(String seller, String category, Long productNo, int listSize) {
 
+        Slice<Product> productSlice;
+        if (productNo != null) {
+            productSlice = productRepository.findNextProductsBySellerAndCategory(seller, category, productNo, Pageable.ofSize(listSize));
+        } else {
+            productSlice = productRepository.findProductsBySellerAndCategory(seller, category, Pageable.ofSize(listSize));
+        }
 
+        List<SellerProductResponse> sellerProductResponseList = new ArrayList<>();
+
+        for(Product product : productSlice) {
+            Long reviewCount = reviewRepository.countReviewsOnSpecificProduct(product.getProductNo());
+            Double starRatingAverage;
+            Double maybeReviewAverage = reviewRepository.findAverageStarRatingOnSpecificProduct(product.getProductNo());
+            if (maybeReviewAverage == null) {
+                starRatingAverage = 0.0;
+            } else {
+                starRatingAverage = Double.parseDouble(String.format("%.1f", reviewRepository.findAverageStarRatingOnSpecificProduct(product.getProductNo())));
+            }
+            sellerProductResponseList.add(
+                    new SellerProductResponse(
+                            product.getProductNo(),
+                            product.getTitle(),
+                            product.getNickname(),
+                            product.getPrice(),
+                            product.getProductInfo().getDeliveryFee(),
+                            product.getProductInfo().getStock(),
+                            product.getProductInfo().getRegDate(),
+                            product.getProductInfo().getUpdDate(),
+                            product.getProductImages().get(0).getEditedName(),
+                            starRatingAverage,
+                            reviewCount
+                    )
+            );
+        }
+        return sellerProductResponseList;
+    }
 }
