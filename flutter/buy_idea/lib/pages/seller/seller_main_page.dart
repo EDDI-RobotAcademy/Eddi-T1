@@ -1,8 +1,9 @@
-import 'package:buy_idea/component/seller/seller_common_app_bar.dart';
-import 'package:buy_idea/component/seller/seller_drawer.dart';
+import 'package:buy_idea/component/seller/app_bar/seller_common_app_bar.dart';
 import 'package:buy_idea/pages/seller/my_info/seller_my_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../component/seller/app_bar/seller_drawer.dart';
 
 class SellerMainPage extends StatefulWidget {
   const SellerMainPage({Key? key}) : super(key: key);

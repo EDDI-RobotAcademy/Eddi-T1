@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.product.qna.request.QuestionRegisterRequest;
+import team_project.buy_idea.controller.product.qna.request.SellerQnaListRequest;
 import team_project.buy_idea.service.product.qna.QnAService;
 import team_project.buy_idea.service.product.qna.response.QnaHistoryResponse;
 
@@ -68,5 +69,18 @@ public class QnAController {
     public void deleteQna(@PathVariable("qnaNo") Long qnaNo) {
         log.info("deleteQna: " + qnaNo);
         qnAService.deleteQna(qnaNo);
+    }
+
+    /**
+     * 판매자 닉네임과 답변 상태로 찾는 문의 내역 List Controller
+     * @param request 판매자 닉네임(상호명), 답변 상태
+     * @return 문의 내역 리스트
+     */
+    @PostMapping("/answer-status-list")
+    public List<QnaHistoryResponse> qnaHistoryListByAnswerStatus(@RequestBody SellerQnaListRequest request) {
+        log.info("qnaHistoryListByAnswerStatus()");
+        log.info("request : " + request);
+
+        return qnAService.qnaHistoryListByNicknameAndAnswerStatus(request);
     }
 }
