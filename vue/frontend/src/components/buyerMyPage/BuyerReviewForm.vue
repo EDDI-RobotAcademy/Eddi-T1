@@ -21,14 +21,149 @@
               <h4>{{ review.productTitle }}</h4>
               <v-spacer></v-spacer>
               <v-layout justify-end>
-                <v-btn
-                    plain
-                    small
-                    style="font-weight: bold"
-                    @click="reviewModify(index)"
+                <v-dialog
+                    @click:outside="fn_cancel"
+                    v-model="dialog"
+                    persistent
+                    max-width="568px"
+                    :retain-focus="false"
                 >
-                  수정
-                </v-btn>
+                  <template v-slot:activator="{on, attrs}">
+                    <v-btn
+                        plain
+                        small
+                        style="font-weight: bold"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="reviewModify(index)"
+                    >
+                      수정
+                    </v-btn>
+                  </template>
+
+                  <v-card height="780px">
+                    <v-layout style="margin-left: 35px;">
+                      <h3 style="padding: 20px 10px 10px 10px">리뷰 수정</h3>
+                      <v-spacer></v-spacer>
+                    </v-layout>
+
+                    <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
+
+                    <v-layout style="margin-left: 35px;">
+                      <v-card max-width="100"
+                              style="padding: 15px 15px 15px 15px"
+                              flat
+                      >
+                      </v-card>
+
+                      <v-card width="400px"
+                              flat
+                              tile
+                      >
+                        <v-card-title style="font-weight: bold; font-size: 15px">
+                          <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: reviewProductNo.toString() } }"
+                                       style="text-decoration: none; color: black">
+                            {{ reviewProductTitle }}
+                          </router-link>
+                        </v-card-title>
+                      </v-card>
+                    </v-layout>
+
+                    <v-divider style="margin: 10px 38px 10px 38px;"></v-divider>
+
+
+                    <div align="center">
+                      <v-card height="500" width="500" flat style="border: 1px solid black">
+                        <v-card height="120px" tile>
+                          <v-rating
+                              color="#2F4F4F"
+                              background-color="#2F4F4F"
+                              style="padding-top: 22px"
+                              empty-icon="mdi-star-outline"
+                              full-icon="mdi-star"
+                              hover
+                              length="5"
+                              size="50"
+                              v-model="ratingValue"
+                          >
+                          </v-rating>
+                          <div>
+                            <h6>별표를 클릭하여 평가해주세요!</h6>
+                          </div>
+                        </v-card>
+
+                        <v-card height="200" flat>
+                          <v-textarea
+                              v-model="reviewContent"
+                              style="padding: 5px 5px 0px 5px;" height="200px" outlined/>
+                        </v-card>
+
+                        <v-layout align="start"
+                                  style="padding: 15px 0px 0px 5px"
+                                  class="justify-center"
+                        >
+                          <div v-if="files.length === 0">
+                            <input type="file" id="imageFile" ref="imageFile"
+                                   accept="image/png, image/jpeg, image/jpg"
+                                   @change="handleImgFile" hidden/>
+                            <label for="imageFile" width="100px" height="100px" plain>
+                              <v-hover
+
+                                  v-slot="{ hover }"
+                              >
+                                <v-card
+                                    :elevation="hover ? 16 : 0"
+                                    :class="{'on-hover' : hover}"
+                                    width="100px" height="100px"
+                                    style="border: 1px solid black">
+                                  <v-icon style="margin-top: 37px;">
+                                    mdi-camera
+                                  </v-icon>
+                                </v-card>
+                              </v-hover>
+                            </label>
+                            <div style="margin-top: 10px; margin-left: 5px;" align="start">
+                              <h6>▪사진 등록 후 재등록시 클릭해서 등록할 수 있습니다.</h6>
+                              <h6>▪사진은 jpg, jpeg, png 형식으로 1개만 등록가능합니다.</h6>
+                            </div>
+                          </div>
+
+                          <div v-else>
+                            <input type="file" id="imageFile" ref="imageFile"
+                                   @change="handleImgFile" hidden/>
+                            <label for="imageFile" width="100px" height="100px" plain>
+                              <v-card
+                                  class="justify-center"
+                                  width="100px" height="100px" elevation="0" style="border: 1px solid black"
+                                  align="center"
+                              >
+                                <v-img
+                                    height="100px"
+                                    :src="files.preview"
+                                >
+                                </v-img>
+                              </v-card>
+                            </label>
+
+                            <div style="margin-top: 10px; margin-left: 5px;">
+                              <h6 style="margin-right: 19px;">사진 등록 후 재등록시 클릭해서 등록할 수 있습니다.</h6>
+                              <h6>사진은 jpg, jpeg, png 형식으로 1개까지 등록가능합니다.</h6>
+                            </div>
+                          </div>
+                        </v-layout>
+                      </v-card>
+
+                      <v-btn class="white--text" style="margin-top: 20px; background-color: #2F4F4F" plain
+                             @click="modifyReview(index)"
+                      >
+                        수정하기
+                      </v-btn>
+                    </div>
+                  </v-card>
+
+                </v-dialog>
+
                 <h3>|</h3>
                 <v-btn plain small style="font-weight: bold">
                   삭제
@@ -54,12 +189,12 @@
               </v-rating>
 
 
-              <div v-if="!reviewModifyCheck" class="reviewContent">
+              <div class="reviewContent">
                 <h5 style="font-weight: normal;">{{ review.regDate }}</h5>
               </div>
-              <div v-else class="reviewContent">
-                <h5 style="font-weight: normal;">{{ review.upDate }} 수정</h5>
-              </div>
+<!--              <div v-else class="reviewContent">-->
+<!--                <h5 style="font-weight: normal;">{{ review.upDate }} 수정</h5>-->
+<!--              </div>-->
             </v-layout>
 
             <v-img
@@ -82,7 +217,7 @@
 <script>
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
 import BuyerMyPageTopNav from "@/components/buyerMyPage/BuyerMyPageTopNav";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "BuyerReviewForm",
@@ -102,19 +237,56 @@ export default {
     return {
       reviewModifyCheck: false,
       countByInfo: [],
-
+      dialog: false,
+      reviewProductImg: [],
+      reviewProductTitle: "",
+      reviewProductQuantity: 0,
+      ratingValue: 0,
+      reviewContent: '',
+      files: '',
+      reviewProductNo: 0,
     }
   },
   methods: {
+    ...mapActions([
+        'requestModifyReviewFromSpring'
+    ]),
+    handleImgFile(e) {
+      this.files = {
+        file: e.target.files[0],
+        preview: URL.createObjectURL(e.target.files[0])
+      }
+    },
+    async modifyReview(){
+      const starRating = this.ratingValue
+      const content = this.reviewContent
+      const files = this.files
+      const reviewNo = this.reviewNo
+
+      await this.requestModifyReviewFromSpring({reviewNo, starRating, content, files})
+    },
     reviewModify(index) {
-      console.log(index)
-      this.reviewModifyCheck = true
+      this.reviewProductTitle = this.myReviewList[index].productTitle
+      this.ratingValue = this.myReviewList[index].starRating
+      this.reviewContent = this.myReviewList[index].content
+      this.reviewNo = this.myReviewList[index].reviewNo
+
+      console.log(this.reviewContent)
+      console.log(this.reviewNo)
+      console.log(this.ratingValue)
+      console.log(this.reviewProductTitle)
+
+      this.currentSelectedReviewProductNumber = index
+      this.reviewProductNo = this.myReviewList[this.currentSelectedReviewProductNumber].productNo
     },
     getMyReviewImg(index){
       return{
         ...this.reviewImage,
         reviewImage: this.reviewImage[index].editedName && require(`@/assets/reviewImg/${this.reviewImage[index].editedName}`)
       }
+    },
+    fn_cancel(){
+      this.dialog = false
     }
   },
   async created() {

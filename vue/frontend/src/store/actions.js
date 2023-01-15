@@ -843,5 +843,32 @@ export default {
                 alert("답변이 삭제되지 않았습니다.")
             });
     },
+    /**
+     * 리뷰 수정 axios.
+     * @param qnaNo
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestModifyReviewFromSpring({ }, payload){
+        console.log("requestModifyReviewFromSpring")
 
+        const {reviewNo, starRating, content, files} = payload
+        let formData = new FormData()
+        let review = {reviewNo, starRating, content}
+
+        formData.append('review', new Blob([JSON.stringify(review)], {type: "application/json"}))
+        formData.append('file', files.file)
+
+        await axios.put('http://localhost:8888/review/modify', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(() => {
+                alert("수정 완료")
+            })
+            .catch(() => {
+                alert("수정 실패")
+            });
+    }
 }
