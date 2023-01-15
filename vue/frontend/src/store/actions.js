@@ -799,6 +799,28 @@ export default {
                 commit(REQUEST_MY_REVIEW_LIST_TO_SPRING, res.data)
             })
             .catch(() => {});
-    }
+    },
+
+    /**
+     *  상품 문의 답변 등록 axios
+     *  @param commit
+     *  @param payload qnaNo, answer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestAnswerRegisterToSpring({ }, payload) {
+        console.log("requestAnswerRegisterToSpring()")
+
+        const { qnaNo, answer } = payload
+        await axios.post('http://localhost:8888/qna/answer-register',
+            { qnaNo, answer })
+            .then(() => {
+                alert("답변이 등록되었습니다.")
+                history.go(0)
+            })
+            .catch(() => {
+                alert("정상적으로 등록되지 않았습니다.")
+            });
+    },
 
 }

@@ -165,7 +165,7 @@
 
                                   <!--문의 본문-->
                                   <v-textarea style="margin-top: 10px"
-                                      v-model="item.answer" label="🖊️ " counter outlined clearable
+                                      v-model="qnaAnswer" label="🖊️ " counter outlined clearable
                                       placeholder="답변 내용을 작성해주세요"
                                       row-height="50" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
                                       :rules="contentRule"/>
@@ -174,7 +174,7 @@
 
                                 <v-btn style="margin-top: 10px; margin-bottom: 30px; background-color: #DAA520; color: white"
                                        width="500px"  elevation="0"
-                                       @click="registerAnswer()"
+                                       @click="registerAnswer(item.qnaNo)"
                                 >
                                   답변 등록
                                 </v-btn>
@@ -455,7 +455,7 @@
 
 <script>
 import SellerNavi from "@/components/seller/SellerNavi";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 export default {
   name: "QnaManageForm",
   components: {SellerNavi},
@@ -480,6 +480,7 @@ export default {
       contentRule: [
         v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
       ],
+      qnaAnswer: '',
       dialog: false,
 
       expanded2: [],
@@ -505,6 +506,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+        'requestAnswerRegisterToSpring'
+    ]),
     expandRow(item, event) {
       if (event.isExpanded) {
         var index = this.expanded.findIndex(i => i === item);
@@ -515,6 +519,12 @@ export default {
     },
     fn_cancel() {
       this.dialog = false
+    },
+    async registerAnswer(qnaNo) {
+      console.log("qnaNo: "+ qnaNo)
+      const answer = this.qnaAnswer
+
+      await this.requestAnswerRegisterToSpring({qnaNo, answer})
     },
 
     onDelete(qnaNo) {
