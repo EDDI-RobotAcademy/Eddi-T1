@@ -156,7 +156,7 @@
                     small dense hover readonly>
                   </v-rating>
 
-                  <div>({{ reviewNum }})</div>
+                  <div>({{ this.$store.state.productReviewCnt }})</div>
                 </v-row>
               </v-col>
 
@@ -479,8 +479,7 @@
 <script>
 
 
-
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import QnaForm from "@/components/product/qna/QnaForm";
 import ReviewView from "@/views/product/review/ReviewView";
 
@@ -497,6 +496,11 @@ export default {
       required: true,
     }
   },
+  computed: {
+    ...mapState ([
+      'productReviewList'
+    ])
+  },
   data() {
     return {
       imgIdx: 0,
@@ -510,7 +514,6 @@ export default {
       ],
       deliveryFee: '',
       reviewSumAvg: 4,
-      reviewNum: 40,
       totalPrice: 0,
       quantity: 1,
       rules: {
@@ -552,8 +555,9 @@ export default {
         'requestDeleteProductToSpring',
         'requestRegisterShoppingBucketProduct',
         'requestRegisterQnaFromSpring',
-      'requestProductReviewListFromSpring',
-      'requestReviewCntFromSpring',
+        'requestProductReviewListFromSpring',
+        'requestReviewCntFromSpring',
+        'requestReviewImageFromSpring',
 
     ]),
     selectedImg(e) {
@@ -632,11 +636,21 @@ export default {
 
     //리뷰리스트 불러오기
     console.log("productNo: "+ this.productNo)
+    this.productReviewList.splice(0)
     /*const productNo = this.productNo*/
     const reviewSize = Number(this.$store.state.productReviewCnt)
 
     await this.requestProductReviewListFromSpring({productNo, reviewSize})
 
+  },
+
+  async created() {
+    this.reviewImage.splice(0)
+    for (let i = 0; i < this.productReviewList.length; i++) {
+      const reviewNo = this.productReviewList[i].reviewNo
+
+      await this.requestReviewImageFromSpring(reviewNo)
+    }
   },
 
 }
