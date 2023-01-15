@@ -383,6 +383,7 @@ export default {
     ...mapState([
         'myOrderInfoList',
         'myQnaList',
+        'myReviewList'
     ])
   },
   data() {
@@ -532,6 +533,7 @@ export default {
     const infoNum = new Array
     infoNum.push(this.myOrderInfoList.length)
     infoNum.push(this.myQnaList.length)
+    infoNum.push(this.myReviewList.length)
 
     this.countByInfo = infoNum
   }

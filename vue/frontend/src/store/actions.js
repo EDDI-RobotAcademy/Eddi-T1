@@ -25,6 +25,7 @@ import {
     REQUEST_REVIEW_CNT_FROM_SPRING,
     REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
+    REQUEST_MY_REVIEW_LIST_TO_SPRING
 
 
 } from './mutation-types'
@@ -780,5 +781,24 @@ export default {
                 }
             });
     },
+
+    /**
+     *  내가 작성한 리뷰 요청 axios
+     *  @param commit
+     *  @param payload writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestMyReviewListToSpring({ commit },payload){
+        console.log('requestMyReviewListToSpring' + payload)
+
+        const writer = payload
+
+        await axios.get(`http://localhost:8888/review/my-review/list/${writer}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_MY_REVIEW_LIST_TO_SPRING, res.data)
+            })
+            .catch(() => {});
+    }
 
 }
