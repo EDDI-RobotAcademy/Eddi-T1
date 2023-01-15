@@ -823,4 +823,25 @@ export default {
             });
     },
 
+    /**
+     * 판매자 답변 삭제 axios.
+     * @param qnaNo
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteAnswerFromSpring({}, payload) {
+        console.log("requestDeleteAnswerFromSpring()");
+
+        const qnaNo = payload;
+
+        await axios.post(`http://localhost:8888/qna/delete-answer/${qnaNo}`)
+            .then(() => {
+                alert("답변이 삭제 되었습니다.")
+                history.go(0)
+            })
+            .catch(() => {
+                alert("답변이 삭제되지 않았습니다.")
+            });
+    },
+
 }
