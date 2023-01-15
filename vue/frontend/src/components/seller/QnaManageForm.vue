@@ -165,7 +165,7 @@
 
                                   <!--문의 본문-->
                                   <v-textarea style="margin-top: 10px"
-                                      v-model="item.answer" label="🖊️ " counter outlined clearable
+                                      v-model="qnaAnswer" label="🖊️ " counter outlined clearable
                                       placeholder="답변 내용을 작성해주세요"
                                       row-height="50" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
                                       :rules="contentRule"/>
@@ -174,7 +174,7 @@
 
                                 <v-btn style="margin-top: 10px; margin-bottom: 30px; background-color: #DAA520; color: white"
                                        width="500px"  elevation="0"
-                                       @click="registerAnswer()"
+                                       @click="registerAnswer(item.qnaNo)"
                                 >
                                   답변 등록
                                 </v-btn>
@@ -278,14 +278,14 @@
         <v-data-table class="elevation-0 "
                       :headers="headers2"
                       :items="qnaCompleteList"
-                      item-key="questionTitle"
+                      item-key="qnaNo"
                       :expanded.sync="expanded2"
                       :single-expand="singleExpand2"
                       hide-default-footer
                       :items-per-page="7"
                       :page.sync="page2"
                       @page-count="pageCount2 = $event"
-                      @click:row="expandRow"
+                      @click:row="expandRow2"
         >
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
@@ -306,7 +306,7 @@
                     >
                       <v-card align="center">
                         <v-card-title class="justify-center">
-                          정말 삭제하시겠습니까?
+                          답변을 정말 삭제하시겠습니까?
                         </v-card-title>
                         <br>
                         <v-card-actions>
@@ -333,9 +333,7 @@
                         <span style="color: black" v-else>
                            <v-icon size="16" color="grey">mdi-lock-open-variant-outline</v-icon>&nbsp;
                         </span>
-
                         <strong>{{ item.writer }}</strong> | <strong> {{ item.questionTitle }} </strong>
-
                       </v-card-subtitle>
 
                       <v-card-title style="padding-top: 0px; font-weight: bolder; font-size: 20px; color: #2F4F4F">
@@ -350,21 +348,7 @@
                     <v-card
                         width="100%" height="auto" flat color="#f5f5f5" style="border-top: 1px solid transparent" tile
                         class="card-p"
-                        v-show="item.answerStatus != 'BEFORE_ANSWER'"
-                    >
-                      <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520">
-                        A
-
-                        <v-card-title style="font-weight: normal; font-size: 15px;">
-
-                        </v-card-title>
-                      </v-card-title>
-                    </v-card>
-
-                    <v-card
-                        width="100%" height="auto" flat color="#f5f5f5" style="border-top: 1px solid transparent" tile
-                        class="card-p"
-                        v-show="item.answerStatus == 'ANSWER_COMPLETE'"
+                        v-show="item.answerStatus == '답변 완료'"
                     >
 
                       <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520">
@@ -396,7 +380,7 @@
             <v-chip color="green"
                     small
                     outlined
-                    v-if="item.answerStatus === 'ANSWER_COMPLETE'">
+                    v-if="item.answerStatus === '답변 완료'">
               답변 완료
             </v-chip>
             <v-chip v-else
@@ -455,7 +439,7 @@
 
 <script>
 import SellerNavi from "@/components/seller/SellerNavi";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 export default {
   name: "QnaManageForm",
   components: {SellerNavi},
@@ -480,6 +464,7 @@ export default {
       contentRule: [
         v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
       ],
+      qnaAnswer: '',
       dialog: false,
 
       expanded2: [],
@@ -505,6 +490,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+        'requestAnswerRegisterToSpring',
+        'requestDeleteAnswerFromSpring'
+    ]),
     expandRow(item, event) {
       if (event.isExpanded) {
         var index = this.expanded.findIndex(i => i === item);
@@ -513,13 +502,27 @@ export default {
         this.expanded.push(item);
       }
     },
+    expandRow2(item, event) {
+      if (event.isExpanded) {
+        var index = this.expanded2.findIndex(i => i === item);
+        this.expanded2.splice(index, 1)
+      } else {
+        this.expanded2.push(item);
+      }
+    },
     fn_cancel() {
       this.dialog = false
     },
+    async registerAnswer(qnaNo) {
+      console.log("qnaNo: "+ qnaNo)
+      const answer = this.qnaAnswer
 
-    onDelete(qnaNo) {
+      await this.requestAnswerRegisterToSpring({qnaNo, answer})
+    },
+
+    async onDelete(qnaNo) {
       console.log("qnaNo: " + qnaNo)
-      this.requestDeleteQnaFromSpring(qnaNo)
+      await this.requestDeleteAnswerFromSpring(qnaNo)
     }
   }
 }
