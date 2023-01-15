@@ -12,7 +12,7 @@
       >
       </v-carousel-item>
     </v-carousel>
-    <category-form/>
+    <category-form @test="check()"/>
   </div>
 </template>
 
@@ -55,6 +55,9 @@ export default {
       'requestProductImgListToSpring',
       'requestProductRatingValueToSpring'
     ]),
+    check(item){
+      console.log(item)
+    },
     async getMainPageProductImgByHandmade() {
       this.handmadeProductRatingValue.splice(0)
       let category = "핸드메이드"

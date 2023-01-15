@@ -24,7 +24,7 @@
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHandmade" :key="index">
             <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString() } }"
+                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
                          style="text-decoration: none; color: black"
             >
               <v-hover
@@ -97,8 +97,9 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByKnowHow" :key="index">
-            <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString() } }"
+            <router-link
+                :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString(), checkValue: true} }"
                          style="text-decoration: none; color: black"
             >
               <v-hover
@@ -171,7 +172,7 @@
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHobby" :key="index">
             <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString() } }"
+                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
                          style="text-decoration: none; color: black"
             >
               <v-hover
@@ -238,9 +239,6 @@ export default {
     ]),
   },
   methods: {
-    check(index){
-      console.log(index)
-    },
     getHobbyProductImg(index) {
       return {
         ...this.mainPageProductImgListByHobby,

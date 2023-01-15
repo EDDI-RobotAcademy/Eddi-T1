@@ -28,7 +28,8 @@ import {
     REQUEST_REVIEW_CNT_FROM_SPRING,
     REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
-    REQUEST_MY_REVIEW_LIST_TO_SPRING
+    REQUEST_MY_REVIEW_LIST_TO_SPRING,
+    REQUEST_PRODUCT_RATING_VALUE_TO_SPRING
 
 
 } from './mutation-types'
@@ -125,4 +126,7 @@ export default {
     [REQUEST_MY_REVIEW_LIST_TO_SPRING](state, passingData) {
         state.myReviewList = passingData
     },
+    [REQUEST_PRODUCT_RATING_VALUE_TO_SPRING](state, passingData){
+        state.productRatingValue.push(passingData)
+    }
 }

@@ -5,7 +5,7 @@
     <v-container style="width: 1400px">
       <buyer-my-page-top-nav :countByInfo="countByInfo"/>
 
-      <v-container style="width: 1000px"
+      <v-container style="width: 1200px"
                    v-if="!myReviewList || (Array.isArray(myReviewList) && myReviewList.length === 0)">
         <div align="center">
           <h2>작성한 리뷰가 없습니다.</h2>
@@ -261,7 +261,8 @@ export default {
       'myQnaList',
       'myOrderInfoList',
       'myReviewList',
-      'reviewImage'
+      'reviewImage',
+      'recentlyViewedProductList'
     ])
   },
   data() {
@@ -337,6 +338,7 @@ export default {
     infoNum.push(this.myOrderInfoList.length)
     infoNum.push(this.myQnaList.length)
     infoNum.push(this.myReviewList.length)
+    infoNum.push(this.recentlyViewedProductList.length)
 
     this.countByInfo = infoNum
   },

@@ -198,7 +198,8 @@ export default {
     ...mapState([
       'myQnaList',
       'myOrderInfoList',
-      'myReviewList'
+      'myReviewList',
+      'recentlyViewedProductList'
     ])
   },
   data() {
@@ -250,6 +251,7 @@ export default {
     infoNum.push(this.myOrderInfoList.length)
     infoNum.push(this.myQnaList.length)
     infoNum.push(this.myReviewList.length)
+    infoNum.push(this.recentlyViewedProductList.length)
 
     this.countByInfo = infoNum
   }
