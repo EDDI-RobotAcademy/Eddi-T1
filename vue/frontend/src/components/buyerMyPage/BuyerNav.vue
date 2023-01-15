@@ -87,6 +87,10 @@ export default {
           title: "마이 리뷰",
           icon: "mdi-star",
           route: "/buyer-review"},
+        {
+          title: "최근 본 상품",
+          icon: "mdi-basket",
+          route: "/buyer-recently-view"},
       ],
     }
   },

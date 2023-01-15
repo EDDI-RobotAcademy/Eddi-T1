@@ -14,10 +14,16 @@ export default {
       type: String,
       required: true
     },
+    checkValue: {
+      type: Boolean
+    }
   },
   computed: {
     ...mapState([
-        'product'
+        'product',
+        'recentlyViewedProductListTmp',
+        'recentlyViewedProductList'
+
     ])
   },
   created() {
@@ -28,9 +34,20 @@ export default {
         'requestProductFromSpring'
     ]),
   },
-  mounted() {
+  async mounted() {
     console.log(this.productNo)
     console.log(this.product)
+
+    if (this.checkValue === true){
+      await this.requestProductFromSpring(this.productNo)
+
+      this.recentlyViewedProductListTmp.push(this.product)
+    }
+    console.log(this.recentlyViewedProductListTmp)
+    let recentlyViewed = [...new Set(this.recentlyViewedProductListTmp.map(JSON.stringify))].map(JSON.parse)
+    this.$store.state.recentlyViewedProductList = recentlyViewed
+    console.log(this.recentlyViewedProductList)
+
   },
 
 }
