@@ -165,9 +165,43 @@
                 </v-dialog>
 
                 <h3>|</h3>
-                <v-btn plain small style="font-weight: bold">
-                  삭제
-                </v-btn>
+
+                <v-dialog
+                    @click:outside="deleteDialogClose"
+                    v-model="deleteDialog"
+                    persistent
+                    max-width="368px"
+                    :retain-focus="false"
+                >
+                  <template v-slot:activator="{on, attrs}">
+                    <v-btn plain small style="font-weight: bold"
+                           v-bind="attrs"
+                           v-on="on"
+                    >
+                      삭제
+                    </v-btn>
+                  </template>
+                  <v-card style="height: 170px">
+                    <div align="center">
+                      <h2 style="padding-top: 30px;">리뷰를 삭제하시겠습니까?</h2>
+                    </div>
+                    <div align="center">
+                      <v-btn @click="deleteReview(index)"
+                             style="margin: 30px 10px 20px 0px; background-color: #2F4F4F; color: white">
+                        확인
+                      </v-btn>
+
+                      <v-btn
+                          @click="deleteDialog = false"
+                          style="margin: 30px 0px 20px 0px; background-color: #2F4F4F; color: white"
+                      >
+                        취소
+                      </v-btn>
+                    </div>
+                  </v-card>
+
+                </v-dialog>
+
               </v-layout>
             </v-layout>
 
@@ -192,9 +226,6 @@
               <div class="reviewContent">
                 <h5 style="font-weight: normal;">{{ review.regDate }}</h5>
               </div>
-<!--              <div v-else class="reviewContent">-->
-<!--                <h5 style="font-weight: normal;">{{ review.upDate }} 수정</h5>-->
-<!--              </div>-->
             </v-layout>
 
             <v-img
@@ -238,6 +269,7 @@ export default {
       reviewModifyCheck: false,
       countByInfo: [],
       dialog: false,
+      deleteDialog: false,
       reviewProductImg: [],
       reviewProductTitle: "",
       reviewProductQuantity: 0,
@@ -249,15 +281,19 @@ export default {
   },
   methods: {
     ...mapActions([
-        'requestModifyReviewFromSpring'
+      'requestModifyReviewFromSpring',
+      'requestDeleteReviewToSpring'
     ]),
+    deleteDialogClose() {
+      this.deleteDialog = false
+    },
     handleImgFile(e) {
       this.files = {
         file: e.target.files[0],
         preview: URL.createObjectURL(e.target.files[0])
       }
     },
-    async modifyReview(){
+    async modifyReview() {
       const starRating = this.ratingValue
       const content = this.reviewContent
       const files = this.files
@@ -279,14 +315,21 @@ export default {
       this.currentSelectedReviewProductNumber = index
       this.reviewProductNo = this.myReviewList[this.currentSelectedReviewProductNumber].productNo
     },
-    getMyReviewImg(index){
-      return{
+    getMyReviewImg(index) {
+      return {
         ...this.reviewImage,
         reviewImage: this.reviewImage[index].editedName && require(`@/assets/reviewImg/${this.reviewImage[index].editedName}`)
       }
     },
-    fn_cancel(){
+    fn_cancel() {
       this.dialog = false
+    },
+    async deleteReview(index) {
+      const reviewNo = this.myReviewList[index].reviewNo
+
+      await this.requestDeleteReviewToSpring(reviewNo)
+
+      this.deleteDialog = false
     }
   },
   async created() {

@@ -845,7 +845,7 @@ export default {
     },
     /**
      * 리뷰 수정 axios.
-     * @param qnaNo
+     * @param reviewNo, starRating, content, files
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
@@ -869,6 +869,25 @@ export default {
             })
             .catch(() => {
                 alert("수정 실패")
+            });
+    },
+    /**
+     * 리뷰 삭제 axios.
+     * @param reviewNo
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteReviewToSpring({ }, payload){
+        console.log("requestDeleteReviewToSpring")
+
+        const reviewNo = payload
+
+        await axios.delete(`http://localhost:8888/review/delete/${reviewNo}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("삭제 실패")
             });
     }
 }
