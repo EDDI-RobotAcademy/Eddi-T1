@@ -303,7 +303,7 @@
                 <hr color="#DAA520" width="100%">
 
                 <!--리뷰 리스트-->
-                <review-form :productNo="productNo"/>
+                <review-view :productNo="productNo"/>
 
               </v-card>
             </v-tab-item>
@@ -482,11 +482,11 @@
 
 import {mapActions} from "vuex";
 import QnaForm from "@/components/product/qna/QnaForm";
-import ReviewForm from "@/components/product/review/ReviewForm";
+import ReviewView from "@/views/product/review/ReviewView";
 
 export default {
   name: "ProductReadForm",
-  components: {ReviewForm, QnaForm},
+  components: {ReviewView, QnaForm},
   props: {
     productNo: {
       type: String,
@@ -551,7 +551,10 @@ export default {
     ...mapActions([
         'requestDeleteProductToSpring',
         'requestRegisterShoppingBucketProduct',
-        'requestRegisterQnaFromSpring'
+        'requestRegisterQnaFromSpring',
+      'requestProductReviewListFromSpring',
+      'requestReviewCntFromSpring',
+
     ]),
     selectedImg(e) {
       this.imgIdx = e
@@ -618,6 +621,22 @@ export default {
   },
   beforeUpdate() {
     this.freeDelivery()
+  },
+
+  async mounted() {
+    //리뷰 총 개수
+    const productNo = this.productNo
+    await this.requestReviewCntFromSpring(productNo)
+    console.log("productReviewCnt: " + this.$store.state.productReviewCnt)
+
+
+    //리뷰리스트 불러오기
+    console.log("productNo: "+ this.productNo)
+    /*const productNo = this.productNo*/
+    const reviewSize = Number(this.$store.state.productReviewCnt)
+
+    await this.requestProductReviewListFromSpring({productNo, reviewSize})
+
   },
 
 }
