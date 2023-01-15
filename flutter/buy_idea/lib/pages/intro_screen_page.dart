@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:buy_idea/pages/buyer/main_page.dart';
-import 'package:buy_idea/pages/seller/seller_info.dart';
 import 'package:buy_idea/pages/seller/seller_main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -41,7 +40,6 @@ class _IntroScreenPageState extends State<IntroScreenPage> {
     Timer(const Duration(seconds: 3), () {
       _asyncMethod();
     });
-    SellerInfo().getSellerInfo();
     super.initState();
   }
 

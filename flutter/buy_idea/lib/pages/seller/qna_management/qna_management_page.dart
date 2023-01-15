@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../component/seller/app_bar/seller_drawer.dart';
 import '../../../component/seller/qna_management/wait_for_answer_form.dart';
-import '../seller_info.dart';
+import '../seller_main_page.dart';
 
 class QnaManagementPage extends StatefulWidget {
   const QnaManagementPage({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _QnaManagementPageState extends State<QnaManagementPage> with TickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: SellerDrawer(nickname: SellerInfo.sellerNickname),
+      drawer: SellerDrawer(nickname: SellerMainPage.sellerNickname),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
