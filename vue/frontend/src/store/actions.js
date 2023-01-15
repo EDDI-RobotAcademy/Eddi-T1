@@ -25,6 +25,7 @@ import {
     REQUEST_REVIEW_CNT_FROM_SPRING,
     REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
+    REQUEST_MY_REVIEW_LIST_TO_SPRING
 
 
 } from './mutation-types'
@@ -781,4 +782,112 @@ export default {
             });
     },
 
+    /**
+     *  내가 작성한 리뷰 요청 axios
+     *  @param commit
+     *  @param payload writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestMyReviewListToSpring({ commit },payload){
+        console.log('requestMyReviewListToSpring' + payload)
+
+        const writer = payload
+
+        await axios.get(`http://localhost:8888/review/my-review/list/${writer}`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_MY_REVIEW_LIST_TO_SPRING, res.data)
+            })
+            .catch(() => {});
+    },
+
+    /**
+     *  상품 문의 답변 등록 axios
+     *  @param commit
+     *  @param payload qnaNo, answer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestAnswerRegisterToSpring({ }, payload) {
+        console.log("requestAnswerRegisterToSpring()")
+
+        const { qnaNo, answer } = payload
+        await axios.post('http://localhost:8888/qna/answer-register',
+            { qnaNo, answer })
+            .then(() => {
+                alert("답변이 등록되었습니다.")
+                history.go(0)
+            })
+            .catch(() => {
+                alert("정상적으로 등록되지 않았습니다.")
+            });
+    },
+
+    /**
+     * 판매자 답변 삭제 axios.
+     * @param qnaNo
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteAnswerFromSpring({}, payload) {
+        console.log("requestDeleteAnswerFromSpring()");
+
+        const qnaNo = payload;
+
+        await axios.post(`http://localhost:8888/qna/delete-answer/${qnaNo}`)
+            .then(() => {
+                alert("답변이 삭제 되었습니다.")
+                history.go(0)
+            })
+            .catch(() => {
+                alert("답변이 삭제되지 않았습니다.")
+            });
+    },
+    /**
+     * 리뷰 수정 axios.
+     * @param reviewNo, starRating, content, files
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestModifyReviewFromSpring({ }, payload){
+        console.log("requestModifyReviewFromSpring")
+
+        const {reviewNo, starRating, content, files} = payload
+        let formData = new FormData()
+        let review = {reviewNo, starRating, content}
+
+        formData.append('review', new Blob([JSON.stringify(review)], {type: "application/json"}))
+        formData.append('file', files.file)
+
+        await axios.put('http://localhost:8888/review/modify', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(() => {
+                alert("수정 완료")
+            })
+            .catch(() => {
+                alert("수정 실패")
+            });
+    },
+    /**
+     * 리뷰 삭제 axios.
+     * @param reviewNo
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteReviewToSpring({ }, payload){
+        console.log("requestDeleteReviewToSpring")
+
+        const reviewNo = payload
+
+        await axios.delete(`http://localhost:8888/review/delete/${reviewNo}`)
+            .then(() => {
+                alert("삭제 성공")
+            })
+            .catch(() => {
+                alert("삭제 실패")
+            });
+    }
 }

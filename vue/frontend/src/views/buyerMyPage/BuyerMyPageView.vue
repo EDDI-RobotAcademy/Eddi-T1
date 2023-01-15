@@ -15,15 +15,18 @@ export default {
   methods: {
     ...mapActions([
         'requestMyOrderInfoListFromSpring',
-        'requestMyQnaListFromSpring'
+        'requestMyQnaListFromSpring',
+        'requestMyReviewListToSpring'
     ])
   },
-  async mounted() {
+  async created() {
     const nickname = this.$store.state.memberInfoAfterSignIn.nickname
     await this.requestMyOrderInfoListFromSpring(nickname)
 
     const writer = nickname
     await this.requestMyQnaListFromSpring(writer)
+
+    await this.requestMyReviewListToSpring(writer)
   }
 }
 </script>

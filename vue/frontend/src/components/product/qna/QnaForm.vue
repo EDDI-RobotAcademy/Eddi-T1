@@ -69,7 +69,7 @@
               <v-card
                   width="100%" height="auto" flat color="#f5f5f5" style="border-top: 1px solid transparent" tile
                   class="card-p"
-                  v-show="item.answerStatus != 'BEFORE_ANSWER'"
+                  v-show="item.answerStatus != '답변 완료'"
               >
                 <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520" >
                   A
@@ -84,7 +84,7 @@
               <v-card
                   width="100%" height="auto" flat color="#f5f5f5" style="border-top: 1px solid transparent" tile
                   class="card-p"
-                  v-show="item.answerStatus == 'ANSWER_COMPLETE'"
+                  v-show="item.answerStatus == '답변 완료'"
               >
 
                 <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520" >
