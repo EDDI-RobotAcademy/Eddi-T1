@@ -308,13 +308,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> allList(String nickname) {
+    public List<Product> sellerProductAllList(String nickname) {
         log.info(nickname);
-
-        Slice<Product> productsSlice = productRepository.findByNickname(nickname, Pageable.ofSize(12));
-        List<Product> sellerProductList = productsSlice.getContent();
-
-        return sellerProductList;
+        return productRepository.findByNickname(nickname);
     }
 
     @Override

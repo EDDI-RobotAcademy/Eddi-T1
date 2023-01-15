@@ -116,10 +116,10 @@ public class ProductController {
         
 
     @GetMapping("/allList/{nickname}")
-    public List<Product> allList (@PathVariable("nickname") String nickname) {
-        log.info("allList()" + nickname);
+    public List<Product> sellerProductAllList (@PathVariable("nickname") String nickname) {
+        log.info("sellerProductAllList()" + nickname);
 
-        return productService.allList(nickname);
+        return productService.sellerProductAllList(nickname);
 
     }
 
