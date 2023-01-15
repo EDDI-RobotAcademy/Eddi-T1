@@ -27,7 +27,7 @@
         <v-data-table class="elevation-0 "
                       :headers="headers"
                       :items="qnaBeforeAnswerList"
-                      item-key="questionTitle"
+                      item-key="qnaNo"
                       :expanded.sync="expanded"
                       :single-expand="singleExpand"
                       hide-default-footer
@@ -103,41 +103,80 @@
                               </v-btn>
                             </template>
                             <v-card height="auto">
+
                               <v-layout style="margin-left: 35px">
-                                <h3 style="padding: 20px 10px 10px 10px">문의 작성</h3>
-                                <v-spacer></v-spacer>
+
+                                <!--상호명 + 기본문구-->
+                                <v-card width="400px" flat tile>
+                                  <v-card-title style="font-weight: bold; font-size: 15px">
+                                    📨 &nbsp; <span style="color: cadetblue"> {{ item.nickname }} </span> 의
+                                  </v-card-title>
+
+                                  <v-card-subtitle style="font-weight: bold; color: black; font-size: 15px">
+                                    &emsp; &nbsp; 답변을 기다리는 문의글입니다.
+                                  </v-card-subtitle>
+                                </v-card>
                               </v-layout>
 
-                              <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
+                              <v-divider style="margin: 0px 38px 10px 38px;"></v-divider>
 
+                              <!--문의 유형/상품/공개상태/답변상태/닉네임/날짜/제목/내용-->
                               <div align="center">
                                 <v-card height="auto" width="500" flat style="border: 1px solid transparent">
 
-                                  <!--문의 카테고리-->
-                                  <v-select
-                                      v-model="item.category" label="카테고리" color="#2F4F4F" :items="categoryList" readonly/>
+                                  <v-card width="100%" height="auto" flat color="#f5f5f5" style="padding-bottom: 0px">
 
-                                  <!--문의 제목-->
-                                  <v-text-field
-                                      v-model="item.questionTitle" label="제목" color="#2F4F4F" required
-                                      :rules="titleRule"/>
+                                    <v-card-subtitle style="width: 100%; padding-top: 0px; padding-bottom: 0px">
+                                      &nbsp;
+                                    </v-card-subtitle>
 
-                                  <!--문의자-->
-                                  <v-text-field
-                                      :value="item.writer" label="작성자" color="#2F4F4F" readonly required/>
+                                    <v-card-subtitle style="width: 100%; font-size: 13px; text-align: left; padding-top: 0px; padding-bottom: 0px">
+                                      <span style="color: #DAA520; font-weight: bold">
+                                      <strong>[{{ item.questionCategory }}]</strong>
+                                      </span>
+                                      <strong> {{ item.title }} </strong>
+                                    </v-card-subtitle>
+
+                                    <v-card-subtitle style="width: 100%; font-size: 13px; text-align: left; padding-top: 0px; padding-bottom: 0px">
+
+                                      <span style="color: black" v-if="item.openStatus === false">
+                                        <v-icon size="16" color="grey">mdi-lock-outline</v-icon>&nbsp;
+                                      </span>
+                                      <span style="color: grey" v-else>
+                                        <v-icon size="16" color="grey">mdi-lock-open-variant-outline</v-icon>&nbsp;
+                                      </span>
+
+                                      {{ item.answerStatus }} | {{ item.regDate | date }}
+                                    </v-card-subtitle>
+
+
+                                    <v-card-subtitle style="width: 100%; font-size: 13px; text-align: left; padding-top: 0px; padding-bottom: 0px">
+                                      <strong>▶ {{ item.questionTitle }} ( {{item.writer}} )</strong>
+                                    </v-card-subtitle>
+
+                                    <v-card-title style="padding-top: 0px; font-weight: bolder; font-size: 20px; color: #2F4F4F">
+                                      Q
+                                      <v-card-title style="font-weight: normal; font-size: 15px">
+                                        {{ item.questionContent }}
+                                      </v-card-title>
+                                    </v-card-title>
+
+                                  </v-card>
 
                                   <!--문의 본문-->
-                                  <v-textarea
-                                      v-model="item.questionContent" label="내용" counter outlined clearable
-                                      row-height="60" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
+                                  <v-textarea style="margin-top: 10px"
+                                      v-model="item.answer" label="🖊️ " counter outlined clearable
+                                      placeholder="답변 내용을 작성해주세요"
+                                      row-height="50" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
                                       :rules="contentRule"/>
 
                                 </v-card>
 
-                                <v-btn style="margin-top: -90px; background-color: #2F4F4F; color: white" plain
+                                <v-btn style="margin-top: 10px; margin-bottom: 30px; background-color: #DAA520; color: white"
+                                       width="500px"  elevation="0"
                                        @click="registerAnswer()"
                                 >
-                                  등록하기
+                                  답변 등록
                                 </v-btn>
                               </div>
                             </v-card>
@@ -146,16 +185,6 @@
                       </v-card-title>
                     </v-card>
 
-                    <v-card
-                        width="100%" height="auto" flat color="#f5f5f5" style="border-top: 1px solid transparent" tile
-                        class="card-p"
-                        v-show="item.answerStatus == 'ANSWER_COMPLETE'"
-                    >
-
-                      <v-card-title style="font-weight: bolder; font-size: 20px; color: #DAA520">
-                        A
-                      </v-card-title>
-                    </v-card>
 
                   </v-card>
 
@@ -447,6 +476,9 @@ export default {
         {text: '상품', value: 'title', width: "300px"},
         {text: 'date ', value: 'regDate', width: "100px"},
         {text: '답변상태 ', value: 'answerStatus', width: "50px"},
+      ],
+      contentRule: [
+        v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
       ],
       dialog: false,
 
