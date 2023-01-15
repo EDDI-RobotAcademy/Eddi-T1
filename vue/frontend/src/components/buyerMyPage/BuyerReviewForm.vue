@@ -5,7 +5,14 @@
     <v-container style="width: 1400px">
       <buyer-my-page-top-nav :countByInfo="countByInfo"/>
 
-      <v-container style="width: 1000px">
+      <v-container style="width: 1000px"
+                   v-if="!myReviewList || (Array.isArray(myReviewList) && myReviewList.length === 0)">
+        <div align="center">
+          <h2>작성한 리뷰가 없습니다.</h2>
+        </div>
+      </v-container>
+
+      <v-container style="width: 1000px" v-else>
         <h2 style="margin-bottom: 50px;">마이 리뷰</h2>
         <div class="reviewView"
              v-for="(review, index) in myReviewList" :key="index">
