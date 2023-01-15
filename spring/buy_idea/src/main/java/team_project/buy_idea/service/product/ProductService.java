@@ -21,7 +21,7 @@ public interface ProductService {
     public void modify(ProductRequest productRequest, List<MultipartFile> files, Long productNo);
     public void remove(Long productNo);
     public List<Product> getFindSearchKeywordList(String keyword);
-    public List<Product> allList(String nickname );
+    public List<Product> sellerProductAllList(String nickname );
     public List<SellerProductResponse> getProductsBySeller(String seller, String category, Long productNo, int listSize);
 
 }

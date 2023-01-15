@@ -31,8 +31,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllProductByTitleContaining(String searchKeyword);
 
 
-    @Query("select p from Product p join fetch p.productImages where p.nickname = :nickname order by p.productNo desc")
-    Slice<Product> findByNickname(@Param("nickname") String nickname, Pageable pageable);
+    @Query("select distinct p from Product p join fetch p.productImages where p.nickname = :nickname order by p.productNo desc")
+    List<Product> findByNickname(@Param("nickname") String nickname);
 
     @Query("select p from Product p join fetch p.productImages where p.productNo = :productNo")
     Optional<Product> findById(@Param("productNo") Long productNo);
