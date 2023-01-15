@@ -2,7 +2,7 @@ import 'package:buy_idea/component/seller/product_registration_status/product_re
 import 'package:flutter/material.dart';
 
 import '../../../component/seller/app_bar/seller_drawer.dart';
-import '../seller_info.dart';
+import '../seller_main_page.dart';
 
 class ProductRegistrationStatusPage extends StatefulWidget {
   const ProductRegistrationStatusPage({Key? key, this.nickname}) : super(key: key);
@@ -40,7 +40,7 @@ class _ProductRegistrationStatusPageState extends State<ProductRegistrationStatu
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SellerDrawer(nickname: SellerInfo.sellerNickname),
+      drawer: SellerDrawer(nickname: SellerMainPage.sellerNickname),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
