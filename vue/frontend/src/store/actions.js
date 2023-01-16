@@ -892,5 +892,7 @@ export default {
             .catch(() => {
                 alert("삭제 실패")
             });
-    }
+    },
+
+
 }

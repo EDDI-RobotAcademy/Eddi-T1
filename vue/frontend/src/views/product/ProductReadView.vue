@@ -31,7 +31,8 @@ export default {
   },
   methods: {
     ...mapActions([
-        'requestProductFromSpring'
+        'requestProductFromSpring',
+        'requestProductRatingAvgToSpring'
     ]),
   },
   async mounted() {
