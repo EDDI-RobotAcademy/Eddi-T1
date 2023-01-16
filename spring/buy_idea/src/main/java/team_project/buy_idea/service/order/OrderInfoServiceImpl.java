@@ -146,7 +146,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public List<OrderInfo> SellerOrderInfoList(OrderStatusRequest request) {
+    public List<OrderInfo> sellerOrderInfoList(OrderStatusRequest request) {
         log.info(request.getNickname());
         log.info(request.getOrderStatus());
         String sellerNickname = request.getNickname();
@@ -215,25 +215,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public Long SellerOrderInfoListCount(OrderStatusRequest request){
+    public Long sellerOrderInfoListCount(OrderStatusRequest request){
         log.info(request.getNickname());
         log.info(request.getOrderStatus());
         String sellerNickname = request.getNickname();
         String orderStatus = request.getOrderStatus();
 
-        OrderStatus status = switch (orderStatus) {
-            case "결제 완료" -> OrderStatus.PAYMENT_COMPLETE;
-            case "배송중" -> OrderStatus.DELIVERING;
-            case "배송 완료" -> OrderStatus.DELIVERED;
-            case "취소" -> OrderStatus.CANCEL;
-            case "환불" -> OrderStatus.REFUND;
-            case "교환" -> OrderStatus.EXCHANGE;
-            default -> null;
-        };
+        OrderStatus status = getOrderStatus(orderStatus);
 
-        Long OrderInfoCount = orderInfoRepository.countByProduct_NicknameAndOrderStatus(sellerNickname, status);
+        Long orderInfoCount = orderInfoRepository.countByProductNicknameAndOrderStatus(sellerNickname, status);
 
-        return OrderInfoCount;
+        return orderInfoCount;
     }
 
     /**

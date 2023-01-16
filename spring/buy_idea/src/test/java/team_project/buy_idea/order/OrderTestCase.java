@@ -94,7 +94,7 @@ public class OrderTestCase {
         OrderStatusRequest orderStatusRequest = new OrderStatusRequest("쿤", "결제 완료");
 
 
-        System.out.println(orderInfoService.SellerOrderInfoList(orderStatusRequest));
+        System.out.println(orderInfoService.sellerOrderInfoList(orderStatusRequest));
 
     }
 
@@ -109,7 +109,7 @@ public class OrderTestCase {
     void getSellerOrderCount(){
         OrderStatusRequest orderStatusRequest = new OrderStatusRequest("쿤", "결제 완료");
 
-        System.out.println(orderInfoService.SellerOrderInfoListCount(orderStatusRequest));
+        System.out.println(orderInfoService.sellerOrderInfoListCount(orderStatusRequest));
     }
 
     @Test

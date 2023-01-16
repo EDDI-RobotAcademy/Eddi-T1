@@ -46,10 +46,10 @@ public class OrderInfoController {
     }
 
     @PostMapping("/seller-order-info-list")
-    public List<OrderInfo> SellerOrderInfoList (@RequestBody OrderStatusRequest request) {
+    public List<OrderInfo> sellerOrderInfoList (@RequestBody OrderStatusRequest request) {
         log.info("SellerOrderInfoList()" + request);
 
-        return orderInfoService.SellerOrderInfoList(request);
+        return orderInfoService.sellerOrderInfoList(request);
 
     }
 
@@ -60,10 +60,10 @@ public class OrderInfoController {
     }
 
     @PostMapping("/seller-order-info-list-count")
-    public Long SellerOrderInfoListCount (@RequestBody OrderStatusRequest request) {
+    public Long sellerOrderInfoListCount (@RequestBody OrderStatusRequest request) {
         log.info("SellerOrderInfoListCount()" + request);
 
-        return orderInfoService.SellerOrderInfoListCount(request);
+        return orderInfoService.sellerOrderInfoListCount(request);
     }
 
     @GetMapping("/seller/sales/{seller}")
