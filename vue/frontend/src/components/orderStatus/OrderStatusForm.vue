@@ -11,6 +11,9 @@
           주문일자
         </th>
         <th class="text-center">
+          주문번호
+        </th>
+        <th class="text-center">
           구매자 닉네임
         </th>
         <th class="text-center">
@@ -39,6 +42,9 @@
       <tr>
         <th class="text-center">
           {{ item.orderDate }}
+        </th>
+        <th class="text-center">
+          {{ item.orderNo }}
         </th>
         <th class="text-center">
           {{ item.buyer }}
