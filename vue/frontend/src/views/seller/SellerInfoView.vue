@@ -5,20 +5,20 @@
 <script>
 import SellerInfoForm from "@/components/seller/SellerInfoForm";
 import {mapActions} from "vuex";
+
 export default {
   name: "SellerInfoView",
   components: {SellerInfoForm},
   methods: {
     ...mapActions([
-      'requestRegisterSellerInfoToSpring'
+      'requestRegisterSellerInfoToSpring',
+      'requestSellerInfoToSpring'
     ]),
-    async onSubmit (payload) {
+    async onSubmit(payload) {
       await this.requestRegisterSellerInfoToSpring(payload)
       await this.$router.push({name: 'OrderManageView'})
     },
-
-  }
-
+  },
 }
 </script>
 

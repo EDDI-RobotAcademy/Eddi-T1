@@ -11,8 +11,11 @@
           📌 Seller Profile
         </v-toolbar-title>
       </v-app-bar>
+      <div align="center" v-if="dataPresenceCheck">
+        데이터 있음
+      </div>
 
-      <div style="font-family: Arial">
+      <div style="font-family: Arial" v-else>
         <v-row justify="center">
           <v-col cols="auto" style="padding-bottom: 90px">
             <v-card elevation="0" width="460">
@@ -108,10 +111,16 @@
 
 <script>
 import SellerNavi from "@/components/seller/SellerNavi";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "SellerInfoForm",
   components: {SellerNavi},
+  computed: {
+    ...mapState([
+      'sellerInfoData'
+    ])
+  },
   data() {
     return {
       seller: "",
@@ -127,15 +136,19 @@ export default {
       phoneInputCheckValue: false,
       companyNumInputCheckValue: false,
       companyNumCheckValue: false,
+      dataPresenceCheck: false,
       seller_rule: [
         v => !(v && v.length > 5) || '판매자명은 5자까지 입력가능합니다.',
       ],
-      companyNum_rule:[
-          v => !(v && v.length > 12) || '사업자 등록번호는 10자까지 입력가능합니다. '
+      companyNum_rule: [
+        v => !(v && v.length > 12) || '사업자 등록번호는 10자까지 입력가능합니다. '
       ],
     }
   },
   methods: {
+    ...mapActions([
+      'requestSellerInfoToSpring'
+    ]),
     checkInputRealName() {
       this.realNameInputCheckValue = true
     },
@@ -190,7 +203,16 @@ export default {
     onSubmit() {
       const nickname = this.$store.state.memberInfoAfterSignIn.nickname
       const {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber} = this
-      this.$emit("submit", {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber, nickname})
+      this.$emit("submit", {
+        seller,
+        city,
+        street,
+        addressDetail,
+        zipcode,
+        companyPhoneNumber,
+        companyRegisterNumber,
+        nickname
+      })
     },
 
     callDaumAddressApi() {
@@ -227,7 +249,18 @@ export default {
       console.log("주소")
     }
   },
+  async mounted() {
+    const nickname = this.$store.state.memberInfoAfterSignIn.nickname
+    await this.requestSellerInfoToSpring(nickname)
 
+    console.log(this.sellerInfoData)
+
+    if (!(this.sellerInfoData.constructor === Object && Object.keys(this.sellerInfoData).length === 0)) {
+      this.dataPresenceCheck = true
+    } else {
+      this.dataPresenceCheck = false
+    }
+  }
 }
 </script>
 

@@ -32,7 +32,8 @@ import {
     REQUEST_PRODUCT_RATING_VALUE_TO_SPRING,
     REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
     REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
-    REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING
+    REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
+    REQUEST_SELLER_INFO_TO_SPRING
 
 
 } from './mutation-types'
@@ -140,5 +141,8 @@ export default {
     },
     [REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING](state, passingData){
         state.reviewWriteCheckValue = passingData
+    },
+    [REQUEST_SELLER_INFO_TO_SPRING](state, passingData) {
+        state.sellerInfoData = passingData
     },
 }
