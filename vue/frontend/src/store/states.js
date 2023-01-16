@@ -36,5 +36,6 @@ export default {
     myReviewList: [],
     recentlyViewedProductListTmp: [],
     recentlyViewedProductList: [],
-    productRatingValue: []
+    productRatingValue: [],
+    productReadRatingValue: []
 }

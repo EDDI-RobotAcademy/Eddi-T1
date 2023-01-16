@@ -143,20 +143,26 @@
                 </v-row>
               </v-col>
 
-              <!--별점 / 리뷰 수-->
+              <!--별점-->
               <v-col>
                 <v-row>
                   <p class="title">REVIEW</p>
                   <col class="col-sm-3 mr-0">
-
                   <v-rating
-                    :value="reviewSumAvg"
+                    :value=" productReadRatingValue "
                     background-color="orange lighten-3"
                     color="orange"
                     small dense hover readonly>
                   </v-rating>
 
-                  <div>({{ reviewNum }})</div>
+                  <!--별점 평균 / 후기 수-->
+                  <div v-show="this.$store.state.productReadRatingValue !== 0"
+                       style="font-size: 0.8em; margin-top: 2px; margin-left: 2px">
+                    {{this.$store.state.productReadRatingValue}}
+                    </div>
+                  <div style="font-size: 0.9em;">
+                    &nbsp; ({{ this.$store.state.productReviewCnt }})
+                  </div>
                 </v-row>
               </v-col>
 
@@ -252,7 +258,6 @@
             <v-tab-item>
 
               <v-card flat>
-<!--                <v-card-title>상품 상세 설명</v-card-title>-->
                 <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
                   <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
                   상품 상세 설명
@@ -296,14 +301,14 @@
                   상품 후기
                 </v-card-title>
                 <v-card-text>상품에 대한 후기를 보는 공간입니다. <br/>
-                  구매한 상품의 <strong>후기는 구매내역의 주문상세보기에서 작성</strong> 가능합니다. <br/>
+                  구매한 상품의 <strong>후기는 마이페이지의 최근 주문내역에서 작성</strong> 가능합니다. <br/>
                   후기 작성은 배송완료 시점부터 가능합니다. <br/>
                   <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
                 </v-card-text>
                 <hr color="#DAA520" width="100%">
 
                 <!--리뷰 리스트-->
-                <review-form :productNo="productNo"/>
+                <review-view :productNo="productNo"/>
 
               </v-card>
             </v-tab-item>
@@ -479,14 +484,13 @@
 <script>
 
 
-
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import QnaForm from "@/components/product/qna/QnaForm";
-import ReviewForm from "@/components/product/review/ReviewForm";
+import ReviewView from "@/views/product/review/ReviewView";
 
 export default {
   name: "ProductReadForm",
-  components: {ReviewForm, QnaForm},
+  components: {ReviewView, QnaForm},
   props: {
     productNo: {
       type: String,
@@ -496,6 +500,12 @@ export default {
       type: Object,
       required: true,
     }
+  },
+  computed: {
+    ...mapState ([
+      'productReviewList',
+      'productReadRatingValue'
+    ])
   },
   data() {
     return {
@@ -510,7 +520,6 @@ export default {
       ],
       deliveryFee: '',
       reviewSumAvg: 4,
-      reviewNum: 40,
       totalPrice: 0,
       quantity: 1,
       rules: {
@@ -551,7 +560,10 @@ export default {
     ...mapActions([
         'requestDeleteProductToSpring',
         'requestRegisterShoppingBucketProduct',
-        'requestRegisterQnaFromSpring'
+        'requestRegisterQnaFromSpring',
+        'requestProductReviewListFromSpring',
+        'requestReviewCntFromSpring',
+        'requestReviewImageFromSpring',
     ]),
     selectedImg(e) {
       this.imgIdx = e
@@ -618,6 +630,31 @@ export default {
   },
   beforeUpdate() {
     this.freeDelivery()
+  },
+
+  async mounted() {
+    //리뷰 총 개수
+    const productNo = this.productNo
+    await this.requestReviewCntFromSpring(productNo)
+    console.log("productReviewCnt: " + this.$store.state.productReviewCnt)
+
+
+    //리뷰리스트 불러오기
+    console.log("productNo: "+ this.productNo)
+    this.productReviewList.splice(0)
+    /*const productNo = this.productNo*/
+    const reviewSize = Number(this.$store.state.productReviewCnt)
+
+    await this.requestProductReviewListFromSpring({productNo, reviewSize})
+  },
+
+  async created() {
+    this.reviewImage.splice(0)
+    for (let i = 0; i < this.productReviewList.length; i++) {
+      const reviewNo = this.productReviewList[i].reviewNo
+
+      await this.requestReviewImageFromSpring(reviewNo)
+    }
   },
 
 }

@@ -8,6 +8,7 @@ import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.service.order.OrderInfoService;
+import team_project.buy_idea.service.order.response.SellerProductOrderStatusResponse;
 
 import java.util.List;
 
@@ -50,6 +51,12 @@ public class OrderInfoController {
 
         return orderInfoService.SellerOrderInfoList(request);
 
+    }
+
+    @PostMapping("/seller-order-status/{nickname}")
+    public List<SellerProductOrderStatusResponse> sellerProductOrderStatusList
+            (@PathVariable("nickname") String nickname) {
+        return orderInfoService.getSellerProductOrderStatus(nickname);
     }
 
 }

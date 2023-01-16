@@ -5,6 +5,7 @@ import team_project.buy_idea.controller.order.request.OrderInfoRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
+import team_project.buy_idea.service.order.response.SellerProductOrderStatusResponse;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface OrderInfoService {
     void myOrderStatusModify(OrderStatusModifyRequest orderStatusModifyRequest);
 
     public List<OrderInfo> SellerOrderInfoList(OrderStatusRequest request);
+
+    public List<SellerProductOrderStatusResponse> getSellerProductOrderStatus(String nickname);
 }
