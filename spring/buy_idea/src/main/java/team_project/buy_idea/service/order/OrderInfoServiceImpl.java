@@ -17,6 +17,7 @@ import team_project.buy_idea.repository.order.AddressRepository;
 import team_project.buy_idea.repository.order.OrderInfoRepository;
 import team_project.buy_idea.repository.product.ProductInfoRepository;
 import team_project.buy_idea.repository.product.ProductRepository;
+import team_project.buy_idea.service.order.response.SellerProductOrderStatusResponse;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -173,5 +174,55 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<OrderInfo> sellerOrderInfoList = orderSlice.getContent();
 
         return sellerOrderInfoList;
+    }
+
+
+    /**
+     * 판매자가 등록한 상품의 주문 상태 현황을 반환하는 Service Impl
+     *
+     * @param nickname 판매자 상호명(닉네임)
+     * @return 상품 카테고리, 타이틀, 해당 상품에 대한 주문상태 개수
+     */
+    @Override
+    public List<SellerProductOrderStatusResponse> getSellerProductOrderStatus(String nickname) {
+        List<Product> productList = productRepository.findByNickname(nickname);
+        List<SellerProductOrderStatusResponse> sellerResponseList = new ArrayList<>();
+        List<OrderInfo> orderStatusList;
+        for (int i = 0; i < productList.size(); i++) {
+            int paymentCompleteCount = 0;
+            int deliveringCount = 0;
+            int deliveredCount = 0;
+            int cancelCount = 0;
+            int exchangeCount = 0;
+            int refundCount = 0;
+
+            orderStatusList = orderInfoRepository.findOrderStatusByProductNo(productList.get(i).getProductNo());
+            for (int j = 0; j < orderStatusList.size(); j++) {
+                OrderStatus statusValue = orderStatusList.get(j).getOrderStatus();
+                switch (statusValue) {
+                    case PAYMENT_COMPLETE -> paymentCompleteCount++;
+                    case DELIVERING -> deliveringCount++;
+                    case DELIVERED -> deliveredCount++;
+                    case CANCEL -> cancelCount++;
+                    case EXCHANGE -> exchangeCount++;
+                    case REFUND -> refundCount++;
+                }
+            }
+
+            sellerResponseList.add(
+                    new SellerProductOrderStatusResponse(
+                            productList.get(i).getProductInfo().getCategory(),
+                            productList.get(i).getTitle(),
+                            productList.get(i).getProductImages().get(0).getEditedName(),
+                            paymentCompleteCount,
+                            deliveringCount,
+                            deliveredCount,
+                            cancelCount,
+                            exchangeCount,
+                            refundCount
+                    )
+            );
+        }
+        return sellerResponseList;
     }
 }

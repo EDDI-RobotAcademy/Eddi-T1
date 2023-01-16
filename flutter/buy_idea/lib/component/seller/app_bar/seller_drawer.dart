@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../pages/intro_screen_page.dart';
 import '../../../pages/seller/my_info/seller_my_info_page.dart';
+import '../../../pages/seller/order_management/order_management_page.dart';
 import '../../../pages/seller/seller_main_page.dart';
 import '../../common/yes_or_no_alert_dialog.dart';
 
@@ -95,7 +96,9 @@ class _SellerDrawerState extends State<SellerDrawer> {
                 ),
                 Divider(),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(OrderManagementPage());
+                  },
                   leading: Icon(Icons.note_alt_outlined, color: Colors.black),
                   title: Text('주문 관리'),
                   trailing: Icon(Icons.navigate_next, color: Colors.black),
