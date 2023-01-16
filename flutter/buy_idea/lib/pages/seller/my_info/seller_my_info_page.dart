@@ -18,25 +18,28 @@ class _SellerMyInfoPageState extends State<SellerMyInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: SellerDrawer(nickname: SellerMainPage.sellerNickname),
       appBar: SellerCommonAppBar(
         title: Text('내 정보', style: TextStyle(color: Colors.black, fontSize: 15)),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Colors.grey,
-        child: Column(
-          children: [
-            SizedBox(height: 1.0),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(10),
-              child: SellerProfile()
-            ),
-            SizedBox(height: 1.0),
-            SellerBusinessInfoCard(),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.grey,
+          child: Column(
+            children: [
+              SizedBox(height: 1.0),
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(10),
+                child: SellerProfile()
+              ),
+              SizedBox(height: 1.0),
+              SellerBusinessInfoCard(),
+            ],
+          ),
         ),
       ),
     );
