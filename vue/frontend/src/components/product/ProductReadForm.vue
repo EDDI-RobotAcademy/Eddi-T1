@@ -149,18 +149,18 @@
                   <p class="title">REVIEW</p>
                   <col class="col-sm-3 mr-0">
                   <v-rating
-                    :value=" productRatingAvg "
+                    :value=" productReadRatingValue "
                     background-color="orange lighten-3"
                     color="orange"
                     small dense hover readonly>
                   </v-rating>
 
                   <!--별점 평균 / 후기 수-->
-                  <div v-show="this.$store.state.productRatingAvg !== 0"
+                  <div v-show="this.$store.state.productReadRatingValue !== 0"
                        style="font-size: 0.8em; margin-top: 2px; margin-left: 2px">
-                    {{this.$store.state.productRatingAvg}}
+                    {{this.$store.state.productReadRatingValue}}
                     </div>
-                  <div style="font-size: 0.9em; font-weight: bold">
+                  <div style="font-size: 0.9em;">
                     &nbsp; ({{ this.$store.state.productReviewCnt }})
                   </div>
                 </v-row>
@@ -504,7 +504,7 @@ export default {
   computed: {
     ...mapState ([
       'productReviewList',
-      'productRatingAvg'
+      'productReadRatingValue'
     ])
   },
   data() {

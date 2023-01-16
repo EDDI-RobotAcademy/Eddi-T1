@@ -26,7 +26,8 @@ import {
     REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
     REQUEST_MY_REVIEW_LIST_TO_SPRING,
-    REQUEST_PRODUCT_RATING_VALUE_TO_SPRING
+    REQUEST_PRODUCT_RATING_VALUE_TO_SPRING,
+    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
 
 
 } from './mutation-types'
@@ -655,6 +656,12 @@ export default {
     },
 
 
+    /**
+     *  상품 별점 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
     async requestProductRatingValueToSpring( { commit }, payload){
         console.log('requestProductRatingValueToSpring')
         const {productNo, category} = payload
@@ -667,6 +674,8 @@ export default {
                     commit(REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
                 } else if (category == "취미/특기"){
                     commit(REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
+                } else if (category == "상세페이지"){
+                    commit(REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING, res.data)
                 } else {
                     commit(REQUEST_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
                 }

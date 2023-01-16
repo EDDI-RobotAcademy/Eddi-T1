@@ -32,7 +32,7 @@ export default {
   methods: {
     ...mapActions([
         'requestProductFromSpring',
-        'requestProductRatingAvgToSpring'
+        'requestProductRatingValueToSpring'
     ]),
   },
   async mounted() {
@@ -49,8 +49,10 @@ export default {
     this.$store.state.recentlyViewedProductList = recentlyViewed
     console.log(this.recentlyViewedProductList)
 
+    const productNo = this.productNo
+    let category = "상세페이지"
+    await this.requestProductRatingValueToSpring({productNo,category})
   },
-
 }
 </script>
 
