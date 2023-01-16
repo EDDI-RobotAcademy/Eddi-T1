@@ -59,4 +59,12 @@ public class OrderInfoController {
         return orderInfoService.getSellerProductOrderStatus(nickname);
     }
 
+    @PostMapping("/seller-order-info-list-count")
+    public Long SellerOrderInfoListCount (@RequestBody OrderStatusRequest request) {
+        log.info("SellerOrderInfoListCount()" + request);
+
+        return orderInfoService.SellerOrderInfoListCount(request);
+
+    }
+
 }

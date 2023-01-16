@@ -27,4 +27,10 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 
     @Query("select oi from OrderInfo oi join fetch oi.product p where p.productNo = :productNo")
     List<OrderInfo> findOrderStatusByProductNo(@Param("productNo") Long productNo);
+
+    @Query("select count(oi) from OrderInfo oi " +
+            "join oi.product p where oi.product.nickname = :nickname and oi.orderStatus = :orderStatus")
+    Long countByProduct_NicknameAndOrderStatus(@Param("nickname") String nickname,
+                                               @Param("orderStatus") OrderStatus orderStatus
+    );
 }
