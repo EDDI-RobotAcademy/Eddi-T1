@@ -25,5 +25,6 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
                                                        @Param("orderStatus") OrderStatus orderStatus
     );
 
-
+    @Query("select oi from OrderInfo oi join fetch oi.product p where p.productNo = :productNo")
+    List<OrderInfo> findOrderStatusByProductNo(@Param("productNo") Long productNo);
 }

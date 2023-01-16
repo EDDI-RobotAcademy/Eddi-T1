@@ -97,5 +97,11 @@ public class OrderTestCase {
 
     }
 
+    @Test
+    void getSellerProductOrderStatus(){
+        System.out.println(
+                "getSellerProductOrderStatus()" + orderInfoService.getSellerProductOrderStatus("SunShine")
+        );
+    }
 
 }
