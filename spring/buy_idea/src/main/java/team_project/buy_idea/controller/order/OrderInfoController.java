@@ -64,7 +64,13 @@ public class OrderInfoController {
         log.info("SellerOrderInfoListCount()" + request);
 
         return orderInfoService.SellerOrderInfoListCount(request);
-
     }
 
+    @GetMapping("/seller/sales/{seller}")
+    public Long salesOfSeller(@PathVariable("seller") String seller) {
+        log.info("salesOfSeller()");
+        log.info("seller : " + seller);
+
+        return orderInfoService.getSalesOfSeller(seller);
+    }
 }

@@ -251,4 +251,29 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return OrderInfoCount;
     }
+
+    /**
+     * 판매자의 상품 중 배송 완료된 건에 한하여 매출을 구해 반환하는 Service Impl
+     *
+     * @param seller 판매자 상호명(닉네임)
+     * @return 배송 완료 건의 (주문 상품 개수 * 주문한 상품의 금액)을 모두 합한 값
+     */
+    @Override
+    public Long getSalesOfSeller(String seller) {
+        final String DELIVERED = "배송 완료";
+        OrderStatus orderStatus = getOrderStatus(DELIVERED);
+        return orderInfoRepository.getSalesBySeller(seller, orderStatus);
+    }
+
+    private OrderStatus getOrderStatus(String orderStatus) {
+        return switch (orderStatus) {
+            case "결제 완료" -> OrderStatus.PAYMENT_COMPLETE;
+            case "배송중" -> OrderStatus.DELIVERING;
+            case "배송 완료" -> OrderStatus.DELIVERED;
+            case "취소" -> OrderStatus.CANCEL;
+            case "환불" -> OrderStatus.REFUND;
+            case "교환" -> OrderStatus.EXCHANGE;
+            default -> null;
+        };
+    }
 }
