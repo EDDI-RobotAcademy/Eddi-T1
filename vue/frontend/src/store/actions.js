@@ -330,13 +330,22 @@ export default {
     // eslint-disable-next-line no-empty-pattern
     requestRegisterSellerInfoToSpring({ }, payload) {
         console.log('requestRegisterSellerInfoToSpring()')
+        const companyInfoRequest = {
+            city: payload.city,
+            street: payload.street,
+            addressDetail: payload.addressDetail,
+            zipcode: payload.zipcode
+        }
 
-        const {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber} = payload
-        return axios.post('http://localhost:8888/seller-info/register',
-            {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber})
+        const nickname = payload.nickname
+        const realName = payload.seller
+        const phone = payload.companyPhoneNumber
+        const registrationNumber = payload.companyRegisterNumber
+
+        return axios.post('http://localhost:8888/seller/profile/register',
+            {nickname, realName, phone, registrationNumber, companyInfoRequest})
             .then(() => {
                 alert('사업자 등록 성공')
-                router.push({name: 'ProductManageView'})
             })
             .catch(() => {
                 alert('오류가 발생하였습니다.')
