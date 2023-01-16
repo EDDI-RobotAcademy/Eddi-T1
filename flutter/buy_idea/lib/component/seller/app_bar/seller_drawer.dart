@@ -100,14 +100,7 @@ class _SellerDrawerState extends State<SellerDrawer> {
                     Get.to(OrderManagementPage());
                   },
                   leading: Icon(Icons.note_alt_outlined, color: Colors.black),
-                  title: Text('주문 관리'),
-                  trailing: Icon(Icons.navigate_next, color: Colors.black),
-                ),
-                Divider(),
-                ListTile(
-                  onTap: () {},
-                  leading: Icon(Icons.comment_outlined, color: Colors.black),
-                  title: Text('후기 관리'),
+                  title: Text('주문 현황'),
                   trailing: Icon(Icons.navigate_next, color: Colors.black),
                 ),
                 Divider(),
