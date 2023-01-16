@@ -39,4 +39,5 @@ export default {
     productRatingValue: [],
     productReadRatingValue: [],
     sellerOrderListCount: 0,
+    reviewWriteCheckValue: [],
 }
