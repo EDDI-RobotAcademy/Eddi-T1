@@ -20,4 +20,11 @@ public class SellerTestCase {
 
         sellerService.registerSellerProfile(sellerProfileRequest);
     }
+
+    @Test
+    void findSellerInfo(){
+        String nickname = "gggg";
+
+        System.out.println(sellerService.sellerInfoResponseByNickname(nickname));
+    }
 }

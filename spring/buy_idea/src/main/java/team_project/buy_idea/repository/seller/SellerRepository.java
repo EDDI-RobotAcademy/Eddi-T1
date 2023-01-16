@@ -13,4 +13,10 @@ public interface SellerRepository extends JpaRepository<SellerProfile, Long> {
 
     @Query("select s from SellerProfile s where s.member.nickname = :nickname")
     Optional<SellerProfile> findByMemberNickname(@Param("nickname") String nickname);
+
+    @Query("select s from SellerProfile s " +
+            "join fetch s.member m join fetch m.authentications " +
+            "join fetch s.companyInfo " +
+            "where s.member.nickname = :nickname")
+    Optional<SellerProfile> findBySellerInfoByNickname(@Param("nickname") String nickname);
 }

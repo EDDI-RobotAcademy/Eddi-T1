@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@ToString(exclude = {"member", "companyInfo"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class SellerProfile {
