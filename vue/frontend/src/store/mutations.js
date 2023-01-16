@@ -30,7 +30,7 @@ import {
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
     REQUEST_MY_REVIEW_LIST_TO_SPRING,
     REQUEST_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING
+    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING, REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING
 
 
 } from './mutation-types'
@@ -133,4 +133,7 @@ export default {
     [REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING](state, passingData){
         state.productReadRatingValue = passingData
     },
+    [REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING](state, passingData){
+        state.sellerOrderListCount = passingData
+    }
 }
