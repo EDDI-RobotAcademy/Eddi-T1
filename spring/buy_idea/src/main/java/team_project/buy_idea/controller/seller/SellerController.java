@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.seller.request.SellerProfileRequest;
 import team_project.buy_idea.service.seller.SellerService;
+import team_project.buy_idea.service.seller.response.SellerInfoResponse;
 
 @Slf4j
 @RestController
@@ -20,5 +21,12 @@ public class SellerController {
         log.info("요청된 데이터 정보: " + sellerProfileRequest);
 
         sellerService.registerSellerProfile(sellerProfileRequest);
+    }
+
+    @PostMapping("/Info/{nickname}")
+    public SellerInfoResponse sellerInfoForwarding(@PathVariable("nickname") String nickname) {
+        log.info("sellerInfoForwarding" + nickname);
+
+        return sellerService.sellerInfoResponseByNickname(nickname);
     }
 }

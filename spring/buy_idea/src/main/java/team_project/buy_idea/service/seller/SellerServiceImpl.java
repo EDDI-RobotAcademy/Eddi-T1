@@ -9,6 +9,7 @@ import team_project.buy_idea.entity.seller.SellerProfile;
 import team_project.buy_idea.repository.member.MemberRepository;
 import team_project.buy_idea.repository.seller.CompanyInfoRepository;
 import team_project.buy_idea.repository.seller.SellerRepository;
+import team_project.buy_idea.service.seller.response.SellerInfoResponse;
 
 import java.util.Optional;
 
@@ -53,5 +54,28 @@ public class SellerServiceImpl implements SellerService{
             companyInfo.setSellerProfile(sellerProfile);
             companyInfoRepository.save(companyInfo);
         }
+    }
+
+    @Override
+    public SellerInfoResponse sellerInfoResponseByNickname(String nickname) {
+        Optional<SellerProfile> maybeSeller = sellerRepository.findBySellerInfoByNickname(nickname);
+
+        if (maybeSeller.isPresent()){
+            SellerProfile sellerProfile = maybeSeller.get();
+
+            SellerInfoResponse sellerInfoResponse = new SellerInfoResponse();
+
+            sellerInfoResponse.setRealName(sellerProfile.getRealName());
+            sellerInfoResponse.setPhone(sellerProfile.getPhone());
+            sellerInfoResponse.setRegistrationNumber(sellerProfile.getRegistrationNumber());
+
+            sellerInfoResponse.setCity(sellerProfile.getCompanyInfo().getCity());
+            sellerInfoResponse.setStreet(sellerProfile.getCompanyInfo().getStreet());
+            sellerInfoResponse.setZipcode(sellerProfile.getCompanyInfo().getZipcode());
+            sellerInfoResponse.setAddressDetail(sellerProfile.getCompanyInfo().getAddressDetail());
+
+            return sellerInfoResponse;
+        }
+        throw new RuntimeException("등록된 업체 정보가 없습니다.");
     }
 }
