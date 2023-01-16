@@ -138,15 +138,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String orderStatus = orderStatusModifyRequest.getOrderStatus();
         Optional<OrderInfo> maybeOrderInfo = orderInfoRepository.findById(orderInfoId);
 
-        OrderStatus status = switch (orderStatus) {
-            case "결제 완료" -> OrderStatus.PAYMENT_COMPLETE;
-            case "배송중" -> OrderStatus.DELIVERING;
-            case "배송 완료" -> OrderStatus.DELIVERED;
-            case "취소" -> OrderStatus.CANCEL;
-            case "환불" -> OrderStatus.REFUND;
-            case "교환" -> OrderStatus.EXCHANGE;
-            default -> null;
-        };
+        OrderStatus status = getOrderStatus(orderStatus);
 
         OrderInfo orderInfo = maybeOrderInfo.get();
         orderInfo.setOrderStatus(status);
