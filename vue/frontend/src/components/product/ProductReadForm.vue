@@ -214,8 +214,20 @@
             <v-row>
               <v-col cols="6" align="center">
                 <v-btn
-                    @click="registerShoppingBucketProduct(quantity)"
+                    v-if="$store.state.signInCheckValue==false"
+                    @click.stop="dialog = true"
                     :disabled="product.productInfo.stock <= 0"
+                    block x-large
+                    class="bt1"
+                    color="#DAA520"
+                    style="color: white" tile
+                >장바구니</v-btn>
+
+                <v-btn
+                    v-if="$store.state.signInCheckValue==true"
+                    @click="registerShoppingBucketProduct(quantity)"
+                    :disabled="product.productInfo.stock <= 0 ||  product.nickname == $store.state.memberInfoAfterSignIn.nickname"
+                    id="custom-disabled"
                     block x-large
                     class="bt1"
                     color="#DAA520"
@@ -224,14 +236,66 @@
 
               </v-col>
               <v-col cols="6" align="center">
+
                 <v-btn
+                    v-if="$store.state.signInCheckValue==false"
+                    @click.stop="dialog = true"
                     :disabled="product.productInfo.stock <= 0"
+                    block x-large
+                    class="bt1"
+                    color="#2F4F4F"
+                    style="color: white" tile
+                >바로구매</v-btn>
+
+                <v-dialog
+                    v-model="dialog"
+                    max-width="400"
+                    max-height="50"
+                >
+                  <v-card>
+                    <v-card-title class="text-h5">
+                      ⚠️&nbsp; 로그인이 필요합니다
+                    </v-card-title>
+
+                    <v-card-text>
+                      로그인 페이지로 이동하시겠습니까?
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+
+                      <v-btn
+                          color="#DAA520"
+                          text
+                          style="font-weight: bold"
+                          @click="dialog = false"
+                      >
+                        취소
+                      </v-btn>
+
+                      <v-btn
+                          color="#2F4F4F"
+                          text
+                          style="font-weight: bold"
+                          @click="$router.push('/sign-in')"
+                      >
+                        이동
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+
+                <v-btn
+                    v-if="$store.state.signInCheckValue==true"
+                    :disabled="product.productInfo.stock <= 0 || product.nickname == $store.state.memberInfoAfterSignIn.nickname"
+                    id="custom-disabled2"
                     block x-large
                     class="bt1"
                     color="#2F4F4F"
                     style="color: white" tile
                     :to="{name: 'OrderForm', params: {product: this.product, productTotalPrice: this.totalPrice, productDeliveryFee: this.deliveryFee, productQuantity: this.quantity , productReadCheckValue:true}}"
                 >바로구매</v-btn>
+
               </v-col>
             </v-row>
 
@@ -343,26 +407,36 @@
                         문의하기
                       </v-btn>
                     </template>
-                    <v-card align="center">
-                      <v-card-title class="justify-center" style="font-size: 16px;">
-                        ⚠️ 로그인이 필요합니다. <br/>
+                    <v-card>
+
+                      <v-card-title class="text-h5">
+                        ⚠️&nbsp; 로그인이 필요합니다
+                      </v-card-title>
+
+                      <v-card-text>
                         로그인 페이지로 이동하시겠습니까?
-                      </v-card-title><br>
+                      </v-card-text>
+
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn outlined  color="#DAA520" width="80px" style="margin-bottom: 10px" @click="loginDialog = false">
+
+                        <v-btn
+                            color="#DAA520"
+                            text
+                            style="font-weight: bold"
+                            @click="loginDialog = false"
+                        >
                           취소
                         </v-btn>
+
                         <v-btn
-                            outlined
                             color="#2F4F4F"
-                            style="margin-bottom: 10px"
-                            width="80px"
+                            text
+                            style="font-weight: bold"
                             @click="$router.push('/sign-in')"
                         >
                           이동
                         </v-btn>
-                        <v-spacer></v-spacer>
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -509,6 +583,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       imgIdx: 0,
       tab2 : null,
       tab : null,
@@ -726,4 +801,17 @@ a {
 .puple-input >>> .error--text {
   color: #2F4F4F !important;
 }
+
+#custom-disabled.v-btn--disabled.theme--light {
+  background-color: #DAA520 !important;
+  color: white !important;
+  opacity: 0.8;
+}
+
+#custom-disabled2.v-btn--disabled.theme--light {
+  background-color: #2F4F4F !important;
+  color: white !important;
+  opacity: 0.8;
+}
+
 </style>
