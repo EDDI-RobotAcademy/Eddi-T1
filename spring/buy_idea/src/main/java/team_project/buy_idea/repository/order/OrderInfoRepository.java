@@ -15,12 +15,12 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 
     @Query("select distinct oi from OrderInfo oi " +
             "join fetch oi.product p join fetch p.productImages " +
-            "join fetch oi.address where oi.buyer = :nickname order by oi.id desc")
+            "join fetch oi.deliveryAddress where oi.buyer = :nickname order by oi.id desc")
     List<OrderInfo> findMyOrderInfoListByNickname(@Param("nickname") String nickname);
 
     @Query("select distinct oi from OrderInfo oi " +
             "join fetch oi.product p join fetch p.productImages " +
-            "join fetch oi.address where oi.product.nickname = :nickname and oi.orderStatus = :orderStatus order by oi.id desc")
+            "join fetch oi.deliveryAddress where oi.product.nickname = :nickname and oi.orderStatus = :orderStatus order by oi.id desc")
     Slice<OrderInfo> findSellerOrderInfoListByNickname(@Param("nickname") String nickname,
                                                        @Param("orderStatus") OrderStatus orderStatus
     );

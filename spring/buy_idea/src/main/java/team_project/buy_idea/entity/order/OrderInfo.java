@@ -36,7 +36,7 @@ public class OrderInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
-    private Address address;
+    private DeliveryAddress deliveryAddress;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
