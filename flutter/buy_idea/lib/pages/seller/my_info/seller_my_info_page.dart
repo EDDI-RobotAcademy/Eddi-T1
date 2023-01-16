@@ -1,8 +1,9 @@
-import 'package:buy_idea/component/seller/my_info/seller_information.dart';
+import 'package:buy_idea/component/seller/my_info/seller_profile.dart';
 import 'package:flutter/material.dart';
 
 import '../../../component/seller/app_bar/seller_common_app_bar.dart';
 import '../../../component/seller/app_bar/seller_drawer.dart';
+import '../../../component/seller/my_info/seller_business_info_card.dart';
 import '../seller_main_page.dart';
 
 class SellerMyInfoPage extends StatefulWidget {
@@ -27,12 +28,14 @@ class _SellerMyInfoPageState extends State<SellerMyInfoPage> {
         color: Colors.grey,
         child: Column(
           children: [
+            SizedBox(height: 1.0),
             Container(
               color: Colors.white,
               padding: EdgeInsets.all(10),
-              child: SellerInformation()
+              child: SellerProfile()
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 1.0),
+            SellerBusinessInfoCard(),
           ],
         ),
       ),
