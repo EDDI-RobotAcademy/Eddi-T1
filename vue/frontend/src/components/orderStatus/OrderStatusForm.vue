@@ -34,6 +34,9 @@
         <th class="text-center">
           주문 상태 변동
         </th>
+        <th class="text-center">
+          배송 정보
+        </th>
       </tr>
       </thead>
 
@@ -70,11 +73,11 @@
               <v-menu transition="slide-x-transition">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                      color="#FAEBD7"
-                      class="ma-2"
+                      color="#DAA520"
                       v-bind="attrs"
                       v-on="on"
                       @click="returnOrderInfo(i)"
+                      style="color:white"
                   >
                     주문 상태 변동
                   </v-btn>
@@ -96,6 +99,52 @@
             </v-row>
           </div>
         </th>
+
+        <th class="text-center">
+          <div class="text-center">
+            <v-dialog
+                v-model="dialog"
+                width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    color="#2F4F4F"
+                    v-bind="attrs"
+                    v-on="on"
+                    style="color:white"
+                >
+                  배송 정보
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                  주문 상세정보
+                </v-card-title>
+
+                <v-card-text>
+                  수령인 : {{item.deliveryAddress.recipient}}<br/>
+                  전화번호 : {{item.deliveryAddress.phone}}<br/>
+                  배송지 : {{item.deliveryAddress.city}} {{item.deliveryAddress.street}} {{item.deliveryAddress.addressDetail}}
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+<!--                <v-card-actions>-->
+<!--                  <v-spacer></v-spacer>-->
+<!--                  <v-btn-->
+<!--                      color="primary"-->
+<!--                      text-->
+<!--                      @click="dialog = false"-->
+<!--                  >-->
+<!--                    I accept-->
+<!--                  </v-btn>-->
+<!--                </v-card-actions>-->
+              </v-card>
+            </v-dialog>
+          </div>
+        </th>
+
       </tr>
 
       </tbody>
@@ -116,6 +165,16 @@ export default {
   name: "orderStatusForm",
   components: {},
   props: {
+    // realName:{
+    //   type: String
+    // },
+    // phoneNumber:{
+    //   type: String
+    // },
+    // deliveryAddress:{
+    //   type: String
+    // },
+
     orderStatus: {
       type: String
     },
@@ -127,6 +186,10 @@ export default {
   },
   data() {
     return {
+      // realName: "임재범",
+      // phoneNumber: "010-3880-8194",
+      // deliveryAddress: "서울시 관악구 봉천동 908-60 필하우스 405호",
+
       orderStatusList: [
 
         {title: '결제 완료'},
