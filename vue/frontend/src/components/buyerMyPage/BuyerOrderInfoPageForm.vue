@@ -13,9 +13,9 @@
 
 
       <!--최근 주문내역-->
-      <v-container style="width: 1200px; margin-top: 80px">
+      <v-container style="width: 1200px;">
         <v-layout>
-          <h3>최근 주문내역</h3>
+          <h2 style="margin-bottom: 50px;">최근 주문내역</h2>
           <v-spacer></v-spacer>
         </v-layout>
 
@@ -23,7 +23,7 @@
 
           <!--최근 주문상품 주문번호/주문일자로 분류-->
           <div v-for="(orderNo, index) in this.orderNoList" :key="index">
-            <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9; margin-top: 20px" >
+            <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;" >
               <v-card-subtitle style="border-bottom: 1px solid #eaebee">
                 <v-layout>
                   {{ orderNo }} | {{ orderDateList[index] }}
@@ -383,7 +383,8 @@ export default {
     ...mapState([
         'myOrderInfoList',
         'myQnaList',
-        'myReviewList'
+        'myReviewList',
+        'recentlyViewedProductList'
     ])
   },
   data() {
@@ -534,6 +535,7 @@ export default {
     infoNum.push(this.myOrderInfoList.length)
     infoNum.push(this.myQnaList.length)
     infoNum.push(this.myReviewList.length)
+    infoNum.push(this.recentlyViewedProductList.length)
 
     this.countByInfo = infoNum
   }

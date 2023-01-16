@@ -34,5 +34,7 @@ export default {
     qnaBeforeAnswerList: [],
     qnaCompleteList: [],
     myReviewList: [],
-    productRatingAvg: [],
+    recentlyViewedProductListTmp: [],
+    recentlyViewedProductList: [],
+    productRatingValue: []
 }

@@ -27,6 +27,7 @@ import OrderDetailView from "@/views/buyerMyPage/OrderDetailView";
 import SearchView from "@/views/product/search/SearchView";
 import BuyerQnaView from "@/views/buyerMyPage/BuyerQnaView";
 import BuyerReviewView from "@/views/buyerMyPage/BuyerReviewView";
+import RecentlyViewedProductView from "@/views/buyerMyPage/RecentlyViewedProductView";
 
 
 Vue.use(VueRouter)
@@ -186,7 +187,11 @@ const routes = [
     name: 'BuyerReviewView',
     component: BuyerReviewView
   },
-
+  {
+    path: '/buyer-recently-view',
+    name: 'RecentlyViewedProductView',
+    component: RecentlyViewedProductView
+  },
 
 ]
 
