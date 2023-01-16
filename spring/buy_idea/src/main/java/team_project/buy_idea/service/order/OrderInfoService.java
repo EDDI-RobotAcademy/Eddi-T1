@@ -20,7 +20,7 @@ public interface OrderInfoService {
 
     public List<SellerProductOrderStatusResponse> getSellerProductOrderStatus(String nickname);
 
-    Long SellerOrderInfoListCount(OrderStatusRequest request);
+    Long sellerOrderInfoListCount(OrderStatusRequest request);
 
     public Long getSalesOfSeller(String seller);
 }

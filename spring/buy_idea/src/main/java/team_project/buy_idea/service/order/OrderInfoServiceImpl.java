@@ -215,7 +215,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public Long SellerOrderInfoListCount(OrderStatusRequest request){
+    public Long sellerOrderInfoListCount(OrderStatusRequest request){
         log.info(request.getNickname());
         log.info(request.getOrderStatus());
         String sellerNickname = request.getNickname();
@@ -231,9 +231,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             default -> null;
         };
 
-        Long OrderInfoCount = orderInfoRepository.countByProduct_NicknameAndOrderStatus(sellerNickname, status);
+        Long orderInfoCount = orderInfoRepository.countByProductNicknameAndOrderStatus(sellerNickname, status);
 
-        return OrderInfoCount;
+        return orderInfoCount;
     }
 
     /**
