@@ -25,12 +25,17 @@ export default {
   },
   methods: {
     ...mapActions([
-        'requestProductFromSpring'
+        'requestProductFromSpring',
+        'requestProductRatingAvgToSpring'
     ]),
   },
-  mounted() {
+  async mounted() {
     console.log(this.productNo)
     console.log(this.product)
+
+    const productNo = this.productNo
+    //상품 별점 평균
+    await this.requestProductRatingAvgToSpring(productNo)
   },
 
 }

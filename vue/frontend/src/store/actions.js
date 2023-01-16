@@ -25,7 +25,7 @@ import {
     REQUEST_REVIEW_CNT_FROM_SPRING,
     REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
-    REQUEST_MY_REVIEW_LIST_TO_SPRING
+    REQUEST_MY_REVIEW_LIST_TO_SPRING, REQUEST_PRODUCT_RATING_AVG_TO_SPRING,
 
 
 } from './mutation-types'
@@ -889,5 +889,24 @@ export default {
             .catch(() => {
                 alert("삭제 실패")
             });
-    }
+    },
+
+    /**
+     *  상품별 평균 별점 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestProductRatingAvgToSpring( { commit }, payload){
+        console.log('requestProductRatingAvgToSpring')
+        const productNo = payload
+
+        await axios.get(`http://localhost:8888/review/star-rating/average/${productNo}/`)
+            .then((res) => {
+                console.log(res.data)
+                commit(REQUEST_PRODUCT_RATING_AVG_TO_SPRING, res.data)
+            });
+    },
+
+
 }

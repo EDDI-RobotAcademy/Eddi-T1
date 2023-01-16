@@ -33,5 +33,6 @@ export default {
     productReviewCnt: "",
     qnaBeforeAnswerList: [],
     qnaCompleteList: [],
-    myReviewList: []
+    myReviewList: [],
+    productRatingAvg: [],
 }
