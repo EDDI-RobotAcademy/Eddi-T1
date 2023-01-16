@@ -25,7 +25,8 @@ import {
     REQUEST_REVIEW_CNT_FROM_SPRING,
     REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING,
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
-    REQUEST_MY_REVIEW_LIST_TO_SPRING
+    REQUEST_MY_REVIEW_LIST_TO_SPRING,
+    REQUEST_PRODUCT_RATING_VALUE_TO_SPRING
 
 
 } from './mutation-types'
@@ -366,10 +367,10 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestProductFromSpring ({ commit }, productNo) {
+    async requestProductFromSpring ({ commit }, productNo) {
         console.log('requestProductFromSpring()' + productNo)
 
-        return axios.get(`http://localhost:8888/product/read/${productNo}`)
+        await axios.get(`http://localhost:8888/product/read/${productNo}`)
             .then((res) => {
                 commit(REQUEST_PRODUCT_FROM_SPRING, res.data)
             })
@@ -664,8 +665,10 @@ export default {
                     commit(REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
                 } else if (category == "노하우"){
                     commit(REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
-                } else {
+                } else if (category == "취미/특기"){
                     commit(REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
+                } else {
+                    commit(REQUEST_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
                 }
             });
     },
@@ -889,5 +892,7 @@ export default {
             .catch(() => {
                 alert("삭제 실패")
             });
-    }
+    },
+
+
 }

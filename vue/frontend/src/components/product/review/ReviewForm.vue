@@ -1,6 +1,14 @@
 <template>
   <div>
-<!--    총 개수 : {{ productReviewCnt }}-->
+
+    <v-card flat style="margin-left: 25px; margin-top: 20px" width="95%">
+      <div v-if="productReviewList.length === 0" style="text-align: center">
+        등록된 후기가 없습니다.
+      </div>
+
+    </v-card>
+
+
 
     <v-card flat style="margin-left: 25px; margin-top: 20px" width="95%">
 
@@ -74,7 +82,7 @@
 
 
 <script>
-import {mapActions, mapState} from "vuex";
+import { mapState} from "vuex";
 
 export default {
   name: "ReviewForm",
@@ -87,7 +95,6 @@ export default {
   computed: {
     ...mapState([
         'productReviewList',
-        'productNextReviewList',
         'reviewImage',
         'productReviewCnt'
     ]),
@@ -107,8 +114,6 @@ export default {
   data() {
     return {
       page: 1,
-      /*pageCount: 0,*/
-      productReviewCnt: this.$store.state.productReviewCnt,
 
       currentPage: 1,
       maxPerPage: 3,
@@ -129,12 +134,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-        'requestProductReviewListFromSpring',
-       /* 'requestNextReviewListFromSpring',*/
-        'requestReviewImageFromSpring',
-        'requestReviewCntFromSpring',
-    ]),
     getReviewImg(index) {
      return {
        ...this.reviewImage,
@@ -146,34 +145,6 @@ export default {
       this.currentPage += 1;
     },
   },
-
-  async mounted() {
-    //리뷰 총 개수
-    const productNo = this.productNo
-    await this.requestReviewCntFromSpring(productNo)
-    console.log("productReviewCnt: " + this.productReviewCnt)
-
-
-    //리뷰리스트 불러오기
-    console.log("productNo: "+ this.productNo)
-    /*const productNo = this.productNo*/
-    const reviewSize = Number(this.productReviewCnt)
-
-    await this.requestProductReviewListFromSpring({productNo, reviewSize})
-
-
-    //쌓인 이미지 초기화
-    this.reviewImage.splice(0)
-    //리뷰 이미지 가져오기
-    for (let i = 0; i < this.productReviewList.length; i++) {
-      const reviewNo = this.productReviewList[i].reviewNo
-
-      await this.requestReviewImageFromSpring(reviewNo)
-    }
-    console.log("reviewImage: " + this.reviewImage)
-
-  },
-
 }
 </script>
 
