@@ -128,7 +128,7 @@ class _ProductOrderCountWidgetState extends State<ProductOrderCountWidget> {
                           Text('배송 완료 | ', textAlign: TextAlign.start),
                         ),
                         Text(
-                          '${widget.deliveringCount}',
+                          '${widget.deliveredCount}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.green),

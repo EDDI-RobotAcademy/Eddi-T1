@@ -17,7 +17,7 @@ class _OrderManagementPageState extends State<OrderManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SellerDrawer(nickname: SellerMainPage.sellerNickname),
-      appBar: TitleTopBar(titleText: '주문 관리'),
+      appBar: TitleTopBar(titleText: '주문 현황'),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: OrderManagementForm(),

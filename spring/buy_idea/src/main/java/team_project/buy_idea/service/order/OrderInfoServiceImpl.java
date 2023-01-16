@@ -133,7 +133,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param orderStatusModifyRequest 변경할 order info ID, 변경할 status 값
      */
     @Override
-    public void myOrderStatusModify(OrderStatusModifyRequest orderStatusModifyRequest){
+    public void myOrderStatusModify(OrderStatusModifyRequest orderStatusModifyRequest) {
         Long orderInfoId = orderStatusModifyRequest.getOrderInfoId();
         String orderStatus = orderStatusModifyRequest.getOrderStatus();
         Optional<OrderInfo> maybeOrderInfo = orderInfoRepository.findById(orderInfoId);
@@ -207,6 +207,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                     case EXCHANGE -> exchangeCount++;
                     case REFUND -> refundCount++;
                 }
+            }
+
+            if (paymentCompleteCount + deliveringCount + deliveredCount + cancelCount + exchangeCount + refundCount == 0) {
+                continue;
             }
 
             sellerResponseList.add(
