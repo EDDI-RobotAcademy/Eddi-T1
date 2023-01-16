@@ -146,7 +146,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public List<OrderInfo> SellerOrderInfoList(OrderStatusRequest request) {
+    public List<OrderInfo> sellerOrderInfoList(OrderStatusRequest request) {
         log.info(request.getNickname());
         log.info(request.getOrderStatus());
         String sellerNickname = request.getNickname();

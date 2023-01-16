@@ -16,7 +16,7 @@ public interface OrderInfoService {
 
     void myOrderStatusModify(OrderStatusModifyRequest orderStatusModifyRequest);
 
-    public List<OrderInfo> SellerOrderInfoList(OrderStatusRequest request);
+    public List<OrderInfo> sellerOrderInfoList(OrderStatusRequest request);
 
     public List<SellerProductOrderStatusResponse> getSellerProductOrderStatus(String nickname);
 

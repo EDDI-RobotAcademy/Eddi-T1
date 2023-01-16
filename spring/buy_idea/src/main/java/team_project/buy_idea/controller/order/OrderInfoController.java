@@ -49,7 +49,7 @@ public class OrderInfoController {
     public List<OrderInfo> sellerOrderInfoList (@RequestBody OrderStatusRequest request) {
         log.info("SellerOrderInfoList()" + request);
 
-        return orderInfoService.SellerOrderInfoList(request);
+        return orderInfoService.sellerOrderInfoList(request);
 
     }
 
