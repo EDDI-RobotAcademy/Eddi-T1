@@ -27,7 +27,9 @@ import {
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
     REQUEST_MY_REVIEW_LIST_TO_SPRING,
     REQUEST_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING, REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
+    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
+    REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
+    REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
 
 
 } from './mutation-types'
@@ -915,4 +917,29 @@ export default {
                 commit(REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING, res.data)
             })
     },
+
+    /**
+     *  리뷰 등록한 사용자 확인 요청 axios
+     *  @param commit
+     *  @param payload productNo, writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestReviewWriteCheckFromSpring({commit}, payload) {
+        console.log("requestReviewWriteCheckFromSpring()")
+        const {writer, productNo} = payload;
+
+        console.log("payload: " + writer)
+        console.log("payload: " + productNo)
+
+        await axios.get('http://localhost:8888/review/check/write', {
+            params: {
+                'writer': writer,
+                'productNo': productNo
+            }
+        })
+            .then((res) => {
+                commit(REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING, res.data)
+            });
+    },
+
 }
