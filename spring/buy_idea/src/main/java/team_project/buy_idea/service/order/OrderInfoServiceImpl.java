@@ -8,7 +8,7 @@ import team_project.buy_idea.controller.order.request.AddressRequest;
 import team_project.buy_idea.controller.order.request.OrderInfoRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusRequest;
-import team_project.buy_idea.entity.order.Address;
+import team_project.buy_idea.entity.order.DeliveryAddress;
 import team_project.buy_idea.entity.order.OrderInfo;
 import team_project.buy_idea.entity.order.OrderStatus;
 import team_project.buy_idea.entity.product.Product;
@@ -72,17 +72,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
 
 
-        Address address = new Address();
+        DeliveryAddress deliveryAddress = new DeliveryAddress();
         List<OrderInfo> orderInfoList = new ArrayList<>();
 
 
-        address.setOrderNo(setOrderNo);
-        address.setRecipient(addressRequest.getRecipient());
-        address.setPhone(addressRequest.getPhone());
-        address.setZipcode(addressRequest.getZipcode());
-        address.setCity(addressRequest.getCity());
-        address.setStreet(addressRequest.getStreet());
-        address.setAddressDetail(addressRequest.getAddressDetail());
+        deliveryAddress.setOrderNo(setOrderNo);
+        deliveryAddress.setRecipient(addressRequest.getRecipient());
+        deliveryAddress.setPhone(addressRequest.getPhone());
+        deliveryAddress.setZipcode(addressRequest.getZipcode());
+        deliveryAddress.setCity(addressRequest.getCity());
+        deliveryAddress.setStreet(addressRequest.getStreet());
+        deliveryAddress.setAddressDetail(addressRequest.getAddressDetail());
 
 
         String setOrderDate = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm").format(LocalDateTime.now());
@@ -103,7 +103,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderInfo.setQuantity(request.getQuantity());
             orderInfo.setOrderStatus(OrderStatus.PAYMENT_COMPLETE);
             orderInfo.setProduct(product);
-            orderInfo.setAddress(address);
+            orderInfo.setDeliveryAddress(deliveryAddress);
             orderInfoList.add(orderInfo);
 
             int stockCnt = productInfo.getStock();
@@ -111,7 +111,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             productInfoRepository.save(productInfo);
         }
 
-        addressRepository.save(address);
+        addressRepository.save(deliveryAddress);
         orderInfoRepository.saveAll(orderInfoList);
 
     }

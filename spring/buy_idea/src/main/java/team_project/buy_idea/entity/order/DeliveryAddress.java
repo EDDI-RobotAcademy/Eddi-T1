@@ -12,7 +12,7 @@ import java.util.List;
 @ToString(exclude = "orderInfos")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class DeliveryAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class Address {
     private String addressDetail;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "deliveryAddress", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderInfo> orderInfos = new ArrayList<>();
 
 }
