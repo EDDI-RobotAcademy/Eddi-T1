@@ -30,6 +30,7 @@ import {
     REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
     REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
     REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
+    REQUEST_SELLER_INFO_TO_SPRING
 
 
 } from './mutation-types'
@@ -950,5 +951,22 @@ export default {
                 commit(REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING, res.data)
             });
     },
+
+    /**
+     *  업체 정보 요청 axios
+     *  @param commit
+     *  @param payload nickname
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestSellerInfoToSpring({ commit }, payload){
+        console.log("requestSellerInfoToSpring")
+        const nickname = payload
+
+        await axios.post(`http://localhost:8888/seller/Info/${nickname}`)
+            .then((res) => {
+                commit(REQUEST_SELLER_INFO_TO_SPRING, res.data);
+            })
+            .catch(() => {})
+    }
 
 }
