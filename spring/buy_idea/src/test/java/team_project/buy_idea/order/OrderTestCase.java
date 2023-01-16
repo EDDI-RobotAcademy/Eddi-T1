@@ -8,6 +8,7 @@ import team_project.buy_idea.controller.order.request.OrderInfoRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusModifyRequest;
 import team_project.buy_idea.controller.order.request.OrderStatusRequest;
 import team_project.buy_idea.entity.order.OrderInfo;
+import team_project.buy_idea.entity.order.OrderStatus;
 import team_project.buy_idea.repository.order.OrderInfoRepository;
 import team_project.buy_idea.service.order.OrderInfoService;
 
@@ -109,5 +110,11 @@ public class OrderTestCase {
         OrderStatusRequest orderStatusRequest = new OrderStatusRequest("쿤", "결제 완료");
 
         System.out.println(orderInfoService.SellerOrderInfoListCount(orderStatusRequest));
+    }
+
+    @Test
+    void getSalesTest() {
+        Long sales = orderInfoService.getSalesOfSeller("ANNAsSHOP");
+        System.out.println(sales);
     }
 }

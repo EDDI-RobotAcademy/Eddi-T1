@@ -21,4 +21,6 @@ public interface OrderInfoService {
     public List<SellerProductOrderStatusResponse> getSellerProductOrderStatus(String nickname);
 
     Long SellerOrderInfoListCount(OrderStatusRequest request);
+
+    public Long getSalesOfSeller(String seller);
 }
