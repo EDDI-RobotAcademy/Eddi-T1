@@ -37,5 +37,6 @@ export default {
     recentlyViewedProductListTmp: [],
     recentlyViewedProductList: [],
     productRatingValue: [],
-    productReadRatingValue: []
+    productReadRatingValue: [],
+    sellerOrderListCount: 0,
 }

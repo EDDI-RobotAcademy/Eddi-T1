@@ -16,12 +16,49 @@
         <thead>
         <tr>
           <th class="text-center">
-            <h2>판매자 {{ nickname }} 님의 주문처리 현황</h2>
+            <h2>실시간 주문 현황</h2>
           </th>
         </tr>
         </thead>
       </template>
     </v-simple-table>
+
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+        <tr>
+          <th class="text-center">
+            {{ paymentComplete }}
+          </th>
+          <th class="text-center">
+            {{inDelivery}}
+          </th>
+          <th class="text-center">
+            {{deliveryCompleted}}
+          </th>
+          <th class="text-center">
+            {{Canceled}}
+          </th>
+          <th class="text-center">
+            {{exchanged}}
+          </th>
+          <th class="text-center">
+            {{returned}}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="text-center">{{ NumberOfPaymentComplete }}</td>
+          <td class="text-center">{{ NumberOfInDelivery }}</td>
+          <td class="text-center">{{NumberOfDeliveryCompleted}}</td>
+          <td class="text-center">{{ NumberOfCanceled }}</td>
+          <td class="text-center">{{ NumberOfExchanged }}</td>
+          <td class="text-center">{{ NumberOfReturned }}</td>
+        </tr>
+        </tbody>
+      </template>
+    </v-simple-table><br/><br/>
 
 
     <v-expansion-panels focusable>
@@ -88,7 +125,26 @@ import {mapActions, mapState} from "vuex";
 export default {
   name: "OrderManageForm",
   components: {OrderStatusForm, SellerNavi},
-  props: {},
+  props: {
+    NumberOfPaymentComplete: {
+      type: Number
+    },
+    NumberOfInDelivery: {
+      type: Number
+    },
+    NumberOfDeliveryCompleted: {
+      type: Number
+    },
+    NumberOfCanceled: {
+      type: Number
+    },
+    NumberOfExchanged: {
+      type: Number
+    },
+    NumberOfReturned: {
+      type: Number
+    },
+  },
   computed: {
     ...mapState([
       'sellerOrderList'
@@ -102,6 +158,20 @@ export default {
     ...mapActions([
       'requestSellerOrderListFromSpring'
     ]),
+
+    // async mounted() {
+    //
+    //   const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
+    //   const orderStatus = this.paymentComplete;
+    //   await this.requestSellerOrderListCountFromSpring(nickname, orderStatus)
+    //
+    //   console.log(this.$store.state.sellerOrderList);
+    //
+    //   this.NumberOfPaymentComplete = this.$store.state.sellerOrderList.length;
+    //
+    //   console.log(this.NumberOfPaymentComplete);
+    //
+    // },
 
    async requestPaymentCompletedList() {
       console.log("requestPaymentCompleteList()")
@@ -176,6 +246,14 @@ export default {
   data() {
     return {
       nickname: this.$store.state.memberInfoAfterSignIn.nickname,
+
+      // NumberOfPaymentComplete: 0,
+      // NumberOfInDelivery: 0,
+      // NumberOfDeliveryCompleted: 0,
+      // NumberOfCanceled: 0,
+      // NumberOfExchanged: 0,
+      // NumberOfReturned: 0,
+
 
 
       paymentComplete: "결제 완료",
