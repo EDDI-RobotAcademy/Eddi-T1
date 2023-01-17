@@ -36,7 +36,9 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 
     @Query("select sum(o.quantity * o.product.price) from OrderInfo o join o.product " +
             "where o.product.nickname = :seller and o.orderStatus = :orderStatus ")
-    Long getSalesBySeller(@Param("seller") String seller,
-                          @Param("orderStatus") OrderStatus orderStatus
-    );
+    Long calculateSalesBySeller(@Param("seller") String seller,
+                                @Param("orderStatus") OrderStatus orderStatus);
+
+    @Query("select count(o) from OrderInfo o join o.product where o.product.nickname = :seller")
+    Long countOrdersBySeller(@Param("seller") String seller);
 }

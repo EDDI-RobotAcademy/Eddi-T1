@@ -111,10 +111,4 @@ public class OrderTestCase {
 
         System.out.println(orderInfoService.sellerOrderInfoListCount(orderStatusRequest));
     }
-
-    @Test
-    void getSalesTest() {
-        Long sales = orderInfoService.getSalesOfSeller("ANNAsSHOP");
-        System.out.println(sales);
-    }
 }

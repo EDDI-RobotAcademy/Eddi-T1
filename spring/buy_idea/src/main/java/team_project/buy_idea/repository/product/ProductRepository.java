@@ -51,4 +51,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                                                        @Param("category") String category,
                                                        @Param("productNo") Long productNo,
                                                        Pageable pageable);
+
+    @Query("select count(p) from Product p where p.nickname = :seller")
+    Long countProductsBySeller(@Param("seller") String seller);
 }
