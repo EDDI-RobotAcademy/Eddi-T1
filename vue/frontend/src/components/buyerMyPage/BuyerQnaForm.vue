@@ -18,7 +18,7 @@
         <v-data-table class="elevation-0 "
                       :headers="headers"
                       :items="myQnaList"
-                      item-key="questionTitle"
+                      item-key="qnaNo"
                       :expanded.sync="expanded"
                       :single-expand="singleExpand"
                       hide-default-footer
