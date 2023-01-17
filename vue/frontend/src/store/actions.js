@@ -362,9 +362,12 @@ export default {
     async requestDeleteShoppingBucketItemFromSpring({ }, payload) {
         console.log("requestDeleteShoppingBucketItemFromSpring");
 
-        const itemId = payload;
-
-        await axios.delete(`http://localhost:8888/order/shopping-bucket-list/${itemId}`)
+        await axios.delete('http://localhost:8888/order/shopping-bucket-list/delete', {
+            params: {
+                itemId: payload.itemId,
+                nickname: payload.nickname
+            }
+        })
             .then(() => {
                 alert("상품이 삭제 되었습니다.")
                 history.go(0)

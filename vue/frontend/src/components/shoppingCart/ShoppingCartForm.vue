@@ -222,7 +222,9 @@ export default {
       'requestDeleteShoppingBucketItemFromSpring'
     ]),
     async deleteSelectProduct(productItemId) {
-      await this.requestDeleteShoppingBucketItemFromSpring(productItemId);
+      const itemId = productItemId
+      const nickname = this.$store.state.memberInfoAfterSignIn.nickname
+      await this.requestDeleteShoppingBucketItemFromSpring({itemId, nickname});
     },
     selectProduct(price, itemCount) {
       this.totalProductPrice += (price * itemCount)
