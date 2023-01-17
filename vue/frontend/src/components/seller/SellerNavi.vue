@@ -12,7 +12,7 @@
       >
       <v-list-item style="height: 25%">
         <v-list-item-content>
-          <v-list-item-title class="mb-5 ml-8">
+          <v-list-item-title class="mb-5 mr-5 text-md-center" style="margin-top: 180px">
             <router-link to="/order-manage">
               <v-avatar
                   :size="120"
@@ -23,18 +23,25 @@
             </router-link>
           </v-list-item-title>
 
-
           <v-list-item-subtitle
-              class="white--text ml-8"
-              style="font-size: 16px"
+              class="white--text mr-5"
+              style="font-size: 16px; margin-top: 10px"
           >
-            {{ this.$store.state.memberInfoAfterSignIn.nickname }}님 환영합니다!
+<!--            <p class="text-md-center">-->
+              <p class="text-md-center" style="font-size: small">환영합니다! <br/> </p>
+
+            <p class="text-md-center" style="margin-top: 5px">
+             <br/> 💡 {{ this.$store.state.memberInfoAfterSignIn.nickname }} 의 </p>
+
+            <p class="text-md-center">아이디어 저장소입니다</p>
+
+<!--            </p>-->
           </v-list-item-subtitle>
 
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider></v-divider>
+      <v-divider style="margin-top: 130px; " ></v-divider>
 
       <!-- 관리항목 -->
 
@@ -62,7 +69,7 @@
 
       <template>
         <v-list dense nav>
-          <div class="pa-2" style="margin-top: 280px">
+          <div class="pa-2" style="margin-top: 160px">
             <v-btn
                 block
                 @click="signOut"
@@ -86,6 +93,7 @@ export default {
   data() {
     return {
       items: [
+        {title: "HOME", icon: "mdi-home-outline", route: "/seller-home"},
         {title: "내 정보", icon: "mdi-account", route: "/seller-info"},
         {
           title: "상품 관리",
@@ -93,11 +101,6 @@ export default {
           route: "/product-manage",
         },
         {title: "주문 관리", icon: "mdi-credit-card-settings-outline", route: "/order-manage"},
-        {
-          title: "후기 관리",
-          icon: "mdi-pencil-box-outline",
-          route: "/review-manage",
-        },
         {
           title: "문의 관리",
           icon: "mdi-comment-question",

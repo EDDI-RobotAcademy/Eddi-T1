@@ -9,7 +9,6 @@ import ProductRegisterView from "@/views/product/ProductRegisterView";
 import ProductManageView from "@/views/seller/ProductManageView";
 import OrderManageView from "@/views/seller/OrderManageView";
 import SellerInfoView from "@/views/seller/SellerInfoView";
-import ReviewManageView from "@/views/seller/ReviewManageView";
 import InquiryManageView from "@/views/seller/QnaManageView";
 import BuyerMyPageView from "@/views/buyerMyPage/BuyerMyPageView";
 import BuyerInfoView from "@/views/buyerMyPage/BuyerInfoView";
@@ -28,6 +27,7 @@ import SearchView from "@/views/product/search/SearchView";
 import BuyerQnaView from "@/views/buyerMyPage/BuyerQnaView";
 import BuyerReviewView from "@/views/buyerMyPage/BuyerReviewView";
 import RecentlyViewedProductView from "@/views/buyerMyPage/RecentlyViewedProductView";
+import SellerMainPageView from "@/views/seller/SellerMainPageView";
 
 
 Vue.use(VueRouter)
@@ -81,9 +81,9 @@ const routes = [
     component: OrderManageView
   },
   {
-    path: '/review-manage',
-    name: 'ReviewManageView',
-    component: ReviewManageView
+    path: '/seller-home',
+    name: 'SellerMainPageView',
+    component: SellerMainPageView
   },
   {
     path: '/qna-manage',
