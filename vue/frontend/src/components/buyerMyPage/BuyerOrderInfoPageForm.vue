@@ -3,7 +3,9 @@
     <buyer-nav/>
     <v-container style="width: 1400px"
                  v-if="!myOrderInfoList || (Array.isArray(myOrderInfoList) && myOrderInfoList.length === 0)">
-      <div align="center">
+      <buyer-my-page-top-nav :countByInfo="countByInfo"/>
+
+      <div align="center" style="margin-top: 80px;">
         <h2>최근 주문내역이 없습니다.</h2>
       </div>
     </v-container>
@@ -388,6 +390,11 @@ export default {
         'reviewWriteCheckValue'
     ])
   },
+  props:{
+    countByInfo:{
+      type: Array
+    }
+  },
   data() {
     return {
       dialog: false,
@@ -433,7 +440,6 @@ export default {
       contentRule: [
         v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
       ],
-      countByInfo: []
     }
   },
   //숫자 콤마
@@ -532,14 +538,6 @@ export default {
     //문의페이지 상품 이미지 받는 로직
     //문의 이미지 받기전 받을 변수 초기화
     this.qnaProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
-
-    const infoNum = new Array
-    infoNum.push(this.myOrderInfoList.length)
-    infoNum.push(this.myQnaList.length)
-    infoNum.push(this.myReviewList.length)
-    infoNum.push(this.recentlyViewedProductList.length)
-
-    this.countByInfo = infoNum
 
     //주문 리스트의 리뷰 작성 여부 체크하는 로직
     const reviewCheckList = new Array

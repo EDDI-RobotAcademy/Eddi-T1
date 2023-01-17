@@ -1,22 +1,35 @@
 <template>
   <div>
-    <buyer-order-info-page-form/>
+    <buyer-order-info-page-form :countByInfo="countByInfo"/>
   </div>
 </template>
 
 <script>
 
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import BuyerOrderInfoPageForm from "@/components/buyerMyPage/BuyerOrderInfoPageForm";
 
 export default {
   name: "buyerMyPageView",
   components: {BuyerOrderInfoPageForm},
+  computed: {
+    ...mapState([
+      'myOrderInfoList',
+      'myQnaList',
+      'myReviewList',
+      'recentlyViewedProductList'
+    ])
+  },
+  data(){
+    return{
+      countByInfo: []
+    }
+  },
   methods: {
     ...mapActions([
-        'requestMyOrderInfoListFromSpring',
-        'requestMyQnaListFromSpring',
-        'requestMyReviewListToSpring'
+      'requestMyOrderInfoListFromSpring',
+      'requestMyQnaListFromSpring',
+      'requestMyReviewListToSpring'
     ])
   },
   async created() {
@@ -27,6 +40,15 @@ export default {
     await this.requestMyQnaListFromSpring(writer)
 
     await this.requestMyReviewListToSpring(writer)
+
+    const infoNum = new Array
+    console.log(this.myOrderInfoList.length)
+    infoNum.push(this.myOrderInfoList.length)
+    infoNum.push(this.myQnaList.length)
+    infoNum.push(this.myReviewList.length)
+    infoNum.push(this.recentlyViewedProductList.length)
+
+    this.countByInfo = infoNum
   }
 }
 </script>

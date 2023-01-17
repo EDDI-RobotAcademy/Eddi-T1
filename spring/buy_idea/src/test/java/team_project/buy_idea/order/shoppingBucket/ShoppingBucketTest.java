@@ -9,7 +9,6 @@ import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.order.shopppingbucket.ShoppingBucketService;
 
-import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -58,7 +57,8 @@ public class ShoppingBucketTest {
     @Test
     void deleteShoppingBucketProduct(){
         Long itemId = 1L;
+        String nickname = "jjjj";
 
-        shoppingBucketService.deleteShoppingBucketProduct(itemId);
+        shoppingBucketService.deleteShoppingBucketProduct(itemId, nickname);
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucketItem;
 import team_project.buy_idea.service.order.shopppingbucket.ShoppingBucketService;
-import team_project.buy_idea.service.security.RedisService;
 
 import java.util.List;
 
@@ -33,10 +32,12 @@ public class ShoppingBucketController {
         return bucketService.shoppingBucketItemList(nickname);
     }
 
-    @DeleteMapping("/shopping-bucket-list/{itemId}")
-    public void deleteShoppingBucketProduct(@PathVariable("itemId") Long itemId) {
-        log.info("deleteShoppingBucketProduct" + itemId);
+    @DeleteMapping("/shopping-bucket-list/delete")
+    public void deleteShoppingBucketProduct(@RequestParam("itemId") Long itemId,
+                                            @RequestParam("nickname") String nickname) {
 
-        bucketService.deleteShoppingBucketProduct(itemId);
+        log.info("deleteShoppingBucketProduct" + itemId + nickname);
+
+        bucketService.deleteShoppingBucketProduct(itemId, nickname);
     }
 }
