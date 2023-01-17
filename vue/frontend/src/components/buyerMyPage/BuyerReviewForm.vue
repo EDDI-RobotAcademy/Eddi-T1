@@ -177,6 +177,7 @@
                     <v-btn plain small style="font-weight: bold"
                            v-bind="attrs"
                            v-on="on"
+                           @click="setDeleteReviewIndex(index)"
                     >
                       삭제
                     </v-btn>
@@ -186,7 +187,7 @@
                       <h2 style="padding-top: 30px;">리뷰를 삭제하시겠습니까?</h2>
                     </div>
                     <div align="center">
-                      <v-btn @click="deleteReview(index)"
+                      <v-btn @click="deleteReview()"
                              style="margin: 30px 10px 20px 0px; background-color: #2F4F4F; color: white">
                         확인
                       </v-btn>
@@ -256,6 +257,11 @@ export default {
     BuyerMyPageTopNav,
     BuyerNav
   },
+  props:{
+    countByInfo:{
+      type: Array
+    }
+  },
   computed: {
     ...mapState([
       'myQnaList',
@@ -267,8 +273,8 @@ export default {
   },
   data() {
     return {
+      reviewIndex: 0,
       reviewModifyCheck: false,
-      countByInfo: [],
       dialog: false,
       deleteDialog: false,
       reviewProductImg: [],
@@ -283,7 +289,8 @@ export default {
   methods: {
     ...mapActions([
       'requestModifyReviewFromSpring',
-      'requestDeleteReviewToSpring'
+      'requestDeleteReviewToSpring',
+      'requestReviewImageFromSpring'
     ]),
     deleteDialogClose() {
       this.deleteDialog = false
@@ -325,23 +332,26 @@ export default {
     fn_cancel() {
       this.dialog = false
     },
-    async deleteReview(index) {
-      const reviewNo = this.myReviewList[index].reviewNo
+    async deleteReview() {
+      const reviewNo = this.myReviewList[this.reviewIndex].reviewNo
 
       await this.requestDeleteReviewToSpring(reviewNo)
+      history.go(0)
 
       this.deleteDialog = false
+    },
+    setDeleteReviewIndex(index) {
+      this.reviewIndex = index
     }
   },
-  async created() {
-    const infoNum = new Array
-    infoNum.push(this.myOrderInfoList.length)
-    infoNum.push(this.myQnaList.length)
-    infoNum.push(this.myReviewList.length)
-    infoNum.push(this.recentlyViewedProductList.length)
+  async mounted() {
+    this.reviewImage.splice(0)
+    for (let i = 0; i < this.myReviewList.length; i++) {
+      let reviewNo = this.myReviewList[i].reviewNo
 
-    this.countByInfo = infoNum
-  },
+      await this.requestReviewImageFromSpring(reviewNo)
+    }
+  }
 }
 </script>
 

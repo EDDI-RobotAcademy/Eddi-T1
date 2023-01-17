@@ -1,5 +1,5 @@
 <template>
- <buyer-review-form/>
+ <buyer-review-form :countByInfo="countByInfo"/>
 </template>
 
 <script>
@@ -11,21 +11,35 @@ export default {
   computed:{
     ...mapState([
         'myReviewList',
-        'reviewImage'
+        'reviewImage',
+        'myOrderInfoList',
+        'myQnaList',
+        'recentlyViewedProductList'
     ])
+  },
+  data(){
+    return{
+      countByInfo: []
+    }
   },
   methods:{
     ...mapActions([
-        'requestReviewImageFromSpring'
+        'requestReviewImageFromSpring',
+        'requestMyReviewListToSpring'
     ])
   },
-  async created(){
-    this.reviewImage.splice(0)
-    for (let i = 0; i < this.myReviewList.length; i++) {
-      let reviewNo = this.myReviewList[i].reviewNo
+  async mounted(){
+    const writer = this.$store.state.memberInfoAfterSignIn.nickname
 
-      await this.requestReviewImageFromSpring(reviewNo)
-    }
+    await this.requestMyReviewListToSpring(writer)
+    const infoNum = new Array
+    console.log(this.myOrderInfoList.length)
+    infoNum.push(this.myOrderInfoList.length)
+    infoNum.push(this.myQnaList.length)
+    infoNum.push(this.myReviewList.length)
+    infoNum.push(this.recentlyViewedProductList.length)
+
+    this.countByInfo = infoNum
   }
 }
 </script>
