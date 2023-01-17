@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@ToString(exclude = {"address", "product"} )
+@ToString(exclude = {"deliveryAddress", "product"} )
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderInfo {
