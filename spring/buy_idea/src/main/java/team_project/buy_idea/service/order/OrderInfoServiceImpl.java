@@ -215,17 +215,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public Long sellerOrderInfoListCount(OrderStatusRequest request){
-        log.info(request.getNickname());
-        log.info(request.getOrderStatus());
-        String sellerNickname = request.getNickname();
-        String orderStatus = request.getOrderStatus();
+    public  List<Long> sellerOrderInfoListCount(String seller){
 
-        OrderStatus status = getOrderStatus(orderStatus);
 
-        Long orderInfoCount = orderInfoRepository.countByProductNicknameAndOrderStatus(sellerNickname, status);
+        List<Long> orderInfoCountArr = new ArrayList<>();
 
-        return orderInfoCount;
+
+        orderInfoCountArr.add(orderInfoRepository.countByProductNicknameAndOrderStatus(seller, OrderStatus.PAYMENT_COMPLETE));
+        orderInfoCountArr.add(orderInfoRepository.countByProductNicknameAndOrderStatus(seller, OrderStatus.DELIVERING));
+        orderInfoCountArr.add(orderInfoRepository.countByProductNicknameAndOrderStatus(seller, OrderStatus.DELIVERED));
+        orderInfoCountArr.add(orderInfoRepository.countByProductNicknameAndOrderStatus(seller, OrderStatus.CANCEL));
+        orderInfoCountArr.add(orderInfoRepository.countByProductNicknameAndOrderStatus(seller, OrderStatus.EXCHANGE));
+        orderInfoCountArr.add(orderInfoRepository.countByProductNicknameAndOrderStatus(seller, OrderStatus.REFUND));
+
+        return orderInfoCountArr;
     }
 
     private OrderStatus getOrderStatus(String orderStatus) {
