@@ -239,7 +239,7 @@
 
                   <v-card width="730px" flat style="border-bottom: 1px solid #eaebee" tile>
                     <v-card-title style="font-size: 15px">
-                      {{ myOrderInfoList[orderNo].address.recipient }}
+                      {{ myOrderInfoList[orderNo].deliveryAddress.recipient }}
                     </v-card-title>
                   </v-card>
                 </v-layout>
@@ -254,7 +254,7 @@
 
                   <v-card width="730px" flat style="border-bottom: 1px solid #eaebee" tile>
                     <v-card-title style="font-weight: normal; font-size: 15px">
-                      {{ myOrderInfoList[orderNo].address.phone }}
+                      {{ myOrderInfoList[orderNo].deliveryAddress.phone }}
                     </v-card-title>
                   </v-card>
                 </v-layout>
@@ -269,7 +269,7 @@
 
                   <v-card width="730px" flat color="white">
                     <v-card-title style="font-weight: normal; font-size: 15px">
-                      {{ myOrderInfoList[orderNo].address.city }}시 {{myOrderInfoList[orderNo].address.street}} {{myOrderInfoList[orderNo].address.addressDetail}} ( {{myOrderInfoList[orderNo].address.zipcode}} )
+                      {{ myOrderInfoList[orderNo].deliveryAddress.city }} {{myOrderInfoList[orderNo].deliveryAddress.street}} {{myOrderInfoList[orderNo].deliveryAddress.addressDetail}} ( {{myOrderInfoList[orderNo].deliveryAddress.zipcode}} )
                     </v-card-title>
                   </v-card>
                 </v-layout>
@@ -521,7 +521,6 @@ export default {
 <style scoped>
 .card-p {
   padding-bottom: 39px;
-  padding-top: 20px;
   position: absolute;
   bottom: 0;
 }

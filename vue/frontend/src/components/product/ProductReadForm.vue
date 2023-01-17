@@ -384,6 +384,40 @@
                   상품 문의
                   <v-spacer></v-spacer>
 
+
+
+                  <v-btn
+                      v-if="product.nickname == $store.state.memberInfoAfterSignIn.nickname"
+                      @click.stop="sellerDialog = true"
+                      large
+                      dense
+                      outlined
+                      v-bind="attrs"
+                      v-on="on"
+                      width="140px"
+                      elevation="0"
+                      style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
+                  >
+                    문의하기
+                  </v-btn>
+
+                  <v-dialog
+                      v-model="sellerDialog"
+                      max-width="400px"
+                  >
+                    <v-card>
+                      <v-card-title class="text-h12 justify-center" style="color: #DAA520;">
+                        ⚠ Error !
+                      </v-card-title>
+                      <v-card-text class="text-center" style="color: black">
+                        판매자 회원은 문의를 등록할 수 없습니다 !
+                      </v-card-text>
+
+                    </v-card>
+                  </v-dialog>
+
+
+
                   <!--로그인하지 않은 사용자 로그인 알림창-->
                   <v-dialog
                       v-if="$store.state.signInCheckValue==false"
@@ -443,7 +477,7 @@
 
                   <!--문의하기 버튼 / 문의 등록 dialog-->
                   <v-dialog
-                      v-if="$store.state.signInCheckValue==true"
+                      v-if="$store.state.signInCheckValue==true && product.nickname !== $store.state.memberInfoAfterSignIn.nickname"
                       v-model="dialogQna"
                       @click:outside="fn_cancel2"
                       persistent
@@ -583,6 +617,7 @@ export default {
   },
   data() {
     return {
+      sellerDialog: false,
       dialog: false,
       imgIdx: 0,
       tab2 : null,
