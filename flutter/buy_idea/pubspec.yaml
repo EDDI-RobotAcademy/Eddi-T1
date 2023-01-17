@@ -82,6 +82,7 @@ flutter:
     - assets/category/
     - assets/review/
     - assets/order_status/
+    - assets/seller_main/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
