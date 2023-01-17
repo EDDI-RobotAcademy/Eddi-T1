@@ -3,11 +3,9 @@ package team_project.buy_idea.controller.order.shoppingBucket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucketItem;
 import team_project.buy_idea.service.order.shopppingbucket.ShoppingBucketService;
-import team_project.buy_idea.service.security.RedisService;
 
 import java.util.List;
 
@@ -35,9 +33,11 @@ public class ShoppingBucketController {
     }
 
     @DeleteMapping("/shopping-bucket-list/delete")
-    public void deleteShoppingBucketProduct(@RequestBody ShoppingBucketDeleteRequest bucketDeleteRequest) {
-        log.info("deleteShoppingBucketProduct" + bucketDeleteRequest.getNickname());
+    public void deleteShoppingBucketProduct(@RequestParam("itemId") Long itemId,
+                                            @RequestParam("nickname") String nickname) {
 
-        bucketService.deleteShoppingBucketProduct(bucketDeleteRequest);
+        log.info("deleteShoppingBucketProduct" + itemId + nickname);
+
+        bucketService.deleteShoppingBucketProduct(itemId, nickname);
     }
 }

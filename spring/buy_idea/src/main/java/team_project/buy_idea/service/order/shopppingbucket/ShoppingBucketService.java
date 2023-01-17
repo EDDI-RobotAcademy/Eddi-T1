@@ -1,7 +1,6 @@
 package team_project.buy_idea.service.order.shopppingbucket;
 
 
-import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucketItem;
 
@@ -13,5 +12,5 @@ public interface ShoppingBucketService {
 
     public List<ShoppingBucketItem> shoppingBucketItemList(String nickname);
 
-    public void deleteShoppingBucketProduct(ShoppingBucketDeleteRequest bucketDeleteRequest);
+    public void deleteShoppingBucketProduct(Long itemId, String nickname);
 }

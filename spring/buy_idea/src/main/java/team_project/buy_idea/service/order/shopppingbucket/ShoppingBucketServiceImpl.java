@@ -3,7 +3,6 @@ package team_project.buy_idea.service.order.shopppingbucket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucket;
@@ -79,8 +78,7 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
     }
 
     @Override
-    public void deleteShoppingBucketProduct(ShoppingBucketDeleteRequest shoppingBucketDeleteRequest) {
-        String nickname = shoppingBucketDeleteRequest.getNickname();
+    public void deleteShoppingBucketProduct(Long itemId, String nickname) {
         List<ShoppingBucketItem> shoppingBucketItems = this.shoppingBucketItemList(nickname);
 
         if (shoppingBucketItems.isEmpty()){
@@ -94,7 +92,7 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
 
             shoppingBucketRepository.save(shoppingBucket);
         } else {
-            bucketProductRepository.deleteById(shoppingBucketDeleteRequest.getItemId());
+            bucketProductRepository.deleteById(itemId);
             List<ShoppingBucketItem> shoppingBucketItemList = this.shoppingBucketItemList(nickname);
 
             if (shoppingBucketItemList.size() >= 0){
