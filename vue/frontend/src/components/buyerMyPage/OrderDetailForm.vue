@@ -58,10 +58,7 @@
                         </div>
 
                         <!--상품명(상세페이지연결)-->
-                        <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: itemList.product.productNo.toString() } }" style="text-decoration: none; color: black" >
                           {{ itemList.product.title }}
-                        </router-link>
 
                       </v-card-title>
 
@@ -85,7 +82,7 @@
 
                         <!--문의하기 버튼 / 문의 등록 dialog-->
                         <v-dialog
-                          v-model="dialog"
+                          v-model="dialogQna"
                           @click:outside="fn_cancel"
                           persistent
                           max-width="568px"
@@ -189,24 +186,167 @@
                     <v-card flat align="center">
                       <div style="margin-top: 35px;">
 
-                        <v-btn x-small
-                               :disabled="itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'DELIVERED' || itemList.orderStatus == 'CANCEL' || itemList.orderStatus == 'REFUND'"
-                               width="98px"
-                               elevation="0"
-                               style="background-color: #DAA520;
-                               margin-top: -15px;
-                               color: white">
-                          <h3 style="font-weight: normal">취소하기</h3>
-                        </v-btn>
+                        <v-dialog
+                            v-model="dialog"
+                            @click:outside="fn_cancel2"
+                            persistent
+                            max-width="568px"
+                            :retain-focus="false"
+                        >
+                          <template v-slot:activator="{on, attrs}">
+                            <v-btn x-small
+                                   v-bind="attrs"
+                                   v-on="on"
+                                   :disabled=" itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL' || reviewCheckList[i] == true"
+                                   width="98px"
+                                   elevation="0"
+                                   style="background-color: #DAA520;
+                                   margin-top: -15px;
+                                   color: white"
+                                   @click="setProductReview(i)"
+                            >
+                              <h3 style="font-weight: normal">구매후기 작성</h3>
+                            </v-btn>
+                          </template>
+                          <v-card height="780px">
+                            <v-layout style="margin-left: 35px;">
+                              <h3 style="padding: 20px 10px 10px 10px">리뷰 작성</h3>
+                              <v-spacer></v-spacer>
+                            </v-layout>
+
+                            <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
+
+                            <v-layout style="margin-left: 35px;">
+                              <v-card max-width="100"
+                                      style="padding: 15px 15px 15px 15px"
+                                      flat
+                              >
+                                <v-img
+                                    height="75px"
+                                    :src="require(`@/assets/productImg/${reviewProductImg}`)">
+                                </v-img>
+                              </v-card>
+
+                              <v-card width="400px"
+                                      flat
+                                      tile
+                              >
+                                <v-card-title style="font-weight: bold; font-size: 15px">
+                                  <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: reviewProductNo.toString() } }"
+                                               style="text-decoration: none; color: black">
+                                    {{ reviewProductTitle }}
+                                  </router-link>
+                                </v-card-title>
+
+                                <v-card-subtitle style="font-size: 12px">
+                                  {{ reviewProductQuantity }}개
+                                </v-card-subtitle>
+                              </v-card>
+                            </v-layout>
+
+                            <v-divider style="margin: 10px 38px 10px 38px;"></v-divider>
+
+
+                            <div align="center">
+                              <v-card height="500" width="500" flat style="border: 1px solid black">
+                                <v-card height="120px" tile>
+                                  <v-rating
+                                      color="#2F4F4F"
+                                      background-color="#2F4F4F"
+                                      style="padding-top: 22px"
+                                      empty-icon="mdi-star-outline"
+                                      full-icon="mdi-star"
+                                      hover
+                                      length="5"
+                                      size="50"
+                                      v-model="ratingValue"
+                                  >
+                                  </v-rating>
+                                  <div>
+                                    <h6>별표를 클릭하여 평가해주세요!</h6>
+                                  </div>
+                                </v-card>
+
+                                <v-card height="200" flat>
+                                  <v-textarea
+                                      v-model="reviewContent"
+                                      style="padding: 5px 5px 0px 5px;" height="200px" outlined/>
+                                </v-card>
+
+                                <v-layout align="start"
+                                          style="padding: 15px 0px 0px 5px"
+                                          class="justify-center"
+                                >
+                                  <div v-if="files.length === 0">
+                                    <input type="file" id="imageFile" ref="imageFile"
+                                           accept="image/png, image/jpeg, image/jpg"
+                                           @change="handleImgFile" hidden/>
+                                    <label for="imageFile" width="100px" height="100px" plain>
+                                      <v-hover
+
+                                          v-slot="{ hover }"
+                                      >
+                                        <v-card
+                                            :elevation="hover ? 16 : 0"
+                                            :class="{'on-hover' : hover}"
+                                            width="100px" height="100px"
+                                            style="border: 1px solid black">
+                                          <v-icon style="margin-top: 37px;">
+                                            mdi-camera
+                                          </v-icon>
+                                        </v-card>
+                                      </v-hover>
+                                    </label>
+                                    <div style="margin-top: 10px; margin-left: 5px;" align="start">
+                                      <h6>▪사진 등록 후 재등록시 클릭해서 등록할 수 있습니다.</h6>
+                                      <h6>▪사진은 jpg, jpeg, png 형식으로 1개만 등록가능합니다.</h6>
+                                    </div>
+                                  </div>
+
+                                  <div v-else>
+                                    <input type="file" id="imageFile" ref="imageFile"
+                                           @change="handleImgFile" hidden/>
+                                    <label for="imageFile" width="100px" height="100px" plain>
+                                      <v-card
+                                          class="justify-center"
+                                          width="100px" height="100px" elevation="0" style="border: 1px solid black"
+                                          align="center"
+                                      >
+                                        <v-img
+                                            height="100px"
+                                            :src="files.preview"
+                                        >
+                                        </v-img>
+                                      </v-card>
+                                    </label>
+
+                                    <div style="margin-top: 10px; margin-left: 5px;">
+                                      <h6 style="margin-right: 19px;">사진 등록 후 재등록시 클릭해서 등록할 수 있습니다.</h6>
+                                      <h6>사진은 jpg, jpeg, png 형식으로 1개까지 등록가능합니다.</h6>
+                                    </div>
+                                  </div>
+                                </v-layout>
+                              </v-card>
+
+                              <v-btn class="white--text" style="margin-top: 20px; background-color: #2F4F4F" plain
+                                     @click="registerReview()"
+                              >
+                                등록하기
+                              </v-btn>
+                            </div>
+                          </v-card>
+                        </v-dialog>
 
 
                         <v-btn x-small
-                               :disabled="itemList.orderStatus == 'CANCEL' || itemList.orderStatus == 'REFUND'"
+                               :disabled="itemList.orderStatus == 'PAYMENT_COMPLETE'|| itemList.orderStatus == 'CANCEL'"
                                outlined class="#2F4F4F"
                                width="98px"
                                elevation="0"
+                               onclick="window.open('https://m.search.daum.net/search?w=tot&year=2022&q=%ED%83%9D%EB%B0%B0%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C+')"
                         >
-                          <h3 style="font-weight: normal">환불하기</h3>
+                          <h3 style="font-weight: normal">배송 조회</h3>
                         </v-btn>
 
                       </div>
@@ -269,7 +409,7 @@
 
                   <v-card width="730px" flat color="white">
                     <v-card-title style="font-weight: normal; font-size: 15px">
-                      {{ myOrderInfoList[orderNo].deliveryAddress.city }} {{myOrderInfoList[orderNo].deliveryAddress.street}} {{myOrderInfoList[orderNo].deliveryAddress.addressDetail}} ( {{myOrderInfoList[orderNo].deliveryAddress.zipcode}} )
+                      {{myOrderInfoList[orderNo].deliveryAddress.street}} {{myOrderInfoList[orderNo].deliveryAddress.addressDetail}} ( {{myOrderInfoList[orderNo].deliveryAddress.zipcode}} )
                     </v-card-title>
                   </v-card>
                 </v-layout>
@@ -386,16 +526,19 @@ export default {
   },
   computed: {
     ...mapState([
-      'myOrderInfoList'
+      'myOrderInfoList',
+      'reviewWriteCheckValue'
     ])
   },
   data() {
     return {
+      dialogQna: false,
       dialog: false,
 
       totalProductPrice: "",
       totalDelivery: "",
 
+      reviewCheckList: [],
       orderNoList: [],
       orderDateList: [],
 
@@ -404,7 +547,6 @@ export default {
       currentSelectedQnaProductNumber: 0,
       qnaProductNo: 0,
       qnaProductQuantity: 0,
-
 
       writer: this.$store.state.memberInfoAfterSignIn.nickname,
       qnaCategory: '',
@@ -422,6 +564,14 @@ export default {
          v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
       ],
 
+      reviewContent: '',
+      ratingValue: 0,
+      files: '',
+      reviewProductTitle: "",
+      reviewProductQuantity: 0,
+      reviewProductImg: [],
+      currentSelectedReviewProductNumber: 0,
+      reviewProductNo: 0,
     }
   },
   orderNo: {
@@ -444,10 +594,40 @@ export default {
   },
   methods: {
     ...mapActions([
-        "requestRegisterQnaFromSpring"
+        'requestRegisterQnaFromSpring',
+        'requestRegisterReviewFromSpring',
+        'requestReviewWriteCheckFromSpring'
     ]),
+    handleImgFile(e) {
+      this.files = {
+        file: e.target.files[0],
+        preview: URL.createObjectURL(e.target.files[0])
+      }
+    },
     fn_cancel() {
+      this.dialogQna = false
+    },
+    fn_cancel2() {
       this.dialog = false
+    },
+    async registerReview() {
+      const productNo = this.myOrderInfoList[this.currentSelectedReviewProductNumber].product.productNo
+      const writer = this.$store.state.memberInfoAfterSignIn.nickname
+      const starRating = this.ratingValue
+      const content = this.reviewContent
+      const files = this.files
+
+      await this.requestRegisterReviewFromSpring({productNo, writer, starRating, content, files})
+      this.dialog = false
+      history.go(0)
+    },
+    setProductReview(i) {
+      this.reviewProductTitle = this.myOrderInfoList[i].product.title
+      this.reviewProductQuantity = this.myOrderInfoList[i].quantity
+
+      this.reviewProductImg = this.myOrderInfoList[i].product.productImages[0].editedName
+      this.currentSelectedReviewProductNumber = i
+      this.reviewProductNo = this.myOrderInfoList[this.currentSelectedReviewProductNumber].product.productNo
     },
     setProductQna(i) {
       this.qnaProductTitle = this.myOrderInfoList[i].product.title
@@ -469,7 +649,7 @@ export default {
       console.log('openStatus: ' + openStatus)
 
       await this.requestRegisterQnaFromSpring({productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
-      this.dialog = false
+      this.dialogQna = false
     }
   },
   beforeUpdate() {
@@ -514,6 +694,22 @@ export default {
     //문의페이지 상품 이미지 받는 로직
     //문의 이미지 받기전 받을 변수 초기화
     this.qnaProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
+
+    //리뷰페이지 상품 이미지 받는 로직
+    //상품 이미지 받기전 상품 이미지 받을 변수 초기화작업
+    this.reviewProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)
+
+    //주문 리스트의 리뷰 작성 여부 체크하는 로직
+    const reviewCheckList = new Array
+    for (let i = 0; i < this.myOrderInfoList.length; i++) {
+      const writer = this.$store.state.memberInfoAfterSignIn.nickname
+      const productNo = this.myOrderInfoList[i].product.productNo
+
+      await this.requestReviewWriteCheckFromSpring({ writer, productNo })
+      reviewCheckList.push(this.$store.state.reviewWriteCheckValue)
+      console.log("reviewWriteCheckValue : " + this.$store.state.reviewWriteCheckValue)
+    }
+    this.reviewCheckList = reviewCheckList
   }
 }
 </script>
