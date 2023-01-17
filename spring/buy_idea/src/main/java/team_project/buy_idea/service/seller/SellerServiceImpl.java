@@ -111,13 +111,24 @@ public class SellerServiceImpl implements SellerService{
             default -> null;
         };
 
+
+
         Long products = productRepository.countProductsBySeller(seller);
         Long reviews = reviewRepository.countReviewsBySeller(seller);
         Long qnA = qnARepository.countQnABySeller(seller);
         Long orders = orderInfoRepository.countOrdersBySeller(seller);
         Long sales = orderInfoRepository.calculateSalesBySeller(seller, orderStatus);
 
-        SellerTotalResponse response = new SellerTotalResponse(products, reviews, qnA, orders, sales);
+        SellerTotalResponse response;
+
+        if (sales == null) {
+            Long defaultSales = 0L;
+            response = new SellerTotalResponse(products, reviews, qnA, orders, defaultSales);
+            return response;
+        }
+
+        response = new SellerTotalResponse(products, reviews, qnA, orders, sales);
         return response;
+
     }
 }
