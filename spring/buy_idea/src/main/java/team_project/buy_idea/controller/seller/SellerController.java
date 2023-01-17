@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import team_project.buy_idea.controller.seller.request.SellerProfileRequest;
 import team_project.buy_idea.service.seller.SellerService;
 import team_project.buy_idea.service.seller.response.SellerInfoResponse;
+import team_project.buy_idea.service.seller.response.SellerTotalResponse;
 
 @Slf4j
 @RestController
@@ -28,5 +29,13 @@ public class SellerController {
         log.info("sellerInfoForwarding" + nickname);
 
         return sellerService.sellerInfoResponseByNickname(nickname);
+    }
+
+    @PostMapping("/total-info/{seller}")
+    public SellerTotalResponse sellerTotalInfo(@PathVariable("seller") String seller) {
+        log.info("sellerTotalInfo()");
+        log.info("seller : " + seller);
+
+        return sellerService.getSellerTotalInfo(seller);
     }
 }

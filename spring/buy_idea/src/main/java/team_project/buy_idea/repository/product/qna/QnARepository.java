@@ -3,7 +3,6 @@ package team_project.buy_idea.repository.product.qna;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.entity.product.qna.AnswerStatus;
 import team_project.buy_idea.entity.product.qna.QnA;
 
@@ -22,6 +21,7 @@ public interface QnARepository extends JpaRepository<QnA, Long> {
     List<QnA> findQnaHistoryByNicknameAndAnswerStatus(@Param("nickname") String nickname,
                                                       @Param("answerStatus") AnswerStatus answerStatus);
 
-    @Query("select count(q) from QnA q join q.product where q.product.nickname = :seller")
-    Long countQnABySeller(@Param("seller") String seller);
+    @Query("select count(q) from QnA q join q.product where q.product.nickname = :seller and q.answerStatus = :answerStatus")
+    Long countQnABySeller(@Param("seller") String seller,
+                          @Param("answerStatus") AnswerStatus answerStatus);
 }

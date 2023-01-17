@@ -47,6 +47,7 @@ dependencies:
   url_launcher: ^6.1.7
   switcher_button: ^0.0.4
   flutter_spinkit: ^5.1.0
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,7 @@ flutter:
     - assets/category/
     - assets/review/
     - assets/order_status/
+    - assets/seller_main/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
