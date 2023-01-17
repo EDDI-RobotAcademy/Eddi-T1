@@ -3,6 +3,7 @@ package team_project.buy_idea.controller.order.shoppingBucket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucketItem;
 import team_project.buy_idea.service.order.shopppingbucket.ShoppingBucketService;
@@ -33,10 +34,10 @@ public class ShoppingBucketController {
         return bucketService.shoppingBucketItemList(nickname);
     }
 
-    @DeleteMapping("/shopping-bucket-list/{itemId}")
-    public void deleteShoppingBucketProduct(@PathVariable("itemId") Long itemId) {
-        log.info("deleteShoppingBucketProduct" + itemId);
+    @DeleteMapping("/shopping-bucket-list")
+    public void deleteShoppingBucketProduct(@RequestBody ShoppingBucketDeleteRequest bucketDeleteRequest) {
+        log.info("deleteShoppingBucketProduct" + bucketDeleteRequest.getNickname());
 
-        bucketService.deleteShoppingBucketProduct(itemId);
+        bucketService.deleteShoppingBucketProduct(bucketDeleteRequest);
     }
 }

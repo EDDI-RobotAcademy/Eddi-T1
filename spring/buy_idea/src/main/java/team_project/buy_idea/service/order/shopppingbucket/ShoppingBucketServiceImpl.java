@@ -3,6 +3,7 @@ package team_project.buy_idea.service.order.shopppingbucket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucket;
@@ -12,7 +13,6 @@ import team_project.buy_idea.repository.member.MemberRepository;
 import team_project.buy_idea.repository.order.shopppingBucket.ShoppingBucketProductRepository;
 import team_project.buy_idea.repository.order.shopppingBucket.ShoppingBucketRepository;
 import team_project.buy_idea.repository.product.ProductRepository;
-import team_project.buy_idea.service.security.RedisService;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +21,6 @@ import java.util.Optional;
 @Service
 public class ShoppingBucketServiceImpl implements ShoppingBucketService{
 
-    @Autowired
-    private RedisService redisService;
     @Autowired
     private ShoppingBucketRepository shoppingBucketRepository;
 
@@ -37,8 +35,6 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
 
     @Override
     public void addProductToShoppingBucket(ShoppingBucketRequest bucketRequest) {
-//        String memberToken = bucketRequest.getMemberToken();
-//        Long memberId = redisService.getValueByKey(memberToken);
 
         String nickname = bucketRequest.getNickname();
 
@@ -83,7 +79,39 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
     }
 
     @Override
-    public void deleteShoppingBucketProduct(Long itemId) {
-        bucketProductRepository.deleteById(itemId);
+    public void deleteShoppingBucketProduct(ShoppingBucketDeleteRequest shoppingBucketDeleteRequest) {
+        String nickname = shoppingBucketDeleteRequest.getNickname();
+        List<ShoppingBucketItem> shoppingBucketItems = this.shoppingBucketItemList(nickname);
+
+        if (shoppingBucketItems.isEmpty()){
+            Optional<Member> maybeMember = memberRepository.findBuyDiaMemberByNickname(nickname);
+            Member member = maybeMember.get();
+
+            ShoppingBucket shoppingBucket = ShoppingBucket.builder()
+                    .member(member)
+                    .shoppingBucketTotalCnt(0)
+                    .build();
+
+            shoppingBucketRepository.save(shoppingBucket);
+        } else {
+            bucketProductRepository.deleteById(shoppingBucketDeleteRequest.getItemId());
+            List<ShoppingBucketItem> shoppingBucketItemList = this.shoppingBucketItemList(nickname);
+
+            if (shoppingBucketItemList.size() >= 0){
+                Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(nickname);
+                ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
+
+                shoppingBucket.setShoppingBucketTotalCnt(shoppingBucket.getShoppingBucketTotalCnt() -1);
+
+                shoppingBucketRepository.save(shoppingBucket);
+            } else {
+                Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(nickname);
+                ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
+
+                shoppingBucket.setShoppingBucketTotalCnt(0);
+
+                shoppingBucketRepository.save(shoppingBucket);
+            }
+        }
     }
 }
