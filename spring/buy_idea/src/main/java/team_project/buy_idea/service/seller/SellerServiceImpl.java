@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team_project.buy_idea.controller.seller.request.SellerProfileRequest;
 import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.entity.order.OrderStatus;
+import team_project.buy_idea.entity.product.qna.AnswerStatus;
 import team_project.buy_idea.entity.seller.CompanyInfo;
 import team_project.buy_idea.entity.seller.SellerProfile;
 import team_project.buy_idea.repository.member.MemberRepository;
@@ -100,6 +101,13 @@ public class SellerServiceImpl implements SellerService{
     @Override
     public SellerTotalResponse getSellerTotalInfo(String seller) {
 
+        final String BEFORE_ANSWER = "답변 대기";
+        AnswerStatus answerStatus = switch (BEFORE_ANSWER) {
+            case "답변 대기" -> AnswerStatus.BEFORE_ANSWER;
+            case "답변 완료" -> AnswerStatus.ANSWER_COMPLETE;
+            default -> null;
+        };
+
         final String DELIVERED = "배송 완료";
         OrderStatus orderStatus = switch (DELIVERED) {
             case "결제 완료" -> OrderStatus.PAYMENT_COMPLETE;
@@ -115,7 +123,7 @@ public class SellerServiceImpl implements SellerService{
 
         Long products = productRepository.countProductsBySeller(seller);
         Long reviews = reviewRepository.countReviewsBySeller(seller);
-        Long qnA = qnARepository.countQnABySeller(seller);
+        Long qnA = qnARepository.countQnABySeller(seller, answerStatus);
         Long orders = orderInfoRepository.countOrdersBySeller(seller);
         Long sales = orderInfoRepository.calculateSalesBySeller(seller, orderStatus);
 
