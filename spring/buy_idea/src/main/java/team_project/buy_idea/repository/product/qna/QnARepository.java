@@ -21,4 +21,7 @@ public interface QnARepository extends JpaRepository<QnA, Long> {
             "where p.nickname = :nickname and q.answerStatus = :answerStatus order by q.qnaNo desc")
     List<QnA> findQnaHistoryByNicknameAndAnswerStatus(@Param("nickname") String nickname,
                                                       @Param("answerStatus") AnswerStatus answerStatus);
+
+    @Query("select count(q) from QnA q join q.product where q.product.nickname = :seller")
+    Long countQnABySeller(@Param("seller") String seller);
 }

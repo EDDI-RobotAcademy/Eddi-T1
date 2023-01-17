@@ -36,4 +36,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("select r from Review r join fetch r.product p where r.writer = :writer and p.productNo = :productNo")
     Optional<Review> findReviewByWriterOnSpecificProduct(@Param("writer") String writer,
                                                          @Param("productNo") Long productNo);
+
+    @Query("select count(r) from Review r join r.product where r.product.nickname = :seller")
+    Long countReviewsBySeller(@Param("seller") String seller);
 }

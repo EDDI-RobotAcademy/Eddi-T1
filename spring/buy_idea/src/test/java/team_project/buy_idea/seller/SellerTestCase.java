@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import team_project.buy_idea.controller.seller.request.CompanyInfoRequest;
 import team_project.buy_idea.controller.seller.request.SellerProfileRequest;
 import team_project.buy_idea.service.seller.SellerService;
+import team_project.buy_idea.service.seller.response.SellerTotalResponse;
 
 @SpringBootTest
 public class SellerTestCase {
@@ -26,5 +27,12 @@ public class SellerTestCase {
         String nickname = "gggg";
 
         System.out.println(sellerService.sellerInfoResponseByNickname(nickname));
+    }
+
+    @Test
+    void getSellerTotalInfoTest() {
+        SellerTotalResponse response = sellerService.getSellerTotalInfo("ANNAsSHOP");
+
+        System.out.println(response);
     }
 }
