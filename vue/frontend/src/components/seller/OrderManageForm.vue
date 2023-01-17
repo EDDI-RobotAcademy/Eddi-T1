@@ -68,7 +68,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header @click="requestPaymentCompletedList">{{ paymentComplete }}</v-expansion-panel-header>
         <v-expansion-panel-content>
-          <OrderStatusForm :order-status="paymentComplete" :order-info-list="sellerOrderList"></OrderStatusForm>
+          <OrderStatusForm :order-status="paymentComplete" :order-info-list="sellerOrderList" ></OrderStatusForm>
         </v-expansion-panel-content>
       </v-expansion-panel>
 

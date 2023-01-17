@@ -18,40 +18,14 @@ export default {
   async mounted() {
 
     const nickname = this.$store.state.memberInfoAfterSignIn.nickname;
-    // const orderStatus = this.paymentComplete;
-    for (let i = 0; i < 6; i++) {
-      if(i==0){
-        const orderStatus = this.paymentComplete
-        await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-        this.NumberOfPaymentComplete = this.$store.state.sellerOrderListCount;
-      } else if(i==1){
-        const orderStatus = this.inDelivery
-        await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-        this.NumberOfInDelivery = this.$store.state.sellerOrderListCount;
-      } else if(i==2){
-        const orderStatus = this.deliveryCompleted
-        await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-        this.NumberOfDeliveryCompleted = this.$store.state.sellerOrderListCount;
-      } else if(i==3){
-        const orderStatus = this.canceled
-        await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-        this.NumberOfCanceled = this.$store.state.sellerOrderListCount;
-      } else if(i==4){
-        const orderStatus = this.exchanged
-        await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-        this.NumberOfExchanged = this.$store.state.sellerOrderListCount;
-      } else if(i==5){
-        const orderStatus = this.returned
-        await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-        this.NumberOfReturned = this.$store.state.sellerOrderListCount;
-      }
-    }
+    await this.requestSellerOrderListCountFromSpring(nickname)
 
-    // for (let i = 0; i < this.orderStatus.length; i++) {
-    //   let orderStatus = this.orderStatus[i].status
-    //   await this.requestSellerOrderListCountFromSpring({nickname, orderStatus})
-    //   this.NumberOfPaymentComplete = this.$store.state.sellerOrderListCount;
-    // }
+    this.NumberOfPaymentComplete = this.$store.state.sellerOrderListCount[0];
+    this.NumberOfInDelivery = this.$store.state.sellerOrderListCount[1];
+    this.NumberOfDeliveryCompleted = this.$store.state.sellerOrderListCount[2];
+    this.NumberOfCanceled = this.$store.state.sellerOrderListCount[3];
+    this.NumberOfExchanged = this.$store.state.sellerOrderListCount[4];
+    this.NumberOfReturned = this.$store.state.sellerOrderListCount[5];
 
 
   },

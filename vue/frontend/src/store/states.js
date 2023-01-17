@@ -38,7 +38,7 @@ export default {
     recentlyViewedProductList: [],
     productRatingValue: [],
     productReadRatingValue: [],
-    sellerOrderListCount: 0,
+    sellerOrderListCount: [],
     reviewWriteCheckValue: [],
     sellerInfoData: {}
 }
