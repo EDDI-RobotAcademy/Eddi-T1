@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../../../pages/buyer/my_info/my_order_info/QnA/question_register_page.dart';
+import '../../../common/common_alert_dialog.dart';
 import '../../../common/yes_or_no_alert_dialog.dart';
 
 class QnaRegisterCard extends StatefulWidget {
@@ -26,6 +27,7 @@ class QnaRegisterCard extends StatefulWidget {
 class _QnaRegisterCardState extends State<QnaRegisterCard> {
   static const _storage = FlutterSecureStorage();
   dynamic memberNickname = '';
+  dynamic memberType = '';
 
   @override
   void initState() {
@@ -36,13 +38,16 @@ class _QnaRegisterCardState extends State<QnaRegisterCard> {
 
   _asyncMethod() async {
     memberNickname = await _storage.read(key: 'nickname');
+    memberType = await _storage.read(key: 'memberType');
     if (memberNickname == null) {
       setState(() {
         memberNickname = '비회원';
+        memberType = '비회원';
       });
     } else {
       setState(() {
         memberNickname = memberNickname;
+        memberType = memberType;
       });
       debugPrint('닉네임 : $memberNickname');
     }
@@ -83,7 +88,20 @@ class _QnaRegisterCardState extends State<QnaRegisterCard> {
                               },
                             );
                           });
-                    } else {
+                    }  else if (memberType == '판매자'){
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return CommonAlertDialog(
+                              title: '🚫',
+                              content: '판매자 회원은 문의 글을 등록할 수 없습니다.',
+                              onCustomButtonPressed: () {
+                                Get.back();
+                              },
+                            );
+                          });
+                    }else {
                       /// 문의 등록 페이지
                       Get.to(QuestionRegisterPage(
                         productNo: widget.productNo,
