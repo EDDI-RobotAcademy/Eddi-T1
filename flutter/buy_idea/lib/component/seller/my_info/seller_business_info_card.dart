@@ -66,6 +66,7 @@ class _SellerBusinessInfoCardState extends State<SellerBusinessInfoCard> {
       );
     } else {
       if (infoCheck == false) {
+        /// 정보 없을 때
         return Container(
           color: Colors.white,
           padding: EdgeInsets.all(10),
@@ -89,7 +90,7 @@ class _SellerBusinessInfoCardState extends State<SellerBusinessInfoCard> {
                           padding: const EdgeInsets.only(
                               top: 4.0, bottom: 4.0, left: 6.0),
                           child: Text(
-                            'SunShine',
+                            SellerMainPage.sellerNickname,
                             style: TextStyle(color: Colors.grey),
                           ),
                         )),
@@ -196,6 +197,7 @@ class _SellerBusinessInfoCardState extends State<SellerBusinessInfoCard> {
           ),
         );
       } else {
+        /// 정보 있을 때
         return Container(
           color: Colors.white,
           padding: EdgeInsets.all(10),

@@ -1,4 +1,6 @@
+import 'package:buy_idea/pages/seller/my_info/business_info_regiser_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BusinessInfoRegisterButton extends StatefulWidget {
   const BusinessInfoRegisterButton({Key? key, required this.infoCheck})
@@ -35,6 +37,7 @@ class _BusinessInfoRegisterButtonState
       return TextButton(
           onPressed: () {
             /// 등록 페이지 연결
+            Get.to(BusinessInfoRegisterPage());
           },
           child: Container(
               width: 250,
