@@ -34,7 +34,7 @@ public class ShoppingBucketController {
         return bucketService.shoppingBucketItemList(nickname);
     }
 
-    @DeleteMapping("/shopping-bucket-list")
+    @DeleteMapping("/shopping-bucket-list/delete")
     public void deleteShoppingBucketProduct(@RequestBody ShoppingBucketDeleteRequest bucketDeleteRequest) {
         log.info("deleteShoppingBucketProduct" + bucketDeleteRequest.getNickname());
 
