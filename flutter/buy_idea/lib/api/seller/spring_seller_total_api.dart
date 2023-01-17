@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -5,16 +7,43 @@ import 'package:http/http.dart' as http;
 class SpringSellerTotalApi {
   static const String httpUri = '192.168.0.12:8888';
 
-  Future<int> requestTotalSales(String seller) async {
-    var response = await http.get(
-      Uri.http(httpUri, '/order/seller/sales/$seller')
+  Future<TotalInfo> requestTotalInfoOfSeller(String seller) async {
+    var response = await http.post(
+      Uri.http(httpUri, '/seller/total-info/$seller')
     );
     if (response.statusCode == 200) {
-      debugPrint("totalSales() 통신 확인");
-      int sales = int.parse(response.body);
-      return sales;
+      debugPrint("requestTotalInfoOfSeller() 통신 확인");
+      var data = jsonDecode(response.body);
+      TotalInfo totalInfo = TotalInfo.fromJson(data);
+      return totalInfo;
     } else {
-      throw Exception("totalSales() 에러 발생");
+      throw Exception("requestTotalInfoOfSeller() 에러 발생");
     }
+  }
+}
+
+class TotalInfo {
+  int totalProduct;
+  int totalReview;
+  int totalQnA;
+  int totalOrder;
+  int totalSales;
+
+  TotalInfo({
+    required this.totalProduct,
+    required this.totalReview,
+    required this.totalQnA,
+    required this.totalOrder,
+    required this.totalSales
+  });
+
+  factory TotalInfo.fromJson(Map<String, dynamic> json) {
+    return TotalInfo(
+        totalProduct: json['totalProduct'],
+        totalReview: json['totalReview'],
+        totalQnA: json['totalQnA'],
+        totalOrder: json['totalOrder'],
+        totalSales: json['totalSales']
+    );
   }
 }
