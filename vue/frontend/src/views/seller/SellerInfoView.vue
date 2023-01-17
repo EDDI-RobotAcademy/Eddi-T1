@@ -12,7 +12,6 @@ export default {
   methods: {
     ...mapActions([
       'requestRegisterSellerInfoToSpring',
-      'requestSellerInfoToSpring'
     ]),
     async onSubmit(payload) {
       await this.requestRegisterSellerInfoToSpring(payload)

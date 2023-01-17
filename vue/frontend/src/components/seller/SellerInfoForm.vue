@@ -11,8 +11,93 @@
           📌 Seller Profile
         </v-toolbar-title>
       </v-app-bar>
-      <div align="center" v-if="dataPresenceCheck">
-        데이터 있음
+      <div v-if="dataPresenceCheck">
+        <v-container style="width: 1200px">
+          <h2>내 정보</h2>
+          <v-divider style="margin-top: 50px;"></v-divider>
+
+          <v-container style="width: 900px">
+            <div align="center" style="margin-top: 40px;">
+              <v-img
+                  style="width: 398px"
+                  src="@/assets/buydia_logo.png"
+              ></v-img>
+            </div>
+            <v-card style="width: 100%; margin-top: 50px;" flat>
+              <v-layout justify-center>
+                <h4 style="margin-top: 8px; margin-right: 30px;">상호 명</h4>
+                <div style="width: 250px">
+                  <v-text-field
+                      v-model="memberInfoAfterSignIn.nickname"
+                      dense
+                      readonly
+                      solo-inverted
+                  />
+                </div>
+              </v-layout>
+              <v-layout justify-center>
+                <h4 style="margin-top: 8px; margin-right: 53px;">성명</h4>
+                <div style="width: 250px">
+                  <v-text-field
+                      v-model="sellerInfoData.realName"
+                      dense
+                      readonly
+                      solo-inverted
+                  />
+                </div>
+              </v-layout>
+              <v-layout justify-center>
+                <h4 style="margin-top: 8px;">사업자 번호</h4>
+                <div style="margin-left: 30px; width: 220px">
+                  <v-text-field
+                      v-model="sellerInfoData.registrationNumber"
+                      dense
+                      readonly
+                      solo-inverted
+                  />
+                </div>
+              </v-layout>
+              <v-layout justify-center>
+                <h4 style="margin-top: 8px;">핸드폰 번호</h4>
+                <div style="margin-left: 30px; width: 220px">
+                  <v-text-field
+                      v-model="sellerInfoData.phone"
+                      dense
+                      readonly
+                      solo-inverted
+                  />
+                </div>
+              </v-layout>
+              <v-layout justify-center>
+                <h4 style="margin-top: 8px;">주소</h4>
+                <div style="margin-left: 30px; width: 270px">
+                  <v-text-field
+                      v-model="sellerInfoData.street"
+                      dense
+                      readonly
+                      solo-inverted
+                  />
+                </div>
+              </v-layout>
+              <v-layout justify-center>
+                <h4 style="margin-top: 8px;">상세주소</h4>
+                <div style="margin-left: 30px; width: 240px">
+                  <v-text-field
+                      v-model="sellerInfoData.addressDetail"
+                      dense
+                      readonly
+                      solo-inverted
+                  />
+                </div>
+              </v-layout>
+
+
+              <div align="center">
+                <div id="map" style="width:500px;height:400px;"></div>
+              </div>
+            </v-card>
+          </v-container>
+        </v-container>
       </div>
 
       <div style="font-family: Arial" v-else>
@@ -118,11 +203,13 @@ export default {
   components: {SellerNavi},
   computed: {
     ...mapState([
-      'sellerInfoData'
+      'sellerInfoData',
+      'memberInfoAfterSignIn'
     ])
   },
   data() {
     return {
+      searchAddressData: "",
       seller: "",
       companyPhoneNumber: "",
       companyRegisterNumber: "",
@@ -214,7 +301,6 @@ export default {
         nickname
       })
     },
-
     callDaumAddressApi() {
       new window.daum.Postcode({
         oncomplete: (data) => {
@@ -247,19 +333,78 @@ export default {
 
       this.addressInputCheckValue = true
       console.log("주소")
-    }
+    },
+    addScript() {
+      const script = document.createElement('script');
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=4c3cfe3db7e73977866ffcede86cde8f&libraries=services';
+      // script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=APPKEY&libraries=services';
+      document.head.appendChild(script);
+    },
+
+    initMap() {
+      var container = document.getElementById('map');
+      var options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 3
+      };
+      var map = new kakao.maps.Map(container, options);
+
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      geocoder.addressSearch(this.searchAddressData, function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+
+          // 결과값으로 받은 위치를 마커로 표시합니다
+          var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+          });
+
+          // 인포윈도우로 장소에 대한 설명을 표시합니다
+          var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+          });
+          infowindow.open(map, marker);
+
+          // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+          map.setCenter(coords);
+        }
+      })
+
+      //마커추가하려면 객체를 아래와 같이 하나 만든다.
+      var marker = new kakao.maps.Marker({
+        position: map.getCenter()
+      });
+      marker.setMap(map);
+    },
   },
-  async mounted() {
+  async created() {
     const nickname = this.$store.state.memberInfoAfterSignIn.nickname
     await this.requestSellerInfoToSpring(nickname)
-
-    console.log(this.sellerInfoData)
 
     if (!(this.sellerInfoData.constructor === Object && Object.keys(this.sellerInfoData).length === 0)) {
       this.dataPresenceCheck = true
     } else {
       this.dataPresenceCheck = false
     }
+    this.searchAddressData = this.sellerInfoData.street +" "+ this.sellerInfoData.addressDetail
+  },
+
+  mounted() {
+    if (self.name != 'reload') {
+      self.name = 'reload';
+      self.location.reload(true);
+    }
+    else self.name = '';
+
+    window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
   }
 }
 </script>
