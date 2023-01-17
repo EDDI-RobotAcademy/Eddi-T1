@@ -40,21 +40,50 @@ class _SellerDrawerState extends State<SellerDrawer> {
               children: [
                 Container(
                   padding: EdgeInsets.all(20),
-                  height: 160,
+                  height: 180,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                            AssetImage('assets/default_profile_image.png'),
-                        backgroundColor: Colors.white,
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          '환영합니다!',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                AssetImage('assets/default_profile_image.png'),
+                            backgroundColor: Colors.white,
+                          ),
+                      SizedBox(width: 15.0),
+                      Column(
+                        children: [
+                      SizedBox(height: 10.0),
+                      Row(
+                          children: [
+                            Text(
+                              '💡 ${widget.nickname}',
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              '의',
+                              style: TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ],
+                        ),
                       Text(
-                        widget.nickname,
-                        style: TextStyle(color: Colors.white),
+                        '아이디어 저장소입니다.',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
+                        ],
+                      ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -63,7 +92,7 @@ class _SellerDrawerState extends State<SellerDrawer> {
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30))),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 15),
                 ListTile(
                   onTap: () {
                     Get.to(SellerMainPage());
