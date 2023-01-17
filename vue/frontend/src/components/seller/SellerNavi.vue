@@ -15,7 +15,6 @@
           <v-list-item-title class="mb-5 ml-8">
             <router-link to="/order-manage">
               <v-avatar
-                  :tile="tile"
                   :size="120"
                   color="grey lighten-4"
               >

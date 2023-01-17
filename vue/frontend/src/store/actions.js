@@ -27,7 +27,10 @@ import {
     REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING,
     REQUEST_MY_REVIEW_LIST_TO_SPRING,
     REQUEST_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING, REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
+    REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
+    REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
+    REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
+    REQUEST_SELLER_INFO_TO_SPRING
 
 
 } from './mutation-types'
@@ -328,13 +331,22 @@ export default {
     // eslint-disable-next-line no-empty-pattern
     requestRegisterSellerInfoToSpring({ }, payload) {
         console.log('requestRegisterSellerInfoToSpring()')
+        const companyInfoRequest = {
+            city: payload.city,
+            street: payload.street,
+            addressDetail: payload.addressDetail,
+            zipcode: payload.zipcode
+        }
 
-        const {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber} = payload
-        return axios.post('http://localhost:8888/seller-info/register',
-            {seller, city, street, addressDetail, zipcode, companyPhoneNumber, companyRegisterNumber})
+        const nickname = payload.nickname
+        const realName = payload.seller
+        const phone = payload.companyPhoneNumber
+        const registrationNumber = payload.companyRegisterNumber
+
+        return axios.post('http://localhost:8888/seller/profile/register',
+            {nickname, realName, phone, registrationNumber, companyInfoRequest})
             .then(() => {
                 alert('사업자 등록 성공')
-                router.push({name: 'ProductManageView'})
             })
             .catch(() => {
                 alert('오류가 발생하였습니다.')
@@ -915,4 +927,46 @@ export default {
                 commit(REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING, res.data)
             })
     },
+
+    /**
+     *  리뷰 등록한 사용자 확인 요청 axios
+     *  @param commit
+     *  @param payload productNo, writer
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestReviewWriteCheckFromSpring({commit}, payload) {
+        console.log("requestReviewWriteCheckFromSpring()")
+        const {writer, productNo} = payload;
+
+        console.log("payload: " + writer)
+        console.log("payload: " + productNo)
+
+        await axios.get('http://localhost:8888/review/check/write', {
+            params: {
+                'writer': writer,
+                'productNo': productNo
+            }
+        })
+            .then((res) => {
+                commit(REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING, res.data)
+            });
+    },
+
+    /**
+     *  업체 정보 요청 axios
+     *  @param commit
+     *  @param payload nickname
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestSellerInfoToSpring({ commit }, payload){
+        console.log("requestSellerInfoToSpring")
+        const nickname = payload
+
+        await axios.post(`http://localhost:8888/seller/Info/${nickname}`)
+            .then((res) => {
+                commit(REQUEST_SELLER_INFO_TO_SPRING, res.data);
+            })
+            .catch(() => {})
+    }
+
 }

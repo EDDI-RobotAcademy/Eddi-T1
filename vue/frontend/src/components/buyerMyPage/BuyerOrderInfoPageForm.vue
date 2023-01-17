@@ -23,7 +23,7 @@
 
           <!--최근 주문상품 주문번호/주문일자로 분류-->
           <div v-for="(orderNo, index) in this.orderNoList" :key="index">
-            <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;" >
+            <v-card flat color="#f5f5f5" style="border: 1px solid #d9d9d9;  margin-top: 20px" >
               <v-card-subtitle style="border-bottom: 1px solid #eaebee">
                 <v-layout>
                   {{ orderNo }} | {{ orderDateList[index] }}
@@ -206,7 +206,7 @@
                             <v-btn x-small
                                    v-bind="attrs"
                                    v-on="on"
-                                   :disabled="itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL'"
+                                   :disabled=" itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL' || reviewCheckList[i] == true"
                                    width="98px"
                                    elevation="0"
                                    style="background-color: #DAA520;
@@ -384,7 +384,8 @@ export default {
         'myOrderInfoList',
         'myQnaList',
         'myReviewList',
-        'recentlyViewedProductList'
+        'recentlyViewedProductList',
+        'reviewWriteCheckValue'
     ])
   },
   data() {
@@ -400,6 +401,7 @@ export default {
         {name: '배송 조회'},
       ],
 
+      reviewCheckList: [],
       orderNoList: [],
       orderDateList: [],
       reviewProductTitle: "",
@@ -443,7 +445,8 @@ export default {
   methods: {
     ...mapActions([
       'requestRegisterQnaFromSpring',
-      'requestRegisterReviewFromSpring'
+      'requestRegisterReviewFromSpring',
+      'requestReviewWriteCheckFromSpring'
     ]),
     handleImgFile(e) {
       this.files = {
@@ -464,7 +467,6 @@ export default {
       this.dialogQna = false
     },
     async registerReview() {
-
       const productNo = this.myOrderInfoList[this.currentSelectedReviewProductNumber].product.productNo
       const writer = this.$store.state.memberInfoAfterSignIn.nickname
       const starRating = this.ratingValue
@@ -473,6 +475,7 @@ export default {
 
       await this.requestRegisterReviewFromSpring({productNo, writer, starRating, content, files})
       this.dialog = false
+      history.go(0)
     },
     fn_cancel() {
       this.dialog = false
@@ -519,7 +522,6 @@ export default {
     const orderListTotalCount = handmadeListLength + knowHowListLength + hobbyListLength
 
     this.$set(this.myPageCategoryItems[0], 'count', orderListTotalCount)
-
   },
   async created() {
     //리뷰페이지 상품 이미지 받는 로직
@@ -538,6 +540,21 @@ export default {
     infoNum.push(this.recentlyViewedProductList.length)
 
     this.countByInfo = infoNum
+
+    //주문 리스트의 리뷰 작성 여부 체크하는 로직
+    const reviewCheckList = new Array
+    for (let i = 0; i < this.myOrderInfoList.length; i++) {
+      const writer = this.$store.state.memberInfoAfterSignIn.nickname
+      const productNo = this.myOrderInfoList[i].product.productNo
+
+      await this.requestReviewWriteCheckFromSpring({ writer, productNo })
+      reviewCheckList.push(this.$store.state.reviewWriteCheckValue)
+      console.log("reviewWriteCheckValue : " + this.$store.state.reviewWriteCheckValue)
+    }
+    console.log("reviewCheckList length: " + reviewCheckList.length)
+    console.log("reviewCheckList 4: " + reviewCheckList[4])
+    this.reviewCheckList = reviewCheckList
+
   }
 }
 </script>

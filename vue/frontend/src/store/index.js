@@ -19,7 +19,9 @@ export default new Vuex.Store({
             'searchResultList',
             'mainPageProductListByHandmade',
             'mainPageProductListByKnowHow',
-            'mainPageProductListByHobby'
+            'mainPageProductListByHobby',
+            'myOrderInfoList',
+            'myReviewList'
         ]
       })
   ],
