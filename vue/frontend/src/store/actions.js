@@ -376,6 +376,22 @@ export default {
                 alert("상품에 삭제되지 않았습니다.")
             });
     },
+    /**
+     * 결제 시 장바구니 상품 삭제 axios.
+     * @param productItemId
+     * @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    // eslint-disable-next-line no-empty-pattern
+    async requestDeleteShoppingCartItemsAtCheckoutFromSpring({ }, payload){
+
+        await axios.delete('http://localhost:8888/order/shopping-bucket-list/delete', {
+            params:{
+                itemId: payload.itemId,
+                nickname: payload.nickname
+            }
+        })
+            .catch(() => {} );
+    },
 
     /**
      *  상품 읽기 요청 axios

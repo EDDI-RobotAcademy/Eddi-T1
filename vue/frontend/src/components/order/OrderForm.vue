@@ -215,7 +215,8 @@ export default {
   },
   methods: {
     ...mapActions([
-       'requestPaymentSuccessfulOrderInfoForSpring'
+      'requestPaymentSuccessfulOrderInfoForSpring',
+      'requestDeleteShoppingCartItemsAtCheckoutFromSpring'
     ]),
     //주소Api
     callDaumAddressApi() {
@@ -326,6 +327,15 @@ export default {
             console.log(response)
             // 결제 완료 처리
             await this.paymentSuccessful()
+              //장바구니에서 결제 시 장바구니에 담긴 상품 삭제
+            if (this.productReadCheckValue === false) {
+              const nickname = this.$store.state.memberInfoAfterSignIn.nickname
+              for (let i = 0; i < this.productInfoByShoppingCart.length; i++) {
+                let itemId = this.productInfoByShoppingCart[i].itemId
+
+                await this.requestDeleteShoppingCartItemsAtCheckoutFromSpring({itemId, nickname})
+              }
+            }
             await this.$router.push({name: "HomeView"})
             break
           case 'confirm': //payload.extra.separately_confirmed = true; 일 경우 승인 전 해당 이벤트가 호출됨
