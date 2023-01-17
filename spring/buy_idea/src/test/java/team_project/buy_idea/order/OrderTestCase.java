@@ -107,8 +107,7 @@ public class OrderTestCase {
 
     @Test
     void getSellerOrderCount(){
-        OrderStatusRequest orderStatusRequest = new OrderStatusRequest("쿤", "결제 완료");
 
-        System.out.println(orderInfoService.sellerOrderInfoListCount(orderStatusRequest));
+        System.out.println(orderInfoService.sellerOrderInfoListCount("쿤"));
     }
 }

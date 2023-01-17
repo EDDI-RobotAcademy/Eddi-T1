@@ -59,10 +59,10 @@ public class OrderInfoController {
         return orderInfoService.getSellerProductOrderStatus(nickname);
     }
 
-    @PostMapping("/seller-order-info-list-count")
-    public Long sellerOrderInfoListCount (@RequestBody OrderStatusRequest request) {
-        log.info("SellerOrderInfoListCount()" + request);
+    @PostMapping("/seller-order-info-list-count/{seller}")
+    public List<Long> sellerOrderInfoListCount (@PathVariable("seller") String seller) {
+        log.info("SellerOrderInfoListCount()" + seller);
 
-        return orderInfoService.sellerOrderInfoListCount(request);
+        return orderInfoService.sellerOrderInfoListCount(seller);
     }
 }

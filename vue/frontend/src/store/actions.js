@@ -916,11 +916,11 @@ export default {
     },
 
     requestSellerOrderListCountFromSpring ({ commit }, payload) {
-        console.log('requestSellerOrderListFromSpring()')
-        const {nickname, orderStatus} = payload;
+        console.log('requestSellerOrderListCountFromSpring()')
+        const seller = payload;
         console.log(payload);
 
-        return axios.post(`http://localhost:8888/order/seller-order-info-list-count`, {nickname, orderStatus})
+        return axios.post(`http://localhost:8888/order/seller-order-info-list-count/${seller}`)
             .then((res) => {
                 console.log(res.data)
 
