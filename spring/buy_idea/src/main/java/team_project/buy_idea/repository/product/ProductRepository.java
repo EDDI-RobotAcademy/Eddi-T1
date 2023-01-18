@@ -54,4 +54,80 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select count(p) from Product p where p.nickname = :seller")
     Long countProductsBySeller(@Param("seller") String seller);
+
+
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where p.productInfo.category = :category " +
+            "order by p.productInfo.viewCnt desc ")
+    Slice<ProductMapping> findProductsByViewCnt(@Param("category") String category, Pageable pageable);
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where (p.productInfo.category = :category and p.productInfo.viewCnt < :viewCnt) or " +
+            "(p.productInfo.viewCnt = :viewCnt and p.productNo not in (:productNoList)) " +
+            "order by p.productInfo.viewCnt desc ")
+    Slice<ProductMapping> findNextProductsByViewCnt(@Param("viewCnt") int viewCnt,
+                                                     @Param("productNoList") List<Long> productNoList,
+                                                     @Param("category") String category,
+                                                     Pageable pageable);
+
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where p.productInfo.category = :category " +
+            "order by count(p.reviews) desc ")
+    Slice<ProductMapping> findProductsByReviewCnt(@Param("category") String category, Pageable pageable);
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where (p.productInfo.category = :category and count(p.reviews) < :reviewCnt) or " +
+            "(count(p.reviews) = :reviewCnt and p.productNo not in (:productNoList)) " +
+            "order by count(p.reviews) desc ")
+    Slice<ProductMapping> findNextProductsByReviewCnt(@Param("reviewCnt") Long reviewCnt,
+                                                      @Param("productNoList") List<Long> productNoList,
+                                                      @Param("category") String category,
+                                                      Pageable pageable);
+
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p, Review r " +
+            "where p.productInfo.category = :category " +
+            "order by avg(r.starRating) desc ")
+    Slice<ProductMapping> findProductsByHighRating(@Param("category") String category, Pageable pageable);
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p, Review r " +
+            "where (p.productInfo.category = :category and avg(r.starRating) < :starRating) or " +
+            "(avg(r.starRating) = :starRating and p.productNo not in (:productNoList)) " +
+            "order by avg(r.starRating) desc ")
+    Slice<ProductMapping> findNextProductsByHighRating(@Param("starRating") Double starRating,
+                                                       @Param("productNoList") List<Long> productNoList,
+                                                      @Param("category") String category,
+                                                      Pageable pageable);
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where p.productInfo.category = :category " +
+            "order by p.price desc ")
+    Slice<ProductMapping> findProductsByHighPrice(@Param("category") String category, Pageable pageable);
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where (p.productInfo.category = :category and p.price < :price) or " +
+            "(p.price = :price and p.productNo not in (:productNoList))" +
+            "order by p.price desc ")
+    Slice<ProductMapping> findNextProductsByHighPrice(@Param("price") int price,
+                                                      @Param("productNoList") List<Long> productNoList,
+                                                       @Param("category") String category,
+                                                       Pageable pageable);
+
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where p.productInfo.category = :category " +
+            "order by p.price ASC ")
+    Slice<ProductMapping> findProductsByLowPrice(@Param("category") String category, Pageable pageable);
+
+    @Query("select p.productNo as productNo, p.title as title, p.nickname as nickname, p.price as price from Product p " +
+            "where (p.productInfo.category = :category and p.price > :price) or " +
+            "(p.price = :price and p.productNo not in (:productNoList))" +
+            "order by p.price ASC ")
+    Slice<ProductMapping> findNextProductsByLowPrice(@Param("price") int price,
+                                                     @Param("productNoList") List<Long> productNoList,
+                                                      @Param("category") String category,
+                                                      Pageable pageable);
+
 }
