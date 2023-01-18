@@ -30,7 +30,7 @@ import {
     REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
     REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
     REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
-    REQUEST_SELLER_INFO_TO_SPRING
+    REQUEST_SELLER_INFO_TO_SPRING, REQUEST_SELLER_TOTAL_INFO_FROM_SPRING
 
 
 } from './mutation-types'
@@ -986,6 +986,19 @@ export default {
                 commit(REQUEST_SELLER_INFO_TO_SPRING, res.data);
             })
             .catch(() => {})
-    }
+    },
+
+    requestSellerTotalInfoFromSpring ({ commit }, payload) {
+        console.log('requestSellerTotalInfoFromSpring()')
+        const seller = payload;
+        console.log(payload);
+
+        return axios.post(`http://localhost:8888/seller/total-info/${seller}`)
+            .then((res) => {
+                console.log(res.data)
+
+                commit(REQUEST_SELLER_TOTAL_INFO_FROM_SPRING, res.data)
+            })
+    },
 
 }
