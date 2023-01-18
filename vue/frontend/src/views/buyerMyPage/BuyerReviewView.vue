@@ -25,7 +25,8 @@ export default {
   methods:{
     ...mapActions([
         'requestReviewImageFromSpring',
-        'requestMyReviewListToSpring'
+        'requestMyReviewListToSpring',
+
     ])
   },
   async mounted(){
@@ -40,6 +41,13 @@ export default {
     infoNum.push(this.recentlyViewedProductList.length)
 
     this.countByInfo = infoNum
+
+    this.reviewImage.splice(0)
+    for (let i = 0; i < this.myReviewList.length; i++) {
+      let reviewNo = this.myReviewList[i].reviewNo
+
+      await this.requestReviewImageFromSpring(reviewNo)
+    }
   }
 }
 </script>
