@@ -401,6 +401,50 @@ export default {
         await this.requestRegisterShoppingBucketProduct({nickname, productId, productAmountValue})
       }
     },
+    deleteFavoriteProduct(item){
+      for (let i = 0; i < this.favoriteProductList.length; i++) {
+        if (item.productNo === this.favoriteProductList[i].productNo){
+          this.favoriteProductList.splice(i, 1)
+          i--
+        }
+      }
+    },
+    favoriteProductManagement(index, category, item) {
+
+      if (category === '취미/특기') {
+        if (this.hobbyFavoriteProductCheck[index].checkValue) {
+          this.$store.state.hobbyFavoriteProductCheck[index].checkValue = false
+
+          this.deleteFavoriteProduct(item)
+
+        } else {
+          this.$store.state.hobbyFavoriteProductCheck[index].checkValue = true
+          this.$store.state.favoriteProductList.push(item)
+        }
+
+      } else if (category === '핸드메이드') {
+        if (this.handmadeFavoriteProductCheck[index].checkValue) {
+          this.$store.state.handmadeFavoriteProductCheck[index].checkValue = false
+
+          this.deleteFavoriteProduct(item)
+
+        } else {
+          this.$store.state.handmadeFavoriteProductCheck[index].checkValue = true
+          this.$store.state.favoriteProductList.push(item)
+        }
+
+      } else {
+        if (this.knowhowFavoriteProductCheck[index].checkValue) {
+          this.$store.state.knowhowFavoriteProductCheck[index].checkValue = false
+
+          this.deleteFavoriteProduct(item)
+
+        } else {
+          this.$store.state.knowhowFavoriteProductCheck[index].checkValue = true
+          this.$store.state.favoriteProductList.push(item)
+        }
+      }
+    }
   },
   filters: {
     comma(val) {

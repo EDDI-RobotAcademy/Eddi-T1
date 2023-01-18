@@ -42,4 +42,13 @@ export default {
     reviewWriteCheckValue: [],
     sellerInfoData: {},
     sellerTotalInfo: {},
+    handmadeReviewCnt: [],
+    knowhowReviewCnt: [],
+    hobbyReviewCnt: [],
+    handmadeFavoriteProductCheck: [],
+    knowhowFavoriteProductCheck: [],
+    hobbyFavoriteProductCheck: [],
+    favoriteProductList: []
+
+
 }

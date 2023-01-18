@@ -22,7 +22,9 @@ export default new Vuex.Store({
             'mainPageProductListByHobby',
             'myOrderInfoList',
             'myReviewList',
-
+            'hobbyFavoriteProductCheck',
+            'knowhowFavoriteProductCheck',
+            'handmadeFavoriteProductCheck'
         ]
       })
   ],

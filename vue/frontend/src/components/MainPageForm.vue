@@ -37,7 +37,10 @@ export default {
       'handmadeReviewCnt',
       'knowhowReviewCnt',
       'hobbyReviewCnt',
-
+      'hobbyFavoriteProductCheck',
+      'handmadeFavoriteProductCheck',
+      'knowhowFavoriteProductCheck',
+      'favoriteProductList'
     ])
   },
   data() {
@@ -120,7 +123,23 @@ export default {
     await this.getMainPageProductImgByHobby()
     await this.getMainPageProductImgByKnowHow()
 
+    if (this.hobbyFavoriteProductCheck.length === 0) {
+      for (let i = 0; i < this.mainPageProductListByHobby.length; i++) {
+        this.$store.state.hobbyFavoriteProductCheck.push({checkValue: false})
+      }
+    }
+    if (this.knowhowFavoriteProductCheck.length === 0) {
 
+      for (let i = 0; i < this.mainPageProductListByKnowHow.length; i++) {
+        this.$store.state.knowhowFavoriteProductCheck.push({checkValue: false})
+      }
+    }
+    if (this.handmadeFavoriteProductCheck.length === 0) {
+
+      for (let i = 0; i < this.mainPageProductListByHandmade.length; i++) {
+        this.$store.state.handmadeFavoriteProductCheck.push({checkValue: false})
+      }
+    }
   },
 }
 </script>
