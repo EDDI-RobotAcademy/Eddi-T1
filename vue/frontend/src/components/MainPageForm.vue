@@ -33,7 +33,11 @@ export default {
       'mainPageProductImgListByHobby',
       'handmadeProductRatingValue',
       'knowhowProductRatingValue',
-      'hobbyProductRatingValue'
+      'hobbyProductRatingValue',
+      'handmadeReviewCnt',
+      'knowhowReviewCnt',
+      'hobbyReviewCnt',
+
     ])
   },
   data() {
@@ -53,13 +57,15 @@ export default {
     ...mapActions([
       'requestProductListByCategoryToSpring',
       'requestProductImgListToSpring',
-      'requestProductRatingValueToSpring'
+      'requestProductRatingValueToSpring',
+      'requestReviewCntListFromSpring'
     ]),
-    check(item){
+    check(item) {
       console.log(item)
     },
     async getMainPageProductImgByHandmade() {
       this.handmadeProductRatingValue.splice(0)
+      this.handmadeReviewCnt.splice(0)
       let category = "핸드메이드"
       // 핸드메이드 상품 받아오기
       for (let j = 0; j < this.mainPageProductListByHandmade.length; j++) {
@@ -67,11 +73,13 @@ export default {
 
         await this.requestProductImgListToSpring({productNo, category});
         await this.requestProductRatingValueToSpring({productNo, category})
+        await this.requestReviewCntListFromSpring({productNo, category})
       }
     },
 
     async getMainPageProductImgByKnowHow() {
       this.knowhowProductRatingValue.splice(0)
+      this.knowhowReviewCnt.splice(0)
       //노하우 상품 이미지 받아오기
       let category = '노하우'
 
@@ -80,11 +88,13 @@ export default {
 
         await this.requestProductImgListToSpring({productNo, category});
         await this.requestProductRatingValueToSpring({productNo, category})
+        await this.requestReviewCntListFromSpring({productNo, category})
       }
     },
 
     async getMainPageProductImgByHobby() {
       this.hobbyProductRatingValue.splice(0)
+      this.hobbyReviewCnt.splice(0)
       // 취미/특기 상품 받아오기
       let category = "취미/특기"
 
@@ -93,6 +103,7 @@ export default {
 
         await this.requestProductImgListToSpring({productNo, category})
         await this.requestProductRatingValueToSpring({productNo, category})
+        await this.requestReviewCntListFromSpring({productNo, category})
       }
     }
   },
@@ -108,6 +119,8 @@ export default {
     await this.getMainPageProductImgByHandmade();
     await this.getMainPageProductImgByHobby()
     await this.getMainPageProductImgByKnowHow()
+
+
   },
 }
 </script>

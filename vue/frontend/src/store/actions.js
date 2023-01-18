@@ -30,9 +30,10 @@ import {
     REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING,
     REQUEST_SELLER_ORDER_LIST_COUNT_FROM_SPRING,
     REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
-    REQUEST_SELLER_INFO_TO_SPRING, REQUEST_SELLER_TOTAL_INFO_FROM_SPRING
-
-
+    REQUEST_SELLER_INFO_TO_SPRING, REQUEST_SELLER_TOTAL_INFO_FROM_SPRING,
+    REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING,
+    REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING,
+    REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -800,6 +801,29 @@ export default {
             .then((res) => {
                 console.log(res.data)
                 commit(REQUEST_REVIEW_CNT_FROM_SPRING, res.data)
+            })
+    },
+    /**
+     *  메인페이지 카테고리별 상품 리뷰 개수 요청 axios
+     *  @param commit
+     *  @param payload productNo
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestReviewCntListFromSpring ({ commit }, payload) {
+        console.log('requestReviewCntFromSpring()' + payload.productNo)
+
+        const productNo = payload.productNo
+        const category = payload.category
+
+        await axios.get(`http://localhost:8888/review/count/${productNo}`)
+            .then((res) => {
+                if (category === '핸드메이드'){
+                    commit(REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING, res.data)
+                } else if (category === '노하우'){
+                    commit(REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING, res.data)
+                } else {
+                    commit(REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING, res.data)
+                }
             })
     },
 
