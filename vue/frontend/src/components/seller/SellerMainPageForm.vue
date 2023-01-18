@@ -14,176 +14,270 @@
       <tr>
         <!-- 상품 등록 현황-->
         <td>
-          <v-card
-              width="380"
-              height="550"
+          <router-link :to="{ name: 'ProductManageView', }"
+                       style="text-decoration: none; color: black"
           >
 
-
-            <v-img
-                height="250"
-                width="250"
-                src="https://cdn-icons-png.flaticon.com/512/1029/1029010.png"
-            ></v-img>
-
-            <v-card-title>상품 현황</v-card-title>
-
-            <v-card-text>
-
-              <div class="my-4 text-subtitle-1">
-                판매자님이 등록해주신 소중한 아이디어
-              </div>
-
-              <!--      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
-            </v-card-text>
-
-            <v-divider class="mx-4"></v-divider>
-
-            <v-card-title>등록된 상품 : 10건</v-card-title>
-            <br/>
-
-            <v-card-actions>
-              <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="reserve"
+            <v-hover
+                v-slot="{ hover } "
+            >
+            <v-card
+                width="380"
+                height="550"
+                :elevation="hover ? 16 : 0"
+                :class="{'on-hover' : hover}"
+                class="ma-4"
+                max-width="380"
+                flat
+            >
+              <div
+              align="right"
               >
-                상품 관리 페이지
+              <v-btn
+              plain
+              >
+              <v-icon>mdi-arrow-right-thick</v-icon>
               </v-btn>
-            </v-card-actions>
-          </v-card>
+              </div>
+              <div
+                  style="padding-top:30px"
+              >
+                <div
+                    align="center">
+                  <v-img
+                      height="250"
+                      width="250"
+                      src="https://cdn-icons-png.flaticon.com/512/1029/1029010.png"
+                  ></v-img>
+                </div>
+
+                <v-card-title>상품 현황</v-card-title>
+
+                <v-card-text>
+
+                  <div class="my-4 text-subtitle-1">
+                    나만의 아이디어로 탄생한 상품!<br/><br/>
+
+                  </div>
+
+                </v-card-text>
+
+                <v-card-title style="font-size:18px">등록된 상품
+                  <hr style="width: 180px; border: 1px solid black; margin: 0px 8px 0px 8px"/>
+                  {{ totalProduct }}건
+                </v-card-title>
+                <br/>
+
+
+              </div>
+            </v-card>
+            </v-hover>
+          </router-link>
+
+
         </td>
 
         <!--구매 후기 현황-->
         <td>
-          <v-card
-              width="380"
-              height="550"
+          <router-link :to="{ name: 'ProductManageView', }"
+                       style="text-decoration: none; color: black"
           >
 
-            <v-img
-                height="250"
-                width="250"
-                src="https://cdn-icons-png.flaticon.com/512/4088/4088850.png"
-            ></v-img>
-
-            <v-card-title>구매 후기 현황</v-card-title>
-
-            <v-card-text>
-
-
-              <div class="my-4 text-subtitle-1">
-                구매자님들이 남겨주신 후기
+            <v-hover
+                v-slot="{ hover } "
+            >
+            <v-card
+                width="380"
+                height="550"
+                :elevation="hover ? 16 : 0"
+                :class="{'on-hover' : hover}"
+                class="ma-4"
+                max-width="380"
+                flat
+            >
+              <div
+                  align="right"
+              >
+                <v-btn
+                    plain
+                >
+                  <v-icon>mdi-arrow-right-thick</v-icon>
+                </v-btn>
               </div>
 
-              <!--      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
-            </v-card-text>
-
-            <v-divider class="mx-4"></v-divider>
-
-            <v-card-title>구매 후기 : 2건</v-card-title>
-            <br/>
-
-            <v-card-actions>
-              <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="reserve"
+              <div
+                  style="padding-top:30px"
               >
-                후기 확인하기
-              </v-btn>
-              <br/>
-            </v-card-actions>
-          </v-card>
+
+                <div
+                    align="center"
+                >
+                  <v-img
+                      height="250"
+                      width="250"
+                      src="https://cdn-icons-png.flaticon.com/512/4088/4088850.png"
+                  ></v-img>
+                </div>
+                <v-card-title>구매 후기 현황</v-card-title>
+
+                <v-card-text>
+
+
+                  <div class="my-4 text-subtitle-1">
+                    '마음에 쏙 들어요💕'<br/>
+                    '너무 좋아요😊'
+                  </div>
+
+                </v-card-text>
+
+
+
+                <v-card-title style="font-size:18px">구매 후기
+                  <hr style="width: 210px; border: 1px solid black; margin: 0px 8px 0px 8px"/>
+                  {{ totalReview }}건
+                </v-card-title>
+                <br/>
+
+
+              </div>
+            </v-card>
+            </v-hover>
+          </router-link>
         </td>
 
         <!-- 문의 현황-->
         <td>
-          <v-card
-              width="380"
-              height="550"
+          <router-link :to="{ name: 'InquiryManageView', }"
+                       style="text-decoration: none; color: black"
           >
-
-
-            <v-img
-                height="250"
-                width="250"
-                src="https://cdn-icons-png.flaticon.com/512/813/813020.png"
-            ></v-img>
-
-            <v-card-title>문의 현황</v-card-title>
-
-            <v-card-text>
-
-              <div class="my-4 text-subtitle-1">
-                고객님들이 남겨주신 문의
+            <v-hover
+                v-slot="{ hover } "
+            >
+            <v-card
+                width="380"
+                height="550"
+                :elevation="hover ? 16 : 0"
+                :class="{'on-hover' : hover}"
+                class="ma-4"
+                max-width="380"
+                flat
+            >
+              <div
+                  align="right"
+              >
+                <v-btn
+                    plain
+                >
+                  <v-icon>mdi-arrow-right-thick</v-icon>
+                </v-btn>
               </div>
 
-              <!--          <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
-            </v-card-text>
-
-            <v-divider class="mx-4"></v-divider>
-
-            <v-card-title>답변 대기 문의 : 3건</v-card-title>
-            <br/>
-
-
-            <v-card-actions>
-              <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="reserve"
+              <div
+                  style="padding-top:30px"
               >
-                문의 확인하기
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+
+                <div
+                    align="center"
+                >
+                  <v-img
+                      height="250"
+                      width="250"
+                      src="https://cdn-icons-png.flaticon.com/512/813/813020.png"
+                  ></v-img>
+                </div>
+                <v-card-title>문의 현황</v-card-title>
+
+                <v-card-text>
+
+                  <div class="my-4 text-subtitle-1">
+                    궁금한게 너무나 많아요!<br/>
+                    혹시.. 판매자님은 천재이신가요?! 🤔
+                  </div>
+
+
+                </v-card-text>
+
+
+                <v-card-title style="font-size:18px">답변 대기 문의
+                  <hr style="width: 165px; border: 1px solid black; margin: 0px 8px 0px 8px"/>
+                  {{ totalQnA }}건
+                </v-card-title>
+                <br/>
+
+
+              </div>
+            </v-card>
+            </v-hover>
+          </router-link>
         </td>
 
         <!--주문 현황-->
         <td>
-          <v-card
-              width="380"
-              height="550"
+          <router-link :to="{ name: 'OrderManageView', }"
+                       style="text-decoration: none; color: black"
           >
-            <v-img
-                height="250"
-                width="250"
-                src="https://cdn-icons-png.flaticon.com/512/2728/2728447.png"
-            ></v-img>
-
-            <v-card-title>주문 현황</v-card-title>
-
-            <v-card-text>
-
-
-              <div class="my-4 text-subtitle-1">
-                진행중인 주문내역
-              </div>
-
-              <!--          <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>-->
-            </v-card-text>
-
-            <v-divider class="mx-4"></v-divider>
-
-            <v-card-title>모든 주문 : 12건</v-card-title>
-            <br/>
-
-
-            <v-card-actions>
-              <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="reserve"
+            <v-hover
+                v-slot="{ hover } "
+            >
+            <v-card
+                width="380"
+                height="550"
+                :elevation="hover ? 16 : 0"
+                :class="{'on-hover' : hover}"
+                class="ma-4"
+                max-width="380"
+                flat
+            >
+              <div
+                  align="right"
               >
-                주문내역 확인하기
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+                <v-btn
+                    plain
+                >
+                  <v-icon>mdi-arrow-right-thick</v-icon>
+                </v-btn>
+              </div>
+              <div
+                  style="padding-top:30px"
+              >
+                <div
+                    align="center">
+                  <v-img
+                      height="250"
+                      width="250"
+                      src="https://cdn-icons-png.flaticon.com/512/2728/2728447.png"
+                  ></v-img>
+                </div>
+                <v-card-title>주문 현황</v-card-title>
+
+                <v-card-text>
+
+
+                  <div class="my-4 text-subtitle-1">
+                    불티나게 팔리는 나의 아이디어!<br/>
+                    확인하러 가볼까요? 😆
+                  </div>
+
+
+                </v-card-text>
+
+
+                <v-card-title style="font-size:18px">모든 주문
+                  <hr style="width: 210px; border: 1px solid black; margin: 0px 8px 0px 8px"/>
+                  {{ totalOrder }}건
+                </v-card-title>
+                <br/>
+
+
+              </div>
+            </v-card>
+            </v-hover>
+          </router-link>
         </td>
 
       </tr>
-    </table><br/>
+    </table>
+    <br/>
 
 
     <v-simple-table
@@ -195,10 +289,10 @@
         <tr>
           <th class="text-center"
           >
-          <div
-          style="font-size: 20px">
-         총 매출
-          </div>
+            <div
+                style="font-size: 20px">
+              총 매출
+            </div>
           </th>
         </tr>
         </thead>
@@ -206,8 +300,8 @@
         <tr>
           <th class="text-center">
             <div
-            style="font-size:20px">
-            337,100 원
+                style="font-size:20px">
+              {{ totalSales | comma }}원
             </div>
           </th>
         </tr>
@@ -224,6 +318,24 @@ import SellerNavi from "@/components/seller/SellerNavi";
 export default {
   name: "SellerMainPageForm",
   components: {SellerNavi},
+  props: {
+    totalProduct: {
+      type: Number
+    },
+    totalReview: {
+      type: Number
+    },
+    totalQnA: {
+      type: Number
+    },
+    totalOrder: {
+      type: Number
+    },
+    totalSales: {
+      type: Number
+    },
+
+  },
 
   data: () => ({
     loading: false,
@@ -236,6 +348,12 @@ export default {
 
       setTimeout(() => (this.loading = false), 2000)
     },
+  },
+
+  filters: {
+    comma(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
   },
 
 }
