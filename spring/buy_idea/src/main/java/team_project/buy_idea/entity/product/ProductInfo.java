@@ -37,6 +37,9 @@ public class ProductInfo {
     @Column(nullable = false)
     private int stock;
 
+    @Column(nullable = false)
+    private int viewCnt = 0;
+
     @CreationTimestamp
     private Date regDate;
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@ToString(exclude = {"productImages", "productInfo", "reviews"})
+@ToString(exclude = {"productImages", "productInfo", "reviews", "qna"})
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {

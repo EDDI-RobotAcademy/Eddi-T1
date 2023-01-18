@@ -124,19 +124,46 @@ public class ProductServiceImpl implements ProductService {
 
     // 상품 카드에 필요한 정보들만 반환하는 상품 리스트 반환 (productNo, title, nickname, price)
     @Override
-    public List<ProductMapping> list(String category, int productSize) {
+    public List<ProductMapping> list(String category, int productSize, String filter) {
         // productRepository.findFirstProductsByCategory
         // (찾을 카테고리, Pageable.ofSize(메인페이지에 배치할 리스트 수))
         // 넘겨받은 카테고리에 해당하는 상품 리스트 중 큰 숫자부터 배치할 리스트 수 만큼 자르고 반환
-        Slice<ProductMapping> productSlice = productRepository.findFirstProductsByCategory(category, Pageable.ofSize(productSize));
+
+        Slice<ProductMapping> productSlice = switch (filter) {
+
+            case "최신순" -> productRepository.findFirstProductsByCategory(category, Pageable.ofSize(productSize));
+            case "인기순" -> productRepository.findProductsByViewCnt(category, Pageable.ofSize(productSize));
+            case "후기순" -> productRepository.findProductsByReviewCnt(category, Pageable.ofSize(productSize));
+            case "평점순" -> productRepository.findProductsByHighRating(category, Pageable.ofSize(productSize));
+            case "높은가격순" -> productRepository.findProductsByHighPrice(category, Pageable.ofSize(productSize));
+            case "낮은가격순" -> productRepository.findProductsByLowPrice(category, Pageable.ofSize(productSize));
+            default -> null;
+        };
         List<ProductMapping> products = productSlice.getContent();
         return products;
     }
 
     // 넘겨받은 productNo의 다음 낮은 수 기준 내림차순으로 productSize의 수만큼 넘겨받은 카테고리의 상품 리스트를 반환
     @Override
-    public List<ProductMapping> nextList(Long lastProductNo, String category, int productSize) {
-        Slice<ProductMapping> productsSlice = productRepository.findNextProductsByCategory(lastProductNo, category, Pageable.ofSize(productSize));
+    public List<ProductMapping> nextList(Long lastProductNo, String category, int productSize, String filter, List<Long> productNoList) {
+
+        Optional<Product> maybeProduct = productRepository.findById(lastProductNo);
+        Product product = maybeProduct.get();
+
+        Long reviewCnt = reviewRepository.countReviewsOnSpecificProduct(lastProductNo);
+        Double starRating = reviewRepository.findAverageStarRatingOnSpecificProduct(lastProductNo);
+
+        Slice<ProductMapping> productsSlice = switch (filter) {
+
+            case "최신순" -> productRepository.findNextProductsByCategory(lastProductNo, category, Pageable.ofSize(productSize));
+            case "인기순" -> productRepository.findNextProductsByViewCnt(product.getProductInfo().getViewCnt(), productNoList, category, Pageable.ofSize(productSize));
+            case "후기순" -> productRepository.findNextProductsByReviewCnt(reviewCnt, productNoList, category, Pageable.ofSize(productSize));
+            case "평점순" -> productRepository.findNextProductsByHighRating(starRating, productNoList, category, Pageable.ofSize(productSize));
+            case "높은가격순" -> productRepository.findNextProductsByHighPrice(product.getPrice(), productNoList, category, Pageable.ofSize(productSize));
+            case "낮은가격순" -> productRepository.findNextProductsByLowPrice(product.getPrice(), productNoList, category, Pageable.ofSize(productSize));
+            default -> null;
+
+        };
         List<ProductMapping> products = productsSlice.getContent();
         return products;
     }
@@ -157,6 +184,12 @@ public class ProductServiceImpl implements ProductService {
         if (maybeProduct.equals(Optional.empty())) {
             return null;
         }
+
+        Product product = maybeProduct.get();
+        ProductInfo productInfo = product.getProductInfo();
+        int cnt = 1;
+        productInfo.setViewCnt(productInfo.getViewCnt() + cnt);
+        productInfoRepository.save(productInfo);
 
         return maybeProduct.get();
     }

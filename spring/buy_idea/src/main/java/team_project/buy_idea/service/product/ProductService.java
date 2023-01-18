@@ -13,8 +13,8 @@ import java.util.List;
 
 public interface ProductService {
     public void register(ProductRequest productRequest, List<MultipartFile> files);
-    public List<ProductMapping> list(String category, int productSize);
-    public List<ProductMapping> nextList(Long lastProductNo, String category, int productSize);
+    public List<ProductMapping> list(String category, int productSize, String filter);
+    public List<ProductMapping> nextList(Long lastProductNo, String category, int productSize, String filter, List<Long> productNoList);
     public ProductImageMapping thumbnailImage(Long productNo);
     public Product read(Long productNo);
     public List<ProductImageMapping> imageList(Long productNo);

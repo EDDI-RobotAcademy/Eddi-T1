@@ -37,27 +37,31 @@ public class ProductController {
     @GetMapping("/list")
     public List<ProductMapping> productList(
             @RequestParam("category") String category,
-            @RequestParam("productSize") int productSize) {
+            @RequestParam("productSize") int productSize,
+            @RequestParam("filter") String filter) {
 
         log.info("productList()");
         log.info("category : " + category);
         log.info("productsNum : " + productSize);
+        log.info("filter: " + filter);
 
-        return productService.list(category, productSize);
+        return productService.list(category, productSize, filter);
     }
 
     @GetMapping("/list/next")
     public List<ProductMapping> nextProductList(
             @RequestParam("productNo") Long productNo,
             @RequestParam("category") String category,
-            @RequestParam("productSize") int productSize) {
+            @RequestParam("productSize") int productSize,
+            @RequestParam("filter") String filter,
+            @RequestParam("productNoList") List<Long> productNoList) {
 
         log.info("nextProductList()");
         log.info("productNo : " + productNo);
         log.info("category : " + category);
         log.info("productSize : " + productSize);
 
-        return productService.nextList(productNo, category, productSize);
+        return productService.nextList(productNo, category, productSize, filter, productNoList);
     }
 
     @GetMapping("/image/thumbnail/{productNo}")
@@ -136,4 +140,7 @@ public class ProductController {
 
         return productService.getProductsBySeller(seller, category, productNo, listSize);
     }
+
+
+    //추가
 }
