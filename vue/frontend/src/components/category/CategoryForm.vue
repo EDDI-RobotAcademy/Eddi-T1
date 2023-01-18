@@ -367,7 +367,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'requestRegisterShoppingBucketProduct'
+      'requestRegisterShoppingBucketProduct',
+      'requestFavoriteProductCheckValue'
     ]),
     getHobbyProductImg(index) {
       return {
@@ -401,52 +402,18 @@ export default {
         await this.requestRegisterShoppingBucketProduct({nickname, productId, productAmountValue})
       }
     },
-    deleteFavoriteProduct(item){
-      for (let i = 0; i < this.favoriteProductList.length; i++) {
-        if (item.productNo === this.favoriteProductList[i].productNo){
-          this.favoriteProductList.splice(i, 1)
-          i--
-        }
-      }
-    },
-    favoriteProductManagement(index, category, item) {
-      if (this.$store.state.signInCheckValue === false){
+    async favoriteProductManagement(index, category, item) {
+      if (this.$store.state.signInCheckValue === false) {
         alert("로그인 후 사용가능합니다.")
-        this.$router.push({name: 'SignInView'})
+        await this.$router.push({name: 'SignInView'})
 
       } else {
         if (category === '취미/특기') {
-          if (this.hobbyFavoriteProductCheck[index].checkValue) {
-            this.$store.state.hobbyFavoriteProductCheck[index].checkValue = false
-
-            this.deleteFavoriteProduct(item)
-
-          } else {
-            this.$store.state.hobbyFavoriteProductCheck[index].checkValue = true
-            this.$store.state.favoriteProductList.push(item)
-          }
-
-        } else if (category === '핸드메이드') {
-          if (this.handmadeFavoriteProductCheck[index].checkValue) {
-            this.$store.state.handmadeFavoriteProductCheck[index].checkValue = false
-
-            this.deleteFavoriteProduct(item)
-
-          } else {
-            this.$store.state.handmadeFavoriteProductCheck[index].checkValue = true
-            this.$store.state.favoriteProductList.push(item)
-          }
-
+          await this.requestFavoriteProductCheckValue({index, category, item})
+        } else if (category == "노하우"){
+          await this.requestFavoriteProductCheckValue({index, category, item})
         } else {
-          if (this.knowhowFavoriteProductCheck[index].checkValue) {
-            this.$store.state.knowhowFavoriteProductCheck[index].checkValue = false
-
-            this.deleteFavoriteProduct(item)
-
-          } else {
-            this.$store.state.knowhowFavoriteProductCheck[index].checkValue = true
-            this.$store.state.favoriteProductList.push(item)
-          }
+          await this.requestFavoriteProductCheckValue({index, category, item})
         }
       }
     }

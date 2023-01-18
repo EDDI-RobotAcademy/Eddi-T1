@@ -33,7 +33,8 @@ import {
     REQUEST_SELLER_INFO_TO_SPRING, REQUEST_SELLER_TOTAL_INFO_FROM_SPRING,
     REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING,
     REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING,
-    REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING
+    REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING,
+    FAVORITE_PRODUCT_CHECK_VALUE
 } from './mutation-types'
 
 import axios from 'axios'
@@ -1025,4 +1026,17 @@ export default {
             })
     },
 
+    /**
+     *  찜한 상품 체크 값 변경 axios
+     *  @param commit
+     *  @param payload
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async requestFavoriteProductCheckValue({ commit }, payload){
+        console.log("requestFavoriteProductCheckValue")
+        const {index, category, item} = payload
+
+        commit(FAVORITE_PRODUCT_CHECK_VALUE, {index, category, item})
+
+    }
 }

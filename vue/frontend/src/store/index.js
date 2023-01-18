@@ -24,7 +24,8 @@ export default new Vuex.Store({
             'myReviewList',
             'hobbyFavoriteProductCheck',
             'knowhowFavoriteProductCheck',
-            'handmadeFavoriteProductCheck'
+            'handmadeFavoriteProductCheck',
+            'favoriteProductList'
         ]
       })
   ],
