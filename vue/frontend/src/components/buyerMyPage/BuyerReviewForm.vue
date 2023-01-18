@@ -290,7 +290,7 @@ export default {
     ...mapActions([
       'requestModifyReviewFromSpring',
       'requestDeleteReviewToSpring',
-      'requestReviewImageFromSpring'
+      // 'requestReviewImageFromSpring'
     ]),
     deleteDialogClose() {
       this.deleteDialog = false
@@ -344,14 +344,14 @@ export default {
       this.reviewIndex = index
     }
   },
-  async mounted() {
-    this.reviewImage.splice(0)
-    for (let i = 0; i < this.myReviewList.length; i++) {
-      let reviewNo = this.myReviewList[i].reviewNo
-
-      await this.requestReviewImageFromSpring(reviewNo)
-    }
-  }
+  // async mounted() {
+  //   this.reviewImage.splice(0)
+  //   for (let i = 0; i < this.myReviewList.length; i++) {
+  //     let reviewNo = this.myReviewList[i].reviewNo
+  //
+  //     await this.requestReviewImageFromSpring(reviewNo)
+  //   }
+  // }
 }
 </script>
 
