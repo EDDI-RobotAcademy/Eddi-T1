@@ -23,28 +23,60 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHandmade" :key="index">
-            <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
-                         style="text-decoration: none; color: black"
-            >
-              <v-hover
-                  v-slot="{ hover }"
-              >
-                <v-card
-                    :elevation="hover ? 16 : 0"
-                    :class="{'on-hover' : hover}"
-                    class="ma-4"
-                    max-width="265"
-                    flat
-                >
-                  <v-img
-                      class="white--text align-end"
-                      height="265px"
-                      :src="getHandmadeProductImg(index).mainPageProductImgListByHandmade"
-                  >
-                  </v-img>
 
-                  <div style="padding: 5px 10px 5px 10px;">
+            <v-hover
+                v-slot="{ hover }"
+            >
+              <v-card
+                  :elevation="hover ? 16 : 0"
+                  :class="{'on-hover' : hover}"
+                  class="ma-4"
+                  max-width="265"
+                  flat
+              >
+                <v-img
+                    class="white--text align-end"
+                    height="265px"
+                    :src="getHandmadeProductImg(index).mainPageProductImgListByHandmade"
+                >
+                  <v-expand-transition>
+                    <div v-if="hover"
+                         align="center"
+                         class="transition-fast-in-fast-out darken-2 v-card--reveal"
+                         style="height: 40px; background-color: rgba(255, 255, 255, 0.6)"
+                    >
+                      <!-- 장바구니 -->
+                      <v-btn
+                          class="cartIconColor"
+                          icon
+                          align="end"
+                          @click="addShoppingBucketProduct(item)"
+                      >
+                        <v-icon size="30px">
+                          mdi-cart-outline
+                        </v-icon>
+                      </v-btn>
+
+                      <!-- 찜 -->
+                      <v-btn
+                          class="iconColor"
+                          icon
+                          align="end"
+                          @click="favoriteProductManagement(index, '핸드메이드', item)"
+                      >
+                        <v-icon size="30px" v-if="!handmadeFavoriteProductCheck[index].checkValue">
+                          mdi-heart-outline
+                        </v-icon>
+                        <v-icon v-else size="30px" style="color: indianred">
+                          mdi-heart
+                        </v-icon>
+                      </v-btn>
+                    </div>
+                  </v-expand-transition>
+                </v-img>
+
+                <div style="padding: 5px 10px 5px 10px;">
+                  <v-layout>
                     <v-rating
                         color="#DAA520"
                         background-color="#DAA520"
@@ -58,13 +90,20 @@
                         readonly
                     >
                     </v-rating>
-                  </div>
+                    <h5 style="margin-top: 4px;">({{ handmadeReviewCnt[index] }} 개)</h5>
+                  </v-layout>
+
+                </div>
+                <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
+                             style="text-decoration: none; color: black"
+                >
                   <div style="padding: 10px 10px 10px 10px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
-                </v-card>
-              </v-hover>
-            </router-link>
+                </router-link>
+              </v-card>
+            </v-hover>
           </div>
 
         </v-row>
@@ -97,29 +136,59 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByKnowHow" :key="index">
-            <router-link
-                :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString(), checkValue: true} }"
-                         style="text-decoration: none; color: black"
+            <v-hover
+                v-slot="{ hover }"
             >
-              <v-hover
-                  v-slot="{ hover }"
+              <v-card
+                  :elevation="hover ? 16 : 0"
+                  :class="{'on-hover' : hover}"
+                  class="ma-4"
+                  max-width="265"
+                  flat
               >
-                <v-card
-                    :elevation="hover ? 16 : 0"
-                    :class="{'on-hover' : hover}"
-                    class="ma-4"
-                    max-width="265"
-                    flat
+                <v-img
+                    class="white--text align-end"
+                    height="265px"
+                    :src="getKnowhowProductImg(index).mainPageProductImgListByKnowHOw"
                 >
-                  <v-img
-                      class="white--text align-end"
-                      height="265px"
-                      :src="getKnowhowProductImg(index).mainPageProductImgListByKnowHOw"
-                  >
-                  </v-img>
+                  <v-expand-transition>
+                    <div v-if="hover"
+                         align="center"
+                         class="transition-fast-in-fast-out darken-2 v-card--reveal"
+                         style="height: 40px; background-color: rgba(255, 255, 255, 0.6)"
+                    >
+                      <!-- 장바구니 -->
+                      <v-btn
+                          class="cartIconColor"
+                          icon
+                          align="end"
+                          @click="addShoppingBucketProduct(item)"
+                      >
+                        <v-icon size="30px">
+                          mdi-cart-outline
+                        </v-icon>
+                      </v-btn>
 
-                  <div style="padding: 5px 10px 5px 10px;">
+                      <!-- 찜 -->
+                      <v-btn
+                          class="iconColor"
+                          icon
+                          align="end"
+                          @click="favoriteProductManagement(index, '노하우', item)"
+                      >
+                        <v-icon size="30px" v-if="!knowhowFavoriteProductCheck[index].checkValue">
+                          mdi-heart-outline
+                        </v-icon>
+                        <v-icon v-else size="30px" style="color: indianred">
+                          mdi-heart
+                        </v-icon>
+                      </v-btn>
+                    </div>
+                  </v-expand-transition>
+                </v-img>
+
+                <div style="padding: 5px 10px 5px 10px;">
+                  <v-layout>
                     <v-rating
                         color="#DAA520"
                         background-color="#DAA520"
@@ -133,14 +202,24 @@
                         readonly
                     >
                     </v-rating>
-                  </div>
+                    <h5 style="margin-top: 4px;">({{ knowhowReviewCnt[index] }} 개)</h5>
+                  </v-layout>
+
+                </div>
+
+                <router-link
+                    :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString(), checkValue: true} }"
+                    style="text-decoration: none; color: black"
+                >
                   <div style="padding: 5px 10px 10px 10px; height: 60px;">
+
                     <h4>{{ item.title }}</h4>
                   </div>
-                </v-card>
-              </v-hover>
+                </router-link>
+              </v-card>
+            </v-hover>
 
-            </router-link>
           </div>
         </v-row>
       </v-layout>
@@ -171,27 +250,60 @@
       <v-layout>
         <v-row class="justify-center">
           <div v-for="(item, index) in mainPageProductListByHobby" :key="index">
-            <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
-                         style="text-decoration: none; color: black"
+
+            <v-hover
+                v-slot="{ hover } "
             >
-              <v-hover
-                  v-slot="{ hover } "
+              <v-card
+                  :elevation="hover ? 16 : 0"
+                  :class="{'on-hover' : hover}"
+                  class="ma-4"
+                  max-width="265"
+                  flat
               >
-                <v-card
-                    :elevation="hover ? 16 : 0"
-                    :class="{'on-hover' : hover}"
-                    class="ma-4"
-                    max-width="265"
-                    flat
+                <v-img
+                    class="white--text align-end"
+                    height="265px"
+                    :src="getHobbyProductImg(index).mainPageProductImgListByHobby"
                 >
-                  <v-img
-                      class="white--text align-end"
-                      height="265px"
-                      :src="getHobbyProductImg(index).mainPageProductImgListByHobby"
-                  >
-                  </v-img>
-                  <div style="padding: 5px 10px 5px 10px;">
+
+                  <v-expand-transition>
+                    <div v-if="hover"
+                         align="center"
+                         class="transition-fast-in-fast-out darken-2 v-card--reveal"
+                         style="height: 40px; background-color: rgba(255, 255, 255, 0.6)"
+                    >
+                      <!-- 장바구니 -->
+                      <v-btn
+                          class="cartIconColor"
+                          icon
+                          align="end"
+                          @click="addShoppingBucketProduct(item)"
+                      >
+                        <v-icon size="30px">
+                          mdi-cart-outline
+                        </v-icon>
+                      </v-btn>
+
+                      <!-- 찜 -->
+                      <v-btn
+                          class="iconColor"
+                          icon
+                          align="end"
+                          @click="favoriteProductManagement(index, '취미/특기', item)"
+                      >
+                        <v-icon size="30px" v-if="!hobbyFavoriteProductCheck[index].checkValue">
+                          mdi-heart-outline
+                        </v-icon>
+                        <v-icon v-else size="30px" style="color: indianred">
+                          mdi-heart
+                        </v-icon>
+                      </v-btn>
+                    </div>
+                  </v-expand-transition>
+                </v-img>
+                <div style="padding: 5px 10px 5px 10px;">
+                  <v-layout>
                     <v-rating
                         color="#DAA520"
                         background-color="#DAA520"
@@ -205,13 +317,21 @@
                         readonly
                     >
                     </v-rating>
-                  </div>
+                    <h5 style="margin-top: 4px;">({{ hobbyReviewCnt[index] }} 개)</h5>
+                  </v-layout>
+
+                </div>
+
+                <router-link :to="{ name: 'ProductReadView',
+                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
+                             style="text-decoration: none; color: black"
+                >
                   <div style="padding: 5px 10px 10px 10px; height: 60px;">
                     <h4>{{ item.title }}</h4>
                   </div>
-                </v-card>
-              </v-hover>
-            </router-link>
+                </router-link>
+              </v-card>
+            </v-hover>
           </div>
 
         </v-row>
@@ -221,7 +341,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "CategoryForm",
@@ -235,10 +355,21 @@ export default {
       'mainPageProductImgListByHandmade',
       'handmadeProductRatingValue',
       'knowhowProductRatingValue',
-      'hobbyProductRatingValue'
+      'hobbyProductRatingValue',
+      'handmadeReviewCnt',
+      'knowhowReviewCnt',
+      'hobbyReviewCnt',
+      'hobbyFavoriteProductCheck',
+      'handmadeFavoriteProductCheck',
+      'knowhowFavoriteProductCheck',
+      'favoriteProductList'
     ]),
   },
   methods: {
+    ...mapActions([
+      'requestRegisterShoppingBucketProduct',
+      'requestFavoriteProductCheckValue'
+    ]),
     getHobbyProductImg(index) {
       return {
         ...this.mainPageProductImgListByHobby,
@@ -257,6 +388,35 @@ export default {
         mainPageProductImgListByHandmade: this.mainPageProductImgListByHandmade[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHandmade[index]}`)
       }
     },
+
+    async addShoppingBucketProduct(item) {
+      if (this.$store.state.signInCheckValue === false) {
+        alert("로그인 후 사용가능합니다.")
+        await this.$router.push({name: 'SignInView'})
+
+      } else {
+        const productId = item.productNo
+        const nickname = this.$store.state.memberInfoAfterSignIn.nickname
+        const productAmountValue = 1
+
+        await this.requestRegisterShoppingBucketProduct({nickname, productId, productAmountValue})
+      }
+    },
+    async favoriteProductManagement(index, category, item) {
+      if (this.$store.state.signInCheckValue === false) {
+        alert("로그인 후 사용가능합니다.")
+        await this.$router.push({name: 'SignInView'})
+
+      } else {
+        if (category === '취미/특기') {
+          await this.requestFavoriteProductCheckValue({index, category, item})
+        } else if (category == "노하우"){
+          await this.requestFavoriteProductCheckValue({index, category, item})
+        } else {
+          await this.requestFavoriteProductCheckValue({index, category, item})
+        }
+      }
+    }
   },
   filters: {
     comma(val) {
@@ -267,5 +427,21 @@ export default {
 </script>
 
 <style scoped>
+.iconColor {
+  margin: 0px 3px 3px 0px;
+}
 
+.iconColor:hover {
+  margin: 0px 3px 3px 0px;
+  color: red;
+}
+
+.cartIconColor {
+  margin: 0px 3px 3px 0px;
+}
+
+.cartIconColor:hover {
+  margin: 0px 3px 3px 0px;
+  color: #2F4F4F;
+}
 </style>

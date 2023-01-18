@@ -35,6 +35,10 @@ import {
     REQUEST_REVIEW_WRITE_CHECK_FROM_SPRING,
     REQUEST_SELLER_INFO_TO_SPRING,
     REQUEST_SELLER_TOTAL_INFO_FROM_SPRING,
+    REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING,
+    REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING,
+    REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING,
+    FAVORITE_PRODUCT_CHECK_VALUE
 
 
 } from './mutation-types'
@@ -148,5 +152,61 @@ export default {
     },
     [REQUEST_SELLER_TOTAL_INFO_FROM_SPRING](state, passingData) {
         state.sellerTotalInfo = passingData
-    }
+    },
+    [REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING](state, passingData){
+        state.handmadeReviewCnt.push(passingData)
+    },
+    [REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING](state, passingData){
+        state.knowhowReviewCnt.push(passingData)
+    },
+    [REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING](state, passingData){
+        state.hobbyReviewCnt.push(passingData)
+    },
+    [FAVORITE_PRODUCT_CHECK_VALUE](state, passingData){
+        console.log(state)
+        console.log(passingData.category)
+        if (passingData.category === '취미/특기'){
+            if (state.hobbyFavoriteProductCheck[passingData.index].checkValue){
+                state.hobbyFavoriteProductCheck[passingData.index].checkValue = false
+
+                for (let i = 0; i < state.favoriteProductList.length; i++) {
+                    if (passingData.productNo === state.favoriteProductList[i].productNo) {
+                        state.favoriteProductList.splice(i, 1)
+                        i--
+                    }
+                }
+            } else {
+                state.hobbyFavoriteProductCheck[passingData.index].checkValue = true
+                state.favoriteProductList.push(passingData.item)
+            }
+        } else if (passingData.category === '노하우'){
+            if (state.knowhowFavoriteProductCheck[passingData.index].checkValue){
+                state.knowhowFavoriteProductCheck[passingData.index].checkValue = false
+
+                for (let i = 0; i < state.favoriteProductList.length; i++) {
+                    if (passingData.productNo === state.favoriteProductList[i].productNo) {
+                        state.favoriteProductList.splice(i, 1)
+                        i--
+                    }
+                }
+            } else {
+                state.knowhowFavoriteProductCheck[passingData.index].checkValue = true
+                state.favoriteProductList.push(passingData.item)
+            }
+        } else {
+            if (state.handmadeFavoriteProductCheck[passingData.index].checkValue){
+                state.handmadeFavoriteProductCheck[passingData.index].checkValue = false
+
+                for (let i = 0; i < state.favoriteProductList.length; i++) {
+                    if (passingData.productNo === state.favoriteProductList[i].productNo) {
+                        state.favoriteProductList.splice(i, 1)
+                        i--
+                    }
+                }
+            } else {
+                state.handmadeFavoriteProductCheck[passingData.index].checkValue = true
+                state.favoriteProductList.push(passingData.item)
+            }
+        }
+    },
 }
