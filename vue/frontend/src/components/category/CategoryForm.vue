@@ -410,38 +410,43 @@ export default {
       }
     },
     favoriteProductManagement(index, category, item) {
-
-      if (category === '취미/특기') {
-        if (this.hobbyFavoriteProductCheck[index].checkValue) {
-          this.$store.state.hobbyFavoriteProductCheck[index].checkValue = false
-
-          this.deleteFavoriteProduct(item)
-
-        } else {
-          this.$store.state.hobbyFavoriteProductCheck[index].checkValue = true
-          this.$store.state.favoriteProductList.push(item)
-        }
-
-      } else if (category === '핸드메이드') {
-        if (this.handmadeFavoriteProductCheck[index].checkValue) {
-          this.$store.state.handmadeFavoriteProductCheck[index].checkValue = false
-
-          this.deleteFavoriteProduct(item)
-
-        } else {
-          this.$store.state.handmadeFavoriteProductCheck[index].checkValue = true
-          this.$store.state.favoriteProductList.push(item)
-        }
+      if (this.$store.state.signInCheckValue === false){
+        alert("로그인 후 사용가능합니다.")
+        this.$router.push({name: 'SignInView'})
 
       } else {
-        if (this.knowhowFavoriteProductCheck[index].checkValue) {
-          this.$store.state.knowhowFavoriteProductCheck[index].checkValue = false
+        if (category === '취미/특기') {
+          if (this.hobbyFavoriteProductCheck[index].checkValue) {
+            this.$store.state.hobbyFavoriteProductCheck[index].checkValue = false
 
-          this.deleteFavoriteProduct(item)
+            this.deleteFavoriteProduct(item)
+
+          } else {
+            this.$store.state.hobbyFavoriteProductCheck[index].checkValue = true
+            this.$store.state.favoriteProductList.push(item)
+          }
+
+        } else if (category === '핸드메이드') {
+          if (this.handmadeFavoriteProductCheck[index].checkValue) {
+            this.$store.state.handmadeFavoriteProductCheck[index].checkValue = false
+
+            this.deleteFavoriteProduct(item)
+
+          } else {
+            this.$store.state.handmadeFavoriteProductCheck[index].checkValue = true
+            this.$store.state.favoriteProductList.push(item)
+          }
 
         } else {
-          this.$store.state.knowhowFavoriteProductCheck[index].checkValue = true
-          this.$store.state.favoriteProductList.push(item)
+          if (this.knowhowFavoriteProductCheck[index].checkValue) {
+            this.$store.state.knowhowFavoriteProductCheck[index].checkValue = false
+
+            this.deleteFavoriteProduct(item)
+
+          } else {
+            this.$store.state.knowhowFavoriteProductCheck[index].checkValue = true
+            this.$store.state.favoriteProductList.push(item)
+          }
         }
       }
     }
