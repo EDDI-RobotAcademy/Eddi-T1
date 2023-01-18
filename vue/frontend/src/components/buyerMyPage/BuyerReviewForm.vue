@@ -8,12 +8,12 @@
       <v-container style="width: 1200px"
                    v-if="!myReviewList || (Array.isArray(myReviewList) && myReviewList.length === 0)">
         <div align="center">
-          <h2>작성한 리뷰가 없습니다.</h2>
+          <h2>작성된 후기가 없습니다.</h2>
         </div>
       </v-container>
 
       <v-container style="width: 1000px" v-else>
-        <h2 style="margin-bottom: 50px;">마이 리뷰</h2>
+        <h2 style="margin-bottom: 50px;">나의 후기</h2>
         <div class="reviewView"
              v-for="(review, index) in myReviewList" :key="index">
           <v-card style="width: 1000px; margin: 15px 0px 30px 0px;" flat>
@@ -43,7 +43,7 @@
 
                   <v-card height="780px">
                     <v-layout style="margin-left: 35px;">
-                      <h3 style="padding: 20px 10px 10px 10px">리뷰 수정</h3>
+                      <h3 style="padding: 20px 10px 10px 10px">후기 수정</h3>
                       <v-spacer></v-spacer>
                     </v-layout>
 
@@ -184,7 +184,7 @@
                   </template>
                   <v-card style="height: 170px">
                     <div align="center">
-                      <h2 style="padding-top: 30px;">리뷰를 삭제하시겠습니까?</h2>
+                      <h2 style="padding-top: 30px;">후기를 삭제하시겠습니까?</h2>
                     </div>
                     <div align="center">
                       <v-btn @click="deleteReview()"
