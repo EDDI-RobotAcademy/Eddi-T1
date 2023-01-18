@@ -76,7 +76,7 @@ export default {
           icon: "mdi-account",
           route: "/buyer-info"},
         {
-          title: "최근 주문내역",
+          title: "최근 주문 정보",
           icon: "mdi-currency-usd",
           route: "/buyer-orderInfo"},
         {
@@ -84,7 +84,7 @@ export default {
           icon: "mdi-comment-question",
           route: "/buyer-qna"},
         {
-          title: "마이 리뷰",
+          title: "나의 후기",
           icon: "mdi-star",
           route: "/buyer-review"},
         {
