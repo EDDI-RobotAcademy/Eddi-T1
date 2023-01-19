@@ -5,15 +5,24 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SpringProductApi {
-  static const String httpUri = '192.168.0.8:8888';
+  static const String httpUri = '192.168.0.12:8888';
   static var SearchProductResponse;
 
   Future<List<RequestProductThumbnailInfo>> firstProductList(
-      String category, int productSize) async {
-    var response = await http.get(
-      Uri.http(httpUri, '/product/list',
-          {'category': category, 'productSize': productSize.toString()}),
+      String category, int productSize, String viewMode) async {
+
+    var body = {
+      'category' : category,
+      'productSize' : productSize,
+      'filter' : viewMode
+    };
+
+    var jsonBody = json.encode(body);
+
+    var response = await http.post(
+      Uri.http(httpUri, '/product/list'),
       headers: {"Content-Type": "application/json"},
+      body: jsonBody
     );
 
     if (response.statusCode == 200) {
@@ -33,14 +42,22 @@ class SpringProductApi {
   }
 
   Future<List<RequestProductThumbnailInfo>> nextProductList(
-      int productNo, String category, int productSize) async {
-    var response = await http.get(
-      Uri.http(httpUri, '/product/list/next', {
-        'productNo': productNo.toString(),
-        'category': category,
-        'productSize': productSize.toString()
-      }),
+      int productNo, String category, int productSize, String viewMode, List<int> productNoList) async {
+
+    var body = {
+      'productNo' : productNo,
+      'category' : category,
+      'productSize' : productSize,
+      'filter' : viewMode,
+      'productNoList' : productNoList
+    };
+
+    var jsonBody = json.encode(body);
+
+    var response = await http.post(
+      Uri.http(httpUri, '/product/list/next'),
       headers: {"Content-Type": "application/json"},
+      body: jsonBody
     );
 
     if (response.statusCode == 200) {
@@ -192,6 +209,7 @@ class RequestProduct {
   String infoNotice;
   int deliveryFee;
   int stock;
+  int viewCnt;
   String regDate;
   String updDate;
 
@@ -206,6 +224,7 @@ class RequestProduct {
       required this.infoNotice,
       required this.deliveryFee,
       required this.stock,
+      required this.viewCnt,
       required this.regDate,
       required this.updDate});
 
@@ -221,6 +240,7 @@ class RequestProduct {
         infoNotice: json['productInfo']['infoNotice'],
         deliveryFee: json['productInfo']['deliveryFee'],
         stock: json['productInfo']['stock'],
+        viewCnt: json['productInfo']['viewCnt'],
         regDate: json['productInfo']['regDate'],
         updDate: json['productInfo']['updDate']);
   }
