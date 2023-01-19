@@ -124,7 +124,12 @@ export default {
       await this.requestFavoriteProductInfoToSpring(productNo)
       await this.requestProductRatingValueToSpring({productNo, category})
     }
-  }
+  },
+  filters: {
+    comma(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  },
 }
 </script>
 
