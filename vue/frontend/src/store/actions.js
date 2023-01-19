@@ -1031,9 +1031,9 @@ export default {
      */
     async requestFavoriteProductCheckValue({ commit }, payload){
         console.log("requestFavoriteProductCheckValue")
-        const {index, category, item} = payload
+        const {index, category, item, productNo} = payload
 
-        commit(FAVORITE_PRODUCT_CHECK_VALUE, {index, category, item})
+        commit(FAVORITE_PRODUCT_CHECK_VALUE, {index, category, item, productNo})
 
     }
 }

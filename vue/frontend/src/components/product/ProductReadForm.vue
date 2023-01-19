@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <form @submit.prevent="onSubmit" >
+    <form @submit.prevent="onSubmit">
 
       <div id="content">
 
@@ -16,7 +16,7 @@
                   v-bind="attrs"
                   v-on="on"
               >
-                <v-icon style="color: #2F4F4F" size="50"> mdi-dots-horizontal </v-icon>
+                <v-icon style="color: #2F4F4F" size="50"> mdi-dots-horizontal</v-icon>
               </v-btn>
             </template>
             <v-list class="white" dark>
@@ -30,7 +30,7 @@
                       <v-card-title class="headline">
                         이 상품을 수정하시겠습니까?
                       </v-card-title>
-                      <v-card-text >
+                      <v-card-text>
                         * 새로운 상품 사진 등록이 필요합니다
                       </v-card-text>
                       <v-card-actions>
@@ -57,7 +57,7 @@
                       <v-card-title class="headline">
                         상품을 삭제하시겠습니까?
                       </v-card-title>
-                      <v-card-text >
+                      <v-card-text>
                         * 삭제된 상품은 복구할 수 없습니다
                       </v-card-text>
                       <v-card-actions>
@@ -79,23 +79,23 @@
 
 
         <!--상품사진-->
-      <table>
-        <div class="row">
-          <div class="col-md-5 col-sm-5 col-xs-12">
+        <table>
+          <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-12">
 
-            <div>
-              <v-img contain width="440px" height="380px"
-                     :src="require('@/assets/productImg/' + product.productImages[this.imgIdx].editedName)"></v-img>
-            </div>
+              <div>
+                <v-img contain width="440px" height="380px"
+                       :src="require('@/assets/productImg/' + product.productImages[this.imgIdx].editedName)"></v-img>
+              </div>
 
-            <template>
+              <template>
                 <v-tabs width="400" height="100"
                         show-arrows background-color="transparent"
                         v-model="tab2"
                 >
                   <v-tab @click="selectedImg(index)"
-                      v-for="(item, index) in product.productImages"
-                      :key="index"
+                         v-for="(item, index) in product.productImages"
+                         :key="index"
                   >
 
                     <v-card width="80px" height="80px">
@@ -105,485 +105,507 @@
                     </v-card>
                   </v-tab>
                 </v-tabs>
-            </template>
-          </div>
-
-
-        <div class="col-md-6 col-sm-7 col-xs-12">
-            <div style="margin: 0 0 50px 50px">
-            <div class="pl-6">
-
-              <!--상호프로필이미지-->
-              <h5>
-                <v-avatar
-                  :size="23"
-                  color="grey lighten-4"
-              >
-                <img src="@/assets/default_profile_image.png" alt="avatar">
-              </v-avatar>
-
-                <!--상호명-->
-                {{ product.nickname }}</h5>
-
-              <!--상품명-->
-              <h2 class="display-1 mb-0">{{ product.title }}</h2>
-
-              <!--가격-->
-              <v-card-actions class="pa-0">
-                <p class="headline font-weight-light pt-3"> {{ product.price | comma }}원</p>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-
-              <!--카테고리-->
-              <v-col>
-                <v-row>
-                  <p class="title">CATEGORY</p>
-                  <col class="col-sm-2 mr-3">
-                  <p class="subTitle">{{ product.productInfo.category }}</p>
-                </v-row>
-              </v-col>
-
-              <!--별점-->
-              <v-col>
-                <v-row>
-                  <p class="title">REVIEW</p>
-                  <col class="col-sm-3 mr-0">
-                  <v-rating
-                    :value=" productReadRatingValue "
-                    background-color="orange lighten-3"
-                    color="orange"
-                    small dense hover readonly>
-                  </v-rating>
-
-                  <!--별점 평균 / 후기 수-->
-                  <div v-show="this.$store.state.productReadRatingValue !== 0"
-                       style="font-size: 0.8em; margin-top: 2px; margin-left: 2px">
-                    {{this.$store.state.productReadRatingValue}}
-                    </div>
-                  <div style="font-size: 0.9em;">
-                    &nbsp; ({{ this.$store.state.productReviewCnt }})
-                  </div>
-                </v-row>
-              </v-col>
-
-              <!--배송비-->
-              <v-col>
-                <v-row>
-                  <p class="title">DELIVERYFEE</p>
-                  <col class="col-sm-1 mr-7">
-                  <p class="subTitle">{{ deliveryFee | comma }}원</p>
-                  <p class="subTitle" style="font-size: 0.6em">&nbsp;(5만원 이상 무료배송)</p>
-                </v-row>
-              </v-col>
-
-              <!--개수-->
-              <v-col>
-                <v-row>
-                  <p class="title">ITEMS</p>
-                  <!--재고상태표시-->
-                  <div class="stockInfo">
-                    <span class="green" style="padding: 5px" v-if="product.productInfo.stock > 10"> For Sale </span>
-                    <span class="amber" style="padding: 5px" v-else-if="product.productInfo.stock <= 10 && product.productInfo.stock > 0"> Only Few Left </span>
-                    <span class="grey" style="padding: 5px" v-else>SOLD OUT</span>
-                  </div>
-                  <col class="col-sm-2">
-                  <!--선택한상품개수-->
-                  <v-text-field
-                      class="puple-input"
-                      type="number"
-                      outlined color="grey darken-5"
-                      dense
-                      v-model="quantity"
-                      :rules="[rules.min, rules.max]"
-                  ></v-text-field>
-                </v-row>
-              </v-col>
-
-              <!--총 가격-->
-              <v-col>
-                <v-row>
-                  <p class="title">TOTAL PRICE</p>
-                  <col class="col-sm-2">
-                  <p class="subTitle">{{ totalPrice | comma }}원</p>
-                </v-row>
-              </v-col>
-
+              </template>
             </div>
 
-            <!--장바구니 / 바로구매 버튼-->
-            <v-row>
-              <v-col cols="6" align="center">
-                <v-btn
-                    v-if="$store.state.signInCheckValue==false"
-                    @click.stop="dialog = true"
-                    :disabled="product.productInfo.stock <= 0"
-                    block x-large
-                    class="bt1"
-                    color="#DAA520"
-                    style="color: white" tile
-                >장바구니</v-btn>
 
-                <v-btn
-                    v-if="$store.state.signInCheckValue==true"
-                    @click="registerShoppingBucketProduct(quantity)"
-                    :disabled="product.productInfo.stock <= 0 ||  product.nickname == $store.state.memberInfoAfterSignIn.nickname"
-                    id="custom-disabled"
-                    block x-large
-                    class="bt1"
-                    color="#DAA520"
-                    style="color: white" tile
-                >장바구니</v-btn>
+            <div class="col-md-6 col-sm-7 col-xs-12">
+              <div style="margin: 0 0 50px 50px">
+                <div class="pl-6">
 
-              </v-col>
-              <v-col cols="6" align="center">
+                  <!--상호프로필이미지-->
+                  <h5>
+                    <v-avatar
+                        :size="23"
+                        color="grey lighten-4"
+                    >
+                      <img src="@/assets/default_profile_image.png" alt="avatar">
+                    </v-avatar>
 
-                <v-btn
-                    v-if="$store.state.signInCheckValue==false"
-                    @click.stop="dialog = true"
-                    :disabled="product.productInfo.stock <= 0"
-                    block x-large
-                    class="bt1"
-                    color="#2F4F4F"
-                    style="color: white" tile
-                >바로구매</v-btn>
+                    <!--상호명-->
+                    {{ product.nickname }}
+                  </h5>
 
-                <v-dialog
-                    v-model="dialog"
-                    max-width="400"
-                    max-height="50"
-                >
-                  <v-card>
-                    <v-card-title class="text-h5">
-                      ⚠️&nbsp; 로그인이 필요합니다
-                    </v-card-title>
+                  <!--상품명-->
+                  <h2 class="display-1 mb-0">{{ product.title }}</h2>
 
-                    <v-card-text>
-                      로그인 페이지로 이동하시겠습니까?
-                    </v-card-text>
+                  <!--가격-->
+                  <v-card-actions class="pa-0">
+                    <p class="headline font-weight-light pt-3"> {{ product.price | comma }}원</p>
+                    <v-spacer></v-spacer>
+                  </v-card-actions>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
+                  <!--카테고리-->
+                  <v-col>
+                    <v-row>
+                      <p class="title">CATEGORY</p>
+                      <col class="col-sm-2 mr-3">
+                      <p class="subTitle">{{ product.productInfo.category }}</p>
+                    </v-row>
+                  </v-col>
 
-                      <v-btn
-                          color="#DAA520"
-                          text
-                          style="font-weight: bold"
-                          @click="dialog = false"
-                      >
-                        취소
-                      </v-btn>
+                  <!--별점-->
+                  <v-col>
+                    <v-row>
+                      <p class="title">REVIEW</p>
+                      <col class="col-sm-3 mr-0">
+                      <v-rating
+                          :value=" productReadRatingValue "
+                          background-color="orange lighten-3"
+                          color="orange"
+                          small dense hover readonly>
+                      </v-rating>
 
-                      <v-btn
-                          color="#2F4F4F"
-                          text
-                          style="font-weight: bold"
-                          @click="$router.push('/sign-in')"
-                      >
-                        이동
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
+                      <!--별점 평균 / 후기 수-->
+                      <div v-show="this.$store.state.productReadRatingValue !== 0"
+                           style="font-size: 0.8em; margin-top: 2px; margin-left: 2px">
+                        {{ this.$store.state.productReadRatingValue }}
+                      </div>
+                      <div style="font-size: 0.9em;">
+                        &nbsp; ({{ this.$store.state.productReviewCnt }})
+                      </div>
+                    </v-row>
+                  </v-col>
 
-                <v-btn
-                    v-if="$store.state.signInCheckValue==true"
-                    :disabled="product.productInfo.stock <= 0 || product.nickname == $store.state.memberInfoAfterSignIn.nickname"
-                    id="custom-disabled2"
-                    block x-large
-                    class="bt1"
-                    color="#2F4F4F"
-                    style="color: white" tile
-                    :to="{name: 'OrderForm', params: {product: this.product, productTotalPrice: this.totalPrice, productDeliveryFee: this.deliveryFee, productQuantity: this.quantity , productReadCheckValue:true}}"
-                >바로구매</v-btn>
+                  <!--배송비-->
+                  <v-col>
+                    <v-row>
+                      <p class="title">DELIVERYFEE</p>
+                      <col class="col-sm-1 mr-7">
+                      <p class="subTitle">{{ deliveryFee | comma }}원</p>
+                      <p class="subTitle" style="font-size: 0.6em">&nbsp;(5만원 이상 무료배송)</p>
+                    </v-row>
+                  </v-col>
 
-              </v-col>
-            </v-row>
+                  <!--개수-->
+                  <v-col>
+                    <v-row>
+                      <p class="title">ITEMS</p>
+                      <!--재고상태표시-->
+                      <div class="stockInfo">
+                        <span class="green" style="padding: 5px" v-if="product.productInfo.stock > 10"> For Sale </span>
+                        <span class="amber" style="padding: 5px"
+                              v-else-if="product.productInfo.stock <= 10 && product.productInfo.stock > 0"> Only Few Left </span>
+                        <span class="grey" style="padding: 5px" v-else>SOLD OUT</span>
+                      </div>
+                      <col class="col-sm-2">
+                      <!--선택한상품개수-->
+                      <v-text-field
+                          class="puple-input"
+                          type="number"
+                          outlined color="grey darken-5"
+                          dense
+                          v-model="quantity"
+                          :rules="[rules.min, rules.max]"
+                      ></v-text-field>
+                    </v-row>
+                  </v-col>
+
+                  <!--총 가격-->
+                  <v-col>
+                    <v-row>
+                      <p class="title">TOTAL PRICE</p>
+                      <col class="col-sm-2">
+                      <p class="subTitle">{{ totalPrice | comma }}원</p>
+                    </v-row>
+                  </v-col>
+
+                </div>
+
+                <!--찜 /장바구니 / 바로구매 버튼-->
+                <v-row>
+                  <v-col cols="2" align="center">
+                    <v-btn class="iconColor bt1"
+                           color="#2F4F4F"
+                           height="53px"
+                           width="50px"
+                           elevation="0"
+                           @click="favoriteProductCheckManagement()"
+                    >
+                      <v-icon size="30px"
+                              v-if="!hobbyFavoriteProductCheck[productIndex].checkValue && !knowhowFavoriteProductCheck[productIndex].checkValue && !handmadeFavoriteProductCheck[productIndex].checkValue">
+                        mdi-lightbulb-variant-outline
+                      </v-icon>
+                      <v-icon v-else size="30px" style="color: #DAA520">
+                        mdi-lightbulb-on
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+
+                  <v-col cols="4" align="center">
+                    <v-btn
+                        v-if="$store.state.signInCheckValue==false"
+                        @click.stop="dialog = true"
+                        :disabled="product.productInfo.stock <= 0"
+                        block x-large
+                        class="bt1"
+                        color="#DAA520"
+                        style="color: white" tile
+                    >장바구니
+                    </v-btn>
+
+                    <v-btn
+                        v-if="$store.state.signInCheckValue==true"
+                        @click="registerShoppingBucketProduct(quantity)"
+                        :disabled="product.productInfo.stock <= 0 ||  product.nickname == $store.state.memberInfoAfterSignIn.nickname"
+                        id="custom-disabled"
+                        block x-large
+                        class="bt1"
+                        color="#DAA520"
+                        style="color: white" tile
+                    >장바구니
+                    </v-btn>
+
+                  </v-col>
+                  <v-col cols="4" align="center">
+
+                    <v-btn
+                        v-if="$store.state.signInCheckValue==false"
+                        @click.stop="dialog = true"
+                        :disabled="product.productInfo.stock <= 0"
+                        block x-large
+                        class="bt1"
+                        color="#2F4F4F"
+                        style="color: white" tile
+                    >바로구매
+                    </v-btn>
+
+                    <v-dialog
+                        v-model="dialog"
+                        max-width="400"
+                        max-height="50"
+                    >
+                      <v-card>
+                        <v-card-title class="text-h5">
+                          ⚠️&nbsp; 로그인이 필요합니다
+                        </v-card-title>
+
+                        <v-card-text>
+                          로그인 페이지로 이동하시겠습니까?
+                        </v-card-text>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+
+                          <v-btn
+                              color="#DAA520"
+                              text
+                              style="font-weight: bold"
+                              @click="dialog = false"
+                          >
+                            취소
+                          </v-btn>
+
+                          <v-btn
+                              color="#2F4F4F"
+                              text
+                              style="font-weight: bold"
+                              @click="$router.push('/sign-in')"
+                          >
+                            이동
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+
+                    <v-btn
+                        v-if="$store.state.signInCheckValue==true"
+                        :disabled="product.productInfo.stock <= 0 || product.nickname == $store.state.memberInfoAfterSignIn.nickname"
+                        id="custom-disabled2"
+                        block x-large
+                        class="bt1"
+                        color="#2F4F4F"
+                        style="color: white" tile
+                        :to="{name: 'OrderForm', params: {product: this.product, productTotalPrice: this.totalPrice, productDeliveryFee: this.deliveryFee, productQuantity: this.quantity , productReadCheckValue:true}}"
+                    >바로구매
+                    </v-btn>
+
+                  </v-col>
+                </v-row>
+
+              </div>
+            </div>
 
           </div>
-        </div>
 
-      </div>
+          <!--상품 관련 TAP-->
+          <!--상품 상세설명 / 정보 제공 / 구매후기 / 문의-->
+          <div class="detail">
+            <v-tabs
+                v-model="tab"
+                color="#2F4F4F"
+                grow>
 
-        <!--상품 관련 TAP-->
-        <!--상품 상세설명 / 정보 제공 / 구매후기 / 문의-->
-        <div class="detail">
-          <v-tabs
-              v-model="tab"
-              color="#2F4F4F"
-              grow>
+              <v-tab v-for="item in items" :key="item.tab">
+                {{ item.tab }}
+              </v-tab>
+            </v-tabs>
 
-            <v-tab v-for="item in items" :key="item.tab">
-              {{ item.tab }}
-            </v-tab>
-          </v-tabs>
+            <v-tabs-items v-model="tab">
 
-          <v-tabs-items v-model="tab">
+              <v-tab-item>
 
-            <v-tab-item>
+                <v-card flat>
+                  <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                    <v-icon size="30" color="#2F4F4F">mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                    상품 상세 설명
+                  </v-card-title>
+                  <v-card-text class="mt-5">
+                    <v-textarea
+                        solo
+                        flat
+                        auto-grow
+                        no-resize
+                        readonly
+                        color="white"
+                        :value="product.productInfo.content"
+                    ></v-textarea>
+                  </v-card-text>
+                </v-card>
 
-              <v-card flat>
-                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
-                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
-                  상품 상세 설명
-                </v-card-title>
-                <v-card-text class="mt-5">
-                  <v-textarea
-                      solo
-                      flat
-                      auto-grow
-                      no-resize
-                      readonly
-                      color="white"
-                      :value="product.productInfo.content"
-                  ></v-textarea>
-                </v-card-text>
-              </v-card>
-
-            </v-tab-item>
+              </v-tab-item>
 
 
-            <v-tab-item>
+              <v-tab-item>
 
-              <v-card flat height="800px">
-                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
-                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
-                  상품 정보 제공 고시
-                </v-card-title>
-                <v-card-text
-                    class="mt-5"
-                    style="font-weight: bold">
-                  {{ product.productInfo.infoNotice }}
-                </v-card-text>
-              </v-card>
+                <v-card flat height="800px">
+                  <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                    <v-icon size="30" color="#2F4F4F">mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                    상품 정보 제공 고시
+                  </v-card-title>
+                  <v-card-text
+                      class="mt-5"
+                      style="font-weight: bold">
+                    {{ product.productInfo.infoNotice }}
+                  </v-card-text>
+                </v-card>
 
-            </v-tab-item>
+              </v-tab-item>
 
-            <v-tab-item>
-              <v-card flat height="auto">
-                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
-                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
-                  상품 후기
-                </v-card-title>
-                <v-card-text>상품에 대한 후기를 보는 공간입니다. <br/>
-                  구매한 상품의 <strong>후기는 마이페이지의 최근 주문내역에서 작성</strong> 가능합니다. <br/>
-                  후기 작성은 배송완료 시점부터 가능합니다. <br/>
-                  <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
-                </v-card-text>
-                <hr color="#DAA520" width="100%">
+              <v-tab-item>
+                <v-card flat height="auto">
+                  <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                    <v-icon size="30" color="#2F4F4F">mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                    상품 후기
+                  </v-card-title>
+                  <v-card-text>상품에 대한 후기를 보는 공간입니다. <br/>
+                    구매한 상품의 <strong>후기는 마이페이지의 최근 주문내역에서 작성</strong> 가능합니다. <br/>
+                    후기 작성은 배송완료 시점부터 가능합니다. <br/>
+                    <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
+                  </v-card-text>
+                  <hr color="#DAA520" width="100%">
 
-                <!--리뷰 리스트-->
-                <review-view :productNo="productNo"/>
+                  <!--리뷰 리스트-->
+                  <review-view :productNo="productNo"/>
 
-              </v-card>
-            </v-tab-item>
+                </v-card>
+              </v-tab-item>
 
-            <v-tab-item>
-              <v-card flat height="auto">
-                <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
-                  <v-icon size="30" color="#2F4F4F" >mdi-bullhorn-variant-outline</v-icon>&nbsp;
-                  상품 문의
-                  <v-spacer></v-spacer>
-
-
-
-                  <v-btn
-                      v-if="product.nickname == $store.state.memberInfoAfterSignIn.nickname"
-                      @click.stop="sellerDialog = true"
-                      large
-                      dense
-                      outlined
-                      v-bind="attrs"
-                      v-on="on"
-                      width="140px"
-                      elevation="0"
-                      style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
-                  >
-                    문의하기
-                  </v-btn>
-
-                  <v-dialog
-                      v-model="sellerDialog"
-                      max-width="400px"
-                  >
-                    <v-card>
-                      <v-card-title class="text-h12 justify-center" style="color: #DAA520;">
-                        ⚠ Error !
-                      </v-card-title>
-                      <v-card-text class="text-center" style="color: black">
-                        판매자 회원은 문의를 등록할 수 없습니다 !
-                      </v-card-text>
-
-                    </v-card>
-                  </v-dialog>
+              <v-tab-item>
+                <v-card flat height="auto">
+                  <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
+                    <v-icon size="30" color="#2F4F4F">mdi-bullhorn-variant-outline</v-icon>&nbsp;
+                    상품 문의
+                    <v-spacer></v-spacer>
 
 
+                    <v-btn
+                        v-if="product.nickname == $store.state.memberInfoAfterSignIn.nickname"
+                        @click.stop="sellerDialog = true"
+                        large
+                        dense
+                        outlined
+                        v-bind="attrs"
+                        v-on="on"
+                        width="140px"
+                        elevation="0"
+                        style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
+                    >
+                      문의하기
+                    </v-btn>
 
-                  <!--로그인하지 않은 사용자 로그인 알림창-->
-                  <v-dialog
-                      v-if="$store.state.signInCheckValue==false"
-                      v-model="loginDialog"
-                      max-width="400"
-                      max-height="50"
-                  >
-                    <template v-slot:activator="{on, attrs}">
-                      <v-btn
-                          v-if="$store.state.signInCheckValue==false"
-                          @click="loginAlert()"
-                          large
-                          dense
-                          outlined
-                          v-bind="attrs"
-                          v-on="on"
-                          width="140px"
-                          elevation="0"
-                          style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
-                      >
-                        문의하기
-                      </v-btn>
-                    </template>
-                    <v-card>
+                    <v-dialog
+                        v-model="sellerDialog"
+                        max-width="400px"
+                    >
+                      <v-card>
+                        <v-card-title class="text-h12 justify-center" style="color: #DAA520;">
+                          ⚠ Error !
+                        </v-card-title>
+                        <v-card-text class="text-center" style="color: black">
+                          판매자 회원은 문의를 등록할 수 없습니다 !
+                        </v-card-text>
 
-                      <v-card-title class="text-h5">
-                        ⚠️&nbsp; 로그인이 필요합니다
-                      </v-card-title>
+                      </v-card>
+                    </v-dialog>
 
-                      <v-card-text>
-                        로그인 페이지로 이동하시겠습니까?
-                      </v-card-text>
 
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-
+                    <!--로그인하지 않은 사용자 로그인 알림창-->
+                    <v-dialog
+                        v-if="$store.state.signInCheckValue==false"
+                        v-model="loginDialog"
+                        max-width="400"
+                        max-height="50"
+                    >
+                      <template v-slot:activator="{on, attrs}">
                         <v-btn
-                            color="#DAA520"
-                            text
-                            style="font-weight: bold"
-                            @click="loginDialog = false"
+                            v-if="$store.state.signInCheckValue==false"
+                            @click="loginAlert()"
+                            large
+                            dense
+                            outlined
+                            v-bind="attrs"
+                            v-on="on"
+                            width="140px"
+                            elevation="0"
+                            style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
                         >
-                          취소
+                          문의하기
                         </v-btn>
+                      </template>
+                      <v-card>
 
+                        <v-card-title class="text-h5">
+                          ⚠️&nbsp; 로그인이 필요합니다
+                        </v-card-title>
+
+                        <v-card-text>
+                          로그인 페이지로 이동하시겠습니까?
+                        </v-card-text>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+
+                          <v-btn
+                              color="#DAA520"
+                              text
+                              style="font-weight: bold"
+                              @click="loginDialog = false"
+                          >
+                            취소
+                          </v-btn>
+
+                          <v-btn
+                              color="#2F4F4F"
+                              text
+                              style="font-weight: bold"
+                              @click="$router.push('/sign-in')"
+                          >
+                            이동
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+
+                    <!--문의하기 버튼 / 문의 등록 dialog-->
+                    <v-dialog
+                        v-if="$store.state.signInCheckValue==true && product.nickname !== $store.state.memberInfoAfterSignIn.nickname"
+                        v-model="dialogQna"
+                        @click:outside="fn_cancel2"
+                        persistent
+                        max-width="568px"
+                        :retain-focus="false"
+                    >
+                      <template v-slot:activator="{on, attrs}">
                         <v-btn
-                            color="#2F4F4F"
-                            text
-                            style="font-weight: bold"
-                            @click="$router.push('/sign-in')"
+                            large
+                            dense
+                            outlined
+                            v-bind="attrs"
+                            v-on="on"
+                            width="140px"
+                            elevation="0"
+                            style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
                         >
-                          이동
+                          문의하기
                         </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
+                      </template>
+                      <v-card height="auto">
+                        <v-layout style="margin-left: 35px">
+                          <h3 style="padding: 20px 10px 10px 10px">문의 작성</h3>
+                          <v-spacer></v-spacer>
+                        </v-layout>
 
-                  <!--문의하기 버튼 / 문의 등록 dialog-->
-                  <v-dialog
-                      v-if="$store.state.signInCheckValue==true && product.nickname !== $store.state.memberInfoAfterSignIn.nickname"
-                      v-model="dialogQna"
-                      @click:outside="fn_cancel2"
-                      persistent
-                      max-width="568px"
-                      :retain-focus="false"
-                  >
-                    <template v-slot:activator="{on, attrs}">
-                      <v-btn
-                          large
-                          dense
-                          outlined
-                          v-bind="attrs"
-                          v-on="on"
-                          width="140px"
-                          elevation="0"
-                          style="color: #2F4F4F; margin-top: 10px; margin-right: 10px;"
-                      >
-                        문의하기
-                      </v-btn>
-                    </template>
-                    <v-card height="auto">
-                      <v-layout style="margin-left: 35px">
-                        <h3 style="padding: 20px 10px 10px 10px">문의 작성</h3>
-                        <v-spacer></v-spacer>
-                      </v-layout>
+                        <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
 
-                      <v-divider style="margin: 0px 38px 0px 38px"></v-divider>
+                        <v-layout style="margin-left: 35px">
+                          <v-card max-width="100"
+                                  style="padding: 15px 15px 15px 15px"
+                                  flat
+                          >
+                            <v-img
+                                height="75px"
+                                :src="require('@/assets/productImg/' + product.productImages[0].editedName)">
+                            </v-img>
+                          </v-card>
 
-                      <v-layout style="margin-left: 35px">
-                        <v-card max-width="100"
-                                style="padding: 15px 15px 15px 15px"
-                                flat
-                        >
-                          <v-img
-                              height="75px"
-                              :src="require('@/assets/productImg/' + product.productImages[0].editedName)">
-                          </v-img>
-                        </v-card>
+                          <v-card width="400px"
+                                  flat
+                                  tile
+                          >
+                            <v-card-title style="font-weight: bold; font-size: 15px">
+                              {{ product.title }}
+                            </v-card-title>
 
-                        <v-card width="400px"
-                                flat
-                                tile
-                        >
-                          <v-card-title style="font-weight: bold; font-size: 15px">
-                             {{product.title}}
-                          </v-card-title>
+                            <v-card-subtitle style="font-size: 12px">
+                              {{ product.nickname }}
+                            </v-card-subtitle>
+                          </v-card>
+                        </v-layout>
 
-                          <v-card-subtitle style="font-size: 12px">
-                            {{ product.nickname }}
-                          </v-card-subtitle>
-                        </v-card>
-                      </v-layout>
+                        <v-divider style="margin: 10px 38px 10px 38px;"></v-divider>
 
-                      <v-divider style="margin: 10px 38px 10px 38px;"></v-divider>
+                        <div align="center">
+                          <v-card height="auto" width="500" flat style="border: 1px solid transparent">
 
-                      <div align="center">
-                        <v-card height="auto" width="500" flat style="border: 1px solid transparent">
+                            <v-select
+                                v-model="qnaCategory" label="카테고리" color="#2F4F4F" :items="categoryList" required
+                                :rules="categoryRule"/>
 
-                          <v-select
-                              v-model="qnaCategory" label="카테고리" color="#2F4F4F" :items="categoryList" required
-                              :rules="categoryRule"/>
+                            <v-text-field
+                                v-model="qnaTitle" label="제목" color="#2F4F4F" required
+                                :rules="titleRule"/>
 
-                          <v-text-field
-                              v-model="qnaTitle" label="제목" color="#2F4F4F" required
-                              :rules="titleRule"/>
+                            <v-text-field
+                                :value="writer" label="작성자" color="#2F4F4F" readonly required/>
 
-                          <v-text-field
-                              :value="writer" label="작성자" color="#2F4F4F" readonly required/>
+                            <v-textarea
+                                v-model="qnaContent" label="내용" counter outlined clearable
+                                row-height="60" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
+                                :rules="contentRule"/>
 
-                          <v-textarea
-                              v-model="qnaContent" label="내용" counter outlined clearable
-                              row-height="60" clear-icon="mdi-close-circle" color="#2F4F4F" auto-grow required
-                              :rules="contentRule"/>
+                            <v-checkbox v-model="checkStatus" row style="margin-top: -20px; color: #DAA520"
+                                        label="비밀글로 작성하기">
+                            </v-checkbox>
 
-                          <v-checkbox v-model="checkStatus" row style="margin-top: -20px; color: #DAA520"
-                                      label="비밀글로 작성하기">
-                          </v-checkbox>
+                          </v-card>
 
-                        </v-card>
+                          <v-btn style="margin-top: -90px; background-color: #2F4F4F; color: white" plain
+                                 @click="registerQna()"
+                          >
+                            등록하기
+                          </v-btn>
+                        </div>
+                      </v-card>
+                    </v-dialog>
 
-                        <v-btn style="margin-top: -90px; background-color: #2F4F4F; color: white" plain
-                               @click="registerQna()"
-                        >
-                          등록하기
-                        </v-btn>
-                      </div>
-                    </v-card>
-                  </v-dialog>
+                  </v-card-title>
 
-                </v-card-title>
+                  <v-card-text>상품에 대한 문의를 남기는 공간입니다. <br/>
+                    구매한 상품의 <strong>취소/환불은 구매내역의 주문상세보기에서 신청</strong> 가능합니다. <br/>
+                    상품문의 및 후기게시판을 통해 취소나 환불은 처리되지 않습니다. <br/>
+                    <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
+                  </v-card-text>
 
-                <v-card-text>상품에 대한 문의를 남기는 공간입니다. <br/>
-                  구매한 상품의 <strong>취소/환불은 구매내역의 주문상세보기에서 신청</strong> 가능합니다. <br/>
-                  상품문의 및 후기게시판을 통해 취소나 환불은 처리되지 않습니다. <br/>
-                  <strong>"해당 상품 자체"와 관계없는 글, 양도, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 이동, 노출제한, 삭제 등의 조치가 취해질 수 있습니다.</strong>
-                </v-card-text>
+                  <!--상품 문의 리스트-->
+                  <qna-form :productNo="productNo"/>
+                </v-card>
+              </v-tab-item>
 
-                <!--상품 문의 리스트-->
-                <qna-form :productNo="productNo"/>
-              </v-card>
-            </v-tab-item>
+            </v-tabs-items>
+          </div>
 
-          </v-tabs-items>
-        </div>
-
-      </table>
+        </table>
       </div>
     </form>
   </v-container>
@@ -607,21 +629,28 @@ export default {
     product: {
       type: Object,
       required: true,
-    }
+    },
   },
   computed: {
-    ...mapState ([
+    ...mapState([
       'productReviewList',
-      'productReadRatingValue'
+      'productReadRatingValue',
+      'hobbyFavoriteProductCheck',
+      'knowhowFavoriteProductCheck',
+      'handmadeFavoriteProductCheck',
+      'mainPageProductListByHandmade',
+      'mainPageProductListByKnowHow',
+      'mainPageProductListByHobby'
     ])
   },
   data() {
     return {
+      productIndex: 0,
       sellerDialog: false,
       dialog: false,
       imgIdx: 0,
-      tab2 : null,
-      tab : null,
+      tab2: null,
+      tab: null,
       items: [
         {tab: '상품 상세 설명', content: ''},
         {tab: '상품 정보 제공 고시', content: ''},
@@ -638,12 +667,12 @@ export default {
         max: v => v <= this.product.productInfo.stock || `상품재고가 ${this.product.productInfo.stock}개 남았습니다`
       },
 
-      loginDialog : false,
+      loginDialog: false,
       qnaProductTitle: '',
       dialogQna: false,
       writer: this.$store.state.memberInfoAfterSignIn.nickname,
       qnaCategory: '',
-      categoryList : ['상품 문의', '배송 문의', '환불/취소 문의','교환 문의','기타'],
+      categoryList: ['상품 문의', '배송 문의', '환불/취소 문의', '교환 문의', '기타'],
       qnaTitle: '',
       qnaContent: '',
       checkStatus: '',
@@ -668,13 +697,43 @@ export default {
 
   methods: {
     ...mapActions([
-        'requestDeleteProductToSpring',
-        'requestRegisterShoppingBucketProduct',
-        'requestRegisterQnaFromSpring',
-        'requestProductReviewListFromSpring',
-        'requestReviewCntFromSpring',
-        'requestReviewImageFromSpring',
+      'requestDeleteProductToSpring',
+      'requestRegisterShoppingBucketProduct',
+      'requestRegisterQnaFromSpring',
+      'requestProductReviewListFromSpring',
+      'requestReviewCntFromSpring',
+      'requestReviewImageFromSpring',
+      'requestFavoriteProductCheckValue'
     ]),
+    async favoriteProductCheckManagement() {
+      if (this.$store.state.signInCheckValue === false) {
+        this.dialog = true
+
+      } else {
+        if (!this.handmadeFavoriteProductCheck[this.productIndex].checkValue &&
+            !this.hobbyFavoriteProductCheck[this.productIndex].checkValue &&
+            !this.knowhowFavoriteProductCheck[this.productIndex].checkValue){
+          alert("상품을 찜했습니다")
+        } else {
+          alert("상품이 찜목록에서 삭제되었습니다")
+        }
+
+
+        const productNo = this.productNo
+        const index = this.productIndex
+        const category = this.product.productInfo.category
+        const item = this.product
+
+        if (category === '취미/특기') {
+          await this.requestFavoriteProductCheckValue({index, category, item, productNo})
+        } else if (category == "노하우") {
+          await this.requestFavoriteProductCheckValue({index, category, item, productNo})
+        } else {
+          await this.requestFavoriteProductCheckValue({index, category, item, productNo})
+        }
+      }
+
+    },
     selectedImg(e) {
       this.imgIdx = e
       console.log(this.imgIdx)
@@ -687,31 +746,33 @@ export default {
       await this.requestRegisterShoppingBucketProduct({nickname, productId, productAmountValue})
       // 장바구니에 상품 추가
     },
-    onModify () {
-      this.$router.push({name:'ProductModifyView',
-      params: { productNo: this.product.productNo.toString() }})
+    onModify() {
+      this.$router.push({
+        name: 'ProductModifyView',
+        params: {productNo: this.product.productNo.toString()}
+      })
       console.log(this.product.productNo.toString())
     },
-    onDelete () {
+    onDelete() {
       this.requestDeleteProductToSpring(this.productNo)
     },
-    onSubmit () {
+    onSubmit() {
 
     },
-    freeDelivery () {
+    freeDelivery() {
       this.initialDeliveryFee = this.product.productInfo.deliveryFee
       this.freeDeliveryFee = 0
       this.deliveryFee = this.product.productInfo.deliveryFee
 
       this.price = this.product.price
 
-      if(this.quantity <= 0) {
+      if (this.quantity <= 0) {
         this.totalPrice = 0
       } else {
         this.totalPrice = this.price * this.quantity + this.deliveryFee
       }
 
-      if(this.totalPrice >= 50000) {
+      if (this.totalPrice >= 50000) {
         // eslint-disable-next-line vue/no-mutating-props
         this.deliveryFee = this.freeDeliveryFee
 
@@ -731,18 +792,48 @@ export default {
       const questionCategory = this.qnaCategory
       const questionTitle = this.qnaTitle
       const questionContent = this.qnaContent
-      const openStatus =  this.checkStatus == true ? false : true
+      const openStatus = this.checkStatus == true ? false : true
 
-      await this.requestRegisterQnaFromSpring({productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
+      await this.requestRegisterQnaFromSpring({
+        productNo,
+        writer,
+        questionCategory,
+        questionTitle,
+        questionContent,
+        openStatus
+      })
       this.dialogQna = false
       history.go(0)
     },
   },
   beforeUpdate() {
     this.freeDelivery()
+
+    //상품 인덱스 구하기
+    if (this.product.productInfo.category == "취미/특기"){
+      console.log("실행")
+      for (let i = 0; i < this.mainPageProductListByHobby.length; i++) {
+        if (this.productNo == this.mainPageProductListByHobby[i].productNo){
+          this.productIndex = i
+        }
+      }
+    } else if (this.product.productInfo.category == "노하우"){
+      for (let i = 0; i < this.mainPageProductListByKnowHow.length; i++) {
+        if (this.productNo == this.mainPageProductListByKnowHow[i].productNo){
+          this.productIndex = i
+        }
+      }
+    } else {
+      for (let i = 0; i < this.mainPageProductListByHandmade.length; i++) {
+        if (this.productNo == this.mainPageProductListByHandmade[i].productNo){
+          this.productIndex = i
+        }
+      }
+    }
   },
 
   async mounted() {
+    console.log(this.product)
     //리뷰 총 개수
     const productNo = this.productNo
     await this.requestReviewCntFromSpring(productNo)
@@ -750,7 +841,7 @@ export default {
 
 
     //리뷰리스트 불러오기
-    console.log("productNo: "+ this.productNo)
+    console.log("productNo: " + this.productNo)
     this.productReviewList.splice(0)
     /*const productNo = this.productNo*/
     const reviewSize = Number(this.$store.state.productReviewCnt)
@@ -775,7 +866,8 @@ table {
   margin-top: 10px;
   width: 100%;
 }
-#content{
+
+#content {
   display: block;
   margin-top: 72px;
   margin: 30px;
@@ -787,52 +879,65 @@ table {
   background: #fff;
   margin-bottom: 50px;
 }
+
 td {
   border: 1px solid lightgray;
   width: 100px;
   height: 100px;
   text-align: center;
 }
+
 span {
   position: relative;
   left: 22%;
   bottom: 22px;
   font-size: 12px;
 }
+
 .img {
   width: 100%;
 }
+
 .bt1 {
   left: 20px;
 }
-.subTitle{
+
+.subTitle {
   float: left;
 }
-.stockInfo{
+
+.stockInfo {
   margin-top: 26px;
 }
-.col-sm-3{
-  left:20px;
+
+.col-sm-3 {
+  left: 20px;
 }
+
 .detail {
   border: 1px solid #e9ecef;
 }
+
 .v-tab {
   padding: 0;
-  position:relative;
+  position: relative;
 }
+
 .itemTable {
   width: 50%;
   height: 100%;
   background-color: #f6f6f6;
   padding: 10px;
 }
+
 .ectBtn {
   left: 1000px;
 }
+
 a {
   text-decoration: none;
 }
+
 .puple-input >>> .error--text {
   color: #2F4F4F !important;
 }
@@ -849,4 +954,13 @@ a {
   opacity: 0.8;
 }
 
+.iconColor {
+  margin: 0px 0px 3px 5px;
+  color: white;
+}
+
+.iconColor:hover {
+  margin: 0px 0px 3px 5px;
+  color: #DAA520;
+}
 </style>
