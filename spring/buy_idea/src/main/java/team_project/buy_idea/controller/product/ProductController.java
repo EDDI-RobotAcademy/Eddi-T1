@@ -85,6 +85,13 @@ public class ProductController {
         return productService.read(productNo);
     }
 
+    @GetMapping("getProduct/{productNo}")
+    public Product getFavoriteProduct(@PathVariable("productNo") Long productNo){
+        log.info("getFavoriteProduct" + productNo);
+
+        return productService.getFavoriteProduct(productNo);
+    }
+
     @GetMapping("/images/{productNo}")
     public List<ProductImageMapping> productImageList(@PathVariable("productNo") Long productNo) {
 

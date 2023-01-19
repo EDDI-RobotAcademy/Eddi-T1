@@ -381,4 +381,16 @@ public class ProductServiceImpl implements ProductService {
         }
         return sellerProductResponseList;
     }
+
+    // 찜한 상품 가져오는 로직
+
+    @Override
+    public Product getFavoriteProduct(Long productNo) {
+        Optional<Product> maybeFavoriteProduct = productRepository.findById(productNo);
+
+        if (maybeFavoriteProduct.isPresent()){
+            return maybeFavoriteProduct.get();
+        }
+        return null;
+    }
 }
