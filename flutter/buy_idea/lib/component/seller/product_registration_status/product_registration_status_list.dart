@@ -15,13 +15,15 @@ class ProductRegistrationStatusList extends StatefulWidget {
   final String category;
   final int listSize;
   final int nextListSize;
+  final String memberType;
 
   const ProductRegistrationStatusList({
     Key? key,
     required this.seller,
     required this.category,
     required this.listSize,
-    required this.nextListSize
+    required this.nextListSize,
+    required this.memberType
   }) : super(key: key);
 
   @override
@@ -102,7 +104,7 @@ class _ProductRegistrationStatusListState extends State<ProductRegistrationStatu
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       child: InkWell(
                         onTap: () {
-                          Get.to(ProductDetailsPage(productNo: productList[index].productNo, seller: productList[index].seller));
+                          Get.to(ProductDetailsPage(productNo: productList[index].productNo, memberType: widget.memberType));
                         },
                         child: Container(
                           height: 200,
