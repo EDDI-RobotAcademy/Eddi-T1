@@ -15,8 +15,8 @@ import '../../../component/buyer/product/QnA/product_qna_form.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final int productNo;
-  final String? seller;
-  const ProductDetailsPage({Key? key, required this.productNo, this.seller}) : super(key: key);
+  final String? memberType;
+  const ProductDetailsPage({Key? key, required this.productNo, this.memberType}) : super(key: key);
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -97,14 +97,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
               iconTheme: IconThemeData(color: Colors.black),
               backgroundColor: Colors.white,
               centerTitle: true,
-              title: widget.seller != nickname ? GestureDetector(
+              title: widget.memberType != '판매자' ? GestureDetector(
                 child: Image.asset('assets/buydia_logo.png', width: 80, height: 50),
                 onTap: () {
                     Get.offAll(MainPage());
                 },
               ) : Image.asset('assets/buydia_logo.png', width: 80, height: 50),
               elevation: 0,
-              actions: widget.seller != nickname ? [
+              actions: widget.memberType != '판매자' ? [
                 IconButton(
                     onPressed: () {
                       Get.to(ShoppingBucketPage());
@@ -169,7 +169,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
                   ),
                 ];
               },
-              body: widget.seller != nickname ? Padding(
+              body: widget.memberType != '판매자' ? Padding(
                 padding: EdgeInsets.only(bottom: 60),
                 child: TabBarView(
                     controller: tabController,
@@ -188,7 +188,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> with TickerProv
                   ]
               ),
             ),
-            bottomSheet: widget.seller != nickname ? Container(
+            bottomSheet: widget.memberType != '판매자' ? Container(
               width: MediaQuery.of(context).size.width,
               height: 60,
               decoration: BoxDecoration(
