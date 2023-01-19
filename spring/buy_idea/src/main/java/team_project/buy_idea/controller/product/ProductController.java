@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team_project.buy_idea.controller.product.request.ProductListRequest;
+import team_project.buy_idea.controller.product.request.ProductNextListRequest;
 import team_project.buy_idea.controller.product.request.ProductRequest;
 import team_project.buy_idea.entity.product.Product;
 import team_project.buy_idea.repository.product.mapping.ProductImageMapping;
@@ -34,35 +36,36 @@ public class ProductController {
 
     }
 
-    @GetMapping("/list")
-    public List<ProductMapping> productList(
-            @RequestParam("category") String category,
-            @RequestParam("productSize") int productSize,
-            @RequestParam("filter") String filter) {
+    @PostMapping("/list")
+    public List<ProductMapping> productList(@RequestBody ProductListRequest request) {
 
         log.info("productList()");
-        log.info("category : " + category);
-        log.info("productsNum : " + productSize);
-        log.info("filter: " + filter);
+        log.info("category : " + request.getCategory());
+        log.info("productSize : " + request.getProductSize());
+        log.info("filter: " + request.getFilter());
 
-        return productService.list(category, productSize, filter);
+        return productService.list(
+                request.getCategory(),
+                request.getProductSize(),
+                request.getFilter());
     }
 
-    @GetMapping("/list/next")
-    public List<ProductMapping> nextProductList(
-            @RequestParam("productNo") Long productNo,
-            @RequestParam("category") String category,
-            @RequestParam("productSize") int productSize,
-            @RequestParam("filter") String filter,
-            @RequestParam("productNoList") List<Long> productNoList) {
+    @PostMapping("/list/next")
+    public List<ProductMapping> nextProductList(@RequestBody ProductNextListRequest request) {
 
         log.info("nextProductList()");
-        log.info("productNo : " + productNo);
-        log.info("category : " + category);
-        log.info("productSize : " + productSize);
-        log.info("productNoList : " + productNoList);
+        log.info("productNo : " + request.getProductNo());
+        log.info("category : " + request.getCategory());
+        log.info("productSize : " + request.getProductSize());
+        log.info("filter : " + request.getFilter());
+        log.info("productNoList : " + request.getProductNoList());
 
-        return productService.nextList(productNo, category, productSize, filter, productNoList);
+        return productService.nextList(
+                request.getProductNo(),
+                request.getCategory(),
+                request.getProductSize(),
+                request.getFilter(),
+                request.getProductNoList());
     }
 
     @GetMapping("/image/thumbnail/{productNo}")
