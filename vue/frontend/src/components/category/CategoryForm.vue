@@ -58,19 +58,28 @@
                       </v-btn>
 
                       <!-- 찜 -->
-                      <v-btn
-                          class="iconColor"
-                          icon
-                          align="end"
-                          @click="favoriteProductManagement(index, '핸드메이드', item)"
+                      <v-tooltip
+                          v-model="showTooltip"
+                          top
                       >
-                        <v-icon size="30px" v-if="!handmadeFavoriteProductCheck[index].checkValue">
-                          mdi-heart-outline
-                        </v-icon>
-                        <v-icon v-else size="30px" style="color: indianred">
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                              class="iconColor"
+                              icon
+                              v-bind="attrs"
+                              v-on="on"
+                              align="end"
+                              @click="favoriteProductManagement(index, '핸드메이드', item)"
+                          >
+                            <v-icon size="30px" v-if="!handmadeFavoriteProductCheck[index].checkValue">
+                              mdi-lightbulb-variant-outline
+                            </v-icon>
+                            <v-icon v-else size="30px" style="color: #DAA520">
+                              mdi-lightbulb-on
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                      </v-tooltip>
                     </div>
                   </v-expand-transition>
                 </v-img>
@@ -169,20 +178,28 @@
                         </v-icon>
                       </v-btn>
 
+
                       <!-- 찜 -->
-                      <v-btn
-                          class="iconColor"
-                          icon
-                          align="end"
-                          @click="favoriteProductManagement(index, '노하우', item)"
-                      >
-                        <v-icon size="30px" v-if="!knowhowFavoriteProductCheck[index].checkValue">
-                          mdi-heart-outline
-                        </v-icon>
-                        <v-icon v-else size="30px" style="color: indianred">
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
+                      <v-tooltip v-model="showTooltip" top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                              class="iconColor"
+                              icon
+                              v-bind="attrs"
+                              v-on="on"
+                              align="end"
+                              @click="favoriteProductManagement(index, '노하우', item)"
+                          >
+                            <v-icon size="30px" v-if="!knowhowFavoriteProductCheck[index].checkValue">
+                              mdi-lightbulb-variant-outline
+                            </v-icon>
+                            <v-icon v-else size="30px" style="color: #DAA520">
+                              mdi-lightbulb-on
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>찜하기</span>
+                      </v-tooltip>
                     </div>
                   </v-expand-transition>
                 </v-img>
@@ -286,19 +303,29 @@
                       </v-btn>
 
                       <!-- 찜 -->
-                      <v-btn
-                          class="iconColor"
-                          icon
-                          align="end"
-                          @click="favoriteProductManagement(index, '취미/특기', item)"
+                      <v-tooltip
+                          v-model="showTooltip"
+                          top
                       >
-                        <v-icon size="30px" v-if="!hobbyFavoriteProductCheck[index].checkValue">
-                          mdi-heart-outline
-                        </v-icon>
-                        <v-icon v-else size="30px" style="color: indianred">
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                              class="iconColor"
+                              v-bind="attrs"
+                              v-on="on"
+                              icon
+                              align="end"
+                              @click="favoriteProductManagement(index, '취미/특기', item)"
+                          >
+                            <v-icon size="30px" v-if="!hobbyFavoriteProductCheck[index].checkValue">
+                              mdi-lightbulb-variant-outline
+                            </v-icon>
+                            <v-icon v-else size="30px" style="color: #DAA520">
+                              mdi-lightbulb-on
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>찜하기</span>
+                      </v-tooltip>
                     </div>
                   </v-expand-transition>
                 </v-img>
@@ -365,6 +392,11 @@ export default {
       'favoriteProductList'
     ]),
   },
+  data() {
+    return {
+      showTooltip: false
+    }
+  },
   methods: {
     ...mapActions([
       'requestRegisterShoppingBucketProduct',
@@ -410,7 +442,7 @@ export default {
       } else {
         if (category === '취미/특기') {
           await this.requestFavoriteProductCheckValue({index, category, item})
-        } else if (category == "노하우"){
+        } else if (category == "노하우") {
           await this.requestFavoriteProductCheckValue({index, category, item})
         } else {
           await this.requestFavoriteProductCheckValue({index, category, item})
@@ -433,7 +465,7 @@ export default {
 
 .iconColor:hover {
   margin: 0px 3px 3px 0px;
-  color: red;
+  color: #DAA520;
 }
 
 .cartIconColor {
