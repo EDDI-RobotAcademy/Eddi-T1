@@ -79,6 +79,7 @@
                             </v-icon>
                           </v-btn>
                         </template>
+                        <span>찜하기</span>
                       </v-tooltip>
                     </div>
                   </v-expand-transition>

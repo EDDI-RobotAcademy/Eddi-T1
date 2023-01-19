@@ -168,6 +168,7 @@ export default {
         if (passingData.category === '취미/특기'){
             if (state.hobbyFavoriteProductCheck[passingData.index].checkValue){
                 state.hobbyFavoriteProductCheck[passingData.index].checkValue = false
+                state.hobbyFavoriteProductCheck[passingData.index].productNo = 0
 
                 for (let i = 0; i < state.favoriteProductList.length; i++) {
                     if (passingData.item.productNo === state.favoriteProductList[i].productNo) {
@@ -177,6 +178,7 @@ export default {
                 }
             } else {
                 state.hobbyFavoriteProductCheck[passingData.index].checkValue = true
+                state.hobbyFavoriteProductCheck[passingData.index].productNo = passingData.item.productNo
                 state.favoriteProductList.push(passingData.item)
             }
         } else if (passingData.category === '노하우'){
