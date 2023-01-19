@@ -6,20 +6,20 @@
       <buyer-my-page-top-nav :countByInfo="countByInfo"/>
 
       <v-container style="width: 1000px"
-                   v-if="!recentlyViewedProductList || (Array.isArray(recentlyViewedProductList) && recentlyViewedProductList.length === 0)">
-        <h2 style="margin-bottom: 50px;">최근 본 상품</h2>
+                   v-if="!favoriteProductList || (Array.isArray(favoriteProductList) && favoriteProductList.length === 0)">
+        <h2 style="margin-bottom: 50px;">찜한 상품</h2>
         <div align="center">
-          <h2>최근 본 상품이 없습니다.</h2>
+          <h2>찜한 상품이 없습니다.</h2>
         </div>
       </v-container>
 
       <v-container v-else style="width: 1200px">
-        <h2 style="margin-bottom: 50px;">최근 본 상품</h2>
+        <h2 style="margin-bottom: 50px;">찜한 상품</h2>
         <v-layout style="margin-top: 50px;">
           <v-row class="justify-start">
-            <div v-for="(item, index) in recentlyViewedProductList" :key="index">
+            <div v-for="(item, index) in favoriteProductInfoList" :key="index">
               <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString()} }"
+                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
                            style="text-decoration: none; color: black"
               >
                 <v-hover
@@ -35,7 +35,7 @@
                     <v-img
                         class="white--text align-end"
                         height="265px"
-                        :src="getProductThumbnail(index).productThumbnail"
+                        :src="require(`@/assets/productImg/${item.productImages[0].editedName}`)"
                     >
                     </v-img>
                     <div style="padding: 10px 10px 10px 10px">
@@ -54,14 +54,14 @@
                               dense
                               length="5"
                               size="18"
-                              v-model="productRatingValue[index]"
+                              v-model="favoriteProductRatingValue[index]"
                               readonly
                           >
                           </v-rating>
                         </div>
 
                         <div style="padding-top: 9px;">
-                          <h5>( {{ productRatingValue[index].toFixed(1) }} )</h5>
+                          <h5>( {{favoriteProductRatingValue[index].toFixed(1)}} )</h5>
                         </div>
                       </v-layout>
 
@@ -86,66 +86,50 @@
 </template>
 
 <script>
+
 import BuyerNav from "@/components/buyerMyPage/BuyerNav";
 import BuyerMyPageTopNav from "@/components/buyerMyPage/BuyerMyPageTopNav";
 import {mapActions, mapState} from "vuex";
-
 export default {
-  name: "RecentlyViewedProductFrom",
-  components: {BuyerNav, BuyerMyPageTopNav},
-  computed: {
+  name: "BuyerFavoriteProductForm",
+  components:{
+    BuyerNav,
+    BuyerMyPageTopNav
+  },
+  computed:{
     ...mapState([
-      'myOrderInfoList',
-      'myQnaList',
-      'myReviewList',
-      'recentlyViewedProductList',
-      'productRatingValue',
-        'favoriteProductList'
+        'favoriteProductList',
+        'favoriteProductInfoList',
+        'favoriteProductRatingValue'
     ])
   },
-  data() {
-    return {
-      countByInfo: [],
+  props:{
+    countByInfo:{
+      type: Array
     }
   },
-  methods: {
+  methods:{
     ...mapActions([
-      'requestProductRatingValueToSpring'
-    ]),
-    getProductThumbnail(index) {
-      return {
-        ...this.recentlyViewedProductList,
-        productThumbnail: this.recentlyViewedProductList[index].productImages[0].editedName && require(`@/assets/productImg/${this.recentlyViewedProductList[index].productImages[0].editedName}`)
-      }
-    },
+        'requestFavoriteProductInfoToSpring',
+        'requestProductRatingValueToSpring'
+    ])
+  },
+  async mounted(){
+    const category = "찜"
+    this.favoriteProductInfoList.splice(0)
+    this.favoriteProductRatingValue.splice(0)
+    for (let i = 0; i < this.favoriteProductList.length; i++) {
+      console.log(this.favoriteProductList[i].productNo)
+      let productNo = this.favoriteProductList[i].productNo
+      await this.requestFavoriteProductInfoToSpring(productNo)
+      await this.requestProductRatingValueToSpring({productNo, category})
+    }
   },
   filters: {
     comma(val) {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
-  async created() {
-    const infoNum = new Array
-    infoNum.push(this.myOrderInfoList.length)
-    infoNum.push(this.myQnaList.length)
-    infoNum.push(this.myReviewList.length)
-    infoNum.push(this.recentlyViewedProductList.length)
-    infoNum.push(this.favoriteProductList.length)
-
-    this.countByInfo = infoNum
-
-    console.log(this.recentlyViewedProductList)
-    const category = "리뷰"
-
-    this.productRatingValue.splice(0)
-    for (let i = 0; i < this.recentlyViewedProductList.length; i++) {
-      let productNo = this.recentlyViewedProductList[i].productNo
-      await this.requestProductRatingValueToSpring({productNo, category})
-    }
-
-    console.log(this.productRatingValue)
-  },
-
 }
 </script>
 

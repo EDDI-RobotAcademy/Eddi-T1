@@ -23,5 +23,6 @@ public interface ProductService {
     public List<Product> getFindSearchKeywordList(String keyword);
     public List<Product> sellerProductAllList(String nickname );
     public List<SellerProductResponse> getProductsBySeller(String seller, String category, Long productNo, int listSize);
+    public Product getFavoriteProduct(Long productNo);
 
 }

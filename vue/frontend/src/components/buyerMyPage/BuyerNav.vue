@@ -91,6 +91,10 @@ export default {
           title: "최근 본 상품",
           icon: "mdi-basket",
           route: "/buyer-recently-view"},
+        {
+          title: "찜한 상품",
+          icon: "mdi-lightbulb-on",
+          route: "/buyer-favorite"},
       ],
     }
   },
