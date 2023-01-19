@@ -38,7 +38,9 @@ import {
     REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING,
     REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING,
     REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING,
-    FAVORITE_PRODUCT_CHECK_VALUE
+    FAVORITE_PRODUCT_CHECK_VALUE,
+    REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING,
+    REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING
 
 
 } from './mutation-types'
@@ -215,5 +217,11 @@ export default {
                 state.favoriteProductList.push(passingData.item)
             }
         }
+    },
+    [REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING](state, passingData) {
+        state.favoriteProductInfoList.push(passingData)
+    },
+    [REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING](state, passingData) {
+        state.favoriteProductRatingValue.push(passingData)
     },
 }

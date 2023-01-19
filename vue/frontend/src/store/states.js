@@ -48,7 +48,9 @@ export default {
     handmadeFavoriteProductCheck: [],
     knowhowFavoriteProductCheck: [],
     hobbyFavoriteProductCheck: [],
-    favoriteProductList: []
+    favoriteProductList: [],
+    favoriteProductInfoList: [],
+    favoriteProductRatingValue: []
 
 
 }

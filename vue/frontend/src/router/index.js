@@ -16,6 +16,7 @@ import ProductReadView from "@/views/product/ProductReadView";
 import OrderForm from "@/components/order/OrderForm";
 import ShoppingCartView from "@/views/shoppingCart/ShoppingCartView";
 import ProductModifyView from "@/views/product/ProductModifyView";
+import BuyerFavoriteProductView from "@/views/buyerMyPage/BuyerFavoriteProductView";
 
 //카테고리별 페이지
 import HandmadeCategoryView from "@/views/productByCategory/HandmadeCategoryView";
@@ -191,6 +192,11 @@ const routes = [
     path: '/buyer-recently-view',
     name: 'RecentlyViewedProductView',
     component: RecentlyViewedProductView
+  },
+  {
+    path: '/buyer-favorite',
+    name: 'BuyerFavoriteProductView',
+    component: BuyerFavoriteProductView
   },
 
 ]
