@@ -72,9 +72,9 @@ class _ProductRegistrationStatusPageState extends State<ProductRegistrationStatu
       body: TabBarView(
         controller: tabController,
         children: [
-          ProductRegistrationStatusList(seller: widget.nickname!, category: _handmade, listSize: 4, nextListSize: 4),
-          ProductRegistrationStatusList(seller: widget.nickname!, category: _knowhow, listSize: 4, nextListSize: 4),
-          ProductRegistrationStatusList(seller: widget.nickname!, category: _hobby, listSize: 4, nextListSize: 4),
+          ProductRegistrationStatusList(seller: widget.nickname!, category: _handmade, listSize: 4, nextListSize: 4, memberType: '판매자'),
+          ProductRegistrationStatusList(seller: widget.nickname!, category: _knowhow, listSize: 4, nextListSize: 4, memberType: '판매자'),
+          ProductRegistrationStatusList(seller: widget.nickname!, category: _hobby, listSize: 4, nextListSize: 4, memberType: '판매자'),
         ],
       ),
     );
