@@ -33,7 +33,7 @@ class _HomeHandmadeState extends State<HomeCategoryProduct> {
 
   addProductList() async {
     List<RequestProductThumbnailInfo> productList =
-        await SpringProductApi().firstProductList(widget.category, 4);
+        await SpringProductApi().firstProductList(widget.category, 4, '최신순');
     switch (widget.category) {
       case "핸드메이드":
         home_handmade_list.clear();
