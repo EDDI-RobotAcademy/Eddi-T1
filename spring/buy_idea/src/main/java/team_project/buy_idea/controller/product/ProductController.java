@@ -60,6 +60,7 @@ public class ProductController {
         log.info("productNo : " + productNo);
         log.info("category : " + category);
         log.info("productSize : " + productSize);
+        log.info("productNoList : " + productNoList);
 
         return productService.nextList(productNo, category, productSize, filter, productNoList);
     }

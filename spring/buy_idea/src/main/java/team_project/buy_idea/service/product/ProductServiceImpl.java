@@ -130,15 +130,14 @@ public class ProductServiceImpl implements ProductService {
         // 넘겨받은 카테고리에 해당하는 상품 리스트 중 큰 숫자부터 배치할 리스트 수 만큼 자르고 반환
 
         Slice<ProductMapping> productSlice = switch (filter) {
-
             case "최신순" -> productRepository.findFirstProductsByCategory(category, Pageable.ofSize(productSize));
             case "인기순" -> productRepository.findProductsByViewCnt(category, Pageable.ofSize(productSize));
             case "후기순" -> productRepository.findProductsByReviewCnt(category, Pageable.ofSize(productSize));
-            case "평점순" -> productRepository.findProductsByHighRating(category, Pageable.ofSize(productSize));
-            case "높은가격순" -> productRepository.findProductsByHighPrice(category, Pageable.ofSize(productSize));
-            case "낮은가격순" -> productRepository.findProductsByLowPrice(category, Pageable.ofSize(productSize));
+            case "높은 가격순" -> productRepository.findProductsByHighPrice(category, Pageable.ofSize(productSize));
+            case "낮은 가격순" -> productRepository.findProductsByLowPrice(category, Pageable.ofSize(productSize));
             default -> null;
         };
+
         List<ProductMapping> products = productSlice.getContent();
         return products;
     }
@@ -150,20 +149,17 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> maybeProduct = productRepository.findById(lastProductNo);
         Product product = maybeProduct.get();
 
-        Long reviewCnt = reviewRepository.countReviewsOnSpecificProduct(lastProductNo);
-        Double starRating = reviewRepository.findAverageStarRatingOnSpecificProduct(lastProductNo);
+        int reviewCnt = reviewRepository.countReviewsOnSpecificProduct(lastProductNo).intValue();
 
         Slice<ProductMapping> productsSlice = switch (filter) {
-
             case "최신순" -> productRepository.findNextProductsByCategory(lastProductNo, category, Pageable.ofSize(productSize));
             case "인기순" -> productRepository.findNextProductsByViewCnt(product.getProductInfo().getViewCnt(), productNoList, category, Pageable.ofSize(productSize));
             case "후기순" -> productRepository.findNextProductsByReviewCnt(reviewCnt, productNoList, category, Pageable.ofSize(productSize));
-            case "평점순" -> productRepository.findNextProductsByHighRating(starRating, productNoList, category, Pageable.ofSize(productSize));
-            case "높은가격순" -> productRepository.findNextProductsByHighPrice(product.getPrice(), productNoList, category, Pageable.ofSize(productSize));
-            case "낮은가격순" -> productRepository.findNextProductsByLowPrice(product.getPrice(), productNoList, category, Pageable.ofSize(productSize));
+            case "높은 가격순" -> productRepository.findNextProductsByHighPrice(product.getPrice(), productNoList, category, Pageable.ofSize(productSize));
+            case "낮은 가격순" -> productRepository.findNextProductsByLowPrice(product.getPrice(), productNoList, category, Pageable.ofSize(productSize));
             default -> null;
-
         };
+
         List<ProductMapping> products = productsSlice.getContent();
         return products;
     }
