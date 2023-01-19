@@ -113,10 +113,11 @@ export default {
   async mounted() {
     const categoryArr = ['핸드메이드', '노하우', '취미/특기']
     const productSize = 8
+    const filter = "최신순"
 
     for (let i = 0; i < categoryArr.length; i++) {
       let category = categoryArr[i]
-      await this.requestProductListByCategoryToSpring({category, productSize})
+      await this.requestProductListByCategoryToSpring({category, productSize, filter})
     }
 
     await this.getMainPageProductImgByHandmade();
@@ -125,19 +126,19 @@ export default {
 
     if (this.hobbyFavoriteProductCheck.length === 0) {
       for (let i = 0; i < this.mainPageProductListByHobby.length; i++) {
-        this.$store.state.hobbyFavoriteProductCheck.push({checkValue: false})
+        this.$store.state.hobbyFavoriteProductCheck.push({productNo: 0, checkValue: false})
       }
     }
     if (this.knowhowFavoriteProductCheck.length === 0) {
 
       for (let i = 0; i < this.mainPageProductListByKnowHow.length; i++) {
-        this.$store.state.knowhowFavoriteProductCheck.push({checkValue: false})
+        this.$store.state.knowhowFavoriteProductCheck.push({productNo: 0,checkValue: false})
       }
     }
     if (this.handmadeFavoriteProductCheck.length === 0) {
 
       for (let i = 0; i < this.mainPageProductListByHandmade.length; i++) {
-        this.$store.state.handmadeFavoriteProductCheck.push({checkValue: false})
+        this.$store.state.handmadeFavoriteProductCheck.push({productNo: 0,checkValue: false})
       }
     }
   },

@@ -285,13 +285,10 @@ export default {
     async requestProductListByCategoryToSpring({commit}, payload) {
         console.log("requestProductListByCategoryToSpring")
 
+        const{category, productSize, filter} = payload
 
-        await axios.get('http://localhost:8888/product/list', {
-            params: {
-                category: payload.category,
-                productSize: payload.productSize
-            }
-        })
+
+        await axios.post('http://localhost:8888/product/list', {category, productSize, filter})
             .then((res) => {
                 if (payload.category == "핸드메이드") {
                     commit(REQUEST_PRODUCT_LIST_BY_HANDMADE_TO_SPRING, res.data)
