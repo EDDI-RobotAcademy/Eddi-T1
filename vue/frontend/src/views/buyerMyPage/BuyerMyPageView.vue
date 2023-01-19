@@ -17,7 +17,8 @@ export default {
       'myOrderInfoList',
       'myQnaList',
       'myReviewList',
-      'recentlyViewedProductList'
+      'recentlyViewedProductList',
+      'favoriteProductList'
     ])
   },
   data(){
@@ -47,6 +48,7 @@ export default {
     infoNum.push(this.myQnaList.length)
     infoNum.push(this.myReviewList.length)
     infoNum.push(this.recentlyViewedProductList.length)
+    infoNum.push(this.favoriteProductList.length)
 
     this.countByInfo = infoNum
   }

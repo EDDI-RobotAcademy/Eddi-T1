@@ -27,6 +27,7 @@ export default {
         {title: "나의 문의"},
         {title: "나의 후기"},
         {title: "최근 본 상품"},
+        {title: "찜한 상품"}
     ],
     productReviewList: [],
     reviewImage: [],

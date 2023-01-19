@@ -6,26 +6,35 @@
             fla
     >
       <v-row class="justify-center">
-        <v-card class="cardStyle"
-                v-for="(item, index) in myPageCategoryItems"
-                :key="index"
-                tile
-                flat
-        >
-          <v-card-title class="justify-center">
-            <h5>{{ item.title }}</h5>
-          </v-card-title>
+        <div v-for="(item, index) in myPageCategoryItems"
+             :key="index">
+          <v-hover
+              v-slot="{ hover } "
+          >
+            <v-layout justify-center>
+              <v-card class="cardStyle"
+                      :elevation="hover ? 20 : 0"
+                      :class="{'on-hover' : hover}"
+                      tile
+                      flat
+              >
+                <v-card-title class="justify-center">
+                  <h5>{{ item.title }}</h5>
+                </v-card-title>
 
-          <v-card-title class="justify-sm-end" style="margin-right: 10px">
-            <router-link to="null" style="text-decoration: none; color: white">
-              <h5 style="font-size: 33px; color: #FAEBD7">{{countByInfo[index]}}</h5>
-            </router-link>
+                <v-card-title class="justify-sm-end" style="margin-right: 10px">
+                  <router-link to="null" style="text-decoration: none; color: white">
+                    <h5 style="font-size: 33px; color: #FAEBD7">{{countByInfo[index]}}</h5>
+                  </router-link>
 
-            <span style="margin-top: 7px">
+                  <span style="margin-top: 7px">
                   개
                 </span>
-          </v-card-title>
-        </v-card>
+                </v-card-title>
+              </v-card>
+            </v-layout>
+          </v-hover>
+        </div>
       </v-row>
     </v-card>
   </v-container>
