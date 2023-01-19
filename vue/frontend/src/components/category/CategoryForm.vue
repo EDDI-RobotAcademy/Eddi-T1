@@ -436,17 +436,18 @@ export default {
       }
     },
     async favoriteProductManagement(index, category, item) {
+      let productNo = item.productNo
       if (this.$store.state.signInCheckValue === false) {
         alert("로그인 후 사용가능합니다.")
         await this.$router.push({name: 'SignInView'})
 
       } else {
         if (category === '취미/특기') {
-          await this.requestFavoriteProductCheckValue({index, category, item})
+          await this.requestFavoriteProductCheckValue({index, category, item, productNo})
         } else if (category == "노하우") {
-          await this.requestFavoriteProductCheckValue({index, category, item})
+          await this.requestFavoriteProductCheckValue({index, category, item, productNo})
         } else {
-          await this.requestFavoriteProductCheckValue({index, category, item})
+          await this.requestFavoriteProductCheckValue({index, category, item, productNo})
         }
       }
     }

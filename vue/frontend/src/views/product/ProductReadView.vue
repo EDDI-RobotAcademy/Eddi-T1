@@ -16,13 +16,16 @@ export default {
     },
     checkValue: {
       type: Boolean
-    }
+    },
   },
   computed: {
     ...mapState([
-        'product',
-        'recentlyViewedProductListTmp',
-        'recentlyViewedProductList'
+      'product',
+      'recentlyViewedProductListTmp',
+      'recentlyViewedProductList',
+      'hobbyFavoriteProductCheck',
+      'knowhowFavoriteProductCheck',
+      'handmadeFavoriteProductCheck',
 
     ])
   },
@@ -31,15 +34,15 @@ export default {
   },
   methods: {
     ...mapActions([
-        'requestProductFromSpring',
-        'requestProductRatingValueToSpring'
+      'requestProductFromSpring',
+      'requestProductRatingValueToSpring'
     ]),
   },
   async mounted() {
     console.log(this.productNo)
     console.log(this.product)
 
-    if (this.checkValue === true){
+    if (this.checkValue === true) {
       await this.requestProductFromSpring(this.productNo)
 
       this.recentlyViewedProductListTmp.push(this.product)
@@ -51,7 +54,7 @@ export default {
 
     const productNo = this.productNo
     let category = "상세페이지"
-    await this.requestProductRatingValueToSpring({productNo,category})
+    await this.requestProductRatingValueToSpring({productNo, category})
   },
 }
 </script>
