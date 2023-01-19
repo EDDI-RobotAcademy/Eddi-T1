@@ -170,7 +170,7 @@ export default {
                 state.hobbyFavoriteProductCheck[passingData.index].checkValue = false
 
                 for (let i = 0; i < state.favoriteProductList.length; i++) {
-                    if (passingData.productNo === state.favoriteProductList[i].productNo) {
+                    if (passingData.item.productNo === state.favoriteProductList[i].productNo) {
                         state.favoriteProductList.splice(i, 1)
                         i--
                     }
@@ -184,7 +184,7 @@ export default {
                 state.knowhowFavoriteProductCheck[passingData.index].checkValue = false
 
                 for (let i = 0; i < state.favoriteProductList.length; i++) {
-                    if (passingData.productNo === state.favoriteProductList[i].productNo) {
+                    if (passingData.item.productNo === state.favoriteProductList[i].productNo) {
                         state.favoriteProductList.splice(i, 1)
                         i--
                     }
@@ -198,7 +198,7 @@ export default {
                 state.handmadeFavoriteProductCheck[passingData.index].checkValue = false
 
                 for (let i = 0; i < state.favoriteProductList.length; i++) {
-                    if (passingData.productNo === state.favoriteProductList[i].productNo) {
+                    if (passingData.item.productNo === state.favoriteProductList[i].productNo) {
                         state.favoriteProductList.splice(i, 1)
                         i--
                     }
