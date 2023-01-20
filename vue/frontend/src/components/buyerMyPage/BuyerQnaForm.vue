@@ -9,7 +9,7 @@
       <div style="margin-top: 80px">
         <v-card-title style="font-size: 20px; font-weight: bold; color: #2F4F4F">
           <v-icon size="30" color="#2F4F4F">mdi-bullhorn-variant-outline</v-icon>&nbsp;
-          {{ this.$store.state.memberInfoAfterSignIn.nickname }}님의 상품 문의
+          나의 문의 내역
           <v-spacer></v-spacer>
           총 {{ myQnaList.length }}건
         </v-card-title>

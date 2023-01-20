@@ -76,7 +76,7 @@ export default {
           icon: "mdi-account",
           route: "/buyer-info"},
         {
-          title: "최근 주문 정보",
+          title: "주문 배송",
           icon: "mdi-currency-usd",
           route: "/buyer-orderInfo"},
         {
@@ -92,7 +92,7 @@ export default {
           icon: "mdi-basket",
           route: "/buyer-recently-view"},
         {
-          title: "찜한 상품",
+          title: "찜한 아이디어",
           icon: "mdi-lightbulb-on",
           route: "/buyer-favorite"},
       ],

@@ -4,6 +4,27 @@
 
       <div id="content">
 
+        <!--찜-->
+        <v-row v-if="product.nickname !== this.$store.state.memberInfoAfterSignIn.nickname">
+        <v-btn class="iconColor bt1"
+               style="margin-right: 10px; margin-bottom: -10px"
+               color="#fae98c"
+               fab
+               height="53px"
+               width="50px"
+               elevation="0"
+               @click="favoriteProductCheckManagement()"
+        >
+          <v-icon size="30px"
+                  v-if="!hobbyFavoriteProductCheck[productIndex].checkValue && !knowhowFavoriteProductCheck[productIndex].checkValue && !handmadeFavoriteProductCheck[productIndex].checkValue">
+            mdi-lightbulb-variant-outline
+          </v-icon>
+          <v-icon v-else size="30px" style="color: #DAA520">
+            mdi-lightbulb-on
+          </v-icon>
+        </v-btn>
+        </v-row>
+
         <!--판매자 수정/삭제 버튼-->
         <v-row v-if="product.nickname == this.$store.state.memberInfoAfterSignIn.nickname">
           <v-menu offset-y bottom>
@@ -212,27 +233,10 @@
 
                 </div>
 
-                <!--찜 /장바구니 / 바로구매 버튼-->
+                <!--장바구니 / 바로구매 버튼-->
                 <v-row>
-                  <v-col cols="2" align="center">
-                    <v-btn class="iconColor bt1"
-                           color="#2F4F4F"
-                           height="53px"
-                           width="50px"
-                           elevation="0"
-                           @click="favoriteProductCheckManagement()"
-                    >
-                      <v-icon size="30px"
-                              v-if="!hobbyFavoriteProductCheck[productIndex].checkValue && !knowhowFavoriteProductCheck[productIndex].checkValue && !handmadeFavoriteProductCheck[productIndex].checkValue">
-                        mdi-lightbulb-variant-outline
-                      </v-icon>
-                      <v-icon v-else size="30px" style="color: #DAA520">
-                        mdi-lightbulb-on
-                      </v-icon>
-                    </v-btn>
-                  </v-col>
 
-                  <v-col cols="4" align="center">
+                  <v-col cols="6" align="center">
                     <v-btn
                         v-if="$store.state.signInCheckValue==false"
                         @click.stop="dialog = true"
@@ -257,7 +261,7 @@
                     </v-btn>
 
                   </v-col>
-                  <v-col cols="4" align="center">
+                  <v-col cols="6" align="center">
 
                     <v-btn
                         v-if="$store.state.signInCheckValue==false"
@@ -955,6 +959,7 @@ a {
 }
 
 .iconColor {
+  left: 1000px;
   margin: 0px 0px 3px 5px;
   color: white;
 }
