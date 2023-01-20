@@ -2,6 +2,7 @@ import 'package:buy_idea/pages/buyer/my_info/my_order_info/my_order_info_page.da
 import 'package:buy_idea/pages/buyer/my_info/my_order_info/review/my_review_page.dart';
 import 'package:buy_idea/utility/size.dart';
 import 'package:flutter/material.dart';
+import '../../../pages/buyer/my_info/my_favorite/my_favorite_page.dart';
 import '../../../pages/buyer/my_info/my_order_info/QnA/my_question_history_page.dart';
 import 'buyer_info_card.dart';
 import 'package:get/get.dart';
@@ -90,7 +91,9 @@ class _BuyerInformationState extends State<BuyerInformation> {
               BuyerInfoCard(
                 iconData: Icons.lightbulb_outlined,
                 menuTitle: '찜한 아이디어',
-                onCustomButtonPressed: () {},
+                onCustomButtonPressed: () {
+                  Get.to(MyFavoritePage(nickname: widget.memberNickname));
+                },
               ),
               BuyerInfoCard(
                 iconData: Icons.question_answer_outlined,
