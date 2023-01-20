@@ -1,10 +1,9 @@
 <template>
-  <v-container style="width: 1200px; margin-top: 50px;">
-    <h2>{{ categoryName }}</h2>
+  <v-container style="width: 1200px; margin-top: 0px;">
 
-    <v-layout style="margin-top: 50px;">
+    <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
-        <div v-for="(item, index) in productListByCategory" :key="index">
+        <div v-for="(item, index) in productListByFilter" :key="index">
           <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString(), checkValue: true } }"
                        style="text-decoration: none; color: black"
@@ -66,6 +65,7 @@
             </v-hover>
           </router-link>
         </div>
+
       </v-row>
     </v-layout>
   </v-container>
@@ -89,7 +89,9 @@ export default {
     ...mapState([
       'mainPageProductImgListByHobby',
       'mainPageProductListByHobby',
-      'hobbyProductRatingValue'
+      'hobbyProductRatingValue',
+      'productListByFilter'
+
     ])
   },
   methods: {
@@ -108,8 +110,8 @@ export default {
       const category = this.categoryName
       //상품 받아오기
       this.mainPageProductImgListByHobby.splice(0)
-      for (let j = 0; j < this.mainPageProductListByHobby.length; j++) {
-        let productNo = this.mainPageProductListByHobby[j].productNo;
+      for (let j = 0; j < this.productListByFilter.length; j++) {
+        let productNo = this.productListByFilter[j].productNo;
 
         this.requestProductImgListToSpring({productNo, category});
       }

@@ -1,8 +1,7 @@
 <template>
-  <v-container style="width: 1200px; margin-top: 50px;">
-    <h2>{{ categoryName }}</h2>
+  <v-container style="width: 1200px; margin-top: 0px;">
 
-    <v-layout style="margin-top: 50px;">
+    <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
         <div v-for="(item, index) in productListByCategory" :key="index">
           <router-link :to="{ name: 'ProductReadView',
@@ -48,7 +47,7 @@
                     </div>
 
                     <div style="padding-top: 9px;">
-                      <h5>( {{handmadeProductRatingValue[index].toFixed(1)}} )</h5>
+                      <h5>( {{ handmadeProductRatingValue[index].toFixed(1) }} )</h5>
                     </div>
                   </v-layout>
 
@@ -65,6 +64,7 @@
             </v-hover>
           </router-link>
         </div>
+
       </v-row>
     </v-layout>
   </v-container>
@@ -76,6 +76,11 @@ import {mapActions, mapState} from "vuex";
 
 export default {
   name: "HandmadeProductByCategoryForm",
+  data() {
+    return {
+      radioValues: '',
+    }
+  },
   props: {
     categoryName: {
       type: String
@@ -93,8 +98,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'requestProductImgListToSpring',
-
+      'requestProductImgListToSpring'
     ]),
     getProductThumbnail(index) {
       return {
@@ -107,12 +111,14 @@ export default {
       const category = this.categoryName
       this.mainPageProductImgListByHandmade.splice(0)
       // 핸드메이드 상품 받아오기
-      for (let j = 0; j < this.mainPageProductListByHandmade.length; j++) {
-        let productNo = this.mainPageProductListByHandmade[j].productNo;
+      for (let j = 0; j < this.productListByFilter.length; j++) {
+        let productNo = this.productListByFilter[j].productNo;
 
         this.requestProductImgListToSpring({productNo, category});
       }
     },
+
+
   },
   filters: {
     comma(val) {

@@ -1,10 +1,8 @@
 <template>
-  <v-container style="width: 1200px; margin-top: 50px;">
-    <h2>{{ categoryName }}</h2>
-
-    <v-layout style="margin-top: 50px;">
+  <v-container style="width: 1200px; margin-top: 0px;">
+    <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
-        <div v-for="(item, index) in productListByCategory" :key="index">
+        <div v-for="(item, index) in productListByFilter" :key="index">
           <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString(), checkValue: true } }"
                        style="text-decoration: none; color: black"
@@ -48,7 +46,7 @@
                     </div>
 
                     <div style="padding-top: 9px;">
-                      <h5>( {{knowhowProductRatingValue[index].toFixed(1)}} )</h5>
+                      <h5>( {{ knowhowProductRatingValue[index].toFixed(1) }} )</h5>
                     </div>
                   </v-layout>
 
@@ -87,7 +85,8 @@ export default {
     ...mapState([
       'mainPageProductImgListByKnowHOw',
       'mainPageProductListByKnowHow',
-      'knowhowProductRatingValue'
+      'knowhowProductRatingValue',
+      'productListByFilter'
     ])
   },
   methods: {
@@ -101,17 +100,19 @@ export default {
         productThumbnailListByCategory: this.mainPageProductImgListByKnowHOw[index] && require(`@/assets/productImg/${this.mainPageProductImgListByKnowHOw[index]}`)
       }
     },
+
     getMainPageProductImgByKnowhow() {
 
       const category = this.categoryName
       //상품 받아오기
       this.mainPageProductImgListByKnowHOw.splice(0)
-      for (let j = 0; j < this.mainPageProductListByKnowHow.length; j++) {
-        let productNo = this.mainPageProductListByKnowHow[j].productNo;
+      for (let j = 0; j < this.productListByFilter.length; j++) {
+        let productNo = this.productListByFilter[j].productNo;
 
         this.requestProductImgListToSpring({productNo, category});
       }
     },
+
   },
   filters: {
     comma(val) {
@@ -119,7 +120,6 @@ export default {
     }
   },
   mounted() {
-    console.log()
     this.getMainPageProductImgByKnowhow()
   },
 }
