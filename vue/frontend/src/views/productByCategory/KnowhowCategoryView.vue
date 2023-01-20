@@ -1,10 +1,9 @@
 <template>
   <div>
-
+    <v-container style="width:1200px">
+    <h2>{{ categoryName }}</h2>
     <div
         align="end"
-        style="margin-right:400px; margin-top:50px"
-
     >
       <v-btn
           elevation="0"
@@ -52,11 +51,11 @@
       </v-btn>
     </div>
 
-    <know-how-product-by-category-form :categoryName="categoryName"
-    />
+    </v-container>
+
+    <know-how-product-by-category-form :categoryName="categoryName"/>
     <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
       <div slot="no-more" v-show="false"></div>
-      <div slot="no-results" v-show="false"></div>
     </infinite-loading>
   </div>
 

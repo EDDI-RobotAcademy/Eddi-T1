@@ -1,62 +1,64 @@
 <template>
 
   <div>
-
-    <div
-        align="end"
-        style="margin-right:400px; margin-top:50px"
-
-    >
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="recentSortButton"
+    <v-container style="width:1200px">
+      <h2>{{ categoryName }}</h2>
+      <div
+          align="end"
       >
-        <div v-if="!recentSort">최신순</div>
-        <div v-else style="font-weight: bolder">최신순</div>
-      </v-btn>
+        <v-btn
+            elevation="0"
+            color="white"
+            @click="recentSortButton"
+        >
+          <div v-if="!recentSort">최신순</div>
+          <div v-else style="font-weight: bolder">최신순</div>
+        </v-btn>
 
 
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="popularitySortButton">
-        <div v-if="!popularitySort">인기순</div>
-        <div v-else style="font-weight: bolder">인기순</div>
-      </v-btn>
+        <v-btn
+            elevation="0"
+            color="white"
+            @click="popularitySortButton">
+          <div v-if="!popularitySort">인기순</div>
+          <div v-else style="font-weight: bolder">인기순</div>
+        </v-btn>
 
 
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="reviewSortButton">
-        <div v-if="!reviewSort">후기순</div>
-        <div v-else style="font-weight: bolder">후기순</div>
-      </v-btn>
+        <v-btn
+            elevation="0"
+            color="white"
+            @click="reviewSortButton">
+          <div v-if="!reviewSort">후기순</div>
+          <div v-else style="font-weight: bolder">후기순</div>
+        </v-btn>
 
 
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="highPriceSortButton">
-        <div v-if="!highPriceSort">높은 가격순</div>
-        <div v-else style="font-weight: bolder">높은 가격순</div>
-      </v-btn>
+        <v-btn
+            elevation="0"
+            color="white"
+            @click="highPriceSortButton">
+          <div v-if="!highPriceSort">높은 가격순</div>
+          <div v-else style="font-weight: bolder">높은 가격순</div>
+        </v-btn>
 
 
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="lowPriceSortButton">
-        <div v-if="!lowPriceSort">낮은 가격순</div>
-        <div v-else style="font-weight: bolder">낮은 가격순</div>
-      </v-btn>
-    </div>
+        <v-btn
+            elevation="0"
+            color="white"
+            @click="lowPriceSortButton">
+          <div v-if="!lowPriceSort">낮은 가격순</div>
+          <div v-else style="font-weight: bolder">낮은 가격순</div>
+        </v-btn>
+      </div>
+
+    </v-container>
 
     <handmade-product-by-category-form :categoryName="categoryName"/>
     <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
       <div slot="no-more" v-show="false"></div>
     </infinite-loading>
+
   </div>
 </template>
 

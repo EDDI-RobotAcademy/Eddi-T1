@@ -1,8 +1,6 @@
 <template>
-  <v-container style="width: 1200px; margin-top: 50px;">
-    <h2>{{ categoryName }}</h2>
-
-    <v-layout style="margin-top: 50px;">
+  <v-container style="width: 1200px; margin-top: 0px;">
+    <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
         <div v-for="(item, index) in productListByFilter" :key="index">
           <router-link :to="{ name: 'ProductReadView',
