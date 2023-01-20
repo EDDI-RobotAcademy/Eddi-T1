@@ -68,7 +68,7 @@ class _MyReviewPageState extends State<MyReviewPage> {
                   child: Center(
                     child: Text(
                       '현재 등록된 구매 후기가 없습니다.',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                     ),
                   ),
                 )

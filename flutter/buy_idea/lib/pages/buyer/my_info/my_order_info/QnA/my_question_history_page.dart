@@ -14,7 +14,7 @@ class _MyQuestionHistoryPageState extends State<MyQuestionHistoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const TitleTopBar(titleText: '나의 문의내역'),
+        appBar: const TitleTopBar(titleText: '나의 문의'),
         body: SingleChildScrollView(
           child: Container(
               width: MediaQuery.of(context).size.width,
