@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -66,8 +65,17 @@ class _MyQuestionHistoryFormState extends State<MyQuestionHistoryForm> {
       );
     } else {
       if (myQnaHistoryList.isEmpty) {
-        return const Center(
-            child: Text("There is no history of your question."));
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 750,
+          color: Colors.white,
+          child: Center(
+            child: Text(
+                '현재 등록된 문의 내역이 없습니다.',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+            ),
+          ),
+        );
       } else {
         return ListView.builder(
           physics: NeverScrollableScrollPhysics(),

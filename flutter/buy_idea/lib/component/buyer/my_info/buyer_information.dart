@@ -97,7 +97,7 @@ class _BuyerInformationState extends State<BuyerInformation> {
               ),
               BuyerInfoCard(
                 iconData: Icons.question_answer_outlined,
-                menuTitle: '문의 내역',
+                menuTitle: '나의 문의',
                 onCustomButtonPressed: () {
                   Get.to(MyQuestionHistoryPage());
                 },
