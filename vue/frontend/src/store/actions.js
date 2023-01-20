@@ -36,7 +36,8 @@ import {
     REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING,
     FAVORITE_PRODUCT_CHECK_VALUE,
     REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING,
-    REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING
+    REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING,
+    REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -1058,5 +1059,20 @@ export default {
                 commit(REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING, res.data);
             })
             .catch(() => {});
-    }
+    },
+
+    requestProductListByFilterFromSpring ({ commit }, payload) {
+        console.log('requestProductListByFilterFromSpring()')
+        const {category, productSize, filter} = payload;
+        console.log(payload);
+
+        return axios.post(`http://localhost:8888/product/list`, {category, productSize, filter})
+            .then((res) => {
+                console.log(res.data)
+
+                commit(REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
+            })
+    },
+
+
 }

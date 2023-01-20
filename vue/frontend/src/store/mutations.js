@@ -40,7 +40,7 @@ import {
     REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING,
     FAVORITE_PRODUCT_CHECK_VALUE,
     REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING,
-    REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING
+    REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING, REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING
 
 
 } from './mutation-types'
@@ -223,5 +223,8 @@ export default {
     },
     [REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING](state, passingData) {
         state.favoriteProductRatingValue.push(passingData)
+    },
+    [REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING](state, passingData){
+        state.productListByFilter = passingData
     },
 }
