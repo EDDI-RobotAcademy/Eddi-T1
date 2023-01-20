@@ -4,6 +4,8 @@ import 'package:buy_idea/pages/buyer/product/favorite_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import '../component/buyer/my_info/my_favorite/my_favorite_product.dart';
+
 class SpringFavoriteApi {
   static const String httpUri = '192.168.0.8:8888';
 
@@ -26,6 +28,29 @@ class SpringFavoriteApi {
           jsonDecode(utf8.decode(response.bodyBytes));
     } else {
       throw Exception('requestFavoriteStatus() 에러 발생');
+    }
+  }
+
+
+  Future<List<FavoriteProduct>> requestMyFavoriteProductList(String nickname) async {
+    debugPrint('requestMyFavoriteProductList()');
+    var body = json.encode(nickname);
+
+    var response = await http.post(
+        Uri.http(httpUri, '/favorite/my-list/$nickname'),
+        headers: {"Content-Type": "application/json"},
+        body: body);
+
+    var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+
+    if (response.statusCode == 200) {
+      List<FavoriteProduct> myFavoriteList =
+      data.map((list) => FavoriteProduct.fromJson(list)).toList();
+
+      debugPrint('통신 확인');
+      return myFavoriteList;
+    } else {
+      throw Exception('requestMyFavoriteProductList() 에러 발생');
     }
   }
 }
