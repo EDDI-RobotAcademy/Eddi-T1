@@ -7,14 +7,14 @@
 
       <v-container style="width: 1000px"
                    v-if="!favoriteProductList || (Array.isArray(favoriteProductList) && favoriteProductList.length === 0)">
-        <h2 style="margin-bottom: 50px;">찜한 상품</h2>
+        <h2 style="margin-bottom: 50px;">찜한 아이디어</h2>
         <div align="center">
-          <h2>찜한 상품이 없습니다.</h2>
+          <h2>찜한 아이디어가 없습니다.</h2>
         </div>
       </v-container>
 
       <v-container v-else style="width: 1200px">
-        <h2 style="margin-bottom: 50px;">찜한 상품</h2>
+        <h2 style="margin-bottom: 50px;">찜한 아이디어</h2>
         <v-layout style="margin-top: 50px;">
           <v-row class="justify-start">
             <div v-for="(item, index) in favoriteProductInfoList" :key="index">
