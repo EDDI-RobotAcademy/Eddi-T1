@@ -9,7 +9,10 @@ import team_project.buy_idea.entity.product.favorite.Favorite;
 import team_project.buy_idea.repository.product.ProductRepository;
 import team_project.buy_idea.repository.product.favorite.FavoriteRepository;
 import team_project.buy_idea.service.product.favorite.response.FavoriteResponse;
+import team_project.buy_idea.service.product.favorite.response.MyFavoriteListResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -22,6 +25,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Autowired
     ProductRepository productRepository;
 
+    /**
+     * 상품 상세페이지 접속시 찜 상태 조회 & 찜 등록/삭제 Service Impl
+     *
+     * @param request  productNo, nickname, favoriteReference
+     * @return 찜 버튼 상태 값
+     */
     @Override
     public FavoriteResponse favoriteStatus(FavoriteRequest request) {
         final String PRESS_FAVORITE = "tapFavorites";
@@ -81,5 +90,27 @@ public class FavoriteServiceImpl implements FavoriteService {
             }
         }
         return favoriteStatusResponse;
+    }
+
+
+    /**
+     * 일반회원이 찜한 상품 리스트 반환 Service Impl
+     * @param nickname 로그인 중인 회원 닉네임
+     * @return 상품 정보 리스트
+     */
+    public List<MyFavoriteListResponse> myFavoriteListResponses(String nickname) {
+        List<Favorite> maybeFavoriteList = favoriteRepository.findMyFavoriteListByNickname(nickname);
+        List<MyFavoriteListResponse> responseList = new ArrayList<>();
+
+        for (int i = 0; i < maybeFavoriteList.size(); i++) {
+            responseList.add(new MyFavoriteListResponse(
+                    maybeFavoriteList.get(i).getProduct().getProductNo(),
+                    maybeFavoriteList.get(i).getProduct().getProductImages().get(0).getEditedName(),
+                    maybeFavoriteList.get(i).getProduct().getTitle(),
+                    maybeFavoriteList.get(i).getProduct().getNickname(),
+                    maybeFavoriteList.get(i).getProduct().getPrice()
+            ));
+        }
+        return responseList;
     }
 }

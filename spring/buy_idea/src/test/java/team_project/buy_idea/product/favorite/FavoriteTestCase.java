@@ -29,4 +29,9 @@ public class FavoriteTestCase {
         );
         System.out.println(favoriteService.favoriteStatus(request));
     }
+
+    @Test
+    void myFavoriteList(){
+        System.out.println("myFavoriteListResponses : " + favoriteService.myFavoriteListResponses("JOKUN"));
+    }
 }
