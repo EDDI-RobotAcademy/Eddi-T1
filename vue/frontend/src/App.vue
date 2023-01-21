@@ -40,7 +40,7 @@
           <template v-if="this.signInCheckValue">
             <v-btn
                 plain
-                to="/buyer-info"
+                @click="moveMyPage"
             >
               <h4>마이페이지</h4>
             </v-btn>
@@ -89,7 +89,8 @@ export default {
   components: {FooterForm},
   computed:{
     ...mapState([
-      'signInCheckValue'
+      'signInCheckValue',
+      'memberInfoAfterSignIn'
     ]),
   },
   data() {
@@ -101,6 +102,13 @@ export default {
     ...mapActions([
       'requestSearchBySearchTermToSpring'
     ]),
+    moveMyPage(){
+      if (this.memberInfoAfterSignIn.memberType === "판매자"){
+        this.$router.push('/order-manage')
+      } else {
+        this.$router.push('/buyer-info')
+      }
+    },
     moveToHome() {
       this.$router.push('/');
     },
