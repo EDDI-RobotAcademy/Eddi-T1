@@ -3,7 +3,7 @@
 
     <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
-        <div v-for="(item, index) in productListByCategory" :key="index">
+        <div v-for="(item, index) in productListByFilter" :key="index">
           <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString(), checkValue: true } }"
                        style="text-decoration: none; color: black"
@@ -85,15 +85,13 @@ export default {
     categoryName: {
       type: String
     },
-    productListByCategory: {
-      type: Array
-    },
   },
   computed: {
     ...mapState([
       'mainPageProductImgListByHandmade',
       'mainPageProductListByHandmade',
-      'handmadeProductRatingValue'
+      'handmadeProductRatingValue',
+      'productListByFilter',
     ])
   },
   methods: {
