@@ -67,6 +67,7 @@ export default {
       console.log(item)
     },
     async getMainPageProductImgByHandmade() {
+      this.mainPageProductImgListByHandmade.splice(0)
       this.handmadeProductRatingValue.splice(0)
       this.handmadeReviewCnt.splice(0)
       let category = "핸드메이드"
@@ -81,6 +82,7 @@ export default {
     },
 
     async getMainPageProductImgByKnowHow() {
+      this.mainPageProductImgListByKnowHOw.splice(0)
       this.knowhowProductRatingValue.splice(0)
       this.knowhowReviewCnt.splice(0)
       //노하우 상품 이미지 받아오기
@@ -96,6 +98,7 @@ export default {
     },
 
     async getMainPageProductImgByHobby() {
+      this.mainPageProductImgListByHobby.splice(0)
       this.hobbyProductRatingValue.splice(0)
       this.hobbyReviewCnt.splice(0)
       // 취미/특기 상품 받아오기
