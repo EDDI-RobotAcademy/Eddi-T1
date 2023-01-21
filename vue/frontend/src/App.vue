@@ -40,7 +40,7 @@
           <template v-if="this.signInCheckValue">
             <v-btn
                 plain
-                to="/buyer-orderInfo"
+                to="/buyer-info"
             >
               <h4>마이페이지</h4>
             </v-btn>
