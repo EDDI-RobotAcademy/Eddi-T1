@@ -62,7 +62,7 @@
                       >
                         <v-card-title style="font-weight: bold; font-size: 15px">
                           <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: reviewProductNo.toString() } }"
+                                    params: { productNo: reviewProductNo.toString(), checkValue: true } }"
                                        style="text-decoration: none; color: black">
                             {{ reviewProductTitle }}
                           </router-link>

@@ -5,7 +5,7 @@
 <script>
 import ProductReadForm from "@/components/product/ProductReadForm";
 import {mapActions, mapState} from "vuex";
-
+import _ from 'lodash'
 export default {
   name: "ProductReadView",
   components: {ProductReadForm},
@@ -48,7 +48,7 @@ export default {
       this.recentlyViewedProductListTmp.push(this.product)
     }
     console.log(this.recentlyViewedProductListTmp)
-    let recentlyViewed = [...new Set(this.recentlyViewedProductListTmp.map(JSON.stringify))].map(JSON.parse)
+    let recentlyViewed = _.uniqBy(this.recentlyViewedProductListTmp, "productNo")
     this.$store.state.recentlyViewedProductList = recentlyViewed
     console.log(this.recentlyViewedProductList)
 
