@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/yes_or_no_alert_dialog.dart';
-import '../shopping_bucket/shopping_controller.dart';
 
 class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
   final String seller;
@@ -37,7 +36,6 @@ class ProductBuyAndShoppingCartSelectModalSheet extends StatefulWidget {
 
 class _ProductBuyAndShoppingCartSelectModalSheetState
     extends State<ProductBuyAndShoppingCartSelectModalSheet> {
-  final shoppingController = Get.put(ShoppingController());
   int purchaseQuantity = 1;
 
   static const storage = FlutterSecureStorage();
@@ -352,9 +350,7 @@ class _ProductBuyAndShoppingCartSelectModalSheetState
                               ];
                               Get.off(OrderPage(
                                   productNoList: productNoList,
-                                  purchaseQuantityList: purchaseQuantityList,
-                                  bucketItemIdList:
-                                      shoppingController.bucketItemIdList));
+                                  purchaseQuantityList: purchaseQuantityList));
                             } else {
                               showDialog(
                                   context: context,

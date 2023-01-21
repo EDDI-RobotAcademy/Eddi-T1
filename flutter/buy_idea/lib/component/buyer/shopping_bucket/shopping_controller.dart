@@ -9,7 +9,6 @@ class ShoppingController extends GetxController {
   List<ShoppingBucketProduct> productData = [];
   List<int> productNoList = [];
   List<int> purchaseQuantityList = [];
-  List<int> bucketItemIdList = [];
   var bucketProducts = <ShoppingBucketProduct>[].obs;
   dynamic memberNickname;
   var sumDeliveryFee;
@@ -20,7 +19,6 @@ class ShoppingController extends GetxController {
     for(var i = 0; i < bucketProducts.length; i++){
       productNoList.add(bucketProducts[i].productNo);
       purchaseQuantityList.add(bucketProducts[i].itemCount);
-      bucketItemIdList.add(bucketProducts[i].itemId);
     }
   }
 
@@ -75,10 +73,10 @@ class ShoppingController extends GetxController {
     await loadBucketFromApi(memberNickname);
   }
 
-  loadBucketFromApi(String memberNickname) async {
+  loadBucketFromApi(String nickname) async {
     loading(true);
     List<ShoppingBucketProduct> bucketList =
-        await SpringShoppingBucketApi().shoppingBucketList(memberNickname);
+        await SpringShoppingBucketApi().shoppingBucketList(nickname);
     debugPrint('bucketList : $bucketList');
 
     for (var i = 0; i < bucketList.length; i++) {

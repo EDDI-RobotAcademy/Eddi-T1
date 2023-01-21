@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import 'ip_info.dart';
@@ -36,6 +37,12 @@ class SpringOrderApi {
         Uri.http(IpInfo.httpUri, '/order/register'),
         headers: {"Content-Type": "application/json"},
         body: body);
+
+    if (orderRegisterResponse.statusCode == 200) {
+      debugPrint('통신 확인');
+    } else {
+      throw Exception('orderRegister() 에러 발생');
+    }
   }
 }
 

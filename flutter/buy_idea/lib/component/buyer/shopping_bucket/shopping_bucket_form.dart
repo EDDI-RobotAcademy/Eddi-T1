@@ -42,7 +42,7 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
               child: CircularProgressIndicator(color: Color(0XFF2F4F4F)));
         }
         if (controller.bucketProducts.isEmpty) {
-          return const Center(child: Text("No cart items found!"));
+          return const Center(child: Text("장바구니에 담긴 상품이 없습니다"));
         } else {
           return ListView.builder(
             shrinkWrap: true,
