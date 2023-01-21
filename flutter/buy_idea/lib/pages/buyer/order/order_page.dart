@@ -15,14 +15,18 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../api/spring_shopping_bucket_api.dart';
+
 class OrderPage extends StatefulWidget {
   final List<int> productNoList;
   final List<int> purchaseQuantityList;
+  final List<int> bucketItemIdList;
 
   const OrderPage({
     Key? key,
     required this.productNoList,
-    required this.purchaseQuantityList
+    required this.purchaseQuantityList,
+    required this.bucketItemIdList
   }) : super(key: key);
 
   @override
@@ -219,6 +223,14 @@ class _OrderPageState extends State<OrderPage> {
           i++;
         }
         SpringOrderApi().orderRegister(orderInfoList, addressInfo);
+        if (SpringOrderApi.orderRegisterResponse.statusCode == 200) {
+          for(var i = 0; i < orderInfoList.length; i++ ){
+            SpringShoppingBucketApi().shoppingBucketDelete(widget.bucketItemIdList[i], MainPage.memberNickname);
+          }
+          debugPrint('결제 성공 후 장바구니 아이템 삭제 완료');
+        } else {
+          throw Exception('orderRegister() 에러 발생');
+        }
 
         Get.offAll(MainPage());
       },

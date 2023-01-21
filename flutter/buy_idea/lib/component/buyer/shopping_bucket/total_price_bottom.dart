@@ -85,7 +85,8 @@ class _TotalPriceBottomState extends State<TotalPriceBottom> {
                     Get.off(OrderPage(
                         productNoList: shoppingController.productNoList,
                         purchaseQuantityList:
-                            shoppingController.purchaseQuantityList));
+                            shoppingController.purchaseQuantityList,
+                      bucketItemIdList: shoppingController.bucketItemIdList));
                   },
                   child: const Text("결제하기"),
                 ),
