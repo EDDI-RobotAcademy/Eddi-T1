@@ -159,7 +159,7 @@ export default {
                     if (res.data.memberType == "일반회원") {
                         router.push({name: "HomeView"})
                     } else if (res.data.memberType == "판매자") {
-                        router.push({name: "OrderManageView"})
+                        router.push({name: "SellerMainPageView"})
                     }
 
                 } else {
