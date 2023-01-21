@@ -62,7 +62,7 @@
 
 
             <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: product.productNo.toString() } }"
+                                    params: { productNo: product.productNo.toString(), checkValue: true } }"
                          style="text-decoration: none; color: black"
             >
               <v-btn

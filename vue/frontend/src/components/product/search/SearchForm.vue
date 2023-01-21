@@ -37,7 +37,7 @@
           <v-row class="justify-start">
             <div v-for="(item, index) in searchResultList" :key="index">
               <router-link :to="{ name: 'ProductReadView',
-                                    params: { productNo: item.productNo.toString() } }"
+                                    params: { productNo: item.productNo.toString(), checkValue: true } }"
                            style="text-decoration: none; color: black"
               >
                 <v-hover
