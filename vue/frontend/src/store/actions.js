@@ -936,6 +936,7 @@ export default {
         })
             .then(() => {
                 alert("수정 완료")
+                history.go(0)
             })
             .catch(() => {
                 alert("수정 실패")
