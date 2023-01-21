@@ -210,7 +210,7 @@
                           </template>
                           <v-card height="780px">
                             <v-layout style="margin-left: 35px;">
-                              <h3 style="padding: 20px 10px 10px 10px">리뷰 작성</h3>
+                              <h3 style="padding: 20px 10px 10px 10px">후기 작성</h3>
                               <v-spacer></v-spacer>
                             </v-layout>
 
@@ -271,7 +271,10 @@
                                 <v-card height="200" flat>
                                   <v-textarea
                                       v-model="reviewContent"
-                                      style="padding: 5px 5px 0px 5px;" height="200px" outlined/>
+                                      style="padding: 5px 5px 0px 5px;" height="200px" outlined
+                                      counter
+                                      :rules="contentRule"
+                                  />
                                 </v-card>
 
                                 <v-layout align="start"
