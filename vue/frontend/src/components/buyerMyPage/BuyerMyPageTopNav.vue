@@ -23,7 +23,7 @@
                 </v-card-title>
 
                 <v-card-title class="justify-sm-end" style="margin-right: 10px">
-                  <router-link to="null" style="text-decoration: none; color: white">
+                  <router-link :to="item.path" style="text-decoration: none; color: white">
                     <h5 style="font-size: 33px; color: #FAEBD7">{{countByInfo[index]}}</h5>
                   </router-link>
 
