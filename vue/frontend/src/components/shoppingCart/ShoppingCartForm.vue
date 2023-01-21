@@ -226,7 +226,12 @@ export default {
       const nickname = this.$store.state.memberInfoAfterSignIn.nickname
       await this.requestDeleteShoppingBucketItemFromSpring({itemId, nickname});
     },
-    selectProduct(price, itemCount) {
+    selectProduct(price, itemCount, target) {
+      document.querySelectorAll(`v-checkbox[type=checkbox]`)
+          .forEach(el => el.checked = false);
+
+      target.checked = true;
+
       this.totalProductPrice += (price * itemCount)
       console.log(this.selectList)
     },
