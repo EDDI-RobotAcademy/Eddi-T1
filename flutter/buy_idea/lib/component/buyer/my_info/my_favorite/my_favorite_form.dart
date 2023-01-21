@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
@@ -46,6 +47,19 @@ class _MyFavoriteFormState extends State<MyFavoriteForm> {
 
   @override
   Widget build(BuildContext context) {
+    if(favoriteList.isEmpty){
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 750,
+        color: Colors.white,
+        child: Center(
+          child: Text(
+              '찜한 아이디어 상품이 없습니다.',
+              style: TextStyle(fontSize: 16)
+          ),
+        ),
+      );
+    }else{
     return Expanded(
         child: Stack(
       children: [
@@ -83,5 +97,8 @@ class _MyFavoriteFormState extends State<MyFavoriteForm> {
           )
       ],
     ));
+
+    }
+
   }
 }
