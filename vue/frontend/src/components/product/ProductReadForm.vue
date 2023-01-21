@@ -773,18 +773,24 @@ export default {
       if (this.quantity <= 0) {
         this.totalPrice = 0
       } else {
-        this.totalPrice = this.price * this.quantity + this.deliveryFee
+        if(this.price * this.quantity >= 50000){
+          this.totalPrice = this.price * this.quantity + this.freeDeliveryFee
+        }else{
+          this.totalPrice = this.price * this.quantity + this.deliveryFee
+        }
       }
 
-      if (this.totalPrice >= 50000) {
+      if (this.price * this.quantity >= 50000) {
         // eslint-disable-next-line vue/no-mutating-props
         this.deliveryFee = this.freeDeliveryFee
 
-        if (this.totalPrice < 5000) {
+        if (this.price * this.quantity < 50000) {
           // eslint-disable-next-line vue/no-mutating-props
           this.deliveryFee = this.initialDeliveryFee
         }
       }
+
+
     },
     fn_cancel2() {
       this.dialogQna = false
