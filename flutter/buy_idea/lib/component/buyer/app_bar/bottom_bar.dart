@@ -15,9 +15,10 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   ///맨 처음에 나오는 화면
   int _selectedIndex = 0;
+  Color _color = Colors.teal;
 
   ///이동할 페이지 List
-  static const List _pages = [
+  static List _pages = [
     HomePage(),
     CategoryPage(),
     SearchPage(),
@@ -31,10 +32,12 @@ class _BottomBarState extends State<BottomBar> {
         child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.teal,
+        selectedItemColor: _color,
         unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
         showUnselectedLabels: true,
         iconSize: 30,
+        type: BottomNavigationBarType.fixed,
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
         items: const <BottomNavigationBarItem>[

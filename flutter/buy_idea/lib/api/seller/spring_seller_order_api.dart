@@ -4,15 +4,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../component/seller/order_management/product_order_status_data.dart';
+import '../ip_info.dart';
 
 class SpringSellerOrderApi {
-  static const String httpUri = '192.168.0.8:8888';
 
   Future<List<ProductOrderStatusData>> getProductOrderStatusList(String nickname) async {
     debugPrint('getProductOrderStatusList()');
 
     var response = await http.post(
-        Uri.http(httpUri, '/order/seller-order-status/$nickname'),
+        Uri.http(IpInfo.httpUri, '/order/seller-order-status/$nickname'),
         headers: {"Content-Type": "application/json"});
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
@@ -32,7 +32,7 @@ class SpringSellerOrderApi {
     debugPrint('getAllOrderStatusList()');
 
     var response = await http.post(
-        Uri.http(httpUri, '/order/seller-order-info-list-count/$nickname'),
+        Uri.http(IpInfo.httpUri, '/order/seller-order-info-list-count/$nickname'),
         headers: {"Content-Type": "application/json"}
     );
 

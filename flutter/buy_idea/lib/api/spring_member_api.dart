@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import 'ip_info.dart';
+
 class SpringMemberApi {
-  static const String httpUri = '192.168.0.8:8888';
   static var signInResponse;
   static var memberDeleteResponse;
   static var memberNicknameModifyResponse;
@@ -15,7 +16,7 @@ class SpringMemberApi {
 
     try {
       signInResponse = await http.post(
-        Uri.http(httpUri, '/member/sign-in'),
+        Uri.http(IpInfo.httpUri, '/member/sign-in'),
         headers: {"Content-Type": "application/json"},
         body: body,
       );
@@ -28,7 +29,7 @@ class SpringMemberApi {
     var body = json.encode(request);
 
     var response = await http.post(
-      Uri.http(httpUri, '/member/sign-up'),
+      Uri.http(IpInfo.httpUri, '/member/sign-up'),
       headers: {"Content-Type": "application/json"},
       body: body,
     );
@@ -45,7 +46,7 @@ class SpringMemberApi {
 
     try {
       memberDeleteResponse = await http.post(
-        Uri.http(httpUri, '/member/memberDrop/$userToken'),
+        Uri.http(IpInfo.httpUri, '/member/memberDrop/$userToken'),
         headers: {"Content-Type": "application/json"},
         body: body,
       );
@@ -59,7 +60,7 @@ class SpringMemberApi {
 
     try {
       memberNicknameModifyResponse = await http.post(
-        Uri.http(httpUri, '/member/nickname-modify'),
+        Uri.http(IpInfo.httpUri, '/member/nickname-modify'),
         headers: {"Content-Type": "application/json"},
         body: body,
       );
@@ -74,7 +75,7 @@ class SpringMemberApi {
     var body = json.encode(data);
 
     var response = await http.post(
-      Uri.http(httpUri, '/member/check-id/${request.memberId}'),
+      Uri.http(IpInfo.httpUri, '/member/check-id/${request.memberId}'),
       headers: {"Content-Type": "application/json"},
       body: body,
     );
@@ -98,7 +99,7 @@ class SpringMemberApi {
     var body = json.encode(data);
 
     var response = await http.post(
-      Uri.http(httpUri, '/member/check-nickname/${request.nickname}'),
+      Uri.http(IpInfo.httpUri, '/member/check-nickname/${request.nickname}'),
       headers: {"Content-Type": "application/json"},
       body: body,
     );

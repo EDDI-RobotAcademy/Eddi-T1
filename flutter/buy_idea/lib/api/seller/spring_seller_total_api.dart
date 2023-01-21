@@ -4,12 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../ip_info.dart';
+
 class SpringSellerTotalApi {
-  static const String httpUri = '192.168.0.12:8888';
 
   Future<TotalInfo> requestTotalInfoOfSeller(String seller) async {
     var response = await http.post(
-      Uri.http(httpUri, '/seller/total-info/$seller')
+      Uri.http(IpInfo.httpUri, '/seller/total-info/$seller')
     );
     if (response.statusCode == 200) {
       debugPrint("requestTotalInfoOfSeller() 통신 확인");

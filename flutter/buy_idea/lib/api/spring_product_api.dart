@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import 'ip_info.dart';
+
 class SpringProductApi {
-  static const String httpUri = '192.168.0.12:8888';
   static var SearchProductResponse;
 
   Future<List<RequestProductThumbnailInfo>> firstProductList(
@@ -20,7 +21,7 @@ class SpringProductApi {
     var jsonBody = json.encode(body);
 
     var response = await http.post(
-      Uri.http(httpUri, '/product/list'),
+      Uri.http(IpInfo.httpUri, '/product/list'),
       headers: {"Content-Type": "application/json"},
       body: jsonBody
     );
@@ -55,7 +56,7 @@ class SpringProductApi {
     var jsonBody = json.encode(body);
 
     var response = await http.post(
-      Uri.http(httpUri, '/product/list/next'),
+      Uri.http(IpInfo.httpUri, '/product/list/next'),
       headers: {"Content-Type": "application/json"},
       body: jsonBody
     );
@@ -78,7 +79,7 @@ class SpringProductApi {
 
   Future<RequestProductImage> productThumbnailImage(int productNo) async {
     var response = await http.get(
-      Uri.http(httpUri, '/product/image/thumbnail/$productNo'),
+      Uri.http(IpInfo.httpUri, '/product/image/thumbnail/$productNo'),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -98,7 +99,7 @@ class SpringProductApi {
 
   Future<RequestProduct> productDetailsInfo(int productNo) async {
     var response = await http.get(
-      Uri.http(httpUri, '/product/read/$productNo'),
+      Uri.http(IpInfo.httpUri, '/product/read/$productNo'),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -120,7 +121,7 @@ class SpringProductApi {
 
   Future<List<RequestProductImage>> productImageList(int productNo) async {
     var response = await http.get(
-      Uri.http(httpUri, '/product/images/$productNo'),
+      Uri.http(IpInfo.httpUri, '/product/images/$productNo'),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -143,7 +144,7 @@ class SpringProductApi {
     debugPrint('searchKeyword : ' + searchKeyword);
 
     SearchProductResponse = await http.get(
-      Uri.http(httpUri, '/product/search/$searchKeyword'),
+      Uri.http(IpInfo.httpUri, '/product/search/$searchKeyword'),
       headers: {"Content-Type": "application/json"},
     );
 

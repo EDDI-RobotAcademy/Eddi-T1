@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../component/buyer/shopping_bucket/shopping_bucket_product.dart';
+import 'ip_info.dart';
 
 class SpringShoppingBucketApi {
-  static const String httpUri = '192.168.0.8:8888';
   static var bucketRegisterResponse;
   static var bucketDeleteResponse;
 
@@ -15,7 +15,7 @@ class SpringShoppingBucketApi {
     debugPrint('memberNickname : ' + memberNickname);
 
     var response = await http.post(
-      Uri.http(httpUri, '/order/shopping-bucket-list/$memberNickname'),
+      Uri.http(IpInfo.httpUri, '/order/shopping-bucket-list/$memberNickname'),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -38,7 +38,7 @@ class SpringShoppingBucketApi {
     var body = json.encode(shoppingBucketRequest);
 
     bucketRegisterResponse = await http.post(
-      Uri.http(httpUri, '/order/register/shopping-bucket'),
+      Uri.http(IpInfo.httpUri, '/order/register/shopping-bucket'),
       headers: {"Content-Type": "application/json"},
       body : body,
     );
@@ -48,7 +48,7 @@ class SpringShoppingBucketApi {
     var body = json.encode(itemId);
 
     bucketDeleteResponse = await http.delete(
-      Uri.http(httpUri, '/order/shopping-bucket-list/$itemId'),
+      Uri.http(IpInfo.httpUri, '/order/shopping-bucket-list/$itemId'),
       headers: {"Content-Type": "application/json"},
       body : body,
     );

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class SpringOrderApi {
+import 'ip_info.dart';
 
-  static const String httpUri = '192.168.0.8:8888';
+class SpringOrderApi {
 
   Future<void> orderRegister(List<OrderInfo> orderInfoList, AddressInfo addressInfo) async {
     List<Map> orderInfoMapList = [];
@@ -32,7 +32,7 @@ class SpringOrderApi {
     var body = json.encode(data);
 
     var response = await http.post(
-      Uri.http(httpUri, '/order/register'),
+      Uri.http(IpInfo.httpUri, '/order/register'),
       headers: {"Content-Type": "application/json"},
       body: body
     );
