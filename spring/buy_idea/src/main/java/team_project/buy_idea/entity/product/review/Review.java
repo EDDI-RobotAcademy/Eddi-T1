@@ -29,7 +29,7 @@ public class Review {
     @Column(nullable = false)
     private int starRating;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String content;
 
     @CreationTimestamp

@@ -32,10 +32,10 @@ public class QnA {
     @Column(nullable = false)
     private String questionTitle;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String questionContent;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String answer;
 
     @Column(nullable = false)
