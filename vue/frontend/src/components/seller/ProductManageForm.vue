@@ -55,7 +55,7 @@
                 {{ product.productInfo.category }}
               </div>
 
-              <div>가격 : {{ product.price }} 원</div>
+              <div>가격 : {{ product.price | comma }} 원</div>
             </v-card-text>
 
             <v-divider class="mx-4"></v-divider>
@@ -141,6 +141,11 @@ export default {
           categoryType: '내가 판매한 상품'
         },
       ]
+    }
+  },
+  filters: {
+    comma(val) {
+      return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
   methods: {
