@@ -15,14 +15,18 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../api/spring_shopping_bucket_api.dart';
+
 class OrderPage extends StatefulWidget {
   final List<int> productNoList;
   final List<int> purchaseQuantityList;
+  final List<int> bucketItemIdList;
 
   const OrderPage({
     Key? key,
     required this.productNoList,
-    required this.purchaseQuantityList
+    required this.purchaseQuantityList,
+    required this.bucketItemIdList
   }) : super(key: key);
 
   @override
@@ -197,6 +201,38 @@ class _OrderPageState extends State<OrderPage> {
         print('------- onClose');
         Bootpay().dismiss(context); //명시적으로 부트페이 뷰 종료 호출
         //TODO - 원하시는 라우터로 페이지 이동
+        int i = 0;
+        List<OrderInfo> orderInfoList = [];
+        AddressInfo addressInfo = AddressInfo(
+            recipientController.text,
+            phoneController.text,
+            zipcodeController.text,
+            cityController.text,
+            streetController.text,
+            addressDetailController.text
+        );
+        for (RequestProduct product in products) {
+          orderInfoList.add(
+              OrderInfo(
+                  buyer,
+                  product.productNo,
+                  widget.purchaseQuantityList[i],
+                  "입금 완료"
+              )
+          );
+          i++;
+        }
+        SpringOrderApi().orderRegister(orderInfoList, addressInfo);
+        if (SpringOrderApi.orderRegisterResponse.statusCode == 200) {
+          for(var i = 0; i < orderInfoList.length; i++ ){
+            SpringShoppingBucketApi().shoppingBucketDelete(widget.bucketItemIdList[i], MainPage.memberNickname);
+          }
+          debugPrint('결제 성공 후 장바구니 아이템 삭제 완료');
+        } else {
+          throw Exception('orderRegister() 에러 발생');
+        }
+
+        Get.offAll(MainPage());
       },
       onIssued: (String data) {
         print('------- onIssued: $data');
@@ -220,29 +256,6 @@ class _OrderPageState extends State<OrderPage> {
       },
       onDone: (String data) {
         print('------- onDone: $data');
-        int i = 0;
-        List<OrderInfo> orderInfoList = [];
-        AddressInfo addressInfo = AddressInfo(
-            recipientController.text,
-            phoneController.text,
-            zipcodeController.text,
-            cityController.text,
-            streetController.text,
-            addressDetailController.text
-        );
-        for (RequestProduct product in products) {
-          orderInfoList.add(
-              OrderInfo(
-                  buyer,
-                  product.productNo,
-                  widget.purchaseQuantityList[i],
-                  "입금 완료"
-              )
-          );
-          i++;
-        }
-        SpringOrderApi().orderRegister(orderInfoList, addressInfo);
-        Get.offAll(MainPage());
       },
     );
   }

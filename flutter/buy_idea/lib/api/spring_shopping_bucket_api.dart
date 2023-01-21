@@ -34,24 +34,24 @@ class SpringShoppingBucketApi {
     }
   }
 
-   shoppingBucketRegister(ShoppingBucketRequest shoppingBucketRequest) async {
+  shoppingBucketRegister(ShoppingBucketRequest shoppingBucketRequest) async {
     var body = json.encode(shoppingBucketRequest);
 
     bucketRegisterResponse = await http.post(
       Uri.http(IpInfo.httpUri, '/order/register/shopping-bucket'),
       headers: {"Content-Type": "application/json"},
-      body : body,
+      body: body,
     );
   }
 
-  shoppingBucketDelete(int itemId) async {
-    var body = json.encode(itemId);
+  shoppingBucketDelete(int itemId, String nickname) async {
 
     bucketDeleteResponse = await http.delete(
-      Uri.http(IpInfo.httpUri, '/order/shopping-bucket-list/$itemId'),
+      Uri.http(IpInfo.httpUri, '/order/shopping-bucket-list/delete',
+          {'itemId': itemId.toString(), 'nickname': nickname.toString()}),
       headers: {"Content-Type": "application/json"},
-      body : body,
     );
+
   }
 }
 
@@ -60,12 +60,11 @@ class ShoppingBucketRequest {
   String nickname;
   int productAmountValue;
 
-  ShoppingBucketRequest(
-      this.productId, this.nickname, this.productAmountValue);
+  ShoppingBucketRequest(this.productId, this.nickname, this.productAmountValue);
 
   Map<String, dynamic> toJson() => {
-    'productId': productId,
-    'nickname': nickname,
-    'productAmountValue': productAmountValue,
-  };
+        'productId': productId,
+        'nickname': nickname,
+        'productAmountValue': productAmountValue,
+      };
 }

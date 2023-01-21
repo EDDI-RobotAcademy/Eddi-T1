@@ -1,4 +1,5 @@
 import 'package:buy_idea/component/buyer/shopping_bucket/shopping_controller.dart';
+import 'package:buy_idea/pages/buyer/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -21,10 +22,10 @@ class _ShoppingBucketFormState extends State<ShoppingBucketForm> {
   var f = NumberFormat('###,###,###,###');
 
   Future<bool> _deleteShoppingBucketProducts(int itemId) async {
-    await SpringShoppingBucketApi().shoppingBucketDelete(itemId);
+    await SpringShoppingBucketApi().shoppingBucketDelete(itemId, MainPage.memberNickname);
     debugPrint('itemId : ' + itemId.toString());
 
-    if (SpringShoppingBucketApi.bucketRegisterResponse.statusCode == 200) {
+    if (SpringShoppingBucketApi.bucketDeleteResponse.statusCode == 200) {
       debugPrint('장바구니 상품 삭제 완료');
       return true;
     } else {
