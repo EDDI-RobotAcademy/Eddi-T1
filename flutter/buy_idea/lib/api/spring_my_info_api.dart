@@ -30,7 +30,7 @@ class SpringMyInfoApi {
     }
   }
 
-  Future<List<Address>> myOrderAddressInfoList(
+  Future<List<DeliveryAddress>> myOrderAddressInfoList(
       String memberNickname) async {
     debugPrint('memberNickname : ' + memberNickname);
 
@@ -43,8 +43,8 @@ class SpringMyInfoApi {
       debugPrint('통신 확인');
       var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
 
-      List<Address> myOrderAddressInfoList =
-      data.map((list) => Address.fromJson(list)).toList();
+      List<DeliveryAddress> myOrderAddressInfoList =
+      data.map((list) => DeliveryAddress.fromJson(list)).toList();
 
       debugPrint(myOrderAddressInfoList.toString());
 

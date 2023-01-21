@@ -1,5 +1,5 @@
 List<MyOrderInfoProduct> myOrderInfoList = [];
-List<Address> myOrderAddressList = [];
+List<DeliveryAddress> myOrderAddressList = [];
 
 class MyOrderInfoProduct {
   String title, image, nickname, orderStatus, orderNo, orderDate;
@@ -33,10 +33,10 @@ class MyOrderInfoProduct {
   }
 }
 
-class Address {
+class DeliveryAddress {
   String orderNo, recipient, phone, zipcode, city, street, addressDetail;
 
-  Address({
+  DeliveryAddress({
     required this.orderNo,
     required this.recipient,
     required this.phone,
@@ -46,14 +46,14 @@ class Address {
     required this.addressDetail,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
+  factory DeliveryAddress.fromJson(Map<String, dynamic> json) {
+    return DeliveryAddress(
         orderNo: json['orderNo'],
-        recipient: json['address']['recipient'],
-        phone: json['address']['phone'],
-        zipcode: json['address']['zipcode'],
-        city: json['address']['city'],
-        street: json['address']['street'],
-        addressDetail: json['address']['addressDetail']);
+        recipient: json['deliveryAddress']['recipient'],
+        phone: json['deliveryAddress']['phone'],
+        zipcode: json['deliveryAddress']['zipcode'],
+        city: json['deliveryAddress']['city'],
+        street: json['deliveryAddress']['street'],
+        addressDetail: json['deliveryAddress']['addressDetail']);
   }
 }

@@ -34,12 +34,12 @@ class _OrderDetailInfoPageState extends State<OrderDetailInfoPage> {
 
   _getMyOrderAddressList() async {
     memberNickname = await _storage.read(key: 'nickname');
-    List<Address> orderAddressList =
+    List<DeliveryAddress> orderAddressList =
         await SpringMyInfoApi().myOrderAddressInfoList(memberNickname);
 
     myOrderInfoList.clear();
     for (var i = 0; i < orderAddressList.length; i++) {
-      myOrderAddressList.add(Address(
+      myOrderAddressList.add(DeliveryAddress(
           orderNo: orderAddressList[i].orderNo,
           recipient: orderAddressList[i].recipient,
           phone: orderAddressList[i].phone,
