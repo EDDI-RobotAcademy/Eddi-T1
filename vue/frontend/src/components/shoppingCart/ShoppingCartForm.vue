@@ -140,7 +140,7 @@
               <div>
                 <h5 style="font-weight: normal">상품금액</h5>
                 <span style="font-size: 30px; font-weight: bold">
-                  {{ this.totalProductPrice }}
+                  {{ this.totalProductPrice | comma}}
                 </span>
                 <span>원</span>
               </div>
@@ -151,7 +151,7 @@
                 <h5 style="font-weight: normal">배송비</h5>
                 <div>
                   <span style="font-size: 30px; font-weight: bold">
-                    {{ this.totalDeliveryFee }}
+                    {{ this.totalDeliveryFee |comma}}
                   </span>
                   <span>원</span>
                 </div>
@@ -162,7 +162,7 @@
               <div>
                 <h5 style="font-weight: normal">총 금액</h5>
                 <span style="font-size: 30px; font-weight: bold">
-                  {{ this.totalPaymentAmount }}
+                  {{ this.totalPaymentAmount |comma}}
                 </span>
                 <span>
                   원
