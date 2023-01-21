@@ -5,10 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../component/buyer/my_info/my_favorite/my_favorite_product.dart';
+import 'ip_info.dart';
 
 class SpringFavoriteApi {
-  static const String httpUri = '192.168.0.8:8888';
-
   requestFavoriteStatus(FavoriteRequest request) async {
     var data = {
       'productNo': request.productNo,
@@ -18,7 +17,7 @@ class SpringFavoriteApi {
     var body = json.encode(data);
     debugPrint('requestFavoriteStatus()');
 
-    var response = await http.post(Uri.http(httpUri, '/favorite/status'),
+    var response = await http.post(Uri.http(IpInfo.httpUri, '/favorite/status'),
         headers: {"Content-Type": "application/json"}, body: body);
 
     if (response.statusCode == 200) {
@@ -37,7 +36,7 @@ class SpringFavoriteApi {
     var body = json.encode(nickname);
 
     var response = await http.post(
-        Uri.http(httpUri, '/favorite/my-list/$nickname'),
+        Uri.http(IpInfo.httpUri, '/favorite/my-list/$nickname'),
         headers: {"Content-Type": "application/json"},
         body: body);
 

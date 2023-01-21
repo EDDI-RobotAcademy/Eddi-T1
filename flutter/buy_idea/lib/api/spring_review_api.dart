@@ -5,10 +5,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
+import 'ip_info.dart';
+
 class SpringReviewApi {
-
-  static const String httpUri = '192.168.0.12:8888';
-
   Future<bool> productReviewRegister(ProductReviewRegisterInfo productReviewRegisterInfo) async {
 
     Dio dio = Dio();
@@ -32,7 +31,7 @@ class SpringReviewApi {
     });
 
     var response = await dio.post(
-      'http://$httpUri/review/register',
+      'http://${IpInfo.httpUri}/review/register',
       data: formData
     );
 
@@ -47,7 +46,7 @@ class SpringReviewApi {
   Future<List<RequestProductReview>> productReviewList(int productNo, int reviewSize) async {
 
     var response = await http.get(
-      Uri.http(httpUri, '/review/list', {'productNo' : productNo.toString(), 'reviewSize' : reviewSize.toString()}),
+      Uri.http(IpInfo.httpUri, '/review/list', {'productNo' : productNo.toString(), 'reviewSize' : reviewSize.toString()}),
       headers: {'Content-Type' : 'application/json'}
     );
 
@@ -67,7 +66,7 @@ class SpringReviewApi {
   Future<List<RequestProductReview>> nextProductReviewList(int productNo, int reviewNo, int reviewSize) async {
 
     var response = await http.get(
-        Uri.http(httpUri, '/review/next-list', {'productNo' : productNo.toString(), 'reviewNo' : reviewNo.toString(), 'reviewSize' : reviewSize.toString()}),
+        Uri.http(IpInfo.httpUri, '/review/next-list', {'productNo' : productNo.toString(), 'reviewNo' : reviewNo.toString(), 'reviewSize' : reviewSize.toString()}),
         headers: {'Content-Type' : 'application/json'}
     );
 
@@ -87,7 +86,7 @@ class SpringReviewApi {
   Future<RequestProductReviewImage> reviewImage(int reviewNo) async {
 
     var response = await http.get(
-      Uri.http(httpUri, '/review/image/$reviewNo'),
+      Uri.http(IpInfo.httpUri, '/review/image/$reviewNo'),
       headers: {'Content-Type' : 'application/json'}
     );
 
@@ -108,7 +107,7 @@ class SpringReviewApi {
   Future<int> reviewCount(int productNo) async {
 
     var response = await http.get(
-      Uri.http(httpUri, '/review/count/$productNo'),
+      Uri.http(IpInfo.httpUri, '/review/count/$productNo'),
       headers: {'Content-Type' : 'application/json'}
     );
 
@@ -125,7 +124,7 @@ class SpringReviewApi {
   Future<double> averageOfStarRating(int productNo) async {
 
     var response = await http.get(
-        Uri.http(httpUri, '/review/star-rating/average/$productNo'),
+        Uri.http(IpInfo.httpUri, '/review/star-rating/average/$productNo'),
         headers: {'Content-Type' : 'application/json'}
     );
 
@@ -160,7 +159,7 @@ class SpringReviewApi {
     });
 
     var response = await dio.put(
-        'http://$httpUri/review/modify',
+        'http://${IpInfo.httpUri}/review/modify',
         data: formData
     );
 
@@ -175,7 +174,7 @@ class SpringReviewApi {
   Future<bool> productReviewDelete(int reviewNo) async {
 
     var response = await http.delete(
-      Uri.http(httpUri, '/review/delete/$reviewNo'),
+      Uri.http(IpInfo.httpUri, '/review/delete/$reviewNo'),
       headers: {'Content-Type' : 'application/json'}
     );
 
@@ -190,7 +189,7 @@ class SpringReviewApi {
   Future<List<RequestMyReview>> myReviewList(String writer) async {
 
     var response = await http.get(
-      Uri.http(httpUri, '/review/my-review/list/$writer'),
+      Uri.http(IpInfo.httpUri, '/review/my-review/list/$writer'),
       headers: {'Content-Type' : 'application/json'}
     );
 
@@ -208,7 +207,7 @@ class SpringReviewApi {
   Future<bool> checkWriteReview(String writer, int productNo) async {
 
     var response = await http.get(
-      Uri.http(httpUri, '/review/check/write', {'writer' : writer, 'productNo' : productNo.toString()}),
+      Uri.http(IpInfo.httpUri, '/review/check/write', {'writer' : writer, 'productNo' : productNo.toString()}),
       headers: {'Content-Type' : 'application/json'}
     );
 

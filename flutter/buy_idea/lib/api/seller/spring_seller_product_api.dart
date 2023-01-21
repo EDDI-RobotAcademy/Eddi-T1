@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../ip_info.dart';
+
 class SpringSellerProductApi {
-  static const String httpUri = '192.168.0.12:8888';
-  static var SearchProductResponse;
 
   Future<List<RequestSellerProduct>> sellerProductList(String seller, String category, int listSize) async {
 
     var response = await http.get(
-        Uri.http(httpUri, 'product/seller/list', {'seller' : seller, 'category' : category, 'listSize' : listSize.toString()}),
+        Uri.http(IpInfo.httpUri, 'product/seller/list', {'seller' : seller, 'category' : category, 'listSize' : listSize.toString()}),
         headers: {'Content-Type' : 'application/json'}
     );
 
@@ -28,7 +28,7 @@ class SpringSellerProductApi {
   Future<List<RequestSellerProduct>> sellerNextProductList(String seller, String category, int productNo, int listSize) async {
 
     var response = await http.get(
-        Uri.http(httpUri, 'product/seller/list', {'seller' : seller, 'category' : category, 'productNo' : productNo.toString(), 'listSize' : listSize.toString()}),
+        Uri.http(IpInfo.httpUri, 'product/seller/list', {'seller' : seller, 'category' : category, 'productNo' : productNo.toString(), 'listSize' : listSize.toString()}),
         headers: {'Content-Type' : 'application/json'}
     );
 

@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../component/seller/my_info/seller_info_data.dart';
+import '../ip_info.dart';
 
 class SpringSellerInfoApi {
-  static const String httpUri = '192.168.0.8:8888';
   static var sellerInfoResponse;
   static var sellerInfoRegisterResponse;
 
@@ -14,7 +14,7 @@ class SpringSellerInfoApi {
     debugPrint('getSellerInfo()');
 
     sellerInfoResponse = await http.post(
-        Uri.http(httpUri, '/seller/Info/$nickname'),
+        Uri.http(IpInfo.httpUri, '/seller/Info/$nickname'),
         headers: {"Content-Type": "application/json"});
 
     var data = jsonDecode(utf8.decode(sellerInfoResponse.bodyBytes));
@@ -56,7 +56,7 @@ class SpringSellerInfoApi {
     var body = json.encode(data);
 
     sellerInfoRegisterResponse = await http.post(
-      Uri.http(httpUri, '/seller/profile/register'),
+      Uri.http(IpInfo.httpUri, '/seller/profile/register'),
       headers: {"Content-Type": "application/json"},
       body: body,
     );

@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import '../component/buyer/my_info/my_order_info/my_order_info_product.dart';
+import 'ip_info.dart';
 
 class SpringMyInfoApi {
-  static const String httpUri = '192.168.0.8:8888';
 
   Future<List<MyOrderInfoProduct>> myOrderInfoList(
       String memberNickname) async {
     debugPrint('memberNickname : ' + memberNickname);
 
     var response = await http.post(
-      Uri.http(httpUri, '/order/my-order-info-list/$memberNickname'),
+      Uri.http(IpInfo.httpUri, '/order/my-order-info-list/$memberNickname'),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -35,7 +35,7 @@ class SpringMyInfoApi {
     debugPrint('memberNickname : ' + memberNickname);
 
     var response = await http.post(
-      Uri.http(httpUri, '/order/my-order-info-list/$memberNickname'),
+      Uri.http(IpInfo.httpUri, '/order/my-order-info-list/$memberNickname'),
       headers: {"Content-Type": "application/json"},
     );
 

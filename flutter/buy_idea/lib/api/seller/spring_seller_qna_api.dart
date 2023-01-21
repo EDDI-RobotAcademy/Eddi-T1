@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../component/buyer/my_info/my_order_info/QnA/my_question_history_info.dart';
+import '../ip_info.dart';
 
 class SpringSellerQnaApi {
-  static const String httpUri = '192.168.0.8:8888';
+
   static var deleteAnswerResponse;
 
   Future<List<MyQuestionHistoryInfo>> getAnswerStatusList(
@@ -14,7 +15,7 @@ class SpringSellerQnaApi {
     debugPrint('getAnswerStatusList()');
     var body = json.encode(request);
 
-    var response = await http.post(Uri.http(httpUri, '/qna/answer-status-list'),
+    var response = await http.post(Uri.http(IpInfo.httpUri, '/qna/answer-status-list'),
         headers: {"Content-Type": "application/json"}, body: body);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
@@ -34,7 +35,7 @@ class SpringSellerQnaApi {
     debugPrint('answerRegister()');
     var body = json.encode(answer);
 
-    var response = await http.post(Uri.http(httpUri, '/qna/answer-register'),
+    var response = await http.post(Uri.http(IpInfo.httpUri, '/qna/answer-register'),
         headers: {"Content-Type": "application/json"}, body: body);
 
     if (response.statusCode == 200) {
@@ -49,7 +50,7 @@ class SpringSellerQnaApi {
     debugPrint('deleteAnswer()');
 
     deleteAnswerResponse = await http.post(
-        Uri.http(httpUri, '/qna/delete-answer/$qnaNo'),
+        Uri.http(IpInfo.httpUri, '/qna/delete-answer/$qnaNo'),
         headers: {"Content-Type": "application/json"});
 
     if (deleteAnswerResponse.statusCode == 200) {
