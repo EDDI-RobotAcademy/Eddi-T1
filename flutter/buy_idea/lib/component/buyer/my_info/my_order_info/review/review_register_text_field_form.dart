@@ -14,6 +14,7 @@ class ReviewRegisterTextFieldForm extends StatefulWidget {
 }
 
 class _ReviewRegisterTextFieldFormState extends State<ReviewRegisterTextFieldForm> {
+  final int maxLength = 500;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class _ReviewRegisterTextFieldFormState extends State<ReviewRegisterTextFieldFor
           SizedBox(height: 10),
           TextFormField(
             maxLines: 15,
+            maxLength: maxLength,
             controller: widget.contentController,
             style: TextStyle(fontSize: 13),
             decoration: InputDecoration(
