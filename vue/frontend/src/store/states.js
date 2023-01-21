@@ -23,11 +23,11 @@ export default {
     hobbyProductRatingValue: [],
     productQnaList: [],
     myPageCategoryItems: [
-        {title: "최근 주문"},
-        {title: "나의 문의"},
-        {title: "나의 후기"},
-        {title: "최근 본 상품"},
-        {title: "찜한 상품"}
+        {title: "최근 주문", path: '/buyer-orderInfo'},
+        {title: "나의 문의", path: '/buyer-qna'},
+        {title: "나의 후기", path: '/buyer-review'},
+        {title: "최근 본 상품", path: '/buyer-recently-view'},
+        {title: "찜한 아이디어", path: '/buyer-favorite'}
     ],
     productReviewList: [],
     reviewImage: [],
