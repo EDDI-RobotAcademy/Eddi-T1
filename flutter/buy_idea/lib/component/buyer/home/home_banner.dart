@@ -12,9 +12,10 @@ class HomeBanner extends StatefulWidget {
 
 class _HomeBannerState extends State<HomeBanner> {
   List<String> imagesList = [
-    "assets/main_banner/banner1.jpg",
-    "assets/main_banner/banner2.jpg",
-    "assets/main_banner/banner3.jpg",
+    "assets/main_banner/main_banner1.jpg",
+    "assets/main_banner/main_banner2.jpg",
+    "assets/main_banner/main_banner3.jpg",
+    "assets/main_banner/main_banner4.jpg",
   ];
 
   @override
