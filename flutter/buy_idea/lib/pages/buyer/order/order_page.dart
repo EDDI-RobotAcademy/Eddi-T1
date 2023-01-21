@@ -197,6 +197,30 @@ class _OrderPageState extends State<OrderPage> {
         print('------- onClose');
         Bootpay().dismiss(context); //명시적으로 부트페이 뷰 종료 호출
         //TODO - 원하시는 라우터로 페이지 이동
+        int i = 0;
+        List<OrderInfo> orderInfoList = [];
+        AddressInfo addressInfo = AddressInfo(
+            recipientController.text,
+            phoneController.text,
+            zipcodeController.text,
+            cityController.text,
+            streetController.text,
+            addressDetailController.text
+        );
+        for (RequestProduct product in products) {
+          orderInfoList.add(
+              OrderInfo(
+                  buyer,
+                  product.productNo,
+                  widget.purchaseQuantityList[i],
+                  "입금 완료"
+              )
+          );
+          i++;
+        }
+        SpringOrderApi().orderRegister(orderInfoList, addressInfo);
+
+        Get.offAll(MainPage());
       },
       onIssued: (String data) {
         print('------- onIssued: $data');
@@ -220,29 +244,6 @@ class _OrderPageState extends State<OrderPage> {
       },
       onDone: (String data) {
         print('------- onDone: $data');
-        int i = 0;
-        List<OrderInfo> orderInfoList = [];
-        AddressInfo addressInfo = AddressInfo(
-            recipientController.text,
-            phoneController.text,
-            zipcodeController.text,
-            cityController.text,
-            streetController.text,
-            addressDetailController.text
-        );
-        for (RequestProduct product in products) {
-          orderInfoList.add(
-              OrderInfo(
-                  buyer,
-                  product.productNo,
-                  widget.purchaseQuantityList[i],
-                  "입금 완료"
-              )
-          );
-          i++;
-        }
-        SpringOrderApi().orderRegister(orderInfoList, addressInfo);
-        Get.offAll(MainPage());
       },
     );
   }
