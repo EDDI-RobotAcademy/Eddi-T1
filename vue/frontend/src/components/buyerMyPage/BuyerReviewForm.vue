@@ -96,7 +96,10 @@
                         <v-card height="200" flat>
                           <v-textarea
                               v-model="reviewContent"
-                              style="padding: 5px 5px 0px 5px;" height="200px" outlined/>
+                              style="padding: 5px 5px 0px 5px;" height="200px" outlined
+                              counter
+                              :rules="contentRule"
+                          />
                         </v-card>
 
                         <v-layout align="start"
@@ -284,6 +287,9 @@ export default {
       reviewContent: '',
       files: '',
       reviewProductNo: 0,
+      contentRule: [
+        v => !(v.length >= 500) || '500자 이상 입력할 수 없습니다.'
+      ],
     }
   },
   methods: {
