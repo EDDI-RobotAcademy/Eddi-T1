@@ -41,9 +41,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
   _asyncMethod() async {
     nickname = await storage.read(key: 'nickname');
     debugPrint('불러온 닉네임 : $nickname');
-    setState(() {
-      nickname;
-    });
+    if (nickname == null) {
+      setState(() {
+        nickname = '비회원';
+      });
+    } else {
+      setState(() {
+        nickname;
+      });
+    }
   }
 
   late TabController tabController;
@@ -94,7 +100,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
   }
 
   Future<bool> _tapFavoriteButton(bool isLiked) async {
-    if (nickname != '') {
+    if (nickname != '비회원') {
       /// 비회원 아닐 때 찜 누름
       FavoriteRequest request =
           FavoriteRequest(widget.productNo, nickname, "tapFavorites");
@@ -315,7 +321,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                           ],
                         ),
                       )
-                    : null);
+                    : null
+            );
           }
         });
   }
@@ -332,7 +339,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
             yesButtonPressed: () {
               Get.to(const SignInPage());
             },
-            noButtonPressed: () {},
+            noButtonPressed: () {
+              Get.back();
+            },
           );
         });
   }
