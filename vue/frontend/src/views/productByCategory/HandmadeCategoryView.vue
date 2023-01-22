@@ -3,10 +3,6 @@
     <v-container style="width:1200px">
       <h2>{{ categoryName }}</h2>
       <v-layout justify-end>
-        <div style="margin-top: 15px;">
-          <h5 style="font-weight: normal; font-size: 14px">{{this.filterType}}으로 조회...</h5>
-        </div>
-        <v-spacer></v-spacer>
         <v-btn-toggle borderless dense color="#2f4f4f">
           <v-btn
               v-for="(btn, index) in filterBtn" :key="index"
