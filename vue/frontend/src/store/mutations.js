@@ -245,16 +245,19 @@ export default {
         for (let i = 0; i < passingData.length; i++) {
             state.productListByFilter.push(passingData[i])
         }
+        state.productListByFilter = [...new Set(state.productListByFilter.map(JSON.stringify))].map(JSON.parse)
     },
     [REQUEST_HOBBY_PRODUCT_LIST_BY_FILTER_FROM_SPRING](state, passingData){
         for (let i = 0; i < passingData.length; i++) {
             state.hobbyProductListByFilter.push(passingData[i])
         }
+        state.hobbyProductListByFilter = [...new Set(state.hobbyProductListByFilter.map(JSON.stringify))].map(JSON.parse)
     },
     [REQUEST_KNOWHOW_PRODUCT_LIST_BY_FILTER_FROM_SPRING](state, passingData){
         for (let i = 0; i < passingData.length; i++) {
             state.knowhowProductByFilter.push(passingData[i])
         }
+        state.knowhowProductByFilter = [...new Set(state.knowhowProductByFilter.map(JSON.stringify))].map(JSON.parse)
     },
     [REQUEST_HOBBY_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING](state, passingData){
         for (let i = 0; i < passingData.length; i++) {

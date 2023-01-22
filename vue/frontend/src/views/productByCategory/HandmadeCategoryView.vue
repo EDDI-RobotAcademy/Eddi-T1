@@ -20,6 +20,7 @@
     <handmade-product-by-category-form :categoryName="categoryName"/>
     <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
       <div slot="no-more" v-show="false"></div>
+      <div slot="no-results" v-show="false"></div>
     </infinite-loading>
 
   </div>
@@ -136,7 +137,6 @@ export default {
       this.mainPageProductImgListByHandmade.splice(0)
       await this.requestProductListByFilterFromSpring({category, productSize, filter})
       await this.getMainPageFilterProductImgByHandmade()
-      await this.getProductRatingValue()
     },
     //별점 가져오는 로직
     async getProductRatingValue() {
