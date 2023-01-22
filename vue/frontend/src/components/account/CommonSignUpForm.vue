@@ -57,7 +57,7 @@
 
             <div style="margin-bottom: 30px">
               <v-btn type="submit" block x-large rounded
-                     color="#2F4F4F" :disabled="(idPass & nicknamePass) === false">
+                     color="#2F4F4F" :disabled="(idPass && nicknamePass) === false">
                 가입하기
               </v-btn>
             </div>
