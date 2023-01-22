@@ -46,7 +46,7 @@
                     </div>
 
                     <div style="padding-top: 9px;">
-                      <h5>( {{ knowhowProductRatingValue[index].toFixed(1) }} )</h5>
+                      <h5>( {{ knowhowProductRatingValue[index]?.toFixed(1) }} )</h5>
                     </div>
                   </v-layout>
 
@@ -102,18 +102,17 @@ export default {
 
     async getMainPageProductImgByKnowhow() {
       this.mainPageProductImgListByKnowHOw.splice(0)
-      this.knowhowProductRatingValue.splice(0)
       let category = "노하우"
       // 핸드메이드 상품 받아오기
       for (let j = 0; j < this.knowhowProductByFilter.length; j++) {
         let productNo = this.knowhowProductByFilter[j].productNo;
 
         await this.requestProductImgListToSpring({productNo, category});
-        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
     async getProductRatingValue() {
       const category = this.categoryName
+      this.knowhowProductRatingValue.splice(0)
       for (let i = 0; i < this.knowhowProductByFilter.length; i++) {
         let productNo = this.knowhowProductByFilter[i].productNo
 
@@ -134,7 +133,6 @@ export default {
 
       await this.requestProductListByFilterFromSpring({category, productSize, filter})
       await this.getMainPageProductImgByKnowhow()
-      await this.getProductRatingValue()
 
       this.lastProductNo = this.knowhowProductByFilter[this.knowhowProductByFilter.length - 1].productNo
 
@@ -145,7 +143,6 @@ export default {
 
       await this.requestProductListByFilterFromSpring({category, productSize, filter})
       await this.getMainPageProductImgByKnowhow()
-      await this.getProductRatingValue()
 
       this.lastProductNo = this.knowhowProductByFilter[this.knowhowProductByFilter.length - 1].productNo
     }

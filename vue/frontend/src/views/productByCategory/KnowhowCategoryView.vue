@@ -20,6 +20,7 @@
     <know-how-product-by-category-form :categoryName="categoryName"/>
     <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
       <div slot="no-more" v-show="false"></div>
+      <div slot="no-results" v-show="false"></div>
     </infinite-loading>
   </div>
 
@@ -135,7 +136,6 @@ export default {
       this.mainPageProductImgListByKnowHOw.splice(0)
       await this.requestProductListByFilterFromSpring({category, productSize, filter})
       await this.getMainPageFilterProductImgByKnowhow()
-      await this.getProductRatingValue()
     },
     //별점 가져오는 로직
     async getProductRatingValue() {
@@ -147,20 +147,6 @@ export default {
       }
     },
   },
-  // async mounted() {
-  //   const category = this.categoryName
-  //
-  //   await this.recentSortButton()
-  //
-  //   this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
-  //
-  //   this.knowhowProductRatingValue.splice(0)
-  //   for (let i = 0; i < this.productListByFilter.length; i++) {
-  //     let productNo = this.productListByFilter[i].productNo
-  //
-  //     await this.requestProductRatingValueToSpring({productNo, category})
-  //   }
-  // }
 }
 </script>
 

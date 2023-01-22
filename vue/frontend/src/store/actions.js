@@ -317,7 +317,6 @@ export default {
     async requestProductImgListToSpring({commit}, payload) {
         console.log("requestProductImgListToSpring")
         const {productNo, category} = payload
-        console.log(productNo)
 
         await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
             .then((res) => {
@@ -326,7 +325,6 @@ export default {
                 } else if (category == '노하우') {
                     commit(REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW, res.data.editedName);
                 } else {
-                    console.log("몇번?")
                     commit(REQUEST_PRODUCT_IMG_LIST_BY_HOBBY, res.data.editedName);
                 }
             });
@@ -1095,7 +1093,6 @@ export default {
             .then((res) => {
                 if (category === "핸드메이드") {
                     commit(REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
-                    console.log(res.data)
                 } else if (category === "취미/특기") {
                     commit(REQUEST_HOBBY_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
                 } else {

@@ -109,18 +109,17 @@ export default {
     },
     async getMainPageProductImgByHandmade() {
       this.mainPageProductImgListByHandmade.splice(0)
-      this.handmadeProductRatingValue.splice(0)
       let category = "핸드메이드"
       // 핸드메이드 상품 받아오기
       for (let j = 0; j < this.productListByFilter.length; j++) {
         let productNo = this.productListByFilter[j].productNo;
 
         await this.requestProductImgListToSpring({productNo, category});
-        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
     async getProductRatingValue() {
       const category = this.categoryName
+      this.handmadeProductRatingValue.splice(0)
       for (let i = 0; i < this.productListByFilter.length; i++) {
         let productNo = this.productListByFilter[i].productNo
 
@@ -141,7 +140,6 @@ export default {
 
       await this.requestProductListByFilterFromSpring({category, productSize, filter})
       await this.getMainPageProductImgByHandmade()
-      await this.getProductRatingValue()
 
       this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
 
@@ -152,7 +150,6 @@ export default {
 
       await this.requestProductListByFilterFromSpring({category, productSize, filter})
       await this.getMainPageProductImgByHandmade()
-      await this.getProductRatingValue()
 
       this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
     }
