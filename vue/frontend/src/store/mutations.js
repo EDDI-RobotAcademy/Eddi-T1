@@ -102,7 +102,12 @@ export default {
         state.myOrderInfoList = passingData
     },
     [REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING](state, passingData) {
-        state.searchResultList = passingData
+
+        if (passingData === "Network Error"){
+            state.searchResultList = []
+        } else {
+            state.searchResultList = passingData
+        }
     },
     [REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING](state, passingData) {
         for (let i = 0; i < passingData.length; i++) {
