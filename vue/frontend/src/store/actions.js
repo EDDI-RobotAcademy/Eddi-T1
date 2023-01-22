@@ -253,7 +253,7 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestRegisterShoppingBucketProduct({ }, payload) {
+    async requestRegisterShoppingBucketProduct({}, payload) {
         console.log("requestRegisterShoppingBucketProduct")
 
         const {nickname, productId, productAmountValue} = payload;
@@ -293,7 +293,7 @@ export default {
     async requestProductListByCategoryToSpring({commit}, payload) {
         console.log("requestProductListByCategoryToSpring")
 
-        const{category, productSize, filter} = payload
+        const {category, productSize, filter} = payload
 
 
         await axios.post('http://localhost:8888/product/list', {category, productSize, filter})
@@ -338,7 +338,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestRegisterSellerInfoToSpring({ }, payload) {
+    requestRegisterSellerInfoToSpring({}, payload) {
         console.log('requestRegisterSellerInfoToSpring()')
         const companyInfoRequest = {
             city: payload.city,
@@ -368,7 +368,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestDeleteShoppingBucketItemFromSpring({ }, payload) {
+    async requestDeleteShoppingBucketItemFromSpring({}, payload) {
         console.log("requestDeleteShoppingBucketItemFromSpring");
 
         await axios.delete('http://localhost:8888/order/shopping-bucket-list/delete', {
@@ -391,15 +391,16 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestDeleteShoppingCartItemsAtCheckoutFromSpring({ }, payload){
+    async requestDeleteShoppingCartItemsAtCheckoutFromSpring({}, payload) {
 
         await axios.delete('http://localhost:8888/order/shopping-bucket-list/delete', {
-            params:{
+            params: {
                 itemId: payload.itemId,
                 nickname: payload.nickname
             }
         })
-            .catch(() => {} );
+            .catch(() => {
+            });
     },
 
     /**
@@ -408,7 +409,7 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestProductFromSpring ({ commit }, productNo) {
+    async requestProductFromSpring({commit}, productNo) {
         console.log('requestProductFromSpring()' + productNo)
 
         await axios.get(`http://localhost:8888/product/read/${productNo}`)
@@ -463,7 +464,7 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    requestDeleteProductToSpring ({}, productNo) {
+    requestDeleteProductToSpring({}, productNo) {
         console.log('requestDeleteProductToSpring()' + productNo)
 
         return axios.delete(`http://localhost:8888/product/remove/${productNo}`)
@@ -473,7 +474,7 @@ export default {
             })
     },
 
-    requestProductListFromSpring ({ commit }, payload) {
+    requestProductListFromSpring({commit}, payload) {
         console.log('requestProductListFromSpring()')
         const nickname = payload;
 
@@ -490,7 +491,7 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestPaymentSuccessfulOrderInfoForSpring( { }, payload){
+    async requestPaymentSuccessfulOrderInfoForSpring({}, payload) {
         console.log("requestPaymentSuccessfulOrderInfoForSpring")
         console.log(payload)
 
@@ -501,7 +502,7 @@ export default {
             .then(() => {
                 console.log("결제 정보 전송 성공")
             })
-            .catch(() =>{
+            .catch(() => {
                 console.log("결제정보 전송 실패")
             })
     },
@@ -512,7 +513,7 @@ export default {
      *  @param payload nickname
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestMyOrderInfoListFromSpring ({ commit }, nickname) {
+    async requestMyOrderInfoListFromSpring({commit}, nickname) {
         console.log('requestMyOrderInfoListFromSpring()' + nickname)
         /*const nickname = payload;*/
 
@@ -530,12 +531,12 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestRegisterReviewFromSpring({ }, payload) {
+    async requestRegisterReviewFromSpring({}, payload) {
         console.log("requestRegisterReviewFromSpring")
 
-        const { productNo, writer, starRating, content, files } = payload
+        const {productNo, writer, starRating, content, files} = payload
         let formData = new FormData()
-        let review = { productNo, writer, starRating, content }
+        let review = {productNo, writer, starRating, content}
         formData.append('review', new Blob([JSON.stringify(review)], {type: "application/json"}))
 
         formData.append('file', files.file)
@@ -547,7 +548,8 @@ export default {
         })
             .then(() => {
                 alert("리뷰가 작성되었습니다.")
-                router.push({name: 'BuyerMyPageView'}).catch(() => {})
+                router.push({name: 'BuyerMyPageView'}).catch(() => {
+                })
             })
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
@@ -560,7 +562,7 @@ export default {
      *  @param payload searchWord
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestSearchBySearchTermToSpring({ commit }, payload){
+    async requestSearchBySearchTermToSpring({commit}, payload) {
         console.log("requestSearchBySearchTermToSpring" + payload)
 
         const keyword = payload
@@ -569,7 +571,13 @@ export default {
                 console.log(res.data)
                 commit(REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING, res.data);
             })
-            .catch(() => {});
+            .catch((e) => {
+                console.log(e.message)
+                if (e.message === "Network Error") {
+                    console.log("에러")
+                    commit(REQUEST_SEARCH_BY_SEARCH_TERM_TO_SPRING, e.message);
+                }
+            });
 
     },
 
@@ -580,15 +588,15 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestRegisterQnaFromSpring({ }, payload) {
+    async requestRegisterQnaFromSpring({}, payload) {
         console.log("requestRegisterQnaFromSpring()")
 
-        const { productNo, writer, questionCategory, questionTitle, questionContent, openStatus } = payload
+        const {productNo, writer, questionCategory, questionTitle, questionContent, openStatus} = payload
         await axios.post('http://localhost:8888/qna/register',
-            { productNo, writer, questionCategory, questionTitle, questionContent, openStatus })
+            {productNo, writer, questionCategory, questionTitle, questionContent, openStatus})
             .then(() => {
                 alert("문의가 작성되었습니다.")
-               /* router.push({name: 'BuyerQnaView'}).catch(() => {})*/
+                /* router.push({name: 'BuyerQnaView'}).catch(() => {})*/
             })
             .catch(() => {
                 alert("정상적으로 등록되지 않았습니다.")
@@ -606,19 +614,26 @@ export default {
 
         const {productNo, category, productSize, filter, productNoList} = payload
 
-        await axios.post('http://localhost:8888/product/list/next',{productNo, category, productSize, filter, productNoList})
+        await axios.post('http://localhost:8888/product/list/next', {
+            productNo,
+            category,
+            productSize,
+            filter,
+            productNoList
+        })
             .then((res) => {
                 console.log(res.data)
-                if (category === "핸드메이드"){
+                if (category === "핸드메이드") {
                     commit(REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
-                } else if(category === "취미/특기"){
+                } else if (category === "취미/특기") {
                     commit(REQUEST_HOBBY_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
                 } else {
                     commit(REQUEST_KNOWHOW_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
                 }
 
             })
-            .catch(() => {})
+            .catch(() => {
+            })
 
     },
 
@@ -636,7 +651,8 @@ export default {
             .then((res) => {
                 commit(REQUEST_PRODUCT_LIST_IMG_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data.editedName)
             })
-            .catch(() => {})
+            .catch(() => {
+            })
 
     },
 
@@ -646,7 +662,7 @@ export default {
      *  @param payload writer
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestMyQnaListFromSpring ({ commit }, writer) {
+    async requestMyQnaListFromSpring({commit}, writer) {
         console.log('requestMyQnaListFromSpring()' + writer)
 
         await axios.post(`http://localhost:8888/qna/history-list/${writer}`)
@@ -662,7 +678,7 @@ export default {
      * @param payload
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
-    requestSellerOrderListFromSpring ({ commit }, payload) {
+    requestSellerOrderListFromSpring({commit}, payload) {
         console.log('requestSellerOrderListFromSpring()')
         const {nickname, orderStatus} = payload;
         console.log(payload);
@@ -681,7 +697,7 @@ export default {
      * @returns {Promise<void>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestOrderStatusModifyToSpring({  }, payload){
+    async requestOrderStatusModifyToSpring({}, payload) {
         console.log('requestOrderStatusModifyToSpring()')
         const {orderInfoId, orderStatus} = payload;
         console.log("payload :" + payload);
@@ -700,21 +716,21 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestProductRatingValueToSpring( { commit }, payload){
+    async requestProductRatingValueToSpring({commit}, payload) {
         console.log('requestProductRatingValueToSpring')
         const {productNo, category} = payload
 
         await axios.get(`http://localhost:8888/review/star-rating/average/${productNo}/`)
             .then((res) => {
-                if (category == "핸드메이드"){
+                if (category == "핸드메이드") {
                     commit(REQUEST_HANDMADE_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
-                } else if (category == "노하우"){
+                } else if (category == "노하우") {
                     commit(REQUEST_KNOWHOW_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
-                } else if (category == "취미/특기"){
+                } else if (category == "취미/특기") {
                     commit(REQUEST_HOBBY_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
-                } else if (category == "상세페이지"){
+                } else if (category == "상세페이지") {
                     commit(REQUEST_PRODUCT_READ_RATING_VALUE_TO_SPRING, res.data)
-                } else if(category == "찜"){
+                } else if (category == "찜") {
                     commit(REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING, res.data);
                 } else {
                     commit(REQUEST_PRODUCT_RATING_VALUE_TO_SPRING, res.data)
@@ -749,7 +765,7 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestProductQnaListFromSpring ({ commit }, productNo) {
+    async requestProductQnaListFromSpring({commit}, productNo) {
         console.log('requestProductQnaListFromSpring()' + productNo)
 
         await axios.post(`http://localhost:8888/qna/p-history-list/${productNo}`)
@@ -786,7 +802,7 @@ export default {
      *  @param payload reviewNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestReviewImageFromSpring ({ commit }, reviewNo) {
+    async requestReviewImageFromSpring({commit}, reviewNo) {
         console.log('requestReviewImageFromSpring()' + reviewNo)
 
         await axios.get(`http://localhost:8888/review/image/${reviewNo}`)
@@ -802,7 +818,7 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestReviewCntFromSpring ({ commit }, productNo) {
+    async requestReviewCntFromSpring({commit}, productNo) {
         console.log('requestReviewCntFromSpring()' + productNo)
 
         await axios.get(`http://localhost:8888/review/count/${productNo}`)
@@ -817,7 +833,7 @@ export default {
      *  @param payload productNo
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestReviewCntListFromSpring ({ commit }, payload) {
+    async requestReviewCntListFromSpring({commit}, payload) {
         console.log('requestReviewCntFromSpring()' + payload.productNo)
 
         const productNo = payload.productNo
@@ -825,9 +841,9 @@ export default {
 
         await axios.get(`http://localhost:8888/review/count/${productNo}`)
             .then((res) => {
-                if (category === '핸드메이드'){
+                if (category === '핸드메이드') {
                     commit(REQUEST_REVIEW_CNT_BY_HANDMADE_FORM_SPRING, res.data)
-                } else if (category === '노하우'){
+                } else if (category === '노하우') {
                     commit(REQUEST_REVIEW_CNT_BY_KNOWHOW_FORM_SPRING, res.data)
                 } else {
                     commit(REQUEST_REVIEW_CNT_BY_HOBBY_FORM_SPRING, res.data)
@@ -842,14 +858,14 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestAnswerStatusListFromSpring ({ commit }, payload) {
+    async requestAnswerStatusListFromSpring({commit}, payload) {
         console.log('requestAnswerStatusListFromSpring()')
 
-        const { nickname, answerStatus } = payload
+        const {nickname, answerStatus} = payload
 
-        await axios.post('http://localhost:8888/qna/answer-status-list',{nickname, answerStatus})
+        await axios.post('http://localhost:8888/qna/answer-status-list', {nickname, answerStatus})
             .then((res) => {
-                if (payload.answerStatus == '답변 대기'){
+                if (payload.answerStatus == '답변 대기') {
                     commit(REQUEST_QNA_LIST_BY_BEFORE_ANSWER_FROM_SPRING, res.data)
                 } else {
                     commit(REQUEST_QNA_LIST_BY_COMPLETE_FROM_SPRING, res.data)
@@ -863,7 +879,7 @@ export default {
      *  @param payload writer
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestMyReviewListToSpring({ commit },payload){
+    async requestMyReviewListToSpring({commit}, payload) {
         console.log('requestMyReviewListToSpring' + payload)
 
         const writer = payload
@@ -873,7 +889,8 @@ export default {
                 console.log(res.data)
                 commit(REQUEST_MY_REVIEW_LIST_TO_SPRING, res.data)
             })
-            .catch(() => {});
+            .catch(() => {
+            });
     },
 
     /**
@@ -883,12 +900,12 @@ export default {
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestAnswerRegisterToSpring({ }, payload) {
+    async requestAnswerRegisterToSpring({}, payload) {
         console.log("requestAnswerRegisterToSpring()")
 
-        const { qnaNo, answer } = payload
+        const {qnaNo, answer} = payload
         await axios.post('http://localhost:8888/qna/answer-register',
-            { qnaNo, answer })
+            {qnaNo, answer})
             .then(() => {
                 alert("답변이 등록되었습니다.")
                 history.go(0)
@@ -924,7 +941,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestModifyReviewFromSpring({ }, payload){
+    async requestModifyReviewFromSpring({}, payload) {
         console.log("requestModifyReviewFromSpring")
 
         const {reviewNo, starRating, content, files} = payload
@@ -953,7 +970,7 @@ export default {
      * @returns {Promise<axios.AxiosResponse<any>>}
      */
     // eslint-disable-next-line no-empty-pattern
-    async requestDeleteReviewToSpring({ }, payload){
+    async requestDeleteReviewToSpring({}, payload) {
         console.log("requestDeleteReviewToSpring")
 
         const reviewNo = payload
@@ -967,7 +984,7 @@ export default {
             });
     },
 
-    requestSellerOrderListCountFromSpring ({ commit }, payload) {
+    requestSellerOrderListCountFromSpring({commit}, payload) {
         console.log('requestSellerOrderListCountFromSpring()')
         const seller = payload;
         console.log(payload);
@@ -1010,7 +1027,7 @@ export default {
      *  @param payload nickname
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestSellerInfoToSpring({ commit }, payload){
+    async requestSellerInfoToSpring({commit}, payload) {
         console.log("requestSellerInfoToSpring")
         const nickname = payload
 
@@ -1018,10 +1035,11 @@ export default {
             .then((res) => {
                 commit(REQUEST_SELLER_INFO_TO_SPRING, res.data);
             })
-            .catch(() => {})
+            .catch(() => {
+            })
     },
 
-    requestSellerTotalInfoFromSpring ({ commit }, payload) {
+    requestSellerTotalInfoFromSpring({commit}, payload) {
         console.log('requestSellerTotalInfoFromSpring()')
         const seller = payload;
         console.log(payload);
@@ -1040,7 +1058,7 @@ export default {
      *  @param payload
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestFavoriteProductCheckValue({ commit }, payload){
+    async requestFavoriteProductCheckValue({commit}, payload) {
         console.log("requestFavoriteProductCheckValue")
         const {index, category, item, productNo} = payload
 
@@ -1054,7 +1072,7 @@ export default {
      *  @param payload
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async requestFavoriteProductInfoToSpring({ commit }, payload){
+    async requestFavoriteProductInfoToSpring({commit}, payload) {
         console.log('requestFavoriteProductInfoToSpring')
 
         const productNo = payload
@@ -1064,20 +1082,21 @@ export default {
                 console.log(res.data)
                 commit(REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING, res.data);
             })
-            .catch(() => {});
+            .catch(() => {
+            });
     },
 
-    requestProductListByFilterFromSpring ({ commit }, payload) {
+    requestProductListByFilterFromSpring({commit}, payload) {
         console.log('requestProductListByFilterFromSpring()')
         const {category, productSize, filter} = payload;
         console.log(payload);
 
         return axios.post(`http://localhost:8888/product/list`, {category, productSize, filter})
             .then((res) => {
-                if (category === "핸드메이드"){
+                if (category === "핸드메이드") {
                     commit(REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
                     console.log(res.data)
-                } else if (category === "취미/특기"){
+                } else if (category === "취미/특기") {
                     commit(REQUEST_HOBBY_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
                 } else {
                     commit(REQUEST_KNOWHOW_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
@@ -1091,7 +1110,7 @@ export default {
      *  @param payload
      *  @returns {Promise<axios.AxiosResponse<any>>}
      */
-    async saveFilterType({ commit }, payload){
+    async saveFilterType({commit}, payload) {
         const filterType = payload
 
         commit(SAVE_FILTER_TYPE, filterType)

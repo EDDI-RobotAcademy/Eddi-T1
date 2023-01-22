@@ -90,7 +90,8 @@ export default {
   computed:{
     ...mapState([
       'signInCheckValue',
-      'memberInfoAfterSignIn'
+      'memberInfoAfterSignIn',
+      'searchResultList'
     ]),
   },
   data() {
@@ -129,7 +130,6 @@ export default {
       await this.requestSearchBySearchTermToSpring(keyword)
       await this.$router.push({name: 'SearchView', params: {searchWord: keyword}});
       localStorage.setItem('searchWord', keyword)
-      history.go(0)
     }
   },
   beforeUpdate() {
