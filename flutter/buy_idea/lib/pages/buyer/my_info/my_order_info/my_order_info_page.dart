@@ -76,7 +76,8 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             appBar: const TitleTopBar(titleText: '주문 / 배송'),
             body: Container(
                 color: Colors.white,
-                child: const Center(child: Text("No order info found!"))));
+                child: const Center(child: Text("결제 완료한 주문 내역이 없습니다.",
+                    style: TextStyle(fontSize: 16)))));
       }
       return Scaffold(
           resizeToAvoidBottomInset: true,

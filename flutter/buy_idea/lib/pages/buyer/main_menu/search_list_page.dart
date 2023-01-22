@@ -62,32 +62,47 @@ class _SearchListPageState extends State<SearchListPage> {
         ),
       );
     } else {
-      return Scaffold(
+      if (searchList.isEmpty) {
+        return Scaffold(
           appBar: SearchBar(searchKeyword: widget.searchKeyword),
-          body: Column(
-            children: [
-              Expanded(
-                  child: GridView.count(
-                      shrinkWrap: true,
-                      primary: true,
-                      crossAxisCount: 2,
-                      childAspectRatio:
-                          MediaQuery.of(context).size.height / 1400,
-                      children: List.generate(searchList.length, (index) {
-                        return CategoryProductCard(
-                          productNo: searchList[index].productNo,
-                          title: searchList[index].title,
-                          image: searchList[index].image,
-                          price: searchList[index].price,
-                          nickname: searchList[index].nickname,
-                          press: () {
-                            Get.to(ProductDetailsPage(
-                                productNo: searchList[index].productNo));
-                          },
-                        );
-                      }))),
-            ],
-          ));
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 750,
+            color: Colors.white,
+            child: Center(
+              child: Text('검색어에 해당하는 상품이 없습니다.',
+                  style: TextStyle(fontSize: 16)),
+            ),
+          ),
+        );
+      } else {
+        return Scaffold(
+            appBar: SearchBar(searchKeyword: widget.searchKeyword),
+            body: Column(
+              children: [
+                Expanded(
+                    child: GridView.count(
+                        shrinkWrap: true,
+                        primary: true,
+                        crossAxisCount: 2,
+                        childAspectRatio:
+                            MediaQuery.of(context).size.height / 1400,
+                        children: List.generate(searchList.length, (index) {
+                          return CategoryProductCard(
+                            productNo: searchList[index].productNo,
+                            title: searchList[index].title,
+                            image: searchList[index].image,
+                            price: searchList[index].price,
+                            nickname: searchList[index].nickname,
+                            press: () {
+                              Get.to(ProductDetailsPage(
+                                  productNo: searchList[index].productNo));
+                            },
+                          );
+                        }))),
+              ],
+            ));
+      }
     }
   }
 }

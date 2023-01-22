@@ -72,7 +72,7 @@ class _MyQuestionHistoryFormState extends State<MyQuestionHistoryForm> {
           child: Center(
             child: Text(
                 '현재 등록된 문의 내역이 없습니다.',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                style: TextStyle(fontSize: 16)
             ),
           ),
         );

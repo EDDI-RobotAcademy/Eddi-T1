@@ -30,7 +30,7 @@ class MyOrderDetailInfoForm extends StatefulWidget {
 class _MyOrderDetailInfoFormState extends State<MyOrderDetailInfoForm> {
   final Uri _url = Uri.parse(
       'https://m.search.daum.net/search?nil_profile=btn&w=tot&DA=SBC&q=%EB%B0%B0%EC%86%A1%EC%A1%B0%ED%9A%8C');
-  final List<Address> myOrderSliceAddressList = [];
+  final List<DeliveryAddress> myOrderSliceAddressList = [];
   var totalPrice = 0;
   var totalDeliveryFee = 0;
   bool check = true;
