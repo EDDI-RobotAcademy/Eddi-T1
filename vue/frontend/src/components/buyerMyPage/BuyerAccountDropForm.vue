@@ -54,15 +54,19 @@ export default {
   },
   methods:{
     ...mapActions([
-        'requestCurrentUserAccountDropToSpring'
+        'requestCurrentUserAccountDropToSpring',
+        'signInCheckValue'
     ]),
     async accountDrop(){
       alert("회원탈퇴을 진행합니다.")
       const currentUserToken = this.$store.state.userToken;
       await this.requestCurrentUserAccountDropToSpring({currentUserToken})
       await this.$router.push({name: "HomeView"})
+      this.$store.commit("SIGN_IN_CHECK_VALUE",false)
+      this.$store.state.signInCheckValue = false
       localStorage.removeItem("vuex")
       alert("회원탈퇴가 완료됐습니다.")
+      history.go(0)
     }
   }
 }
