@@ -37,7 +37,12 @@ import {
     FAVORITE_PRODUCT_CHECK_VALUE,
     REQUEST_FAVORITE_PRODUCT_INFO_TO_SPRING,
     REQUEST_FAVORITE_PRODUCT_RATING_VALUE_TO_SPRING,
-    REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING
+    REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING,
+    SAVE_FILTER_TYPE,
+    REQUEST_HOBBY_PRODUCT_LIST_BY_FILTER_FROM_SPRING,
+    REQUEST_KNOWHOW_PRODUCT_LIST_BY_FILTER_FROM_SPRING,
+    REQUEST_HOBBY_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING,
+    REQUEST_KNOWHOW_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING
 } from './mutation-types'
 
 import axios from 'axios'
@@ -312,6 +317,7 @@ export default {
     async requestProductImgListToSpring({commit}, payload) {
         console.log("requestProductImgListToSpring")
         const {productNo, category} = payload
+        console.log(productNo)
 
         await axios.get(`http://localhost:8888/product/image/thumbnail/${productNo}`)
             .then((res) => {
@@ -320,6 +326,7 @@ export default {
                 } else if (category == '노하우') {
                     commit(REQUEST_PRODUCT_IMG_LIST_BY_KNOWHOW, res.data.editedName);
                 } else {
+                    console.log("몇번?")
                     commit(REQUEST_PRODUCT_IMG_LIST_BY_HOBBY, res.data.editedName);
                 }
             });
@@ -597,21 +604,19 @@ export default {
     async requestProductListNextPageByCategoryToSpring({commit}, payload) {
         console.log("requestProductListNextPageByCategoryToSpring")
 
-        await axios.get('http://localhost:8888/product/list/next', {
-            params: {
-                productNo: payload.productNo,
-                category: payload.category,
-                productSize: payload.productSize
-            }
-        })
+        const {productNo, category, productSize, filter, productNoList} = payload
+
+        await axios.post('http://localhost:8888/product/list/next',{productNo, category, productSize, filter, productNoList})
             .then((res) => {
-                if (payload.category == "핸드메이드") {
+                console.log(res.data)
+                if (category === "핸드메이드"){
                     commit(REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
-                } else if (payload.category == "노하우") {
-                    commit(REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
+                } else if(category === "취미/특기"){
+                    commit(REQUEST_HOBBY_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
                 } else {
-                    commit(REQUEST_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
+                    commit(REQUEST_KNOWHOW_PRODUCT_LIST_NEXT_PAGE_BY_CATEGORY_TO_SPRING, res.data)
                 }
+
             })
             .catch(() => {})
 
@@ -1069,11 +1074,28 @@ export default {
 
         return axios.post(`http://localhost:8888/product/list`, {category, productSize, filter})
             .then((res) => {
-                console.log(res.data)
+                if (category === "핸드메이드"){
+                    commit(REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
+                    console.log(res.data)
+                } else if (category === "취미/특기"){
+                    commit(REQUEST_HOBBY_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
+                } else {
+                    commit(REQUEST_KNOWHOW_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
+                }
 
-                commit(REQUEST_PRODUCT_LIST_BY_FILTER_FROM_SPRING, res.data)
             })
     },
+    /**
+     *  상품 필터 정보 변경
+     *  @param commit
+     *  @param payload
+     *  @returns {Promise<axios.AxiosResponse<any>>}
+     */
+    async saveFilterType({ commit }, payload){
+        const filterType = payload
+
+        commit(SAVE_FILTER_TYPE, filterType)
+    }
 
 
 }

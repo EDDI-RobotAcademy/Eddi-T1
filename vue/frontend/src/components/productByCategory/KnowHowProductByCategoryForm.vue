@@ -2,7 +2,7 @@
   <v-container style="width: 1200px; margin-top: 0px;">
     <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
-        <div v-for="(item, index) in productListByFilter" :key="index">
+        <div v-for="(item, index) in knowhowProductByFilter" :key="index">
           <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString(), checkValue: true } }"
                        style="text-decoration: none; color: black"
@@ -77,22 +77,21 @@ export default {
     categoryName: {
       type: String
     },
-    productListByCategory: {
-      type: Array
-    },
   },
   computed: {
     ...mapState([
       'mainPageProductImgListByKnowHOw',
       'mainPageProductListByKnowHow',
       'knowhowProductRatingValue',
-      'productListByFilter'
+      'knowhowProductByFilter',
+      'filterType'
     ])
   },
   methods: {
     ...mapActions([
       'requestProductImgListToSpring',
-
+      'requestProductRatingValueToSpring',
+      'requestProductListByFilterFromSpring'
     ]),
     getProductThumbnail(index) {
       return {
@@ -101,27 +100,60 @@ export default {
       }
     },
 
-    getMainPageProductImgByKnowhow() {
-
-      const category = this.categoryName
-      //상품 받아오기
+    async getMainPageProductImgByKnowhow() {
       this.mainPageProductImgListByKnowHOw.splice(0)
-      for (let j = 0; j < this.productListByFilter.length; j++) {
-        let productNo = this.productListByFilter[j].productNo;
+      this.knowhowProductRatingValue.splice(0)
+      let category = "노하우"
+      // 핸드메이드 상품 받아오기
+      for (let j = 0; j < this.knowhowProductByFilter.length; j++) {
+        let productNo = this.knowhowProductByFilter[j].productNo;
 
-        this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
+    async getProductRatingValue() {
+      const category = this.categoryName
+      for (let i = 0; i < this.knowhowProductByFilter.length; i++) {
+        let productNo = this.knowhowProductByFilter[i].productNo
 
+        await this.requestProductRatingValueToSpring({productNo, category})
+      }
+    },
   },
   filters: {
     comma(val) {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
-  mounted() {
-    this.getMainPageProductImgByKnowhow()
+  async mounted() {
+    if (this.filterType === ""){
+      const category = this.categoryName
+      const filter = "최신순"
+      const productSize = 12
+
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getMainPageProductImgByKnowhow()
+      await this.getProductRatingValue()
+
+      this.lastProductNo = this.knowhowProductByFilter[this.knowhowProductByFilter.length - 1].productNo
+
+    } else {
+      const category = this.categoryName
+      const filter = this.filterType
+      const productSize = 12
+
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getMainPageProductImgByKnowhow()
+      await this.getProductRatingValue()
+
+      this.lastProductNo = this.knowhowProductByFilter[this.knowhowProductByFilter.length - 1].productNo
+    }
   },
+  async beforeUpdate(){
+    await this.getMainPageProductImgByKnowhow()
+    await this.getProductRatingValue()
+  }
 }
 </script>
 

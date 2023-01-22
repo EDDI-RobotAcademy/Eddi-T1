@@ -53,6 +53,12 @@ export default {
     favoriteProductInfoList: [],
     favoriteProductRatingValue: [],
     productListByFilter: [],
+    hobbyProductListByFilter: [],
+    knowhowProductByFilter: [],
+    filterType: "",
+    hobbyProductListByFilterLastLength: 0,
+    knowhowProductListByFilterLastLength: 0,
+    handmadeProductListByFilterLastLength: 0
 
 
 }
