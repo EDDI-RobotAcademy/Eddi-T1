@@ -3,7 +3,7 @@
 
     <v-layout style="margin-top: 5px;">
       <v-row class="justify-start">
-        <div v-for="(item, index) in productListByFilter" :key="index">
+        <div v-for="(item, index) in hobbyProductListByFilter" :key="index">
           <router-link :to="{ name: 'ProductReadView',
                                     params: { productNo: item.productNo.toString(), checkValue: true } }"
                        style="text-decoration: none; color: black"
@@ -47,7 +47,7 @@
                     </div>
 
                     <div style="padding-top: 9px;">
-                      <h5>( {{hobbyProductRatingValue[index].toFixed(1)}} )</h5>
+                      <h5>( {{ hobbyProductRatingValue[index]?.toFixed(1) }} )</h5>
                     </div>
                   </v-layout>
 
@@ -81,23 +81,21 @@ export default {
     categoryName: {
       type: String
     },
-    productListByCategory: {
-      type: Array
-    },
   },
   computed: {
     ...mapState([
       'mainPageProductImgListByHobby',
       'mainPageProductListByHobby',
       'hobbyProductRatingValue',
-      'productListByFilter'
-
+      'hobbyProductListByFilter',
+      'filterType'
     ])
   },
   methods: {
     ...mapActions([
       'requestProductImgListToSpring',
-
+      'requestProductRatingValueToSpring',
+      'requestProductListByFilterFromSpring'
     ]),
     getProductThumbnail(index) {
       return {
@@ -105,15 +103,24 @@ export default {
         productThumbnailListByCategory: this.mainPageProductImgListByHobby[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHobby[index]}`)
       }
     },
-    getMainPageProductImgByHobby() {
-
-      const category = this.categoryName
-      //상품 받아오기
+    async getMainPageProductImgByHobby() {
       this.mainPageProductImgListByHobby.splice(0)
-      for (let j = 0; j < this.productListByFilter.length; j++) {
-        let productNo = this.productListByFilter[j].productNo;
+      this.hobbyProductRatingValue.splice(0)
+      let category = "취미/특기"
+      // 취미/특기 상품 받아오기
+      for (let j = 0; j < this.hobbyProductListByFilter.length; j++) {
+        let productNo = this.hobbyProductListByFilter[j].productNo;
 
-        this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductRatingValueToSpring({productNo, category})
+      }
+    },
+    async getProductRatingValue() {
+      const category = this.categoryName
+      for (let i = 0; i < this.hobbyProductListByFilter.length; i++) {
+        let productNo = this.hobbyProductListByFilter[i].productNo
+
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
   },
@@ -122,9 +129,33 @@ export default {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
-  mounted() {
-    this.getMainPageProductImgByHobby()
+  async mounted() {
+    if (this.filterType === "") {
+      const category = this.categoryName
+      const filter = "최신순"
+      const productSize = 12
+
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getProductRatingValue()
+
+      this.lastProductNo = this.hobbyProductListByFilter[this.hobbyProductListByFilter.length - 1].productNo
+
+    } else {
+      const category = this.categoryName
+      const filter = this.filterType
+      const productSize = 12
+
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getProductRatingValue()
+
+      this.lastProductNo = this.hobbyProductListByFilter[this.hobbyProductListByFilter.length - 1].productNo
+    }
+
   },
+  async beforeUpdate() {
+    await this.getMainPageProductImgByHobby()
+    await this.getProductRatingValue()
+  }
 }
 </script>
 

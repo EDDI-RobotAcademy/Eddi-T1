@@ -1,56 +1,24 @@
 <template>
   <div>
     <v-container style="width:1200px">
-    <h2>{{ categoryName }}</h2>
-    <div
-        align="end"
-    >
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="recentSortButton"
-      >
-        <div v-if="!recentSort">최신순</div>
-        <div v-else style="font-weight: bolder">최신순</div>
-      </v-btn>
+      <h2>{{ categoryName }}</h2>
+      <v-layout justify-end>
+        <div style="margin-top: 15px;">
+          <h5 style="font-weight: normal; font-size: 14px">{{ this.filterType }}으로 조회...</h5>
+        </div>
+        <v-spacer></v-spacer>
+        <v-btn-toggle borderless dense color="#2f4f4f">
+          <v-btn
+              v-for="(btn, index) in filterBtn" :key="index"
+              elevation="0"
+              color="white"
 
-
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="popularitySortButton">
-        <div v-if="!popularitySort">인기순</div>
-        <div v-else style="font-weight: bolder">인기순</div>
-      </v-btn>
-
-
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="reviewSortButton">
-        <div v-if="!reviewSort">후기순</div>
-        <div v-else style="font-weight: bolder">후기순</div>
-      </v-btn>
-
-
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="highPriceSortButton">
-        <div v-if="!highPriceSort">높은 가격순</div>
-        <div v-else style="font-weight: bolder">높은 가격순</div>
-      </v-btn>
-
-
-      <v-btn
-          elevation="0"
-          color="white"
-          @click="lowPriceSortButton">
-        <div v-if="!lowPriceSort">낮은 가격순</div>
-        <div v-else style="font-weight: bolder">낮은 가격순</div>
-      </v-btn>
-    </div>
-
+              @click="recentSortButton(index)"
+          >
+            <h4>{{ btn.name }}</h4>
+          </v-btn>
+        </v-btn-toggle>
+      </v-layout>
     </v-container>
 
     <know-how-product-by-category-form :categoryName="categoryName"/>
@@ -76,20 +44,25 @@ export default {
       'mainPageNextProductList',
       'mainPageNextProductImgList',
       'knowhowProductRatingValue',
-      'productListByFilter'
+      'knowhowProductByFilter',
+      'filterType',
+      'knowhowProductListByFilterLastLength'
     ])
   },
   data() {
     return {
+      filterBtn: [
+        {name: "최신순", btnCheck: false},
+        {name: "인기순", btnCheck: false},
+        {name: "후기순", btnCheck: false},
+        {name: "높은 가격순", btnCheck: false},
+        {name: "낮은 가격순", btnCheck: false},
+      ],
       categoryName: "노하우",
       lastProductNo: 0,
       productSize: 12,
-      filter: "최신순",
-      recentSort: false,
-      popularitySort: false,
-      reviewSort: false,
-      highPriceSort: false,
-      lowPriceSort: false,
+      productNoList: [],
+      filter: "",
     }
   },
   methods: {
@@ -100,185 +73,98 @@ export default {
       'requestProductRatingValueToSpring',
       'requestProductListByFilterFromSpring',
       'requestProductImgListToSpring',
+      'saveFilterType'
     ]),
     async nextPageOnScroll($state) {
+      for (let i = 0; i < this.knowhowProductByFilter.length; i++) {
+        this.productNoList.push(this.knowhowProductByFilter[i].productNo)
+      }
+      for (let i = 0; i < this.knowhowProductByFilter.length; i++) {
+        this.lastProductNo = this.knowhowProductByFilter[this.knowhowProductByFilter.length - 1].productNo
+      }
       const productNo = this.lastProductNo
       const category = this.categoryName
       const productSize = this.productSize
+      if (this.filterType === "") {
+        this.filter = "최신순"
+      } else {
+        this.filter = this.filterType
+      }
+      let filter = this.filter
+      const productNoList = [...new Set(this.productNoList)]
 
-      this.mainPageNextProductList.splice(0)
-      await this.requestProductListNextPageByCategoryToSpring({productNo, category, productSize})
+      console.log(filter)
+
+      console.log(productNoList)
+      await this.requestProductListNextPageByCategoryToSpring({productNo, category, productSize, filter, productNoList})
           .then(() => {
-            if (this.mainPageNextProductList.length == 0) {
+            if (this.knowhowProductListByFilterLastLength === 0) {
               $state.complete()
             } else {
               setTimeout(() => {
-                for (let i = 0; i < this.mainPageNextProductList.length; i++) {
-                  this.knowHowCategoryProduct.push(this.mainPageNextProductList[i])
-                }
-                this.lastProductNo = this.knowHowCategoryProduct[this.knowHowCategoryProduct.length - 1].productNo
+                this.lastProductNo = this.knowhowProductByFilter[this.knowhowProductByFilter.length - 1].productNo
                 $state.loaded()
               }, 2000);
             }
           });
-
-      this.mainPageNextProductImgList.splice(0)
-      for (let i = 0; i < this.mainPageNextProductList.length; i++) {
-        let productNo = this.mainPageNextProductList[i].productNo
-
-        await this.requestProductListImgNextPageByCategoryToSpring(productNo)
-        await this.requestProductRatingValueToSpring({productNo, category})
-      }
-
-      for (let i = 0; i < this.mainPageNextProductImgList.length; i++) {
-        this.mainPageProductImgListByKnowHOw.push(this.mainPageNextProductImgList[i])
-      }
     },
     //스크롤 페이징작업
     async infiniteHandler($state) {
       await this.nextPageOnScroll($state)
     },
 
-    async recentSortButton() {
-      this.recentSort = true;
-      this.popularitySort = false;
-      this.reviewSort = false;
-      this.highPriceSort = false;
-      this.lowPriceSort = false;
-
-      const category = "노하우";
-      const productSize = 12;
-      const filter = "최신순"
-
-      await this.requestProductListByFilterFromSpring({category, productSize, filter});
-
-      await this.getMainPageFilterProductImgByKnowhow()
-
-      this.knowhowProductRatingValue.splice(0)
-      for (let i = 0; i < this.productListByFilter.length; i++) {
-        let productNo = this.productListByFilter[i].productNo
-
-        await this.requestProductRatingValueToSpring({productNo, category})
-      }
-    },
-
-    //인기순 버튼 클릭시 상품 재정렬됨.
-    async popularitySortButton() {
-
-      this.recentSort = false;
-      this.popularitySort = true;
-      this.reviewSort = false;
-      this.highPriceSort = false;
-      this.lowPriceSort = false;
-
-      const category = "노하우";
-      const productSize = 12;
-      const filter = "인기순"
-
-      await this.requestProductListByFilterFromSpring({category, productSize, filter})
-      await this.getMainPageFilterProductImgByKnowhow()
-
-      this.knowhowProductRatingValue.splice(0)
-      for (let i = 0; i < this.productListByFilter.length; i++) {
-        let productNo = this.productListByFilter[i].productNo
-
-        await this.requestProductRatingValueToSpring({productNo, category})
-      }
-    },
-
-    //후기순 버튼 클릭시 상품 재정렬됨.
-    async reviewSortButton() {
-      this.recentSort = false;
-      this.popularitySort = false;
-      this.reviewSort = true;
-      this.highPriceSort = false;
-      this.lowPriceSort = false;
-
-      const category = "노하우";
-      const productSize = 12;
-      const filter = "후기순"
-
-      await this.requestProductListByFilterFromSpring({category, productSize, filter})
-      await this.getMainPageFilterProductImgByKnowhow()
-
-      this.knowhowProductRatingValue.splice(0)
-      for (let i = 0; i < this.productListByFilter.length; i++) {
-        let productNo = this.productListByFilter[i].productNo
-
-        await this.requestProductRatingValueToSpring({productNo, category})
-      }
-    },
-
-    async highPriceSortButton() {
-      this.recentSort = false;
-      this.popularitySort = false;
-      this.reviewSort = false;
-      this.highPriceSort = true;
-      this.lowPriceSort = false;
-
-      const category = "노하우";
-      const productSize = 12;
-      const filter = "높은 가격순"
-
-      await this.requestProductListByFilterFromSpring({category, productSize, filter})
-      await this.getMainPageFilterProductImgByKnowhow()
-
-      this.knowhowProductRatingValue.splice(0)
-      for (let i = 0; i < this.productListByFilter.length; i++) {
-        let productNo = this.productListByFilter[i].productNo
-
-        await this.requestProductRatingValueToSpring({productNo, category})
-      }
-    },
-
-    async lowPriceSortButton() {
-      this.recentSort = false;
-      this.popularitySort = false;
-      this.reviewSort = false;
-      this.highPriceSort = false;
-      this.lowPriceSort = true;
-
-      const category = "노하우";
-      const productSize = 12;
-      const filter = "낮은 가격순"
-
-      await this.requestProductListByFilterFromSpring({category, productSize, filter})
-      await this.getMainPageFilterProductImgByKnowhow()
-
-      this.knowhowProductRatingValue.splice(0)
-      for (let i = 0; i < this.productListByFilter.length; i++) {
-        let productNo = this.productListByFilter[i].productNo
-
-        await this.requestProductRatingValueToSpring({productNo, category})
-      }
-    },
-
+    //상품 사진가져오는 로직
     getMainPageFilterProductImgByKnowhow() {
 
       const category = this.categoryName
       this.mainPageProductImgListByKnowHOw.splice(0)
-      //취미 상품 받아오기
-      for (let j = 0; j < this.productListByFilter.length; j++) {
-        let productNo = this.productListByFilter[j].productNo;
+      //노하우 상품 받아오기
+      for (let j = 0; j < this.knowhowProductByFilter.length; j++) {
+        let productNo = this.knowhowProductByFilter[j].productNo;
 
         this.requestProductImgListToSpring({productNo, category});
       }
     },
+    //필터 버튼 클릭시 실행
+    async recentSortButton(index) {
+      await history.go(0)
+      const category = this.categoryName
+      const productSize = this.productSize
+      const filterType = this.filterBtn[index].name
+
+      await this.saveFilterType(filterType)
+      const filter = this.filterType
+
+      this.knowhowProductRatingValue.splice(0)
+      this.mainPageProductImgListByKnowHOw.splice(0)
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getMainPageFilterProductImgByKnowhow()
+      await this.getProductRatingValue()
+    },
+    //별점 가져오는 로직
+    async getProductRatingValue() {
+      const category = this.categoryName
+      for (let i = 0; i < this.knowhowProductByFilter.length; i++) {
+        let productNo = this.knowhowProductByFilter[i].productNo
+
+        await this.requestProductRatingValueToSpring({productNo, category})
+      }
+    },
   },
-  async mounted() {
-    const category = this.categoryName
-
-    await this.recentSortButton()
-
-    this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
-
-    this.knowhowProductRatingValue.splice(0)
-    for (let i = 0; i < this.productListByFilter.length; i++) {
-      let productNo = this.productListByFilter[i].productNo
-
-      await this.requestProductRatingValueToSpring({productNo, category})
-    }
-  }
+  // async mounted() {
+  //   const category = this.categoryName
+  //
+  //   await this.recentSortButton()
+  //
+  //   this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
+  //
+  //   this.knowhowProductRatingValue.splice(0)
+  //   for (let i = 0; i < this.productListByFilter.length; i++) {
+  //     let productNo = this.productListByFilter[i].productNo
+  //
+  //     await this.requestProductRatingValueToSpring({productNo, category})
+  //   }
+  // }
 }
 </script>
 

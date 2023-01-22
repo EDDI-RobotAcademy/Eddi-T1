@@ -47,7 +47,7 @@
                     </div>
 
                     <div style="padding-top: 9px;">
-                      <h5>( {{ handmadeProductRatingValue[index].toFixed(1) }} )</h5>
+                      <h5>( {{ handmadeProductRatingValue[index]?.toFixed(1) }} )</h5>
                     </div>
                   </v-layout>
 
@@ -92,11 +92,14 @@ export default {
       'mainPageProductListByHandmade',
       'handmadeProductRatingValue',
       'productListByFilter',
+      'filterType'
     ])
   },
   methods: {
     ...mapActions([
-      'requestProductImgListToSpring'
+      'requestProductImgListToSpring',
+      'requestProductRatingValueToSpring',
+      'requestProductListByFilterFromSpring'
     ]),
     getProductThumbnail(index) {
       return {
@@ -104,29 +107,61 @@ export default {
         productThumbnailListByCategory: this.mainPageProductImgListByHandmade[index] && require(`@/assets/productImg/${this.mainPageProductImgListByHandmade[index]}`)
       }
     },
-    getMainPageProductImgByHandmade() {
-
-      const category = this.categoryName
+    async getMainPageProductImgByHandmade() {
       this.mainPageProductImgListByHandmade.splice(0)
+      this.handmadeProductRatingValue.splice(0)
+      let category = "핸드메이드"
       // 핸드메이드 상품 받아오기
       for (let j = 0; j < this.productListByFilter.length; j++) {
         let productNo = this.productListByFilter[j].productNo;
 
-        this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductImgListToSpring({productNo, category});
+        await this.requestProductRatingValueToSpring({productNo, category})
       }
     },
+    async getProductRatingValue() {
+      const category = this.categoryName
+      for (let i = 0; i < this.productListByFilter.length; i++) {
+        let productNo = this.productListByFilter[i].productNo
 
-
+        await this.requestProductRatingValueToSpring({productNo, category})
+      }
+    },
   },
   filters: {
     comma(val) {
       return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
-  mounted() {
-    console.log("실행되긴함?")
-    this.getMainPageProductImgByHandmade()
+  async mounted() {
+    if (this.filterType === ""){
+      const category = this.categoryName
+      const filter = "최신순"
+      const productSize = 12
+
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getMainPageProductImgByHandmade()
+      await this.getProductRatingValue()
+
+      this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
+
+    } else {
+      const category = this.categoryName
+      const filter = this.filterType
+      const productSize = 12
+
+      await this.requestProductListByFilterFromSpring({category, productSize, filter})
+      await this.getMainPageProductImgByHandmade()
+      await this.getProductRatingValue()
+
+      this.lastProductNo = this.productListByFilter[this.productListByFilter.length - 1].productNo
+    }
+
   },
+  async beforeUpdate(){
+    await this.getMainPageProductImgByHandmade()
+    await this.getProductRatingValue()
+  }
 }
 </script>
 

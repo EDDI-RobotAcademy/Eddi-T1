@@ -25,7 +25,8 @@ export default new Vuex.Store({
             'hobbyFavoriteProductCheck',
             'knowhowFavoriteProductCheck',
             'handmadeFavoriteProductCheck',
-            'favoriteProductList'
+            'favoriteProductList',
+            'filterType'
         ]
       })
   ],
