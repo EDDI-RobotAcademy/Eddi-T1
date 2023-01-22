@@ -155,7 +155,7 @@ _writerChangePrivate() {
                         ),
                         SizedBox(width: 10.0),
                         Container(
-                          width: 370.0,
+                          width: 350.0,
                           child: Text(
                             widget.answer,
                             style: TextStyle(fontSize: 14),
