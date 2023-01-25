@@ -18,7 +18,8 @@ export default {
       const nickname = payload
       const currentNickname = this.$store.state.memberInfoAfterSignIn.nickname
       await this.requestNicknameModifyFromSpring({nickname, currentNickname})
-      await this.$router.push({name: "BuyerMyPageView"})
+      await this.$router.push({name: "BuyerInfoView"})
+      history.go(0)
     }
   }
 }
