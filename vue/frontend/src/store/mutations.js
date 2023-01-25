@@ -57,12 +57,15 @@ export default {
     },
     [REQUEST_SIGN_IN_TOKEN_FROM_SPRING](state, passingData) {
         state.memberInfoAfterSignIn = passingData
+        state.signInCheckValue = true
     },
     [REQUEST_NICKNAME_MODIFY_FROM_SPRING](state, passingData) {
         state.memberInfoAfterSignIn = passingData
     },
     [SIGN_IN_CHECK_VALUE](state, passingData) {
         state.signInCheckValue = passingData
+        state.memberInfoAfterSignIn = {}
+        state.userToken = ""
     },
     [USER_TOKEN](state, passingData) {
         state.userToken = passingData
