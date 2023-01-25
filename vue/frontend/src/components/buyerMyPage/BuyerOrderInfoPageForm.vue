@@ -208,7 +208,7 @@
                             <v-btn x-small
                                    v-bind="attrs"
                                    v-on="on"
-                                   :disabled=" itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL' || reviewCheckList[i] == true"
+                                   :disabled=" itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL' || itemList.orderStatus == 'EXCHANGE' || itemList.orderStatus == 'REFUND' || reviewCheckList[i] == true"
                                    width="98px"
                                    elevation="0"
                                    style="background-color: #DAA520;
@@ -533,6 +533,12 @@ export default {
     this.$set(this.myPageCategoryItems[0], 'count', orderListTotalCount)
   },
   async created() {
+    if (self.name != 'reload') {
+      self.name = 'reload';
+      self.location.reload(true);
+    }
+    else self.name = '';
+
     //리뷰페이지 상품 이미지 받는 로직
     //상품 이미지 받기전 상품 이미지 받을 변수 초기화작업
     this.reviewProductImg.push(this.myOrderInfoList[0].product.productImages[0].editedName)

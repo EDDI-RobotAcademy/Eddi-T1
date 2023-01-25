@@ -197,7 +197,7 @@
                             <v-btn x-small
                                    v-bind="attrs"
                                    v-on="on"
-                                   :disabled=" itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL' || reviewCheckList[i] == true"
+                                   :disabled=" itemList.orderStatus == 'PAYMENT_COMPLETE' || itemList.orderStatus == 'DELIVERING' || itemList.orderStatus == 'CANCEL' || itemList.orderStatus == 'EXCHANGE' || itemList.orderStatus == 'REFUND' || reviewCheckList[i] == true"
                                    width="98px"
                                    elevation="0"
                                    style="background-color: #DAA520;
