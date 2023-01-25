@@ -159,7 +159,7 @@ export default {
                         store.commit("USER_TOKEN", res.data.userToken)
                     }
 
-                    store.commit('SIGN_IN_CHECK_VALUE', true)
+                    // store.commit('SIGN_IN_CHECK_VALUE', true)
 
                     if (res.data.memberType == "일반회원") {
                         router.push({name: "HomeView"})
@@ -206,7 +206,6 @@ export default {
 
         await axios.post(`http://localhost:8888/member/memberDrop/${currentUserToken}`)
             .then(() => {
-                localStorage.removeItem("vuex")
                 store.commit("SING_IN_CHECK_VALUE", false)
             });
     },
