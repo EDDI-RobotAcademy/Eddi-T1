@@ -54,41 +54,45 @@ class _MyReviewFormState extends State<MyReviewForm> {
                     ),
                   ),
                   SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.myReviewList[index].productTitle,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          RatingBarIndicator(
-                              rating: double.parse(widget.myReviewList[index].starRating.toString()),
-                              itemSize: 10,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star_rate,
-                                color: Colors.amber,
-                              )
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.myReviewList[index].productTitle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                          SizedBox(width: 10),
-                          Text('|', style: TextStyle(fontSize: 11, color: Colors.grey),),
-                          SizedBox(width: 10),
-                          Text(
-                            DateFormat('yyyy/MM/dd').format(DateTime.parse(widget.myReviewList[index].updDate)),
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            RatingBarIndicator(
+                                rating: double.parse(widget.myReviewList[index].starRating.toString()),
+                                itemSize: 10,
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star_rate,
+                                  color: Colors.amber,
+                                )
                             ),
-                          )
-                        ],
-                      )
-                    ],
+                            SizedBox(width: 10),
+                            Text('|', style: TextStyle(fontSize: 11, color: Colors.grey),),
+                            SizedBox(width: 10),
+                            Text(
+                              DateFormat('yyyy/MM/dd').format(DateTime.parse(widget.myReviewList[index].updDate)),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
