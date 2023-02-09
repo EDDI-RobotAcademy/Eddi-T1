@@ -330,11 +330,13 @@ export default {
               //장바구니에서 결제 시 장바구니에 담긴 상품 삭제
             if (this.productReadCheckValue === false) {
               const nickname = this.$store.state.memberInfoAfterSignIn.nickname
-              for (let i = 0; i < this.productInfoByShoppingCart.length; i++) {
-                let itemId = this.productInfoByShoppingCart[i].itemId
+              let itemId = []
 
-                await this.requestDeleteShoppingCartItemsAtCheckoutFromSpring({itemId, nickname})
+              for (let i = 0; i < this.productInfoByShoppingCart.length; i++) {
+                itemId.push(this.productInfoByShoppingCart[i].itemId)
               }
+
+              await this.requestDeleteShoppingCartItemsAtCheckoutFromSpring({itemId, nickname})
             }
             await this.$router.push({name: "HomeView"})
             break

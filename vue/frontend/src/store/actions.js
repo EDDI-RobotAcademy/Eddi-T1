@@ -369,7 +369,7 @@ export default {
         console.log("requestDeleteShoppingBucketItemFromSpring");
 
         await axios.delete('http://localhost:8888/order/shopping-bucket-list/delete', {
-            params: {
+            data: {
                 itemId: payload.itemId,
                 nickname: payload.nickname
             }
@@ -389,9 +389,10 @@ export default {
      */
     // eslint-disable-next-line no-empty-pattern
     async requestDeleteShoppingCartItemsAtCheckoutFromSpring({}, payload) {
+        console.log(payload.itemId)
 
         await axios.delete('http://localhost:8888/order/shopping-bucket-list/delete', {
-            params: {
+            data: {
                 itemId: payload.itemId,
                 nickname: payload.nickname
             }
