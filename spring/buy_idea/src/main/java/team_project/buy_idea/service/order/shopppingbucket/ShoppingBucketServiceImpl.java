@@ -3,6 +3,7 @@ package team_project.buy_idea.service.order.shopppingbucket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteItemRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.entity.member.Member;
 import team_project.buy_idea.entity.order.shoppingBucket.ShoppingBucket;
@@ -78,37 +79,40 @@ public class ShoppingBucketServiceImpl implements ShoppingBucketService{
     }
 
     @Override
-    public void deleteShoppingBucketProduct(Long itemId, String nickname) {
-        List<ShoppingBucketItem> shoppingBucketItems = this.shoppingBucketItemList(nickname);
+    public void deleteShoppingBucketProduct(ShoppingBucketDeleteItemRequest deleteItemRequest) {
+        List<ShoppingBucketItem> shoppingBucketItems = this.shoppingBucketItemList(deleteItemRequest.getNickname());
+        Long[] itemId = deleteItemRequest.getItemId();
 
-        if (shoppingBucketItems.isEmpty()){
-            Optional<Member> maybeMember = memberRepository.findBuyDiaMemberByNickname(nickname);
-            Member member = maybeMember.get();
+        for (int i = 0; i < itemId.length; i++) {
+            if (shoppingBucketItems.isEmpty()){
+                Optional<Member> maybeMember = memberRepository.findBuyDiaMemberByNickname(deleteItemRequest.getNickname());
+                Member member = maybeMember.get();
 
-            ShoppingBucket shoppingBucket = ShoppingBucket.builder()
-                    .member(member)
-                    .shoppingBucketTotalCnt(0)
-                    .build();
-
-            shoppingBucketRepository.save(shoppingBucket);
-        } else {
-            bucketProductRepository.deleteById(itemId);
-            List<ShoppingBucketItem> shoppingBucketItemList = this.shoppingBucketItemList(nickname);
-
-            if (shoppingBucketItemList.size() >= 0){
-                Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(nickname);
-                ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
-
-                shoppingBucket.setShoppingBucketTotalCnt(shoppingBucket.getShoppingBucketTotalCnt() -1);
+                ShoppingBucket shoppingBucket = ShoppingBucket.builder()
+                        .member(member)
+                        .shoppingBucketTotalCnt(0)
+                        .build();
 
                 shoppingBucketRepository.save(shoppingBucket);
             } else {
-                Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(nickname);
-                ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
+                bucketProductRepository.deleteById(itemId[i]);
+                List<ShoppingBucketItem> shoppingBucketItemList = this.shoppingBucketItemList(deleteItemRequest.getNickname());
 
-                shoppingBucket.setShoppingBucketTotalCnt(0);
+                if (shoppingBucketItemList.size() >= 0){
+                    Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(deleteItemRequest.getNickname());
+                    ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
 
-                shoppingBucketRepository.save(shoppingBucket);
+                    shoppingBucket.setShoppingBucketTotalCnt(shoppingBucket.getShoppingBucketTotalCnt() -1);
+
+                    shoppingBucketRepository.save(shoppingBucket);
+                } else {
+                    Optional<ShoppingBucket> maybeShoppingBucket = shoppingBucketRepository.findByNickname(deleteItemRequest.getNickname());
+                    ShoppingBucket shoppingBucket = maybeShoppingBucket.get();
+
+                    shoppingBucket.setShoppingBucketTotalCnt(0);
+
+                    shoppingBucketRepository.save(shoppingBucket);
+                }
             }
         }
     }

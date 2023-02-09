@@ -3,6 +3,7 @@ package team_project.buy_idea.order.shoppingBucket;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketDeleteItemRequest;
 import team_project.buy_idea.controller.order.shoppingBucket.request.ShoppingBucketRequest;
 import team_project.buy_idea.service.member.MemberService;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
@@ -56,9 +57,8 @@ public class ShoppingBucketTest {
 
     @Test
     void deleteShoppingBucketProduct(){
-        Long itemId = 1L;
-        String nickname = "jjjj";
+        ShoppingBucketDeleteItemRequest shoppingBucketDeleteItemRequest = new ShoppingBucketDeleteItemRequest(new Long[]{18L, 19L, 20L}, "gggg");
 
-        shoppingBucketService.deleteShoppingBucketProduct(itemId, nickname);
+        shoppingBucketService.deleteShoppingBucketProduct(shoppingBucketDeleteItemRequest);
     }
 }
