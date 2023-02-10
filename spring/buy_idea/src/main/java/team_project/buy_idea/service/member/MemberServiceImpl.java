@@ -6,17 +6,20 @@ import org.springframework.stereotype.Service;
 import team_project.buy_idea.entity.member.Authentication;
 import team_project.buy_idea.entity.member.BasicAuthentication;
 import team_project.buy_idea.entity.member.Member;
+import team_project.buy_idea.entity.order.OrderInfo;
+import team_project.buy_idea.entity.product.qna.QnA;
+import team_project.buy_idea.entity.product.review.Review;
 import team_project.buy_idea.repository.member.AuthenticationRepository;
 import team_project.buy_idea.repository.member.MemberRepository;
+import team_project.buy_idea.repository.order.OrderInfoRepository;
+import team_project.buy_idea.repository.product.qna.QnARepository;
+import team_project.buy_idea.repository.product.review.ReviewRepository;
 import team_project.buy_idea.service.member.request.MemberNicknameModifyRequest;
 import team_project.buy_idea.service.member.request.MemberSignUpRequest;
 import team_project.buy_idea.service.member.request.MemberSignInRequest;
 import team_project.buy_idea.service.security.RedisService;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -30,6 +33,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private OrderInfoRepository orderInfoRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private QnARepository qnaRepository;
 
 
     @Override
@@ -106,6 +118,30 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Map<String, String> nicknameModify(MemberNicknameModifyRequest request) {
         Optional<Member> maybeNickname = memberRepository.findBuyDiaMemberByNickname(request.getCurrentNickname());
+        List<OrderInfo> maybeOrderInfo = orderInfoRepository.findMyOrderInfoListByNickname(request.getCurrentNickname());
+        List<Review> maybeReview = reviewRepository.findReviewsByWriter(request.getCurrentNickname());
+        List<QnA> maybeQnA = qnaRepository.findQnaHistoryByWriter(request.getCurrentNickname());
+
+        for (int i = 0; i < maybeOrderInfo.size(); i++) {
+            OrderInfo orderInfo = maybeOrderInfo.get(i);
+            orderInfo.setBuyer(request.getNickname());
+
+            orderInfoRepository.save(orderInfo);
+        }
+
+        for (int i = 0; i < maybeReview.size(); i++) {
+            Review review = maybeReview.get(i);
+            review.setWriter(request.getNickname());
+
+            reviewRepository.save(review);
+        }
+
+        for (int i = 0; i < maybeQnA.size(); i++) {
+            QnA qna = maybeQnA.get(i);
+            qna.setWriter(request.getNickname());
+
+            qnaRepository.save(qna);
+        }
 
         if (maybeNickname.isPresent()) {
             Member member = maybeNickname.get();
