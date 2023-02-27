@@ -4,17 +4,21 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://buydia-db/buy_idea_db?allowpublickeyretrieval=true&usessl=false&serverTimezone=UTC
+    url: jdbc:mysql://buy-idea-db/buy_idea_db?allowpublickeyretrieval=true&usessl=false&serverTimezone=UTC
     username: eddi
     password: [db비밀번호]
     driver-class-name: com.mysql.cj.jdbc.Driver
     dialect: org.hibernate.dialect.MySQL8Dialect
+  data:
+    redis:
+      repositories:
+        enabled: false
 
   cache:
     type: redis
 
   redis:
-    host: buy_dia-redis
+    host: buydia-redis
     port: 6379
 
   jpa:
